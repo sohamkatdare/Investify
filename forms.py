@@ -5,4 +5,4 @@ from wtforms.validators import DataRequired, Length
 class TickerForm(FlaskForm):
   ticker = StringField('Ticker: ',
                       validators=[DataRequired()], render_kw={"placeholder": "Ticker"})
-  submit = SubmitField('Search')
+  submit = SubmitField('🔎')

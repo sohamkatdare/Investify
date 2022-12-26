@@ -10,7 +10,7 @@
   <div class="col text-center px-5 me-5 align-items-center justify-content-center">
     <h3 class="text-white">Stay in the know</h3>
     <h1 class="text-white">Watch your<strong class="text-primary"> money grow.</strong></h1>
-    <form class="d-flex mx-3" role="search" method="POST" action="search">
+    <form class="d-flex mx-3 needs-validation" role="search" method="POST" action="search" novalidate>
       {% if searchForm.ticker.errors %}
           {{ searchForm.ticker(class="form-control rounded-pill me-3 is-invalid") }}
               {% for error in searchForm.ticker.errors %}

@@ -42,7 +42,7 @@
         </li>
       </ul>
 
-      <form class="d-flex mx-3" role="search" method="POST" action="search">
+      <form class="d-flex mx-3 needs-validation" role="search" method="POST" action="search" novalidate>
         <div class="input-group">
         {% if searchForm.ticker.errors %}
             {{ searchForm.ticker(class="form-control is-invalid") }}

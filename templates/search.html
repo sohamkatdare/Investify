@@ -1,10 +1,10 @@
 {% extends "template.html" %}
 {% block title %}Home{% endblock title %}
 {% block pageTitle %}Search{% endblock pageTitle %}
-{% block navLink %}home{% endblock navLink %}
+{% block navLink %}search{% endblock navLink %}
 {% block body %}
 {{ super() }}
-<form class="pb-3" role="search" method="POST" action="">
+<form class="pb-3 needs-validation" role="search" method="POST" action="" novalidate>
     <div class="input-group mb-3">
         {% if searchForm.ticker.errors %}
             {{ searchForm.ticker(class="form-control is-invalid") }}

@@ -50,7 +50,7 @@
                 <span class="invalid-feedback">{{ error }}</span>
                 {% endfor %}
         {% else %}
-            {{ searchForm.ticker(class="form-control") }}
+            {{ searchForm.ticker(class="form-control border-primary") }}
         {% endif %}
         {{ searchForm.submit(class="btn btn-outline-primary") }}
         </div>
@@ -59,22 +59,26 @@
     </div>
   </div>
 </nav>
+  <div class="container mt-3">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          {% if category == 'success' %}
+            <div class="alert alert-success">{{ message }}</div>
+          {% elif category == 'error' %}
+            <div class="alert alert-danger">{{ message }}</div>
+          {% elif category == 'warning' %}
+            <div class="alert alert-warning">{{ message }}</div>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+  </div>
   {% block wholebody %}
-  <div class="container my-3">
+  <div class="container">
     {% block body %}
       <h1>{% block pageTitle %}{% endblock pageTitle %}</h1>
       <hr>
-      {% with messages = get_flashed_messages(with_categories = True) %}
-        {% if messages %}
-          {% for category, message in messages %}
-            {% if category == "success" %}
-              <div class="alert alert-primary" role="alert">{{ message }}</div>
-            {% elif category == "error" %}
-              <div class="alert alert-danger" role="alert">{{ message }}</div>
-            {% endif %}
-          {% endfor %}
-        {% endif %}
-      {% endwith %}
     {% endblock body %}
     {% block results %}
     <div class="mt-3">

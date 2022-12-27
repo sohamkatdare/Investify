@@ -3,24 +3,26 @@
 {% block pageTitle %}Investify{% endblock pageTitle %}
 {% block navLink %}home{% endblock navLink %}
 {% block wholebody %}
-<div class="row my-auto w-100 mx-0">
-  <div class="col ms-5 align-items-center justify-content-center">
-    <img src="https://picsum.photos/600/900" alt="random picture" class="rounded">
+<div class="d-flex flex-row w-100 mx-0 justify-content-center">
+  <div class="text-center px-5">
+    <img src="https://picsum.photos/600/900" alt="random picture" class="rounded-3">
   </div>
-  <div class="col text-center px-5 me-5 align-items-center justify-content-center">
-    <h3 class="text-white">Stay in the know</h3>
+  <div class="text-center px-3 my-5 mx-auto">
+    <h2 class="text-white">Stay in the know</h2>
     <h1 class="text-white">Watch your<strong class="text-primary"> money grow.</strong></h1>
-    <form class="d-flex mx-3 needs-validation" role="search" method="POST" action="search" novalidate>
+    <br>
+    <form class="d-flex align-items-center py-2 needs-validation " role="search" method="POST" action="search" novalidate>
+      <div class="input-group w-75 mx-auto">
       {% if searchForm.ticker.errors %}
-          {{ searchForm.ticker(class="form-control rounded-pill me-3 is-invalid") }}
+          {{ searchForm.ticker(class="form-control is-invalid") }}
               {% for error in searchForm.ticker.errors %}
               <span class="invalid-feedback">{{ error }}</span>
               {% endfor %}
-          </div>
       {% else %}
-          {{ searchForm.ticker(class="form-control rounded-pill me-3") }}
+          {{ searchForm.ticker(class="bg-transparent border-primary form-control") }}
       {% endif %}
       {{ searchForm.submit(class="btn btn-outline-primary") }}
+      </div>
     </form>
   </div>
 </div>

@@ -28,12 +28,14 @@ def search():
   searchForm = TickerForm()
   data = None
   if searchForm.submit.data:
-    prevAggs = client.get_previous_close_agg(
-        searchForm.ticker.data,
-        adjusted=True
-    )
-    data = [prevAggs]
-  print(data)
+    try:
+      prevAggs = client.get_previous_close_agg(
+          searchForm.ticker.data,
+          adjusted=True
+      )
+      data = [prevAggs]
+    except:
+      flash(f'Ticker "{searchForm.ticker.data}" not found.', 'error')
   return render_template('search.html', data=data, searchForm=searchForm)
 
 if __name__ == '__main__':

@@ -16,13 +16,10 @@ build/
 .idea/
 docs/_build/
 .vscode
+node_modules/
 
 # Coverage reports
 htmlcov/
 .coverage
 .coverage.*
 *,cover
-
-# JS and CSS Bundling and Generation
-static/gen/
-static/.webassets-cache/

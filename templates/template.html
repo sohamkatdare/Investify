@@ -5,10 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Investify - {% block title %}{% endblock title %}</title>
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename = 'favicon.ico') }}">
-   
-    {% assets "home_css" %}
-      <link rel="stylesheet" href="{{ ASSET_URL }}">
-    {% endassets %}
+    <link rel="stylesheet" href="{{url_for('static',filename='dist/css/main.css')}}">
 
     {% import 'macros.html' as macros %}
 
@@ -105,9 +102,7 @@
       </div>
   </footer>
   {% block script %}{% endblock script %}
-  {% assets "home_js" %}
-      <script type="text/javascript" src="{{ ASSET_URL }}"></script>
-  {% endassets %}
+  <script type="text/javascript" src="{{ url_for('static',filename='src/js/main.js') }}"></script>
     <script>
       const navLink = document.getElementById({% block navLink %}{% endblock navLink %}.id);
       navLink.classList.add("active");

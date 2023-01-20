@@ -18,24 +18,20 @@ def index():
   searchForm = TickerForm()
   return render_template('index.html', data=None, searchForm=searchForm)
 
-@app.route('/tailwind')
-def tailwind():
-  searchForm = TickerForm()
-  return render_template('tailwind_template.html', data=None, searchForm=searchForm)
-
 @app.route('/search', methods=['GET', 'POST'])
 def search():
   searchForm = TickerForm()
   data = None
-  if searchForm.submit.data:
+  if searchForm.ticker.data:
+    print('Validating form...')
     try:
       prevAggs = client.get_previous_close_agg(
-          searchForm.ticker.data,
+          searchForm.ticker.data.upper(),
           adjusted=True
       )
       data = [prevAggs]
     except:
-      flash(f'Ticker "{searchForm.ticker.data}" not found.', 'error')
+      flash(f'Ticker "{searchForm.ticker.data.upper()}" not found.', 'error')
   return render_template('search.html', data=data, searchForm=searchForm)
 
 if __name__ == '__main__':

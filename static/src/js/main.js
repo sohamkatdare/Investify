@@ -1,3 +1,6 @@
+// APPLIED TO ALL PAGES
+
+// Function to show spinner and hide data
 function loading() {
     const data = document.getElementById("data")
     if(data !== null){
@@ -8,7 +11,7 @@ function loading() {
     spinner.style.display = 'block';
 }
 
-// Example starter JavaScript for disabling form submissions if there are invalid fields
+// Example starter JavaScript for disabling form submissions if there are invalid fields (Bootstrap 5)
 (() => {
     'use strict'
   

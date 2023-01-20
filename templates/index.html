@@ -3,27 +3,41 @@
 {% block pageTitle %}Investify{% endblock pageTitle %}
 {% block navLink %}home{% endblock navLink %}
 {% block wholebody %}
-<div class="d-flex flex-row w-100 mx-0 justify-content-center">
-  <div class="text-center px-5">
-    <img src="https://picsum.photos/600/900" alt="random picture" class="rounded-3">
+<div class="w-100 mx-0 justify-content-center">
+
+  <div class="hero min-h-screen bg-base-200">
+    <div class="hero-content w-100 flex-row-reverse">
+      <div class="mockup-phone">
+        <div class="camera"></div>
+        <div class="display">
+          <div class="artboard artboard-demo phone-1">Hi.</div>
+        </div>
+      </div>
+      <div class="max-w-[40%]">
+        <h1 class="text-5xl font-bold">Stay in the know <br> Watch your<strong class="text-primary"> money grow.</strong></h1> <br> <br>
+        <form class="form-control" role="search" method="POST" action="search" autocomplete="off" autocapitalize="characters">
+          <div class="input-group">
+            {% if searchForm.ticker.errors %}
+            {{ searchForm.ticker(class="input input-bordered") }}
+                {% for error in searchForm.ticker.errors %}
+                <span class="invalid-feedback">{{ error }}</span>
+                {% endfor %}
+            {% else %}
+                {{ searchForm.ticker(class="input input-bordered") }}
+            {% endif %}
+            <button class="btn btn-square" id="submit" name="submit" type="submit">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>  
   </div>
-  <div class="text-center px-3 my-5 mx-auto">
+  <!-- <div class="text-center px-3 my-5 mx-auto">
     <h2 class="text-white">Stay in the know</h2>
     <h1 class="text-white">Watch your<strong class="text-primary"> money grow.</strong></h1>
     <br>
-    <form class="d-flex align-items-center py-2 needs-validation " role="search" method="POST" action="search" novalidate>
-      <div class="input-group w-75 mx-auto">
-      {% if searchForm.ticker.errors %}
-          {{ searchForm.ticker(class="form-control is-invalid") }}
-              {% for error in searchForm.ticker.errors %}
-              <span class="invalid-feedback">{{ error }}</span>
-              {% endfor %}
-      {% else %}
-          {{ searchForm.ticker(class="bg-transparent border-primary form-control") }}
-      {% endif %}
-      {{ searchForm.submit(class="btn btn-outline-primary") }}
-      </div>
-    </form>
-  </div>
+    
+  </div> -->
 </div>
 {% endblock wholebody %}

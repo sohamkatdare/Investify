@@ -9,3 +9,17 @@
         </div>
     </div>
 {%- endmacro %}
+{% macro section(header="Header", text="Some long lorem ipsum text", imagehref='', equation="") -%}
+    <section class="max-w-[50%] min-w-[40%] w-[50%]  ">
+        <h1 class="text-5xl text-primary mb-10">{{ header }}</h1>
+        {% if equation != '' %}
+            \[{{ equation }}\]
+            <p class="text-content mt-10 mb-5 leading-loose">{{ text|safe }}</p>
+        {% else %}
+            <p class="text-content mb-5 leading-loose">{{ text|safe }}</p>
+        {% endif %}
+        {% if imagehref != '' %}
+            <img src="{{ imagehref }}" alt="Image">
+        {% endif %}
+    </section>
+{%- endmacro %}

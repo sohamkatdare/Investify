@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 @layer components {
-  button:hover > svg {
-    @apply stroke-primary;
+  .tooltip-define {
+    @apply tooltip bg-primary/[0.125] hover:bg-primary/25 px-1 rounded-lg;
   }
 }

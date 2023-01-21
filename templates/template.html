@@ -13,19 +13,19 @@
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     {% block head %}{% endblock head %}
   </head>
-  <body data-theme="forest">
+  <body data-theme="forest" class="bg-base-300">
     <nav class="navbar bg-base-100/[0.35] backdrop-blur-sm z-10 fixed top-0">
       <div class="flex-1">
         <a class="btn btn-ghost normal-case text-primary font-bold" style="font-size: 1.5rem;" href="/">investify.</a>
         <ul class="menu menu-horizontal px-1">
           <li><a id="search" href="/search">Search</a></li>
           <li tabindex="0">
-            <a>
-              Parent
+            <a href="/education">
+              Education
               <svg class="fill-current" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/></svg>
             </a>
             <ul class="p-2 bg-base-100">
-              <li><a class="rounded-br-none rounded-bl-none">Submenu 1</a></li>
+              <li><a class="rounded-br-none rounded-bl-none" href="education/statistics">Statistics</a></li>
               <li><a class="rounded-none">Submenu 2</a></li>
               <li><a class="rounded-tr-none rounded-tl-none">Submenu 3</a></li>
             </ul>
@@ -57,8 +57,9 @@
         </button>
       </div>
     </nav>
-    <div class="flex flex-col min-h-screen">
+    <div class="flex flex-col min-h-screen ">
       <div class="flex-1">
+        <br><br><br>
         <div class="container mx-auto my-3">
           {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
@@ -92,6 +93,7 @@
         {% block wholebody %}
         <div class="container mx-auto">
           {% block body %}
+            {% block breadcrumbs %}{% endblock breadcrumbs %}
             <h1 class="text-5xl font-bold mb-3 text-primary">{% block pageTitle %}{% endblock pageTitle %}</h1>
             <div class="divider"></div>
           {% endblock body %}
@@ -140,10 +142,6 @@
     </div>
   {% block script %}{% endblock script %}
     <script type="text/javascript" src="{{ url_for('static',filename='src/js/main.js') }}"></script>
-    <!-- <script>
-      const navLink = document.getElementById({% block navLink %}{% endblock navLink %}.id);
-      navLink.classList.add("active");
-    </script> -->
     <script>
       function copyToClipboard(copyText) {
         rawString = String.raw`${copyText}`;

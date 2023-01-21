@@ -6,10 +6,10 @@ from nltk.sentiment.vader import SentimentIntensityAnalyzer
 import nltk
 from wordcloud import WordCloud, STOPWORDS
 
-nltk.download('vader_lexicon')
 matplotlib.use('Agg')
 
 def getSocialStats(ticker):
+    nltk.download('vader_lexicon')
     plt.style.use('dark_background')
 
     consumer_key = "44GowZTEx9UJyVAt1Re2qUZTE"

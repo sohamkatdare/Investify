@@ -9,7 +9,7 @@ from wordcloud import WordCloud, STOPWORDS
 matplotlib.use('Agg')
 
 def getSocialStats(ticker):
-    nltk.download('vader_lexicon')
+    # nltk.download('vader_lexicon')
     plt.style.use('dark_background')
 
     consumer_key = "44GowZTEx9UJyVAt1Re2qUZTE"

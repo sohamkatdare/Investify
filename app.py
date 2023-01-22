@@ -1,7 +1,6 @@
-from flask import Flask, render_template, request, flash
+from flask import Flask, render_template, flash
 import os
 from polygon import RESTClient
-from polygon.rest import models
 from dotenv import load_dotenv
 load_dotenv()
 

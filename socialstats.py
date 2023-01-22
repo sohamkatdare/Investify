@@ -3,7 +3,7 @@ import pandas as pd
 import matplotlib
 import matplotlib.pyplot as plt
 from textblob import TextBlob
-# from wordcloud import WordCloud, STOPWORDS
+from wordcloud import WordCloud, STOPWORDS
 
 matplotlib.use('Agg')
 
@@ -61,17 +61,17 @@ def getSocialStats(ticker):
     # # plt.savefig('static/AverageSentiment.png')
     # # plt.show()
 
-    # text = " ".join(text for text in df.Tweet)
+    text = " ".join(text for text in df.Tweet)
 
-    # stopwords = set(STOPWORDS)
-    # stopwords.update(["HTTPS", "CO", 'T', 'H'])
+    stopwords = set(STOPWORDS)
+    stopwords.update(["HTTPS", "CO", 'T', 'H'])
 
-    # wordcloud = WordCloud(stopwords=stopwords, background_color="#171212").generate(text)
+    wordcloud = WordCloud(stopwords=stopwords, background_color="#171212").generate(text)
 
-    # plt.imshow(wordcloud, interpolation='bilinear')
-    # plt.axis('off')
-    # plt.tight_layout()
-    # plt.savefig('static/wordcloud.png', facecolor=plt.gca().get_facecolor())
+    plt.imshow(wordcloud, interpolation='bilinear')
+    plt.axis('off')
+    plt.tight_layout()
+    plt.savefig('static/wordcloud.png', facecolor=plt.gca().get_facecolor())
     # # plt.show()
 
     return [i for i in own_tweets if len(i.text.split(' ')) > 15][:5], df.loc[:, 'Sentiment'].mean()

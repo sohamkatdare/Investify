@@ -1,5 +1,5 @@
 import tweepy
-# import pandas as pd
+import pandas as pd
 # import matplotlib
 # import matplotlib.pyplot as plt
 # from nltk.sentiment import SentimentIntensityAnalyzer
@@ -36,7 +36,7 @@ def getSocialStats(ticker):
     # for tweet in own_tweets[:5]:
     #     print(tweet.text)
 
-    # df = pd.DataFrame(data=[[tweet.created_at, tweet.text, len(tweet.text), tweet.id, tweet.favorite_count, tweet.retweet_count] for tweet in own_tweets], columns=['Date', 'Tweet', 'Length', 'ID', 'Likes', 'Retweets'])
+    df = pd.DataFrame(data=[[tweet.created_at, tweet.text, len(tweet.text), tweet.id, tweet.favorite_count, tweet.retweet_count] for tweet in own_tweets], columns=['Date', 'Tweet', 'Length', 'ID', 'Likes', 'Retweets'])
 
     # vader = SentimentIntensityAnalyzer()
     # f = lambda tweet: vader.polarity_scores(tweet)['compound']
@@ -77,7 +77,7 @@ def getSocialStats(ticker):
     # plt.savefig('static/wordcloud.png', facecolor=plt.gca().get_facecolor())
     # # plt.show()
 
-    return [i for i in own_tweets if len(i.text.split(' ')) > 15][:5], 0#df.loc[:, 'Sentiment'].mean()
+    return [i for i in own_tweets if len(i.text.split(' ')) > 15][:5], df.loc[:, 'Sentiment'].mean()
 
 if __name__ == '__main__':
     print(getSocialStats('MSFT'))

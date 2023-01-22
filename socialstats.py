@@ -1,14 +1,14 @@
 import tweepy
 import pandas as pd
-# import matplotlib
-# import matplotlib.pyplot as plt
+import matplotlib
+import matplotlib.pyplot as plt
 from textblob import TextBlob
 # from wordcloud import WordCloud, STOPWORDS
 
 # matplotlib.use('Agg')
 
 def getSocialStats(ticker):
-    # plt.style.use('dark_background')
+    plt.style.use('dark_background')
 
     consumer_key = "44GowZTEx9UJyVAt1Re2qUZTE"
     consumer_secret = "npEIqH5c2lIojIYOCDeSFbk0r0QDM9h4kxkxNe5zqkhY8hs6UE"
@@ -41,14 +41,14 @@ def getSocialStats(ticker):
     df['Date'] = pd.to_datetime(df['Date']).dt.date
 
     # # print(df.head())
-    # fig = plt.figure()
-    # ax = df['Sentiment'].plot(kind='hist', bins=20, figsize=(5,5), ec='black', color=(30/255, 184/255, 84/255, 0.6))
-    # ax.set_facecolor('#171212')
-    # ax.set_xlabel('Sentiment')
-    # ax.set_ylabel('Frequency')
-    # ax.set_title('Sentiment of Tweets (Histogram)')
-    # fig.tight_layout()
-    # fig.savefig('static/SentimentOfTweets.png', facecolor=plt.gca().get_facecolor())
+    fig = plt.figure()
+    ax = df['Sentiment'].plot(kind='hist', bins=20, figsize=(5,5), ec='black', color=(30/255, 184/255, 84/255, 0.6))
+    ax.set_facecolor('#171212')
+    ax.set_xlabel('Sentiment')
+    ax.set_ylabel('Frequency')
+    ax.set_title('Sentiment of Tweets (Histogram)')
+    fig.tight_layout()
+    fig.savefig('static/SentimentOfTweets.png', facecolor=plt.gca().get_facecolor())
     # # plt.show()
 
     # # date_df = df.groupby(['Date']).mean().reset_index()

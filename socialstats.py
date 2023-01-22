@@ -2,14 +2,13 @@ import tweepy
 import pandas as pd
 # import matplotlib
 # import matplotlib.pyplot as plt
-# from nltk.sentiment import SentimentIntensityAnalyzer
-# import nltk
+from nltk.sentiment import SentimentIntensityAnalyzer
+import nltk
 # from wordcloud import WordCloud, STOPWORDS
 
 # matplotlib.use('Agg')
 
 def getSocialStats(ticker):
-    # nltk.download('vader_lexicon')
     # plt.style.use('dark_background')
 
     consumer_key = "44GowZTEx9UJyVAt1Re2qUZTE"
@@ -38,10 +37,10 @@ def getSocialStats(ticker):
 
     df = pd.DataFrame(data=[[tweet.created_at, tweet.text, len(tweet.text), tweet.id, tweet.favorite_count, tweet.retweet_count] for tweet in own_tweets], columns=['Date', 'Tweet', 'Length', 'ID', 'Likes', 'Retweets'])
 
-    # vader = SentimentIntensityAnalyzer()
-    # f = lambda tweet: vader.polarity_scores(tweet)['compound']
-    # df['Sentiment'] = df['Tweet'].apply(f)
-    # df['Date'] = pd.to_datetime(df['Date']).dt.date
+    sia = SentimentIntensityAnalyzer()
+    f = lambda tweet: sia.polarity_scores(tweet)['compound']
+    df['Sentiment'] = df['Tweet'].apply(f)
+    df['Date'] = pd.to_datetime(df['Date']).dt.date
 
     # # print(df.head())
     # fig = plt.figure()

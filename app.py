@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 from forms import TickerForm
-# from socialstats import getSocialStats
+from socialstats import getSocialStats
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '7b7e30111ddc1f8a5b1d80934d336798'
@@ -27,10 +27,10 @@ def search():
   if searchForm.ticker.data:
     try:
       ticker = searchForm.ticker.data.upper()
-      # tweets, averageSentiment = getSocialStats(ticker)
-      # print(tweets)
-      # print(averageSentiment)
-      # averageSentiment = round(averageSentiment, 2)
+      tweets, averageSentiment = getSocialStats(ticker)
+      print(tweets)
+      print(averageSentiment)
+      averageSentiment = round(averageSentiment, 2)
       prevAggs = client.get_previous_close_agg(
           ticker,
           adjusted=True

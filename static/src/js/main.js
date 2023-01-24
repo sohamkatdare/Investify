@@ -11,12 +11,12 @@ function loading() {
     spinner.style.display = 'block';
 }
 
-// Example starter JavaScript for disabling form submissions if there are invalid fields (Bootstrap 5)
+// Example starter JavaScript for disabling form submissions if there are invalid fields.
 (() => {
     'use strict'
   
     // Fetch all the forms we want to apply custom Bootstrap validation styles to
-    const forms = document.querySelectorAll('.needs-validation')
+    const forms = document.querySelectorAll('.form-control')
   
     // Loop over them and prevent submission
     Array.from(forms).forEach(form => {
@@ -32,3 +32,5 @@ function loading() {
       }, false)
     })
   })()
+
+  

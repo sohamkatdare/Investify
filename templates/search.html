@@ -27,11 +27,14 @@
 {% if noResults %}
     <h3 class="text-center text-5xl font-bold text-primary">No Results</h3>
     {% else %}
-    <h1 class="text-5xl text-primary mt-10 mb-10">Previous Day Close</h1>
+    <h1 class="text-5xl text-primary mt-10 mb-10">{{ ticker }} Monthly Aggregate Data from {{ data[0][0][0] }} to {{ data[0][0][1] }}</h1>
+    <div class="card bg-base-100 shadow-xl w-[40rem] mt-5 mb-5 mx-auto">
+      <img class="py-5 mx-auto" src="{{ url_for('static', filename='candle-bars.png') }}" alt="Candle Plot of Monthly Data">
+    </div>
     <table class="table table-normal table-zebra w-full">
         <thead>
             <tr>
-                <th scope="col">Ticker</th>
+                <th scope="col">Date</th>
                 <th scope="col">Volume</th>
                 <th scope="col">Volume Weighted Average</th>
                 <th scope="col">Open</th>
@@ -41,19 +44,21 @@
             </tr>
         </thead>
         <tbody>
-            {% for prev in data[0] %}
+            {% for i in range((data[0][2]).__len__()) %}
             <tr class="hover">
-                <td>{{ prev.ticker }}</td>
-                <td>{{ prev.volume }}</td>
-                <td>{{ prev.vwap }}</td>
-                <td>{{ prev.open }}</td>
-                <td>{{ prev.close }}</td>
-                <td>{{ prev.low }}</td>
-                <td>{{ prev.high }}</td>
+                <td>{{ data[0][1][i] }}</td>
+                <td>{{ data[0][2]['volume'][i] }}</td>
+                <td>{{ data[0][2]['vwap'][i] }}</td>
+                <td>{{ data[0][2]['open'][i] }}</td>
+                <td>{{ data[0][2]['close'][i] }}</td>
+                <td>{{ data[0][2]['low'][i] }}</td>
+                <td>{{ data[0][2]['high'][i] }}</td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
+
+    {% if averageSentiment %} <!--If no tweets found on company.-->
     <h1 class="text-5xl text-primary mt-10 mb-10">Sentiment Analysis</h1>
     <h3 class="text-xl mt-10 mb-10 text-center">Average Sentiment: {{ averageSentiment }}</h3>
     <h1 class="text-5xl mt-10 mb-10">Tweets:</h1>
@@ -68,9 +73,9 @@
                       <i class="fa-solid fa-check-double inline-block justify-end text-primary"></i>                     
                     {% endif %}
                   </h2>
-                  <p>{{ '…'.join(tweet.text.split('…')[:-1]) }}...</p>
+                  <p>{{ ' https'.join(tweet.text.split(' https')[:-1]) }}</p>
                   <button class="card-actions justify-center">
-                    <a class="btn btn-primary hover:shadow-xl" href="{{ tweet.text.split('…')[-1] }}">Go to Tweet      
+                    <a class="btn btn-primary hover:shadow-xl" href="https{{ tweet.text.split('https')[-1] }}">Go to Tweet      
                       <i class="ml-2 fas fa-external-link-alt inline-block justify-end"></i>
                     </a>-
                   </button>
@@ -85,6 +90,7 @@
       <img class="rounded-lg mx-5 ml-auto" src="{{ url_for('static', filename='SentimentOfTweets.png') }}" alt="Sentiment of Tweets">
       <img class="rounded-lg mx-5 mr-auto" src="{{ url_for('static', filename='wordcloud.png') }}" alt="wordcloud">
     </div>
+    {% endif %}
 {% endif %}
 </div>
 {% endif %}

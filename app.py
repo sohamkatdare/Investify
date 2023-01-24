@@ -1,17 +1,13 @@
 from flask import Flask, render_template, flash
-import os
-from polygon import RESTClient
-from dotenv import load_dotenv
-load_dotenv()
 
 from forms import TickerForm
 from socialstats import getSocialStats
+from polygon_io import getStockData
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '7b7e30111ddc1f8a5b1d80934d336798'
 
-POLYGON_API_KEY = os.getenv('POLYGON_KEY')
-client = RESTClient(POLYGON_API_KEY)
+
 
 @app.route('/')
 def index():
@@ -22,25 +18,21 @@ def index():
 def search():
   searchForm = TickerForm()
   data = None
+  ticker = None
   tweets = None
   averageSentiment = None
   if searchForm.ticker.data:
     try:
       ticker = searchForm.ticker.data.upper()
-      tweets, averageSentiment = getSocialStats(ticker)
-      print(tweets)
-      print(averageSentiment)
-      averageSentiment = round(averageSentiment, 2)
-      prevAggs = client.get_previous_close_agg(
-          ticker,
-          adjusted=True
-      )
+      prevAggs = getStockData(ticker)
       data = [prevAggs]
+      tweets, averageSentiment = getSocialStats(ticker)
+      averageSentiment = round(averageSentiment, 2)
       return render_template('search.html', data=data, searchForm=searchForm, tweets=tweets, averageSentiment=averageSentiment)
     except Exception as e:
       print(e)
       flash(f'Ticker "{searchForm.ticker.data.upper()}" not found.', 'error')
-  return render_template('search.html', data=data, searchForm=searchForm, tweets=tweets, averageSentiment=averageSentiment)
+  return render_template('search.html', data=data, searchForm=searchForm, ticker=ticker, tweets=tweets, averageSentiment=averageSentiment)
 
 @app.route('/education')
 def educate():

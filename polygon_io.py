@@ -37,8 +37,9 @@ def getStockData(ticker):
     ohlc.set_index(stock_prices['date'], inplace=True)
 
     # Plot
+    mc = mplfinance.make_marketcolors(up='#1EB854',down='#ff0000', edge='inherit', wick={'up':'#1EB854','down':'#ff0000'}, volume='#1EB854')
     customstyle = mplfinance.make_mpf_style(base_mpf_style='nightclouds',
-                                 facecolor='#171212')
+                                 facecolor='#171212', marketcolors=mc)
     mplfinance.plot(ohlc, type='candle', style=customstyle,
             title=f'{ticker}, {start_date} - {end_date}',
             ylabel='Price ($)',

@@ -1,28 +1,13 @@
 import requests
 from bs4 import BeautifulSoup as bs
 from selenium import webdriver
+from selenium.webdriver.common.by import By
 # import numpy
 # import pandas as pd
 # import matplotlib.pyplot as plt
 
-
-def askGPT(searchquery):
-
-    sentence = f"write a 4-paragraph article about the importance of {searchquery} in finding a good stock to invest in"
-    url = "https://chat.openai.com/chat"
-    page = bs(requests/get(url).content, 'html.parser')
-
-    payload = {}
-
-    for i in page.select('form[action="/chat/" input[value]'):
-        payload[i['name']] = i['value']
-    payload['UQ_txt'] = sentence
-    
-    page = bs(requests.post(url, data=payload).text, 'html.parser')
-    for o in page.select('.markdown p'):
-        print('{}{}'.format(a.text), "\n\n")
-
-def investopediaScrape(searchquery):
+def investopediaScrape(searchquery): # Just get rid of the selenium and pass in a link.
+    # Like try scraping this example. https://www.investopedia.com/terms/s/stockmarket.asp
     article = ''
 
     searchList = searchquery.split()
@@ -31,17 +16,20 @@ def investopediaScrape(searchquery):
         searchquery = searchquery + i + '+'
 
     url = f'https://investopedia.com/search?q={searchquery}'
-    driver = webdriver.Firefox()
+    driver = webdriver.Chrome()
     driver.implicitly_wait(30)
     driver.get(url)
 
-    anchor = driver.find_element_by_id("search=results__link_1-0")
+    anchor = driver.find_element(By.ID, "search-results__link_1-0") 
     anchor.click()
-    link = driver.getCurrentUrl()
+    link = driver.current_url # it might be easier to just use the link directly. That gives more control to the user.
 
-    soup = bs(requests/get(link).content, 'html.parser')
+    soup = bs(requests.get(link).content, 'html.parser')
 
     for o in soup.select('#article-body div p'):
         article = article + '{}{}'.format(o.text) + "\n\n"
     
     return article
+
+if __name__ == '__main__':
+    print(investopediaScrape('stock market'))

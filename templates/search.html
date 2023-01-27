@@ -3,7 +3,7 @@
 {% block pageTitle %}Search{% endblock pageTitle %}
 {% block body %}
 {{ super() }}
-<form class="form-control min-w-full" role="search" method="POST" action="" autocapitalize="characters" autocomplete="off">
+<form class="form-control min-w-full ml-2" role="search" method="POST" action="" autocapitalize="characters" autocomplete="off">
     <div class="input-group mb-3 flex">
       {% if searchForm.ticker.errors %}
       {{ searchForm.ticker(class="input input-bordered w-full") }}

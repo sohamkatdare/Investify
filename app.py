@@ -47,6 +47,11 @@ def educatePath(path):
   else:
     return render_template('education.html', data=None, searchForm=searchForm)
 
+@app.route('/simplify')
+def simplify():
+  searchForm = TickerForm()
+  return render_template('simplify.html', data=None, searchForm=searchForm)
+
 @app.errorhandler(404)
 def not_found(e):
   searchForm = TickerForm()

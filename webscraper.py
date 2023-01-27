@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup as bs
+from selenium import webdriver
 # import numpy
 # import pandas as pd
 # import matplotlib.pyplot as plt
@@ -20,3 +21,27 @@ def askGPT(searchquery):
     page = bs(requests.post(url, data=payload).text, 'html.parser')
     for o in page.select('.markdown p'):
         print('{}{}'.format(a.text), "\n\n")
+
+def investopediaScrape(searchquery):
+    article = ''
+
+    searchList = searchquery.split()
+    searchquery = ''
+    for i in searchList:
+        searchquery = searchquery + i + '+'
+
+    url = f'https://investopedia.com/search?q={searchquery}'
+    driver = webdriver.Firefox()
+    driver.implicitly_wait(30)
+    driver.get(url)
+
+    anchor = driver.find_element_by_id("search=results__link_1-0")
+    anchor.click()
+    link = driver.getCurrentUrl()
+
+    soup = bs(requests/get(link).content, 'html.parser')
+
+    for o in soup.select('#article-body div p'):
+        article = article + '{}{}'.format(o.text) + "\n\n"
+    
+    return article

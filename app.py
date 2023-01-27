@@ -28,7 +28,7 @@ def search():
       data = [prevAggs]
       tweets, averageSentiment = getSocialStats(ticker)
       averageSentiment = round(averageSentiment, 2)
-      return render_template('search.html', data=data, searchForm=searchForm, tweets=tweets, averageSentiment=averageSentiment)
+      return render_template('search.html', data=data, searchForm=searchForm, ticker=ticker, tweets=tweets, averageSentiment=averageSentiment)
     except Exception as e:
       print(e)
       flash(f'Ticker "{searchForm.ticker.data.upper()}" not found.', 'error')

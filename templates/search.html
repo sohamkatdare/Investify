@@ -27,7 +27,7 @@
 {% if noResults %}
     <h3 class="text-center text-5xl font-bold text-primary">No Results</h3>
     {% else %}
-    <h1 class="text-5xl text-primary mt-10 mb-10">{{ ticker }} Monthly Aggregate Data from {{ data[0][0][0] }} to {{ data[0][0][1] }}</h1>
+    <h1 class="text-5xl text-primary mt-10 mb-10"><strong>{{ ticker }}</strong> Monthly Aggregate Data from {{ data[0][0][0] }} to {{ data[0][0][1] }}</h1>
     <div class="card bg-base-100 shadow-xl w-[40rem] mt-5 mb-5 mx-auto">
       <img class="py-5 mx-auto" src="{{ url_for('static', filename='candle-bars.png') }}" alt="Candle Plot of Monthly Data">
     </div>
@@ -66,21 +66,23 @@
         <div class="flex flex-col gap-y-10 md:gap-x-10 md:flex-row md:flex-wrap justify-center">
             {{ tweet }}
             {% for tweet in tweets %}
-            <div class="card w-96 bg-base-100 shadow-2xl">
+            <div class="card w-96 bg-base-100 hover:shadow-2xl">
                 <div class="card-body">
                   <h2 class="card-title">{{ tweet.user.name }}
                     {% if tweet.user.verified %}
                       <i class="fa-solid fa-check-double inline-block justify-end text-primary"></i>                     
                     {% endif %}
                   </h2>
-                  <p>{{ ' https'.join(tweet.text.split(' https')[:-1]) }}</p>
+                  <p class="mb-3">{{ ' https'.join(tweet.text.split(' https')[:-1]) }}</p>
                   <button class="card-actions justify-center">
                     <a class="btn btn-primary hover:shadow-xl" href="https{{ tweet.text.split('https')[-1] }}">Go to Tweet      
                       <i class="ml-2 fas fa-external-link-alt inline-block justify-end"></i>
-                    </a>-
+                    </a>
                   </button>
                 </div>
               </div>
+              <!-- Saptak when you see this try and debug this -->
+              
             
             {% endfor %}
         </div>

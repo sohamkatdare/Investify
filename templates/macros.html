@@ -1,4 +1,4 @@
-{% macro card(title='Card Title', text="Some quick example text to build on the card title and make up the bulk of the card's content.", button='Go Somewhere', buttonLink='#', cardClasses='', buttonClasses='') -%}
+{% macro bootstrapcard(title='Card Title', text="Some quick example text to build on the card title and make up the bulk of the card's content.", button='Go Somewhere', buttonLink='#', cardClasses='', buttonClasses='') -%}
     <div class="card {{ cardClasses }}">
         <!-- Add Image Macro if Required. -->
         <!-- <img src="..." class="card-img-top" alt="..."> -->
@@ -22,4 +22,23 @@
             <img src="{{ imagehref }}" alt="Image">
         {% endif %}
     </section>
+{%- endmacro %}
+{% macro card(title='Card Title', text="Some efjiowwww", button="Go", buttonLink="#", button_external='', verified_tweet='') -%}
+    <div class="card w-96 bg-base-100 shadow-2xl">
+        <div class="card-body">
+        <h2 class="card-title">{{ title }}
+            {% if verified_tweet != '' %}
+                <i class="fa-solid fa-check-double inline-block justify-end text-primary"></i>                     
+            {% endif %}
+        </h2>
+        <p class="mb-3">{{ text }}</p>
+        <button class="card-actions justify-center">
+            <a class="btn btn-primary hover:shadow-xl" href="{{ buttonLink }}">Go to Tweet   
+                {% if button_external != '' %}   
+                    <i class="ml-2 fas fa-external-link-alt inline-block justify-end"></i>
+                {% endif %}
+            </a>
+        </button>
+        </div>
+    </div>
 {%- endmacro %}

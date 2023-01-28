@@ -68,25 +68,26 @@
     {% if averageSentiment %} <!--If no tweets found on company.-->
     <h1 class="text-5xl text-primary mt-10 mb-10">Sentiment Analysis</h1>
     <h3 class="text-xl mt-10 mb-10 text-center">Average Sentiment: {{ averageSentiment }}</h3>
-    <h1 class="text-5xl mt-10 mb-10">Tweets:</h1>
     {% if tweets %}
-        <div class="flex flex-col gap-y-10 md:gap-x-10 md:flex-row md:flex-wrap justify-center">
-            <!-- {{ tweet }} -->
-            {% for tweet in tweets %}
-              {{ macros.card(
-                title = tweet.user.name,
-                text = ' https'.join(tweet.text.split(' https')[:-1]),
-                button = 'Go to Tweet',
-                buttonLink = 'https'+tweet.text.split('https')[-1],
-                button_external = True,
-                verified_tweet = True
-              ) }}
-            {% endfor %}
-        </div>
-    {% endif %}
-    {% if news %}
+    <h1 class="text-5xl mt-10 mb-10">Tweets:</h1>
+    <div class="flex flex-col gap-y-10 md:gap-x-10 md:flex-row md:flex-wrap justify-center">
+      <!-- {{ tweet }} -->
+      {% for tweet in tweets %}
+      {{ macros.card(
+        title = tweet.user.name,
+        text = ' https'.join(tweet.text.split(' https')[:-1]),
+        button = 'Go to Tweet',
+        buttonLink = 'https'+tweet.text.split('https')[-1],
+        button_external = True,
+        verified_tweet = True
+        ) }}
+        {% endfor %}
+      </div>
+      {% endif %}
+      {% if news %}
+      <h1 class="text-5xl mt-10 mb-10">News:</h1>
       <div class="flex flex-col gap-y-10 md:gap-x-10 md:flex-row md:flex-wrap justify-center">
-        {{ news }}
+        <!-- {{ news }} -->
         {% for article in news %}
           {{ macros.card(
             title = article.title,

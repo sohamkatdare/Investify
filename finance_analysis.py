@@ -22,6 +22,11 @@ def get_composite_score(ticker_name):
 
     return round(ebit / (net_fixed_assets + working_capital), 4)
 
+def get_news(ticker_name):
+    ticker = yf.Ticker(ticker_name)
+    return ticker.news
+
 if __name__ == '__main__':
-    print('Composite Indicator: ', get_composite_score('MSFT'))
-    print('PE and EPS Ratios: ', get_pe_and_eps('MSFT'))
+    # print('Composite Indicator: ', get_composite_score('MSFT'))
+    # print('PE and EPS Ratios: ', get_pe_and_eps('MSFT'))
+    print(get_news('MSFT'))

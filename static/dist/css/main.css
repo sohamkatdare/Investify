@@ -2487,6 +2487,10 @@ html {
   width: 94%;
 }
 
+.w-\[50rem\] {
+  width: 50rem;
+}
+
 .min-w-\[40\%\] {
   min-width: 40%;
 }

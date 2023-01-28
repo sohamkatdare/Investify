@@ -3,7 +3,7 @@ from flask import Flask, render_template, flash
 from forms import TickerForm, ArticleForm
 from socialstats import getSocialStats
 from polygon_io import getStockData
-from finance_analysis import get_pe_and_eps, get_composite_score
+from finance_analysis import get_pe_and_eps, get_composite_score, get_news
 from webscraper import investopedia_search, investopedia_web_scrape
 from text_simplifier import summarize
 
@@ -26,6 +26,7 @@ def search():
   data = None
   ticker = None
   finance_analysis = {}
+  news = None
   tweets = None
   averageSentiment = None
   if searchForm.ticker.data:
@@ -35,13 +36,14 @@ def search():
       data = [prevAggs]
       pe_ratio, eps = get_pe_and_eps(ticker)
       finance_analysis = {'PE Ratio (TTM)': pe_ratio, 'EPS (TTM)': eps, 'Composite Indicator': get_composite_score(ticker)}
+      news = get_news(ticker)
       tweets, averageSentiment = getSocialStats(ticker)
       averageSentiment = round(averageSentiment, 2)
-      return render_template('search.html', data=data, searchForm=searchForm, ticker=ticker, finance_analysis=finance_analysis, tweets=tweets, averageSentiment=averageSentiment)
+      return render_template('search.html', data=data, searchForm=searchForm, ticker=ticker, finance_analysis=finance_analysis, news=news, tweets=tweets, averageSentiment=averageSentiment)
     except Exception as e:
       print(e)
       flash(f'Ticker "{searchForm.ticker.data.upper()}" not found.', 'error')
-  return render_template('search.html', data=data, searchForm=searchForm, ticker=ticker, finance_analysis=finance_analysis, tweets=tweets, averageSentiment=averageSentiment)
+  return render_template('search.html', data=data, searchForm=searchForm, ticker=ticker, finance_analysis=finance_analysis, news=news, tweets=tweets, averageSentiment=averageSentiment)
 
 @app.route('/education')
 def educate():
@@ -64,8 +66,8 @@ def simplify():
   link = None
   if articleForm.topic.data:
     try:
-      link = investopedia_search(articleForm.topic.data)
-      article = investopedia_web_scrape(link)
+      # link = investopedia_search(articleForm.topic.data)
+      article = investopedia_web_scrape(articleForm.topic.data)
       summarized_article = summarize(article)
       return render_template('simplify.html', data=summarized_article, link=link, searchForm=searchForm, articleForm=articleForm)
     except Exception as e:

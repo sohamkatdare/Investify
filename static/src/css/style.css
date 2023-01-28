@@ -40,6 +40,9 @@ section.grid>* {
   animation-delay: -1s inherit;
 }
 
+.footer>* {
+  animation: moveUpAnimation 1500ms ease-in-out;
+}
 
 @keyframes moveUpAnimation {
   0% {

@@ -58,6 +58,13 @@
         </tbody>
     </table>
 
+    {% if finance_analysis %}
+    <h1 class="text-5xl text-primary mt-10 mb-10">Financial Analysis</h1>
+    <h3 class="text-xl mt-10 mb-10 text-center">\[P/E=\frac{\text{Share price}}{\text{Earnings per share}}={{finance_analysis['PE Ratio (TTM)']}}\]</h3>
+    <h3 class="text-xl mt-10 mb-10 text-center">\[EPS=\frac{\text{Net income}-\text{Dividends on preferred stock}}{\text{Average outstanding common shares}}={{finance_analysis['EPS (TTM)']}}\]</h3>
+    <h3 class="text-xl mt-10 mb-10 text-center">\[Composite\;Score=\frac{\text{Earnings before Interest and Taxes}}{\text{Net Fixed Assets}-\text{Working Capital}}={{finance_analysis['Composite Indicator']}}\]</h3>
+    {% endif %}
+
     {% if averageSentiment %} <!--If no tweets found on company.-->
     <h1 class="text-5xl text-primary mt-10 mb-10">Sentiment Analysis</h1>
     <h3 class="text-xl mt-10 mb-10 text-center">Average Sentiment: {{ averageSentiment }}</h3>
@@ -66,7 +73,7 @@
         <div class="flex flex-col gap-y-10 md:gap-x-10 md:flex-row md:flex-wrap justify-center">
             {{ tweet }}
             {% for tweet in tweets %}
-            <div class="card w-96 bg-base-100 hover:shadow-2xl">
+            <!-- <div class="card w-96 bg-base-100 hover:shadow-2xl">
                 <div class="card-body">
                   <h2 class="card-title">{{ tweet.user.name }}
                     {% if tweet.user.verified %}
@@ -80,9 +87,16 @@
                     </a>
                   </button>
                 </div>
-              </div>
+              </div> -->
               <!-- Saptak when you see this try and debug this -->
-              
+              {{ macros.card(
+                title = tweet.user.name,
+                text = ' https'.join(tweet.text.split(' https')[:-1]),
+                button = 'Go to Tweet',
+                buttonLink = 'https'+tweet.text.split('https')[-1],
+                button_external = True,
+                verified_tweet = True
+              ) }}
             
             {% endfor %}
         </div>

@@ -23,7 +23,7 @@
         {% endif %}
     </section>
 {%- endmacro %}
-{% macro card(title='Card Title', text="Some efjiowwww", button="Go", buttonLink="#", button_external='', verified_tweet='') -%}
+{% macro card(title='Card Title', text="Some efjiowwww", button='Go', buttonLink="#", button_external=True, verified_tweet=True) -%}
     <div class="card w-96 bg-base-100 shadow-2xl">
         <div class="card-body">
         <h2 class="card-title">{{ title }}
@@ -33,7 +33,7 @@
         </h2>
         <p class="mb-3">{{ text }}</p>
         <button class="card-actions justify-center">
-            <a class="btn btn-primary hover:shadow-xl" href="{{ buttonLink }}">Go to Tweet   
+            <a class="btn btn-primary hover:shadow-xl" href="{{ buttonLink }}">{{ button }}   
                 {% if button_external != '' %}   
                     <i class="ml-2 fas fa-external-link-alt inline-block justify-end"></i>
                 {% endif %}

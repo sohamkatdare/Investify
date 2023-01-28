@@ -23,13 +23,23 @@ body {
    }
 }
 
-section>* {
-  animation: moveUpAnimation 1500ms ease-in-out
+section.grid>* {
+  animation: moveUpAnimation 1500ms ease-in-out;
 }
 
 #header {
-  animation: moveDownAnimation 1500ms ease-in-out
+  animation: moveDownAnimation 1500ms ease-in-out;
 }
+
+.navbar {
+  animation: moveDownAnimation 2000ms ease-in-out -1s;
+}
+
+.search-container>* {
+  animation: moveRightAnimation 2000ms ease-in-out;
+  animation-delay: -1s inherit;
+}
+
 
 @keyframes moveUpAnimation {
   0% {
@@ -53,6 +63,34 @@ section>* {
   75% {
     opacity: 0;
     transform: translate(0%, -50%);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0%, 0%);
+  }
+}
+@keyframes moveLeftAnimation {
+  0% {
+    opacity: 0;
+    transform: translate(50%, 0%);
+  }
+  75% {
+    opacity: 0;
+    transform: translate(50%, 0%);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0%, 0%);
+  }
+}
+@keyframes moveRightAnimation {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -0%);
+  }
+  75% {
+    opacity: 0;
+    transform: translate(-50%, -0%);
   }
   100% {
     opacity: 1;

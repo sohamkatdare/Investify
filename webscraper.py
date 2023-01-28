@@ -6,7 +6,7 @@ from selenium.webdriver.common.by import By
 # import pandas as pd
 # import matplotlib.pyplot as plt
 
-def investopediaScrape(searchquery): # Just get rid of the selenium and pass in a link.
+def investopediaScrape(searchquery):
     # Like try scraping this example. https://www.investopedia.com/terms/s/stockmarket.asp
     article = ''
 
@@ -20,10 +20,11 @@ def investopediaScrape(searchquery): # Just get rid of the selenium and pass in 
     driver.implicitly_wait(30)
     driver.get(url)
 
-    anchor = driver.find_element(By.ID, "search-results__link_1-0") 
-    anchor.click()
-    link = driver.current_url # it might be easier to just use the link directly. That gives more control to the user.
-
+    anchor = driver.find_element(By.ID, "search-results__link_1-0")
+    link = anchor.get_attribute('href')
+    driver.close()
+    print(link) # Read the comment below
+    # SOHAM just check the scraper itself seperately. Use https://www.investopedia.com/terms/s/stockmarket.asp for testing. I would make the searching one function and the scraping another function. Then you can just call the scraping function with the link you want to scrape.
     soup = bs(requests.get(link).content, 'html.parser')
 
     for o in soup.select('#article-body div p'):
@@ -32,4 +33,4 @@ def investopediaScrape(searchquery): # Just get rid of the selenium and pass in 
     return article
 
 if __name__ == '__main__':
-    print(investopediaScrape('stock market'))
+    print(investopediaScrape('Altman Z Score'))

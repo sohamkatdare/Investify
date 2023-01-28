@@ -1,0 +1,16 @@
+.heroBanner {
+    width: 94%;
+    display: grid;
+    align-items: center;
+    padding: 3%;
+    grid-template-columns: 1fr 1fr;
+}
+
+.heroBanner div:nth-child(2) {
+    height: 100%;
+    background-color: orange;
+}
+
+.coreFeatures {
+    margin-top: 5%;
+}

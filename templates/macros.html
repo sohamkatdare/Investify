@@ -31,7 +31,9 @@
                 <i class="fa-solid fa-check-double inline-block justify-end text-primary"></i>                     
             {% endif %}
         </h2>
-        <p class="mb-3">{{ text }}</p>
+        {% if text != '' %}
+            <p class="mb-3">{{ text }}</p>
+        {% endif %}
         <button class="card-actions justify-center">
             <a class="btn btn-primary hover:shadow-xl" href="{{ buttonLink }}">{{ button }}   
                 {% if button_external != '' %}   

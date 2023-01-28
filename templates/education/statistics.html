@@ -1,10 +1,10 @@
 {% extends "template.html" %}
 {% block title %}Home{% endblock title %}
 {% block pageTitle %}Statistics{% endblock pageTitle %}
-{% block wholebody %}
+{% block body %}
 {{ super() }}
-<div class="carousel w-full h-full">
-  <div id="slide1" class="carousel-item relative w-full h-full items-center justify-center">
+<div class=" carousel w-full h-full">
+  <div id="slide1" class="carousel-item relative w-full h-full items-center justify-center ">
     <div class="grid grid-cols-3 gap-x-14 gap-y-24">
       <!-- 1 --> {{ macros.card( 
         title='P/E Ratio',
@@ -31,63 +31,142 @@
         verified_tweet=''
       ) }}
       <!-- 4 --> {{ macros.card( 
-        title='P/E Ratio',
-        text='What is P/E Ratio, and what do the different types mean?',
+        title='MACD',
+        text='What is MACD, and what does it measure?',
         button='Learn More',
-        buttonLink='statistics/pe-ratio',
+        buttonLink='statistics/macd',
         button_external='',
         verified_tweet=''
       ) }}
       <!-- 5 --> {{ macros.card( 
-        title='P/E Ratio',
-        text='What is P/E Ratio, and what do the different types mean?',
+        title='RSI',
+        text='What is RSI, and how does it indicate overbought or oversold stocks?',
         button='Learn More',
-        buttonLink='statistics/pe-ratio',
+        buttonLink='statistics/rsi',
         button_external='',
         verified_tweet=''
       ) }}
       <!-- 6 --> {{ macros.card( 
-        title='P/E Ratio',
-        text='What is P/E Ratio, and what do the different types mean?',
+        title='OBV',
+        text='How does OBV Ratiopredict changes in the stock market?',
         button='Learn More',
-        buttonLink='statistics/pe-ratio',
+        buttonLink='statistics/obv',
         button_external='',
         verified_tweet=''
       ) }}
       <!-- 7 --> {{ macros.card( 
-        title='P/E Ratio',
-        text='What is P/E Ratio, and what do the different types mean?',
+        title='Parabolic SAR',
+        text='What is the purpose of the Parabolic SAR?',
         button='Learn More',
-        buttonLink='statistics/pe-ratio',
+        buttonLink='statistics/parabolic-sar',
         button_external='',
         verified_tweet=''
       ) }}
       <!-- 8 --> {{ macros.card( 
-        title='P/E Ratio',
-        text='What is P/E Ratio, and what do the different types mean?',
+        title='CCI',
+        text='What is CCI, and what does it measure?',
         button='Learn More',
-        buttonLink='statistics/pe-ratio',
+        buttonLink='statistics/cci',
         button_external='',
         verified_tweet=''
       ) }}
       <!-- 9 --> {{ macros.card( 
-        title='P/E Ratio',
-        text='What is P/E Ratio, and what do the different types mean?',
+        title='EBITDA',
+        text='What is EBITDA, and what does it measure?',
         button='Learn More',
-        buttonLink='statistics/pe-ratio',
+        buttonLink='statistics/ebitda',
         button_external='',
         verified_tweet=''
       ) }}
     </div>
   </div> 
-  <div id="slide2" class="carousel-item relative w-full h-full">
-    
+  <div id="slide2" class="carousel-item relative w-full h-full items-center justify-center">
+    <div class="grid grid-cols-3 gap-x-14 gap-y-24">
+      <!-- 1 --> {{ macros.card(
+        title='Fibonacci retracement',
+        text='What is Fibonacci retracement, and what does it measure?',
+        button='Learn More',
+        buttonLink='statistics/fibonacci-retracement',
+        button_external='',
+        verified_tweet=''
+      ) }}
+      <!-- 2 --> {{ macros.card(
+        title='Ichimoku cloud',
+        text='How can Ichimoku cloud aid identifying support and resitance levels of a stock?',
+        button='Learn More',
+        buttonLink='statistics/ichimoku-cloud',
+        button_external='',
+        verified_tweet=''
+      ) }}
+      <!-- 3 --> {{ macros.card(
+        title='Average directional index (ADX)',
+        text='How can the ADX help decide whether there is a trend in a stock?',
+        button='Learn More',
+        buttonLink='statistics/adx',
+        button_external='',
+        verified_tweet=''
+      ) }}
+      <!-- 4 --> {{ macros.card(
+        title='Aroon',
+        text='What is Aroon, and what does it check?',
+        button='Learn More',
+        buttonLink='statistics/aroon',
+        button_external='',
+        verified_tweet=''
+      ) }}
+      <!-- 5 --> {{ macros.card(
+        title='Stochastic Oscillator',
+        text='What is Stochastic Oscillator, and how does it measure differen trends?',
+        button='Learn More',
+        buttonLink='statistics/stochastic-oscillator',
+        button_external='',
+        verified_tweet=''
+      ) }}
+      <!-- 6 --> {{ macros.card(
+        title='Money Flow Index',
+        text='What is the Money Flow Index, and what does it calculate?',
+        button='Learn More',
+        buttonLink='statistics/money-flow-index',
+        button_external='',
+        verified_tweet=''
+      ) }}
+      <!-- 7 --> {{ macros.card(
+        title='Standard Deviation',
+        text='What is Standard Deviation, how is it used?',
+        button='Learn More',
+        buttonLink='statistics/std',
+        button_external='',
+        verified_tweet=''
+      ) }}
+      <!-- 8 --> {{ macros.card(
+        title='Volume rate of Change',
+        text='What is Volume Rate of Change, how does it detect changes in volume?',
+        button='Learn More',
+        buttonLink='statistics/volume-change',
+        button_external='',
+        verified_tweet=''
+      ) }}
+      <!-- 9 --> {{ macros.card(
+        title='Average True Range',
+        text='What is the Average True Range, and what does it measure?',
+        button='Learn More',
+        buttonLink='statistics/average-range',
+        button_external='',
+        verified_tweet=''
+      ) }}
+    </div>
   </div> 
   <div id="slide3" class="carousel-item relative w-full h-full">
-    
+    <p class="w-full h-full text-white text-7xl text-center my-auto">Coming Soon!</p>
   </div> 
   <div id="slide4" class="carousel-item relative w-full h-full">
-    
+    <p class="w-full h-full text-white text-7xl text-center my-auto">Coming Soon!</p>
   </div>
 </div>
-{% endblock wholebody %}
+<div class="flex justify-center w-full py-2 gap-2">
+  <a href="#item1" class="btn btn-xs">1</a> 
+  <a href="#item2" class="btn btn-xs">2</a> 
+  <a href="#item3" class="btn btn-xs">3</a> 
+  <a href="#item4" class="btn btn-xs">4</a>
+</div>
+{% endblock body %}

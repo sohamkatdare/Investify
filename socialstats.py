@@ -74,7 +74,7 @@ def getSocialStats(ticker):
     plt.savefig('static/wordcloud.png', facecolor=plt.gca().get_facecolor())
     # # plt.show()
 
-    return [i for i in own_tweets if len(i.text.split(' ')) > 15][:5], df.loc[:, 'Sentiment'].mean()
+    return [i for i in own_tweets if len(i.text.split(' ')) > 15][:5], df, df.loc[:, 'Sentiment'].mean()
 
 if __name__ == '__main__':
     print(getSocialStats('MSFT'))

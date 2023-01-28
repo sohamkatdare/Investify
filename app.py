@@ -28,6 +28,7 @@ def search():
   finance_analysis = {}
   news = None
   tweets = None
+  sentimentData = None
   averageSentiment = None
   if searchForm.ticker.data:
     try:
@@ -37,13 +38,13 @@ def search():
       pe_ratio, eps = get_pe_and_eps(ticker)
       finance_analysis = {'PE Ratio (TTM)': pe_ratio, 'EPS (TTM)': eps, 'Composite Indicator': get_composite_score(ticker)}
       news = get_news(ticker)
-      tweets, averageSentiment = getSocialStats(ticker)
+      tweets, sentimentData, averageSentiment  = getSocialStats(ticker)
       averageSentiment = round(averageSentiment, 2)
-      return render_template('search.html', data=data, searchForm=searchForm, ticker=ticker, finance_analysis=finance_analysis, news=news, tweets=tweets, averageSentiment=averageSentiment)
+      return render_template('search.html', data=data, searchForm=searchForm, ticker=ticker, finance_analysis=finance_analysis, news=news, tweets=tweets, sentimentData=sentimentData, averageSentiment=averageSentiment)
     except Exception as e:
       print(e)
       flash(f'Ticker "{searchForm.ticker.data.upper()}" not found.', 'error')
-  return render_template('search.html', data=data, searchForm=searchForm, ticker=ticker, finance_analysis=finance_analysis, news=news, tweets=tweets, averageSentiment=averageSentiment)
+  return render_template('search.html', data=data, searchForm=searchForm, ticker=ticker, finance_analysis=finance_analysis, news=news, tweets=tweets, sentimentData=sentimentData, averageSentiment=averageSentiment)
 
 @app.route('/education')
 def educate():
@@ -66,8 +67,8 @@ def simplify():
   link = None
   if articleForm.topic.data:
     try:
-      # link = investopedia_search(articleForm.topic.data)
-      article = investopedia_web_scrape(articleForm.topic.data)
+      link = investopedia_search(articleForm.topic.data)
+      article = investopedia_web_scrape(link)
       summarized_article = summarize(article)
       return render_template('simplify.html', data=summarized_article, link=link, searchForm=searchForm, articleForm=articleForm)
     except Exception as e:

@@ -4,8 +4,8 @@
 {% block wholebody %}
 {{ super() }}
 <div class="carousel w-full h-full">
-  <div id="slide1" class="carousel-item relative w-full h-full">
-    <div class="grid grid-cols-3 grid-rows-3 mx-20 gap-x-14 gap-y-24">
+  <div id="slide1" class="carousel-item relative w-full h-full items-center justify-center">
+    <div class="grid grid-cols-3 gap-x-14 gap-y-24">
       <!-- 1 --> {{ macros.card( 
         title='P/E Ratio',
         text='What is P/E Ratio, and what do the different types mean?',
@@ -15,18 +15,18 @@
         verified_tweet=''
       ) }}
       <!-- 2 --> {{ macros.card( 
-        title='P/E Ratio',
-        text='What is P/E Ratio, and what do the different types mean?',
+        title='Bollinger Bands',
+        text='How can Bollinger Bands aid in maximizing the amount of information you have about a stock?',
         button='Learn More',
-        buttonLink='statistics/pe-ratio',
+        buttonLink='statistics/bollinger-bands',
         button_external='',
         verified_tweet=''
       ) }}
       <!-- 3 --> {{ macros.card( 
-        title='P/E Ratio',
-        text='What is P/E Ratio, and what do the different types mean?',
+        title='Chaikin Oscillator',
+        text='How can the Chaikin Oscillator help decide which stock to invest in?',
         button='Learn More',
-        buttonLink='statistics/pe-ratio',
+        buttonLink='statistics/chaikin-oscillator',
         button_external='',
         verified_tweet=''
       ) }}

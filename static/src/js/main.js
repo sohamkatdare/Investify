@@ -1,15 +1,15 @@
 // APPLIED TO ALL PAGES
 
 // Function to show spinner and hide data
-// function loading() {
-//     const data = document.getElementById("data")
-//     if(data !== null){
-//       data.style.display = 'none';
-//     }
-//     const spinner = document.getElementById("loadSpinner");
-//     spinner.parentElement.style.display = 'block';
-//     spinner.style.display = 'block';
-// }
+function loading() {
+    const data = document.getElementById("data")
+    if(data !== null){
+      data.style.display = 'none';
+    }
+    const spinner = document.getElementById("loadSpinner");
+    spinner.parentElement.style.display = 'block';
+    spinner.style.display = 'block';
+}
 
 // Example starter JavaScript for disabling form submissions if there are invalid fields.
 (() => {

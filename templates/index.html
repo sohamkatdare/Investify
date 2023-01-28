@@ -3,7 +3,7 @@
 {% block pageTitle %}Investify{% endblock pageTitle %}
 {% block wholebody %}
 
-<div class="heroBanner container-fluid mx-5 bg-base-300 text-black rounded-pill h-[80vh]">
+<div class="grid items-center w-[94%] p-[3%] grid-cols-2 container-fluid mx-10 text-black rounded-pill h-[81vh]">
   <div class="search-container">
     <h1 class="text-6xl font-bold text-white leading-tight">Stay in the know <br> Watch your<strong class="text-primary"><br/> money grow.</strong></h1> <br> <br>
     <form class="form-control" role="search" method="POST" action="search" autocomplete="off" autocapitalize="characters">
@@ -22,13 +22,24 @@
       </div>
     </form>
   </div>
-  
-  <div class="largeConte">
-    <div class="mainContent">
-      <div class="animationBg">
-        <p>Hello</p>
+  <div class="h-full">
+    <div class="relative bg-primary w-full grid justify-center">
+      
+      <img class="absolute w-full top-0 z-[2]" src="/static/image_3.png" />
+      <div class="absolute w-full grid items-center top-0 z-[1] rounded-md h-[50vh]">
+        <div class=" grid justify-center">
+          <span class="text-primary text-5xl mb-8" id="header">
+            <strong>investify.</strong>
+          </span>
+          <section class="grid place-items-center grid-cols-2 grid-rows-2 gap-x-10 gap-y-16 mt-10 mb-5">
+            <i class="fa-solid fa-chart-line text-4xl text-primary font-thin col-span-1 rounded-lg border-1 border-primary"></i>
+            <i class="fa-solid fa-dollar-sign text-4xl text-primary font-thin col-span-1 rounded-lg border-1 border-primary"></i>
+            <i class="fa-solid fa-money-bill-trend-up text-4xl text-primary font-thin col-span-1 rounded-lg border-1 border-primary"></i>
+            <i class="fa-solid fa-chart-pie text-4xl text-primary font-thin col-span-1 rounded-lg border-1 border-primary"></i>
+          </section>
+
+        </div>
       </div>
-      <img class="bgmacimage" src="/static/image_3.png" />
     </div>
   </div>
 </div>

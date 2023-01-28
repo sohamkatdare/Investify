@@ -1,14 +1,14 @@
 from flask import Flask, render_template, flash
 
-from forms import TickerForm
+from forms import TickerForm, ArticleForm
 from socialstats import getSocialStats
 from polygon_io import getStockData
 from finance_analysis import get_pe_and_eps, get_composite_score
+from webscraper import investopedia_search, investopedia_web_scrape
+from text_simplifier import summarize
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '7b7e30111ddc1f8a5b1d80934d336798'
-
-
 
 @app.route('/')
 def index():
@@ -56,10 +56,22 @@ def educatePath(path):
   else:
     return render_template('education.html', data=None, searchForm=searchForm)
 
-@app.route('/simplify')
+@app.route('/simplify', methods=['GET', 'POST'])
 def simplify():
   searchForm = TickerForm()
-  return render_template('simplify.html', data=None, searchForm=searchForm)
+  articleForm = ArticleForm()
+  data = None
+  link = None
+  if articleForm.topic.data:
+    try:
+      link = investopedia_search(articleForm.topic.data)
+      article = investopedia_web_scrape(link)
+      summarized_article = summarize(article)
+      return render_template('simplify.html', data=summarized_article, link=link, searchForm=searchForm, articleForm=articleForm)
+    except Exception as e:
+      print(e)
+      flash(f'Article "{articleForm.topic.data}" not found.', 'error')
+  return render_template('simplify.html', data=data, link=link, searchForm=searchForm, articleForm=articleForm)
 
 @app.errorhandler(404)
 def not_found(e):

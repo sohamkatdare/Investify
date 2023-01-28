@@ -5,6 +5,7 @@ gunicorn==20.1.0
 lxml==4.9.2
 matplotlib==3.6.3
 mplfinance==0.12.9b7
+openai==0.26.4
 pandas==1.5.3
 polygon-api-client==1.5.0
 python-dotenv==0.21.0

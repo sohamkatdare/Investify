@@ -20,11 +20,6 @@ def get_composite_score(ticker_name):
     # Calculate Working Capital
     working_capital = balance_sheet.loc['Total Capitalization'][0]
 
-    print(ticker_name)
-    print('EBIT: ', ebit)
-    print('Net Fixed Assets: ', net_fixed_assets)
-    print('Working Capital: ', working_capital)
-
     return round(ebit / (net_fixed_assets + working_capital), 4)
 
 if __name__ == '__main__':

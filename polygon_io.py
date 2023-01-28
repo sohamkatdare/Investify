@@ -3,7 +3,6 @@ import pandas as pd
 import matplotlib
 import matplotlib.pyplot as plt
 import mplfinance
-import matplotlib.dates as mpl_dates
 from polygon import RESTClient
 from dotenv import load_dotenv
 load_dotenv()

@@ -28,19 +28,19 @@ def search():
   finance_analysis = {}
   news = None
   tweets = None
-  sentimentData = None
+  sentimentData = []
   averageSentiment = None
   if searchForm.ticker.data:
     try:
       ticker = searchForm.ticker.data.upper()
       prevAggs = getStockData(ticker)
       data = [prevAggs]
-      pe_ratio, eps = get_pe_and_eps(ticker)
-      finance_analysis = {'PE Ratio (TTM)': pe_ratio, 'EPS (TTM)': eps, 'Composite Indicator': get_composite_score(ticker)}
+      # pe_ratio, eps = get_pe_and_eps(ticker)
+      # finance_analysis = {'PE Ratio (TTM)': pe_ratio, 'EPS (TTM)': eps, 'Composite Indicator': get_composite_score(ticker)}
       news = get_news(ticker)
       tweets, sentimentData, averageSentiment  = getSocialStats(ticker)
       averageSentiment = round(averageSentiment, 2)
-      return render_template('search.html', data=data, searchForm=searchForm, ticker=ticker, finance_analysis=finance_analysis, news=news, tweets=tweets, sentimentData=sentimentData, averageSentiment=averageSentiment)
+      return render_template('search.html', data=data, searchForm=searchForm, ticker=ticker, finance_analysis=finance_analysis, news=news, tweets=tweets, sentimentData=list(sentimentData), averageSentiment=averageSentiment)
     except Exception as e:
       print(e)
       flash(f'Ticker "{searchForm.ticker.data.upper()}" not found.', 'error')

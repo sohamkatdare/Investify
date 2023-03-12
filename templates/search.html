@@ -175,12 +175,12 @@
   }
 
   function drawSentimentChart() {
-    {% if data != None %}
+    {% if sentimentData.__len__() %}
     // Define the chart to be drawn.
     var data = google.visualization.arrayToDataTable([
       ['Sentiment', 'Frequency'],
       {% for i in range(sentimentData.__len__()) %}
-  ['{{ i }}', {{ sentimentData.iloc[i]['Sentiment'] }}],
+  ['{{ i }}', {{ sentimentData[i]['Sentiment'] }}],
     {% endfor %}
     ]);
 

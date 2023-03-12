@@ -9,11 +9,19 @@ openai.api_key = OPENAI_API_KEY
 def summarize(prompt):
     reduced_prompt = ' '.join(prompt.replace('\n', ' ').split(' ')[:1600])
     augmented_prompt = "summarize this text to 500 words: " + reduced_prompt
-    raw_return = openai.Completion.create(model="text-davinci-003", prompt=augmented_prompt, temperature=.5, max_tokens=2000)["choices"][0]["text"].strip(' .')
+    # raw_return = openai.Completion.create(model="text-davinci-003", prompt=augmented_prompt, temperature=.5, max_tokens=2000)["choices"][0]["text"].strip(' .')
+    raw_return = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[
+                {"role": "system", "content": "You are a helpful assistant that summarizes and simplifies Investopedia articles through your complete knowledge of finance and investing."},
+                {"role": "user", "content": augmented_prompt}, 
+        ],
+        max_tokens=2000,
+    )['choices'][0]['message']['content'].strip(' .')
     incomplete = ''
     if raw_return[0] == raw_return[0].lower():
         incomplete = raw_return[:raw_return.index('.')+2]
-    return raw_return.replace(incomplete, '')
+    return raw_return.replace(incomplete, '') + '.'
 if __name__ == '__main__':
     text = '''Pete Rathburn is a copy editor and fact-checker with expertise in economics and personal finance and over twenty years of experience in the classroom. Investopedia / Laura Porter 
     The Altman Z-score is the output of a credit-strength test that gauges a publicly traded manufacturing company's likelihood of bankruptcy. The Altman Z-score, a variation of the traditional z-score in statistics, is based on five financial ratios that can be calculated from data found on a company's annual 10-K report. It uses profitability, leverage, liquidity, solvency, and activity to predict whether a company has a high probability of becoming insolvent.

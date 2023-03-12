@@ -29,15 +29,14 @@
 {% if data != None %}
 <div id="data">
   {% if noResults %}
-  <h3 class="text-center text-5xl font-bold text-primary">No Results</h3>
+   <h3 class="text-center text-5xl font-bold text-primary">No Results</h3>
   {% else %}
-  <h1 class="text-5xl text-primary mt-10 mb-10"><strong>{{ ticker }}</strong> Monthly Aggregate Data from {{
-    data[0][0][0] }} to {{ data[0][0][1] }}</h1>
-  <div class="card bg-base-100 shadow-xl mx-auto" id="candle_div" style="width: 900px; height: 500px;"></div>
-
-  <table class="table table-normal table-zebra w-full">
-    <thead>
-      <tr>
+  <h1 class="text-5xl text-primary mt-10 mb-10"><strong>{{ ticker }}</strong> Monthly Aggregate Data from {{ data[0][0][0] }} to {{ data[0][0][1] }}</h1>
+  <div class="card bg-base-100 shadow-xl mx-auto w-[900px] h-[500px]" id="candle_div"></div>
+  <button class="btn w-full border-3 border-primary/50 btn-ghost p-[18px]">Open Section 1</button>
+  <table class="table table-normal table-zebra w-full overflow-hidden max-h-0">
+    <thead class="hover:bg-primary">
+      <tr class="hover:bg-primary">
         <th scope="col">Date</th>
         <th scope="col">Volume</th>
         <th scope="col">Volume Weighted Average</th>
@@ -63,54 +62,55 @@
   </table>
 
   {% if finance_analysis %}
-  <h1 class="text-5xl text-primary mt-10 mb-10">Financial Analysis</h1>
-  <h3 class="text-xl mt-10 mb-10 text-center">\[P/E=\frac{\text{Share price}}{\text{Earnings per
-    share}}={{finance_analysis['PE Ratio (TTM)']}}\]</h3>
-  <h3 class="text-xl mt-10 mb-10 text-center">\[EPS=\frac{\text{Net income}-\text{Dividends on preferred
-    stock}}{\text{Average outstanding common shares}}={{finance_analysis['EPS (TTM)']}}\]</h3>
-  <h3 class="text-xl mt-10 mb-10 text-center">\[Composite\;Score=\frac{\text{Earnings before Interest and
-    Taxes}}{\text{Net Fixed Assets}-\text{Working Capital}}={{finance_analysis['Composite Indicator']}}\]</h3>
+    <h1 class="text-5xl text-primary mt-10 mb-10">Financial Analysis</h1>
+    <h3 class="text-xl mt-10 mb-10 text-center">\[P/E=\frac{\text{Share price}}{\text{Earnings per
+      share}}={{finance_analysis['PE Ratio (TTM)']}}\]</h3>
+    <h3 class="text-xl mt-10 mb-10 text-center">\[EPS=\frac{\text{Net income}-\text{Dividends on preferred
+      stock}}{\text{Average outstanding common shares}}={{finance_analysis['EPS (TTM)']}}\]</h3>
+    <h3 class="text-xl mt-10 mb-10 text-center">\[Composite\;Score=\frac{\text{Earnings before Interest and
+      Taxes}}{\text{Net Fixed Assets}-\text{Working Capital}}={{finance_analysis['Composite Indicator']}}\]</h3>
   {% endif %}
 
   {% if averageSentiment %} <!--If no tweets found on company.-->
-  <h1 class="text-5xl text-primary mt-10 mb-10">Sentiment Analysis</h1>
-  <h3 class="text-xl mt-10 mb-10 text-center">Average Sentiment: {{ averageSentiment }}</h3>
-  {% if tweets %}
-  <h1 class="text-5xl mt-10 mb-10">Tweets:</h1>
-  <div class="flex flex-col gap-y-10 md:gap-x-10 md:flex-row md:flex-wrap justify-center">
-    <!-- {{ tweet }} -->
-    {% for tweet in tweets %}
-    {{ macros.card(
-    title = tweet.user.name,
-    text = ' https'.join(tweet.text.split(' https')[:-1]),
-    button = 'Go to Tweet',
-    buttonLink = 'https'+tweet.text.split('https')[-1],
-    button_external = True,
-    verified_tweet = True
-    ) }}
-    {% endfor %}
-  </div>
-  {% endif %}
-  {% if news %}
-  <h1 class="text-5xl mt-10 mb-10">News:</h1>
-  <div class="flex flex-col gap-y-10 md:gap-x-10 md:flex-row md:flex-wrap justify-center">
-    <!-- {{ news }} -->
-    {% for article in news %}
-    {{ macros.card(
-    title = article.title,
-    text = '',
-    button = 'Go to Article',
-    buttonLink = article.link,
-    button_external = True,
-    verified_tweet = True
-    ) }}
-    {% endfor %}
-  </div>
-  {% endif %}
-  <h1 class="text-5xl mt-10 mb-10">Plots:</h1>
-  <div class="card bg-base-100 shadow-xl mx-auto" id="sentiment_div" style="width: 900px; height: 500px;"></div>
-  <img class="card bg-base-100 shadow-xl mx-auto" src="{{ url_for('static', filename='wordcloud.png') }}"
-    alt="wordcloud">
+    <h1 class="text-5xl text-primary mt-10 mb-10">Sentiment Analysis</h1>
+    <h3 class="text-xl mt-10 mb-10 text-center">Average Sentiment: {{ averageSentiment }}</h3>
+
+    {% if tweets %}
+      <h1 class="text-5xl mt-10 mb-10">Tweets:</h1>
+      <div class="flex flex-col gap-y-10 md:gap-x-10 md:flex-row md:flex-wrap justify-center">
+        <!-- {{ tweet }} -->
+        {% for tweet in tweets %}
+        {{ macros.card(
+        title = tweet.user.name,
+        text = ' https'.join(tweet.text.split(' https')[:-1]),
+        button = 'Go to Tweet',
+        buttonLink = 'https'+tweet.text.split('https')[-1],
+        button_external = True,
+        verified_tweet = True
+        ) }}
+        {% endfor %}
+      </div>
+    {% endif %}
+    {% if news %}
+      <h1 class="text-5xl mt-10 mb-10">News:</h1>
+      <div class="flex flex-col gap-y-10 md:gap-x-10 md:flex-row md:flex-wrap justify-center">
+        <!-- {{ news }} -->
+        {% for article in news %}
+        {{ macros.card(
+        title = article.title,
+        text = '',
+        button = 'Go to Article',
+        buttonLink = article.link,
+        button_external = True,
+        verified_tweet = True
+        ) }}
+        {% endfor %}
+      </div>
+    {% endif %}
+    <h1 class="text-5xl mt-10 mb-10">Plots:</h1>
+    <div class="card bg-base-100 shadow-xl mx-auto" id="sentiment_div" style="width: 900px; height: 500px;"></div>
+    <img class="card bg-base-100 shadow-xl mx-auto" src="{{ url_for('static', filename='wordcloud.png') }}"
+      alt="wordcloud">
   {% endif %}
   {% endif %}
 </div>

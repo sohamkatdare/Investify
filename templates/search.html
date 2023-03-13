@@ -31,9 +31,11 @@
   {% if noResults %}
    <h3 class="text-center text-5xl font-bold text-primary">No Results</h3>
   {% else %}
+  <!-- <div class="h-screen w-screen grid "></div> -->
   <h1 class="text-5xl text-primary mt-10 mb-10"><strong>{{ ticker }}</strong> Monthly Aggregate Data from {{ data[0][0][0] }} to {{ data[0][0][1] }}</h1>
   <div class="card bg-base-100 shadow-xl mx-auto w-[900px] h-[500px]" id="candle_div"></div>
-  <button class="btn w-full border-3 border-primary/50 btn-ghost p-[18px]">Open Section 1</button>
+  {% set showTable = false %}
+  <button class="btn w-full border-3 border-primary/50 btn-ghost p-[18px]" url_for="">Open Section 1</button>
   <table class="table table-normal table-zebra w-full overflow-hidden max-h-0">
     <thead class="hover:bg-primary">
       <tr class="hover:bg-primary">

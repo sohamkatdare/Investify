@@ -2508,12 +2508,12 @@ html {
   height: calc(100vh - 4rem);
 }
 
-.h-\[500px\] {
-  height: 500px;
-}
-
 .h-screen {
   height: 100vh;
+}
+
+.h-\[500px\] {
+  height: 500px;
 }
 
 .max-h-0 {
@@ -2540,12 +2540,12 @@ html {
   width: 24rem;
 }
 
-.w-\[900px\] {
-  width: 900px;
-}
-
 .w-screen {
   width: 100vw;
+}
+
+.w-\[900px\] {
+  width: 900px;
 }
 
 .min-w-\[20\%\] {

@@ -8,13 +8,14 @@ class User:
     User Data Model. Stores ChatGPT conversation information for each user.
     """
 
-    def __init__(self, user_id):
+    def __init__(self, user_id, user_data):
         """
         Initializes a new User object.
         
         :param user_id: User ID
         """
         self.user_id = user_id
+        self.user_data = user_data
         self.conversation = []
 
     def add_to_conversation(self, utterance):
@@ -48,8 +49,8 @@ class User:
         :param email: Email of the user
         :return: User object
         """
-        uid = get_user(email, password)
-        return User(uid)
+        user = get_user(email, password)
+        return User(user['idToken'], user)
     
     @staticmethod
     def reset_password(email):
@@ -60,6 +61,4 @@ class User:
         :return: User object
         """
         reset_password(email)
-    
-
     

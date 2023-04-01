@@ -102,9 +102,15 @@
         </div>
       </form>
       <button>
-        <a href="/login"> <!--settings page-->
+        {% if current_identity == '' %}
+        <a href="{{ url_for('login') }}">
           <i class="fa-solid fa-right-to-bracket fa-xl px-5 text-indigo-400 transition-all"></i>
         </a>
+        {% else %}
+        <a href="{{ url_for('logout') }}">
+          <i class="fa-solid fa-right-to-bracket fa-xl px-5 text-indigo-400 transition-all"></i>
+        </a>
+        {% endif %}
       </button>
     </div>
   </nav>

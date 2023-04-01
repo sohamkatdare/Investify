@@ -5,9 +5,9 @@
 <div class="grid grid-rows-1 grid-cols-1 w-full h-[calc(100vh-4rem)] translate-y-[-4rem]  justify-items-center items-center ">
   
   <div>
-    <h1 class="text-5xl font-bold font-normal text-indigo-400"> Welcome back to <span class="gradient-text">investify.</span></h1>
+    <h1 class="text-5xl font-bold font-normal text-indigo-400"> Sign up for <span class="gradient-text">investify.</span></h1>
     <form class="form-control max-w-full mx-auto w-96 p-6 rounded-lg  bg-base-100" role="search" method="POST" action="" autocapitalize="characters" autocomplete="off">
-      <button class="btn btn-primary border-indigo-400 bg-transparent hover:gradient-bg hover:border-indigo-400  transition-all my-3 mt-6"> Sign in with Google </button>
+      
       <label class="input-group my-3">
           <span>
               {{ registerForm.email.label(class="label") }}
@@ -36,7 +36,7 @@
       </label>
       <br>
       {{ registerForm.submit(class="btn btn-primary font-normal gradient-bg transition-all border-none") }}
-      <br>
+      <button class="btn btn-primary border-indigo-400 bg-transparent hover:gradient-bg hover:border-indigo-400  transition-all my-3 mt-6"> Sign in with Google </button>
       <div class="divider"><span>Already have an account? <a href="/login" class="link gradient-text decoration-solid">Sign in.</a></span></div>
   </div>
   

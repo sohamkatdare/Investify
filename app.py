@@ -1,5 +1,7 @@
-from flask import Flask, render_template, flash, redirect, url_for
+from flask import Flask, render_template, flash, redirect, url_for, request, jsonify
+from functools import wraps
 import requests
+from flask_jwt_extended import JWTManager, jwt_required, create_access_token, set_access_cookies, unset_jwt_cookies, get_jwt_identity
 
 from forms import LoginForm, RegisterForm, ResetPasswordForm, TickerForm, ArticleForm
 from socialstats import getSocialStats
@@ -13,16 +15,17 @@ from data.user import User
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '7b7e30111ddc1f8a5b1d80934d336798'
+app.config['JWT_SECRET_KEY'] = '3e8e162993f9dbfb44921e63b3301994c14ee16b5e04b2c29de9272f4685c32c'
+app.config["JWT_TOKEN_LOCATION"] = ["headers", "cookies"]
+
+jwt = JWTManager(app)
 
 @app.route('/')
+@jwt_required(optional=True)
 def index():
+  current_identity = get_jwt_identity()
   searchForm = TickerForm()
-  return render_template('index.html', data=None, searchForm=searchForm)
-
-@app.route('/indexCopy')
-def indexCopy():
-  searchForm = TickerForm()
-  return render_template('index_copy.html', data=None, searchForm=searchForm)
+  return render_template('index.html', data=None, searchForm=searchForm, current_identity=current_identity if current_identity else '')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -33,8 +36,11 @@ def login():
     print('Login Form Submitted')
     try:
       user = User.get_user(loginForm.email.data, loginForm.password.data)
+      access_token = create_access_token(identity=user.user_data['localId'])
+      response = redirect(url_for('profile'))
+      set_access_cookies(response, access_token) # type: ignore
       flash('Login Successful!', 'success')
-      return redirect(url_for('index'))
+      return response
     except requests.exceptions.HTTPError:
       flash('Login Unsuccessful. Please check email and password.', 'error')
   return render_template('login.html', data=None, loginForm=loginForm, searchForm=searchForm)
@@ -70,6 +76,7 @@ def resetPassword():
   return render_template('reset_password.html', data=None, resetPasswordForm=resetPasswordForm, searchForm=searchForm)
 
 @app.route('/search', methods=['GET', 'POST'])
+@jwt_required(optional=True)
 def search():
   searchForm = TickerForm()
   data = None
@@ -79,6 +86,7 @@ def search():
   tweets = None
   sentimentData = []
   averageSentiment = None
+  current_identity = get_jwt_identity()
   if searchForm.ticker.data:
     try:
       ticker = searchForm.ticker.data.upper()
@@ -89,27 +97,33 @@ def search():
       news = get_news(ticker)
       tweets, sentimentData, averageSentiment  = getSocialStats(ticker)
       averageSentiment = round(averageSentiment, 2)
-      return render_template('search.html', data=data, searchForm=searchForm, ticker=ticker, finance_analysis=finance_analysis, news=news, tweets=tweets, sentimentData=list(sentimentData), averageSentiment=averageSentiment)
+      return render_template('search.html', data=data, searchForm=searchForm, ticker=ticker, finance_analysis=finance_analysis, news=news, tweets=tweets, sentimentData=list(sentimentData), averageSentiment=averageSentiment, current_identity=current_identity if current_identity else '')
     except Exception as e:
       print(e)
       flash(f'Ticker "{searchForm.ticker.data.upper()}" not found.', 'error')
-  return render_template('search.html', data=data, searchForm=searchForm, ticker=ticker, finance_analysis=finance_analysis, news=news, tweets=tweets, sentimentData=sentimentData, averageSentiment=averageSentiment)
+  return render_template('search.html', data=data, searchForm=searchForm, ticker=ticker, finance_analysis=finance_analysis, news=news, tweets=tweets, sentimentData=sentimentData, averageSentiment=averageSentiment, current_identity=current_identity if current_identity else '')
 
 @app.route('/education')
+@jwt_required(optional=True)
 def educate():
+  current_identity = get_jwt_identity()
   searchForm = TickerForm()
-  return render_template('education.html', data=None, searchForm=searchForm)
+  return render_template('education.html', data=None, searchForm=searchForm, current_identity=current_identity if current_identity else '')
 
 @app.route('/education/<path:path>')
+@jwt_required(optional=True)
 def educatePath(path):
+  current_identity = get_jwt_identity()
   searchForm = TickerForm()
   if path:
-    return render_template(f'education/{path}.html', data=None, searchForm=searchForm)
+    return render_template(f'education/{path}.html', data=None, searchForm=searchForm, current_identity=current_identity if current_identity else '')
   else:
-    return render_template('education.html', data=None, searchForm=searchForm)
+    return render_template('education.html', data=None, searchForm=searchForm, current_identity=current_identity if current_identity else '')
 
 @app.route('/simplify', methods=['GET', 'POST'])
+@jwt_required(optional=True)
 def simplify():
+  current_identity = get_jwt_identity()
   searchForm = TickerForm()
   articleForm = ArticleForm()
   data = None
@@ -119,16 +133,42 @@ def simplify():
       link = investopedia_search(articleForm.topic.data)
       article = investopedia_web_scrape(link)
       summarized_article = summarize(article)
-      return render_template('simplify.html', data=summarized_article, link=link, searchForm=searchForm, articleForm=articleForm)
+      return render_template('simplify.html', data=summarized_article, link=link, searchForm=searchForm, articleForm=articleForm, current_identity=current_identity if current_identity else '')
     except Exception as e:
       print(e)
       flash(f'Article "{articleForm.topic.data}" not found.', 'error')
-  return render_template('simplify.html', data=data, link=link, searchForm=searchForm, articleForm=articleForm)
+  return render_template('simplify.html', data=data, link=link, searchForm=searchForm, articleForm=articleForm, current_identity=current_identity if current_identity else '')
 
-@app.errorhandler(404)
-def not_found(e):
+
+# Login Required Routes
+@app.route('/profile')
+@jwt_required()
+def profile():
   searchForm = TickerForm()
-  return render_template("404.html", deta=None, searchForm=searchForm)
+  user_id = get_jwt_identity()
+  return render_template('profile.html', data=None, searchForm=searchForm, user_id=user_id, current_identity=user_id)
+
+@app.route('/logout')
+@jwt_required()
+def logout():
+  response = redirect(url_for('index'))
+  unset_jwt_cookies(response) # type: ignore  
+  return response
+
+# Error Handling
+@app.errorhandler(404)
+@jwt_required(optional=True)
+def not_found(e):
+  current_identity = get_jwt_identity()
+  searchForm = TickerForm()
+  return render_template("404.html", deta=None, searchForm=searchForm, current_identity=current_identity if current_identity else '')
+
+@app.errorhandler(403) # forbidden
+@jwt_required(optional=True)
+def forbidden(e):
+  current_identity = get_jwt_identity()
+  searchForm = TickerForm()
+  return render_template("403.html", deta=None, searchForm=searchForm, current_identity=current_identity if current_identity else '')
 
 # if __name__ == '__main__':
 #   app.run(debug=True)

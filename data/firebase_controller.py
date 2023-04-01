@@ -35,10 +35,11 @@ def get_user(email, password):
     user = auth.sign_in_with_email_and_password(email, password)
     uid = user['idToken']
     print(f'Successfully fetched user data: {uid}')
-    if not user['emailVerified']:
+    print(user)
+    if not user['registered']:
         print(f'Email not verified. Sending verification email.')
         auth.send_email_verification(uid)
-    return uid
+    return user
 
 def reset_password(email):
     auth.send_password_reset_email(email)

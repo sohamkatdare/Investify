@@ -36,7 +36,9 @@ def index():
   return render_template('index.html', data=None, searchForm=searchForm, current_identity=current_identity if current_identity else '')
 
 @app.route('/login', methods=['GET', 'POST'])
+@jwt_required(optional=True)
 def login():
+  current_identity = get_jwt_identity()
   searchForm = TickerForm()
   loginForm = LoginForm()
 
@@ -51,9 +53,10 @@ def login():
       return response
     except requests.exceptions.HTTPError:
       flash('Login Unsuccessful. Please check email and password.', 'error')
-  return render_template('login.html', data=None, loginForm=loginForm, searchForm=searchForm)
+  return render_template('login.html', data=None, loginForm=loginForm, searchForm=searchForm, current_identity=current_identity if current_identity else '')
 
 @app.route('/register', methods=['GET', 'POST'])
+@jwt_required(optional=True)
 def register():
   searchForm = TickerForm()
   registerForm = RegisterForm()

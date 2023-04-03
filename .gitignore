@@ -23,3 +23,5 @@ htmlcov/
 .coverage.*
 *,cover
 .vercel
+
+static/dist/css/*.css

@@ -44,3 +44,15 @@
         </div>
     </div>
 {%- endmacro %}
+
+{% macro card_graph(title='Card Title', text_gain_loss="Some efjiowwww", text_pct_change="Some efjiowwww", button='Go', buttonLink="#") -%}
+    <div class="card w-96 bg-base-100 shadow-2xl">
+        <div class="card-body">
+        <h2 class="card-title"> {{ title }} </h2>
+        <p class="mb-3 text-3xl"> {{ text_gain_loss }} <span class=" ml-1 text-xl"> {{ text_pct_change }} </span></p>
+        <button class="card-actions justify-center">
+            <a class="btn btn-primary hover:shadow-xl" href="{{ buttonLink }}"> {{ button }} </a>
+        </button>
+        </div>
+    </div>
+{%- endmacro %}

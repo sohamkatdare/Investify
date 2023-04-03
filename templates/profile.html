@@ -2,6 +2,59 @@
 {% block title %}Profile{% endblock title %}
 {% block body %}
 {{ super() }}
-<h1>Profile</h1>
+<div class="container mx-auto px-4">
+  <!-- User avatar and welcome message -->
+  <div class="flex items-center py-6">
+    <img src="https://images.unsplash.com/photo-1511367461989-f85a21fda167?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cHJvZmlsZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60" alt="User avatar" class="h-16 aspect-square rounded-full bg-contain">
+    <h1 class="ml-3 font-bold text-6xl">Welcome, <span class="gradient-text">[Username Here]!</span></h1>
+  </div>
+
+  <!-- Paper trading simulations -->
+  <div class="my-6">
+    {{ 
+      macros.card_graph(title='Paper Trading Simulation #1',
+                  text_gain_loss='$315.31',
+                  text_pct_change='13.1%',
+                  button='Go to Simulation',
+                  buttonLink='#'
+      )
+    }}
+    <div class="card card-primary">
+      <div class="card-body">
+        <h2 class="card-title">Paper Trading Simulations</h2>
+        <h3 class="text-6xl">[Total Gain/Loss]</h3>
+        <div id="simulation-chart" class="w-16 h-12"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Favorited stocks -->
+  <div class="my-6">
+    <div class="card card-primary">
+      <div class="card-body">
+        <h2 class="card-title">Favorited Stocks</h2>
+        <div id="stocks-list" class="max-h-[300px] overflow-y-scroll">
+          <!-- Populate the list of stocks dynamically -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chatbot conversations -->
+  <div class="my-6">
+    <div class="card card-primary">
+      <div class="card-body">
+        <h2 class="card-title">Chatbot Conversations</h2>
+        <div id="conversations-list">
+          <!-- Populate the list of conversations dynamically -->
+          <div class="card card-primary">
+            <h2 class="card-title">Example Convo Title</h2>
+            <p class="overflow-none w-full h-full">kasdfjfehu sdfhjksdhui sdfhuisdhui sdfuh sdfhui sdfhui sdf sdfhuio ehuiop wehuiop aehuipf fu8pasdh  ihua sdfihu isdf hupa sduipah sdfhuipa sdfhuipa asdfhuip uipasdf h sdhf ihug</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock body %}
 {% block results %}{% endblock results %}

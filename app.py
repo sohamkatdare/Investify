@@ -1,6 +1,7 @@
-from flask import Flask, render_template, flash, redirect, url_for, request, jsonify
+from flask import Flask, render_template, flash, redirect, url_for
 from functools import wraps
 import requests
+import datetime
 from flask_jwt_extended import JWTManager, jwt_required, create_access_token, set_access_cookies, unset_jwt_cookies, get_jwt_identity
 
 from forms import LoginForm, RegisterForm, ResetPasswordForm, TickerForm, ArticleForm
@@ -20,6 +21,13 @@ app.config["JWT_TOKEN_LOCATION"] = ["headers", "cookies"]
 
 jwt = JWTManager(app)
 
+@jwt.expired_token_loader
+def my_expired_token_callback(jwt_header, jwt_payload):
+  response = redirect(url_for('login'))
+  unset_jwt_cookies(response)
+  flash('Login session has expired. Please login again.', 'error')
+  return response
+
 @app.route('/')
 @jwt_required(optional=True)
 def index():
@@ -36,7 +44,7 @@ def login():
     print('Login Form Submitted')
     try:
       user = User.get_user(loginForm.email.data, loginForm.password.data)
-      access_token = create_access_token(identity=user.user_data['localId'])
+      access_token = create_access_token(identity=user.user_data['localId'], expires_delta=datetime.timedelta(days=1))
       response = redirect(url_for('profile'))
       set_access_cookies(response, access_token) # type: ignore
       flash('Login Successful!', 'success')

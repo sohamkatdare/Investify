@@ -23,96 +23,117 @@
   </div>
 </form>
 {% endblock body %}
-
+{{ super()}}
 {% block results %}
-{{ super() }}
+
 {% if data != None %}
 <div id="data">
   {% if noResults %}
    <h3 class="text-center text-5xl font-bold text-primary">No Results</h3>
   {% else %}
   <!-- <div class="h-screen w-screen grid "></div> -->
-  <h1 class="text-5xl text-primary mt-10 mb-10"><strong>{{ ticker }}</strong> Monthly Aggregate Data from {{ data[0][0][0] }} to {{ data[0][0][1] }}</h1>
-  <div class="card bg-base-100 shadow-xl mx-auto w-[900px] h-[500px]" id="candle_div"></div>
-  {% set showTable = false %}
-  <button class="btn w-full border-3 border-primary/50 btn-ghost p-[18px]" url_for="">Open Section 1</button>
-  <table class="table table-normal table-zebra w-full overflow-hidden max-h-0">
-    <thead class="hover:bg-primary">
-      <tr class="hover:bg-primary">
-        <th scope="col">Date</th>
-        <th scope="col">Volume</th>
-        <th scope="col">Volume Weighted Average</th>
-        <th scope="col">Open</th>
-        <th scope="col">Close</th>
-        <th scope="col">Low</th>
-        <th scope="col">High</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for i in range((data[0][2]).__len__()) %}
-      <tr class="hover">
-        <td>{{ data[0][1][i] }}</td>
-        <td>{{ data[0][2]['volume'][i] }}</td>
-        <td>{{ data[0][2]['vwap'][i] }}</td>
-        <td>{{ data[0][2]['open'][i] }}</td>
-        <td>{{ data[0][2]['close'][i] }}</td>
-        <td>{{ data[0][2]['low'][i] }}</td>
-        <td>{{ data[0][2]['high'][i] }}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-
-  {% if finance_analysis %}
-    <h1 class="text-5xl text-primary mt-10 mb-10">Financial Analysis</h1>
-    <h3 class="text-xl mt-10 mb-10 text-center">\[P/E=\frac{\text{Share price}}{\text{Earnings per
-      share}}={{finance_analysis['PE Ratio (TTM)']}}\]</h3>
-    <h3 class="text-xl mt-10 mb-10 text-center">\[EPS=\frac{\text{Net income}-\text{Dividends on preferred
-      stock}}{\text{Average outstanding common shares}}={{finance_analysis['EPS (TTM)']}}\]</h3>
-    <h3 class="text-xl mt-10 mb-10 text-center">\[Composite\;Score=\frac{\text{Earnings before Interest and
-      Taxes}}{\text{Net Fixed Assets}-\text{Working Capital}}={{finance_analysis['Composite Indicator']}}\]</h3>
-  {% endif %}
-
-  {% if averageSentiment %} <!--If no tweets found on company.-->
-    <h1 class="text-5xl text-primary mt-10 mb-10">Sentiment Analysis</h1>
-    <h3 class="text-xl mt-10 mb-10 text-center">Average Sentiment: {{ averageSentiment }}</h3>
-
-    {% if tweets %}
-      <h1 class="text-5xl mt-10 mb-10">Tweets:</h1>
-      <div class="flex flex-col gap-y-10 md:gap-x-10 md:flex-row md:flex-wrap justify-center">
-        <!-- {{ tweet }} -->
-        {% for tweet in tweets %}
-        {{ macros.card(
-        title = tweet.user.name,
-        text = ' https'.join(tweet.text.split(' https')[:-1]),
-        button = 'Go to Tweet',
-        buttonLink = 'https'+tweet.text.split('https')[-1],
-        button_external = True,
-        verified_tweet = True
-        ) }}
-        {% endfor %}
-      </div>
-    {% endif %}
-    {% if news %}
+  <h1 class="text-5xl text-white mt-10 mb-10"><strong class="gradient-text">{{ ticker }}</strong> Monthly Aggregate Data from {{ data[0][0][0] }} to {{ data[0][0][1] }}</h1>
+  <div class="grid grid-cols-12 grid-rows-1 h-min max-h-max w-full p-4 -translate-x-44">
+    <div class="grid col-span-9">
+      <!-- graph -->
+      <div class="card bg-base-100 shadow-xl mx-auto w-full h-full min-h-[44rem] border border-1 border-white/[0.1] " id="candle_div"></div>
+      <!-- sentiment score -->
+      {% if averageSentiment %} <!--If no tweets found on company.-->
+        <h1 class="text-5xl gradient-text mt-10 mb-10">Sentiment Analysis</h1>
+        <h3 class="text-xl mt-10 mb-10 text-center">Average Sentiment: {{ averageSentiment }}</h3>
+        <!-- tweets -->
+        {% if tweets %}
+        <h1 class="text-5xl mt-10 mb-10">Tweets:</h1>
+        <div class="flex flex-col gap-y-10 md:gap-x-10 md:flex-row md:flex-wrap justify-center">
+          <!-- {{ tweet }} -->
+          {% for tweet in tweets %}
+            {{ macros.card(
+            title = tweet.user.name,
+            text = ' https'.join(tweet.text.split(' https')[:-1]),
+            button = 'Go to Tweet',
+            buttonLink = 'https'+tweet.text.split('https')[-1],
+            button_external = True,
+            verified_tweet = True
+            ) }}
+          {% endfor %}
+        </div>
+      {% endif %}
+      <!-- news -->
+      {% if news %}
       <h1 class="text-5xl mt-10 mb-10">News:</h1>
       <div class="flex flex-col gap-y-10 md:gap-x-10 md:flex-row md:flex-wrap justify-center">
         <!-- {{ news }} -->
         {% for article in news %}
-        {{ macros.card(
-        title = article.title,
-        text = '',
-        button = 'Go to Article',
-        buttonLink = article.link,
-        button_external = True,
-        verified_tweet = True
-        ) }}
+          {{ macros.card(
+          title = article.title,
+          text = '',
+          button = 'Go to Article',
+          buttonLink = article.link,
+          button_external = True,
+          verified_tweet = True
+          ) }}
         {% endfor %}
       </div>
     {% endif %}
-    <h1 class="text-5xl mt-10 mb-10">Plots:</h1>
-    <div class="card bg-base-100 shadow-xl mx-auto" id="sentiment_div" style="width: 900px; height: 500px;"></div>
-    <img class="card bg-base-100 shadow-xl mx-auto" src="{{ url_for('static', filename='wordcloud.png') }}"
-      alt="wordcloud">
+    </div>
+    <div class="grid col-span-3">
+      <!-- stoc score -->
+        {% if finance_analysis %}
+          <h1 class="text-5xl text-primary mt-10 mb-10">Financial Analysis</h1>
+          <h3 class="text-xl mt-10 mb-10 text-center">\[P/E=\frac{\text{Share price}}{\text{Earnings per
+            share}}={{finance_analysis['PE Ratio (TTM)']}}\]</h3>
+          <h3 class="text-xl mt-10 mb-10 text-center">\[EPS=\frac{\text{Net income}-\text{Dividends on preferred
+            stock}}{\text{Average outstanding common shares}}={{finance_analysis['EPS (TTM)']}}\]</h3>
+          <h3 class="text-xl mt-10 mb-10 text-center">\[Composite\;Score=\frac{\text{Earnings before Interest and
+            Taxes}}{\text{Net Fixed Assets}-\text{Working Capital}}={{finance_analysis['Composite Indicator']}}\]</h3>
+        {% endif %}
+      <!-- table -->
+      {% set showTable = false %}
+      <!-- <button class="btn w-full border-3 border-primary/50 btn-ghost p-[18px]" url_for="">Open Section 1</button> -->
+      <table class="table table-normal table-zebra w-full overflow-hidden max-h-0">
+        <thead class="hover:bg-primary">
+          <tr class="hover:bg-primary">
+            <th scope="col">Date</th>
+            <th scope="col">Volume</th>
+            <th scope="col">Vol. Wt. Avg.</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for i in range((data[0][2]).__len__()) %}
+          <tr class="hover">
+            <td>{{ data[0][1][i] }}</td>
+            <td>{{ data[0][2]['volume'][i] }}</td>
+            <td>{{ data[0][2]['vwap'][i] }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <table class="table table-normal table-zebra w-full overflow-hidden max-h-0">
+        <thead class="hover:bg-primary">
+          <tr class="hover:bg-primary">
+            <th scope="col">Open</th>
+            <th scope="col">Close</th>
+            <th scope="col">Low</th>
+            <th scope="col">High</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for i in range((data[0][2]).__len__()) %}
+          <tr class="hover">
+            <td>{{ data[0][2]['open'][i] }}</td>
+            <td>{{ data[0][2]['close'][i] }}</td>
+            <td>{{ data[0][2]['low'][i] }}</td>
+            <td>{{ data[0][2]['high'][i] }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+</div>
+ 
+  
+  
+
+ 
   {% endif %}
   {% endif %}
 </div>

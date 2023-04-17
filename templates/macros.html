@@ -1,5 +1,5 @@
 {% macro bootstrapcard(title='Card Title', text="Some quick example text to build on the card title and make up the bulk of the card's content.", button='Go Somewhere', buttonLink='#', cardClasses='', buttonClasses='') -%}
-    <div class="card {{ cardClasses }}">
+    <div class="card {{ cardClasses }} hover:shadow-2xl hover:drop-shadow-2xl hover:translate-y-[-2rem] transition-all">
         <!-- Add Image Macro if Required. -->
         <!-- <img src="..." class="card-img-top" alt="..."> -->
         <div class="card-body">
@@ -24,7 +24,7 @@
     </section>
 {%- endmacro %}
 {% macro card(title='Card Title', text="Some efjiowwww", button='Go', buttonLink="#", button_external=True, verified_tweet=True) -%}
-    <div class="card w-96 bg-base-100 shadow-2xl">
+    <div class="card w-96 bg-base-100 hover:shadow-2xl hover:drop-shadow-2xl hover:translate-y-[-2rem] transition-all">
         <div class="card-body">
         <h2 class="card-title">{{ title }}
             {% if verified_tweet != '' %}
@@ -35,7 +35,7 @@
             <p class="mb-3">{{ text }}</p>
         {% endif %}
         <button class="card-actions justify-center">
-            <a class="btn btn-primary hover:shadow-xl" href="{{ buttonLink }}">{{ button }}   
+            <a class="btn btn-primary gradient-bg hover:shadow-xl" href="{{ buttonLink }}" {% if button_external != '' %} target="_blank" {% endif %}>{{ button }}   
                 {% if button_external != '' %}   
                     <i class="ml-2 fas fa-external-link-alt inline-block justify-end"></i>
                 {% endif %}
@@ -46,7 +46,7 @@
 {%- endmacro %}
 
 {% macro card_graph(title='Card Title', text_gain_loss="Some efjiowwww", text_pct_change="Some efjiowwww", button='Go', buttonLink="#") -%}
-    <div class="card w-96 bg-base-100 shadow-2xl">
+    <div class="card w-96 bg-white/[0.075] hover:shadow-2xl hover:drop-shadow-2xl hover:translate-y-[-2rem] transition-all">
         <div class="card-body">
         <h2 class="card-title"> {{ title }} </h2>
         <p class="mb-3 text-3xl"> {{ text_gain_loss }} <span class=" ml-1 text-xl"> {{ text_pct_change }} </span></p>
@@ -57,7 +57,7 @@
         <figure>
             <!-- <img src="https://picsum.photos/seed/picsum/200/300" alt="Image"> -->
             <!-- stock graph from google charts hur -->
-            <img src="https://quickchart.io/chart?c={type:'line',data:{labels:['January','February','March','April','May','June','July'],datasets:[{label:'My First dataset',fill:false,borderColor:'rgb(75, 192, 192)',data:[0,10,5,2,20,30,45]}]}}" alt="Image">
+            <img src="https://quickchart.io/chart?c={type:'line',data:{labels:['January','February','March','April','May','June','July'],datasets:[{label:'Paper Trading Game',fill:false,borderColor:'rgb(75, 192, 192)',data:[0,10,5,2,20,30,45]}]}}" alt="Image" class="p-4 bg-base-100">
         </figure>
     </div>
 {%- endmacro %}

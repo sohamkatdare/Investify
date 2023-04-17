@@ -32,8 +32,11 @@
     
   </div>
 
+  <div class="divider"></div>
+
+
   <div class="grid items-top w-[94%] p-[3%] grid-cols-2 container-fluid mx-10 text-black rounded-lg h-[80vh]">
-    <div class="about_content mx-4 pt-11 mt-[9rem] lg:pt-15 lg:pb-15 col-span-1 translate-y-[-8rem] text-white">
+    <div class="about_content pt-11 pl-24 mt-[9rem] lg:pt-15 lg:pb-15 col-span-1 translate-y-[-8rem] order-1 text-white">
         <div class="pb-9">
             <h5 class="gradient-text-alt text-5xl font-semibold mb-4">Why Choose Us</h5>
             <h4 class="">Your Goal is Our Achievement</h4>
@@ -66,9 +69,9 @@
             </li>
         </ul>
     </div> <!-- about content -->
-    <div class="h-full col-span-1">
+    <div class="h-full col-span-1 pr-20 translate-y-20">
       <div class="relative bg-primary w-full grid justify-center">
-        <img class="absolute w-full top-0 z-[2]" src="{{url_for('static', filename='assets/images/about.svg')}}" alt="about"/>
+        <img class="absolute w-full top-0 z-[2] order-0" src="{{url_for('static', filename='assets/images/about.svg')}}" alt="about"/>
           </div>
         </div>
       </div>
@@ -77,8 +80,8 @@
 
     <!--====== ABOUT PART ENDS ======-->
 
-    <div class="grid lg:grid-cols-3 grid-rows-3 p-[3%] items-top justify-stretch m-0  translate-x-8 gap-x-[5%] w-[94%]  ">
-        <div class=" min-w-max max-w-full p-[3%] row-span-1 lg:col-span-1 mt-16 text-white rounded-lg min-h-max bg-gradient-to-bl from-fuchsia-500 to-pink-500">
+    <div class="grid lg:grid-cols-3 max-lg:grid-rows-3 p-[3%] items-top justify-stretch m-0 translate-x-8 gap-x-[5%] w-[94%]  ">
+        <div class=" min-w-max max-w-full p-[3%] row-span-1 lg:col-span-1 mt-16 text-white rounded-lg min-h-min bg-gradient-to-bl from-fuchsia-500 to-pink-500">
             <div class="overflow-x-auto">
                 <div class="pb-9">
                     <h5 class="sub_title font-bold text-2xl text-magenta-500">Daily Top Gainers</h5>
@@ -161,7 +164,7 @@
                 </table>
               </div>
           </div>
-        <div class=" min-w-max max-w-full p-[3%] row-span-1 lg:col-span-1 mt-16 text-white rounded-lg min-h-max bg-gradient-to-bl from-purple-500 to-pink-500">
+        <div class=" min-w-max max-w-full p-[3%] row-span-1 lg:col-span-1 mt-16 text-white rounded-lg min-h-min bg-gradient-to-bl from-purple-500 to-pink-500">
             <div class="overflow-x-auto">
                 <div class="pb-9">
                     <h5 class="sub_title font-bold text-2xl text-magenta-500">Daily Top Losers</h5>
@@ -244,7 +247,7 @@
                 </table>
               </div>
           </div>
-        <div class=" min-w-max max-w-full p-[3%] row-span-1 lg:col-span-1 mt-16 text-white rounded-lg min-h-max bg-gradient-to-bl from-purple-500 to-pink-500">
+        <div class=" min-w-max max-w-full p-[3%] row-span-1 lg:col-span-1 mt-16 text-white rounded-lg min-h-min bg-gradient-to-bl from-purple-500 to-pink-500">
             <div class="overflow-x-auto">
                 <div class="pb-9">
                     <h5 class="sub_title font-bold text-2xl text-magenta-500">Daily Top Movers</h5>
@@ -331,7 +334,23 @@
 
       
 
-      
+      <div class="divider"></div>
+
+
+      <div class="grid items-center w-[94%] p-[3%] grid-cols-2 container-fluid mx-6 text-black rounded-lg h-[100vh]">
+        <div class="h-full col-span-1 content-center items-center order-1">
+            <div class="relative bg-primary w-full grid items-center">
+                <img class="w-full z-[2] rounded-lg" src="{{url_for('static', filename='assets/images/work-2.jpg')}}" alt="Header Image"/>
+            </div>
+        </div>
+        <div class="col-span-1 text-center order-0 -translate-y-20 mr-10">
+            <h1 class="text-5xl font-bold text-white leading-tight mx-10">Upgrade your  <br> financial literacy <span class="gradient-text">NOW.</span> </strong></h1> <br>
+            <a class="btn btn-round-lg text-white gradient-bg" href="education/statistics">
+              Get Started
+            </a>
+        </div>
+    </div>
+
 
 
     <!-- <div class="m-4 tabs">
@@ -340,7 +359,7 @@
         <button class="tab tab-lg tab-lifted">Tab 3</button>
       </div> -->
     <!--====== SERVICES PART START ======-->
-    <div class="rounded-lg bg-gradient-to-r from-pink-500 to-purple-500 p-4 mt-24 mb-16 w-[94%] p-[3%] mx-10" style="overflow-anchor: none;">
+    <div class=" bg-gradient-to-r from-pink-500 to-purple-500 mt-24 mb-8 w-[98.65vw] -translate-x-5 -translate-y-40" style="overflow-anchor: none;">
         <div class="flex justify-center gap-5 py-2">
           <a href="#item1" class="btn btn-xs carousel-link" style="overflow-anchor: none;">Stocks</a> 
           <a href="#item2" class="btn btn-xs carousel-link" style="overflow-anchor: none;">Options</a> 
@@ -348,40 +367,40 @@
           <a href="#item4" class="btn btn-xs carousel-link" style="overflow-anchor: none;">OTC</a>
           <a href="#item5" class="btn btn-xs carousel-link" style="overflow-anchor: none;">Crypto</a>
         </div>
-        <div class="carousel w-full mx-7 h-15">
+        <div class="carousel w-[90vw] h-28 mx-auto py-4">
           <div id="item1" class="carousel-item w-full bg-black/25 rounded-lg p-2">
-            <img src = "https://wbstatic.webullfintech.com/v1/webull-us-g/assets/cdc36ef247a881c0159e7218118e3bfa.png"/>
+            <img src = "{{url_for('static', filename='assets/images/candlestick-chart.png')}}" class="w-14 aspect-square"/>
             <div class="grid grid-rows-2">
-                <h1 class="text-6xl font-bold text-white leading-tight px-8 row-span-1">Stocks</h1>
-                <p class="row-span-1 px-8">Invest in thousands of companies and fractional shares with as little as $5 using our trading tools and analytics to create your own financial portfolio.</p>
+                <h1 class="text-5xl font-bold text-white leading-tight px-8 row-span-1">Stocks</h1>
+                <p class="row-span-1 px-8 inline translate-x-56 ">Invest in thousands of companies and fractional shares using our analytics to create your own financial portfolio.</p>
             </div>
           </div> 
           <div id="item2" class="carousel-item w-full bg-black/25 rounded-lg p-2">
-            <img src = "https://wbstatic.webullfintech.com/v1/webull-us-g/assets/a1568e16db1b21caac3be543fb4d8fed.png"/>
+            <img src = "{{url_for('static', filename='assets/images/chart.png')}}" class="w-14 aspect-square"/>
             <div class="grid grid-rows-2">
-                <h1 class="text-6xl font-bold text-white leading-tight px-8 row-span-1">Options</h1>
-                <p class="row-span-1 px-8">Options provide a strategic alternative to just investing in equity.</p>
+                <h1 class="text-5xl font-bold text-white leading-tight px-8 row-span-1">Options</h1>
+                <p class="row-span-1 px-8 inline translate-x-60">Options provide a strategic alternative to just investing in equity.</p>
             </div>
           </div> 
           <div id="item3" class="carousel-item w-full bg-black/25 rounded-lg p-2">
-            <img src = "https://wbstatic.webullfintech.com/v1/webull-us-g/assets/cc026886997a4740b3d492e7ee677697.png"/>
+            <img src = "{{url_for('static', filename='assets/images/etf.png')}}" class="w-14 aspect-square"/>
             <div class="grid grid-rows-2">
-                <h1 class="text-6xl font-bold text-white leading-tight px-8 row-span-1">ETFs</h1>
-                <p class="row-span-1 px-8">Diversify your holdings by investing into a group of stocks with the same convenience as trading a single stock.</p>
+                <h1 class="text-5xl font-bold text-white leading-tight px-8 row-span-1">ETFs</h1>
+                <p class="row-span-1 px-8 inline translate-x-40">Diversify your holdings by investing into a group of stocks with the same convenience as trading a single stock.</p>
             </div>
           </div>  
           <div id="item4" class="carousel-item w-full bg-black/25 rounded-lg p-2">
-            <img src = "https://wbstatic.webullfintech.com/v1/webull-us-g/assets/95cf2c683700599345a0aa4fa8999ec3.png"/>
+            <img src = "{{url_for('static', filename='assets/images/cycle.png')}}" class="w-14 aspect-square"/>
             <div class="grid grid-rows-2">
-                <h1 class="text-6xl font-bold text-white leading-tight px-8 row-span-1">OTC</h1>
-                <p class="row-span-1 px-8">Get a better understanding of what OTCs are and how you can invest in OTCs with Webull.</p>
+                <h1 class="text-5xl font-bold text-white leading-tight px-8 row-span-1">OTC</h1>
+                <p class="row-span-1 px-8 inline translate-x-40">Get a better understanding of what OTCs are and how you can invest in OTCs with Webull.</p>
             </div>
           </div> 
           <div id="item5" class="carousel-item w-full bg-black/25 rounded-lg p-2">
-            <img src = "https://wbstatic.webullfintech.com/v1/webull-us-g/assets/726e0d0ae9fc3a128e7b24c1b5602bec.png"/>
+            <img src = "{{url_for('static', filename='assets/images/bitcoin.png')}}" class="w-14 aspect-square"/>
             <div class="grid grid-rows-2">
-                <h1 class="text-6xl font-bold text-white leading-tight px-8 row-span-1">Crypto</h1>
-                <p class="row-span-1 px-8">Diversify your holdings by investing in digital currencies including Bitcoin, Ethereum, Bitcoin Cash and Litecoin.</p>
+                <h1 class="text-5xl font-bold text-white leading-tight px-8 row-span-1">Crypto</h1>
+                <p class="row-span-1 px-8 inline translate-x-56">Diversify your holdings by investing in digital currencies including Bitcoin, Ethereum, Bitcoin Cash and Litecoin.</p>
             </div>
           </div> 
         </div>
@@ -398,47 +417,17 @@
             });
         </script>
 
-<div class="grid items-center w-[94%] p-[3%] grid-cols-2 container-fluid mx-6 text-black rounded-lg h-[100vh]">
+<div class="grid items-center w-[94%] p-[3%] grid-cols-2 container-fluid mx-6 text-black rounded-lg h-[80vh]">
     <div class="h-full col-span-1 content-center items-center">
-        <div class="relative bg-primary w-full grid items-center">
-            <img class="w-full z-[2] rounded-lg" src="https://media.tenor.com/exgclov4x-wAAAAd/tree-money.gif" alt="Header Image"/>
+        <div class="relative bg-transparent w-full grid items-center">
+            <img class="w-full z-[2] rounded-lg  bg-transparent" src="{{url_for('static', filename='assets/images/work-4.png')}}" alt="Header Image"/>
         </div>
     </div>
     <div class="col-span-1 text-center">
         <h1 class="text-5xl font-bold text-white leading-tight mx-10">Start a paper trading <br> account <span class="gradient-text">NOW.</span> </strong></h1> <br>
     </div>
 </div>
-    <!--====== SERVICES PART ENDS ======-->
-
-    <!--====== SERVICES PART ENDS ======-->
-
-    <!--====== WORK PART START ======-->
-
-   
-
-
-
-    <a href="#" class="scroll-top"><i class="lni lni-chevron-up"></i></a>
-
-
-<!--
-    <section class="">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-">
-                    
-                </div>
-            </div>
-        </div>
-    </section>
--->
-
-    <!--====== PART ENDS ======-->
-
-
-
-
-    <!--====== Tiny Slider js ======-->
+ 
     
 
 {% endblock wholebody %}

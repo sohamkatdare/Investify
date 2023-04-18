@@ -1,7 +1,7 @@
 {% extends "template.html" %}
 {% block title %}Home{% endblock title %}
 {% block pageTitle %}Search{% endblock pageTitle %}
-{% block body %}
+{% block search_body %}
 {{ super() }}
 <form class="form-control min-w-full ml-2" role="search" method="POST" action="" autocapitalize="characters"
   autocomplete="off">
@@ -22,12 +22,12 @@
     </button>
   </div>
 </form>
-{% endblock body %}
+{% endblock search_body %}
 {{ super()}}
-{% block results %}
+{% block search_results %}
 
 {% if data != None %}
-<div id="data">
+<div id="data" class="w-screen">
   {% if noResults %}
    <h3 class="text-center text-5xl font-bold gradient-text">No Results</h3>
   {% else %}
@@ -137,8 +137,9 @@
   {% endif %}
   {% endif %}
 </div>
+</div>
 {% endif %}
-{% endblock results %}
+{% endblock search_results %}
 
 {% block script %}
 <script type="text/javascript">

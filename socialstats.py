@@ -29,10 +29,12 @@ def getSocialStats(ticker):
     # for tweet in tweets[:5]:
     #     print(tweet.text)
 
-    own_tweets = [tweet for tweet in tweets if tweet.retweeted == False and "RT @" not in tweet.text]
+    own_tweets = [tweet for tweet in tweets if tweet.retweeted == False and "RT @" not in tweet.text and tweet.author.name != "Nour Trades 🧘‍♂️"]
     # print('\n\n\nOwn Tweets')
-    # for tweet in own_tweets[:5]:
-    #     print(tweet.text)
+    # for tweet in own_tweets[:6]:
+    #     if tweet.author == "Nour Trades":
+            
+
 
     df = pd.DataFrame(data=[[tweet.created_at, tweet.text, len(tweet.text), tweet.id, tweet.favorite_count, tweet.retweet_count] for tweet in own_tweets], columns=['Date', 'Tweet', 'Length', 'ID', 'Likes', 'Retweets'])
 
@@ -74,7 +76,7 @@ def getSocialStats(ticker):
     plt.savefig('static/wordcloud.png', facecolor=plt.gca().get_facecolor())
     # # plt.show()
 
-    return [i for i in own_tweets if len(i.text.split(' ')) > 15][:5], df, df.loc[:, 'Sentiment'].mean()
+    return [i for i in own_tweets if len(i.text.split(' ')) > 15][:6], df, df.loc[:, 'Sentiment'].mean()
 
 if __name__ == '__main__':
     print(getSocialStats('MSFT'))

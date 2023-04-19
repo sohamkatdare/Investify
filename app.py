@@ -54,7 +54,7 @@ def login():
       return response
     except requests.exceptions.HTTPError:
       flash('Login Unsuccessful. Please check email and password.', 'error')
-  return render_template('login.html', data=None, loginForm=loginForm, searchForm=searchForm, current_identity=current_identity if current_identity else '')
+  return render_template('login.html', data=None, loginForm=loginForm, searchForm=searchForm, current_identity=current_identity if current_identity else '', is_search=False)
 
 @app.route('/register', methods=['GET', 'POST'])
 @jwt_required(optional=True)
@@ -70,7 +70,7 @@ def register():
       return redirect(url_for('login'))
     except requests.exceptions.HTTPError:
       flash('Email already exists. Please log in or register using a different email.', 'error') 
-  return render_template('register.html', data=None, registerForm=registerForm, searchForm=searchForm)
+  return render_template('register.html', data=None, registerForm=registerForm, searchForm=searchForm, is_search=False)
 
 @app.route('/reset-password', methods=['GET', 'POST'])
 def resetPassword():
@@ -85,11 +85,42 @@ def resetPassword():
       return redirect(url_for('login'))
     except requests.exceptions.HTTPError:
       flash('Email does not exist. Please register.', 'error')
-  return render_template('reset_password.html', data=None, resetPasswordForm=resetPasswordForm, searchForm=searchForm)
+  return render_template('reset_password.html', data=None, resetPasswordForm=resetPasswordForm, searchForm=searchForm, is_search=False)
 
 @app.route('/search', methods=['GET', 'POST'])
 @jwt_required(optional=True)
 def search():
+  searchForm = TickerForm()
+  data = None
+  ticker = None
+  finance_analysis = {}
+  news = None
+  tweets = None
+  insider_data = None
+  sentimentData = []
+  averageSentiment = None
+  current_identity = get_jwt_identity()
+  if searchForm.ticker.data:
+    try:
+      ticker = searchForm.ticker.data.upper()
+      prevAggs = getStockData(ticker)
+      data = [prevAggs]
+      # pe_ratio, eps = get_pe_and_eps(ticker)
+      # finance_analysis = {'PE Ratio (TTM)': pe_ratio, 'EPS (TTM)': eps, 'Composite Indicator': get_composite_score(ticker)}
+      news = get_news(ticker)
+      tweets, sentimentData, averageSentiment  = getSocialStats(ticker)
+      averageSentiment = round(averageSentiment, 2)
+      insider_data = scrape_insider_data(ticker)
+      print(insider_data)
+      return render_template('search.html', is_search=True, data=data, searchForm=searchForm, ticker=ticker, finance_analysis=finance_analysis, news=news, tweets=tweets, sentimentData=list(sentimentData), averageSentiment=averageSentiment, current_identity=current_identity if current_identity else '', insider_data=insider_data)
+    except Exception as e:
+      print(e)
+      flash(f'Ticker "{searchForm.ticker.data.upper()}" not found.', 'error')
+  return render_template('search.html', is_search=True, data=data, searchForm=searchForm, ticker=ticker, finance_analysis=finance_analysis, news=news, tweets=tweets, sentimentData=sentimentData, averageSentiment=averageSentiment, current_identity=current_identity if current_identity else '', insider_data=insider_data)
+
+@app.route('/paper-trading-search', methods=['GET', 'POST'])
+@jwt_required()
+def papertradingsearch():
   searchForm = TickerForm()
   data = None
   ticker = None
@@ -123,7 +154,7 @@ def search():
 def educate():
   current_identity = get_jwt_identity()
   searchForm = TickerForm()
-  return render_template('education.html', data=None, searchForm=searchForm, current_identity=current_identity if current_identity else '')
+  return render_template('education.html', data=None, searchForm=searchForm, current_identity=current_identity if current_identity else '', is_search=False)
 
 @app.route('/education/<path:path>')
 @jwt_required(optional=True)
@@ -133,7 +164,7 @@ def educatePath(path):
   if path:
     return render_template(f'education/{path}.html', data=None, searchForm=searchForm, current_identity=current_identity if current_identity else '')
   else:
-    return render_template('education.html', data=None, searchForm=searchForm, current_identity=current_identity if current_identity else '')
+    return render_template('education.html', data=None, searchForm=searchForm, current_identity=current_identity if current_identity else '', is_search=False)
 
 @app.route('/simplify', methods=['GET', 'POST'])
 @jwt_required(optional=True)
@@ -163,7 +194,16 @@ def profile():
   user_id = get_jwt_identity()
   print(user_id)
   user = User.get_user_by_email(user_id)
-  return render_template('profile.html', data=None, searchForm=searchForm, user_id=user_id, current_identity=user_id, user=user)
+  return render_template('profile.html', data=None, searchForm=searchForm, user_id=user_id, current_identity=user_id, user=user, is_search=False)
+
+@app.route('/paper-trading')
+@jwt_required()
+def papertrading():
+  searchForm = TickerForm()
+  user_id = get_jwt_identity()
+  print(user_id)
+  user = User.get_user_by_email(user_id)
+  return render_template('profile.html', data=None, searchForm=searchForm, user_id=user_id, current_identity=user_id, user=user, is_search=False)
 
 @app.route('/logout')
 @jwt_required()
@@ -178,14 +218,14 @@ def logout():
 def not_found(e):
   current_identity = get_jwt_identity()
   searchForm = TickerForm()
-  return render_template("404.html", deta=None, searchForm=searchForm, current_identity=current_identity if current_identity else '')
+  return render_template("404.html", deta=None, searchForm=searchForm, current_identity=current_identity if current_identity else '', is_search=False)
 
 @app.errorhandler(403) # forbidden
 @jwt_required(optional=True)
 def forbidden(e):
   current_identity = get_jwt_identity()
   searchForm = TickerForm()
-  return render_template("403.html", deta=None, searchForm=searchForm, current_identity=current_identity if current_identity else '')
+  return render_template("403.html", deta=None, searchForm=searchForm, current_identity=current_identity if current_identity else '', is_search=False)
 
 # if __name__ == '__main__':
 #   app.run(debug=True)

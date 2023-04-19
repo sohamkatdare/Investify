@@ -43,22 +43,6 @@
 </head>
 
 <body class="leading-normal tracking-normal m-6 bg-cover bg-fixed overflow-x-hidden" data-theme="forest" style="background-image: url('header.png');">
-  <div class="preloader">
-    <div class="loader">
-        <div class="ytp-spinner">
-            <div class="ytp-spinner-container">
-                <div class="ytp-spinner-rotator">
-                    <div class="ytp-spinner-left">
-                        <div class="ytp-spinner-circle"></div>
-                    </div>
-                    <div class="ytp-spinner-right">
-                        <div class="ytp-spinner-circle"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-  </div>
   <nav class="navbar bg-base-100/[0.35] backdrop-blur-sm z-10 fixed top-0">
     <div class="flex-1">
       <a class="flex items-center text-indigo-400 no-underline hover:no-underline font-bold text-2xl lg:text-4xl" href="/">
@@ -134,42 +118,42 @@
       <div class="container mx-auto my-3">
         {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
-        {% for category, message in messages %}
-        {% if category == 'success' %}
-        <div class="alert bg-success/[0.625] shadow-lg">
-          <div>
-            <svg xmlns="http://www.w3.org/2000/svg" class="stroke-success-content flex-shrink-0 h-6 w-6" fill="none"
-              viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            <span class="text-black">{{ message }}</span>
-          </div>
-        </div>
-        {% elif category == 'error' %}
-        <div class="alert bg-error/[0.625] shadow-lg">
-          <div>
-            <svg xmlns="http://www.w3.org/2000/svg" class="stroke-error-content flex-shrink-0 h-6 w-6" fill="none"
-              viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            <span class="text-black">{{ message }}</span>
-          </div>
-        </div>
-        {% elif category == 'warning' %}
-        <div class="alert bg-warning/[0.625] shadow-lg">
-          <div>
-            <svg xmlns="http://www.w3.org/2000/svg" class="stroke-warning-content flex-shrink-0 h-6 w-6" fill="none"
-              viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-            </svg>
-            <span class="text-black">{{ message }}</span>
-          </div>
-        </div>
-        {% endif %}
-        {% endfor %}
+          {% for category, message in messages %}
+            {% if category == 'success' %}
+            <div class="alert mt-20 bg-success/[0.625] shadow-lg">
+              <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="stroke-success-content flex-shrink-0 h-6 w-6" fill="none"
+                  viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span class="text-black">{{ message }}</span>
+              </div>
+            </div>
+            {% elif category == 'error' %}
+            <div class="alert mt-20 bg-error/[0.625] shadow-lg">
+              <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="stroke-error-content flex-shrink-0 h-6 w-6" fill="none"
+                  viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span class="text-black">{{ message }}</span>
+              </div>
+            </div>
+            {% elif category == 'warning' %}
+            <div class="alert mt-20 bg-warning/[0.625] shadow-lg">
+              <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="stroke-warning-content flex-shrink-0 h-6 w-6" fill="none"
+                  viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+                <span class="text-black">{{ message }}</span>
+              </div>
+            </div>
+            {% endif %}
+          {% endfor %}
         {% endif %}
         {% endwith %}
       </div>
@@ -183,10 +167,10 @@
         {% endif %}
         {% endblock body %}
         {% block results %}
-        <div class="mt-3">
+        <div class="mt-12">
           <div class="py-3" id="scrollTo"></div>
-          <h1 class="text-5xl font-bold mb-3 text-primary">Results</h1>
-          <div class="divider"></div>
+          <!-- <h1 class="text-5xl font-bold mb-3 text-primary">Results</h1>
+          <div class="divider"></div> -->
           <div class="text-center" id="loadSpinner">
             <div class="py-3"></div>
             <div class="flex justify-center items-center text-primary">
@@ -205,6 +189,7 @@
         {% block search_body %}
         {% endblock search_body %}
         {% block search_results %}
+        {% if is_search == True %}
         <div class="mt-3">
           <div class="py-3" id="scrollTo"></div>
           <h1 class="text-5xl font-bold mb-3 text-primary">Results</h1>
@@ -218,6 +203,7 @@
             </div>
           </div>
         </div>
+        {% endif %}
         {% endblock search_results %}
       </div>
     </div>

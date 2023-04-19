@@ -14,6 +14,8 @@ class PaperTraderGame:
     def end_game(self):
         pass
 
+    
+
     def to_dict(self):
         return {
             'players': self.players,

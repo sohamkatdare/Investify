@@ -28,14 +28,14 @@
         <div class="card-body">
         <h2 class="card-title">{{ title }}
             {% if verified_tweet != '' %}
-                <i class="fa-solid fa-check-double inline-block justify-end text-primary"></i>                     
+                <i class="fa-solid fa-check-double inline-block justify-end text-purple-400"></i>                     
             {% endif %}
         </h2>
         {% if text != '' %}
             <p class="mb-3">{{ text }}</p>
         {% endif %}
         <button class="card-actions justify-center">
-            <a class="btn btn-primary gradient-bg hover:shadow-xl" href="{{ buttonLink }}" {% if button_external != '' %} target="_blank" {% endif %}>{{ button }}   
+            <a class="btn btn-primary border-indigo-400 bg-transparent hover:gradient-bg hover:border-indigo-400  transition-all " href="{{ buttonLink }}" {% if button_external != '' %} target="_blank" {% endif %}>{{ button }}   
                 {% if button_external != '' %}   
                     <i class="ml-2 fas fa-external-link-alt inline-block justify-end"></i>
                 {% endif %}
@@ -51,7 +51,7 @@
         <h2 class="card-title"> {{ title }} </h2>
         <p class="mb-3 text-3xl"> {{ text_gain_loss }} <span class=" ml-1 text-xl"> {{ text_pct_change }} </span></p>
         <button class="card-actions justify-center">
-            <a class="btn btn-primary hover:shadow-xl" href="{{ buttonLink }}"> {{ button }} </a>
+            <a class="btn btn-primary border-indigo-400 bg-transparent hover:gradient-bg hover:border-indigo-400  transition-all " href="{{ buttonLink }}"> {{ button }} </a>
         </button>
         </div>
         <figure>

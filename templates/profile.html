@@ -10,7 +10,7 @@
   </div>
 
   <!-- Paper trading simulations -->
-  <div class="my-6">
+  <div class="my-6 flex lg:flex-row flex-col  lg:gap-x-8 gap-y-8">
     {{ 
       macros.card_graph(title='Paper Trading Simulation #1',
                   text_gain_loss='$315.31',
@@ -19,6 +19,23 @@
                   buttonLink='/paper-trading'
       )
     }}
+    {{ 
+      macros.card_graph(title='Paper Trading Simulation #1',
+                  text_gain_loss='$315.31',
+                  text_pct_change='13.1%',
+                  button='Go to Simulation',
+                  buttonLink='/paper-trading'
+      )
+    }}
+    <div class="card w-96 border-4 border-dashed border-white/[0.1]">
+      <div class="card-body my-auto">
+        <div class="card-title m-auto">
+          <div class="rounded-full text-7xl w-24 aspect-square text-white bg-white/[0.1] text-center my-auto font-[10] py-4">+</div>
+        </div>
+        <a href="" class="text-xl btn btn-primary border-indigo-400 bg-transparent hover:gradient-bg hover:border-indigo-400  transition-all">Create a Game</a>
+      </div>
+    </div>
+  </div>
 
   <!-- Favorited stocks -->
   <div class="my-6">

@@ -16,6 +16,7 @@ def get_user(email, password):
     uid = user['idToken']
     print(f'Successfully fetched user data: {uid}')
     print(user)
+    # csrf_token = user['csrfToken']
     if not user['registered']:
         print(f'Email not verified. Sending verification email.')
         auth.send_email_verification(uid)

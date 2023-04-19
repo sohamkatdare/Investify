@@ -45,11 +45,12 @@
     </div>
 {%- endmacro %}
 
-{% macro card_graph(title='Card Title', text_gain_loss="Some efjiowwww", text_pct_change="Some efjiowwww", button='Go', buttonLink="#") -%}
+{% macro card_graph(title='Card Title', text_gain_loss="Some efjiowwww", text_pct_change="Some efjiowwww", button='Go', buttonLink="#", chartData="[0,10,5,2,20,30,45]") -%}
     <div class="card w-96 bg-white/[0.075] hover:shadow-2xl hover:drop-shadow-2xl hover:translate-y-[-2rem] transition-all">
         <div class="card-body">
         <h2 class="card-title"> {{ title }} </h2>
-        <p class="mb-3 text-3xl"> {{ text_gain_loss }} <span class=" ml-1 text-xl"> {{ text_pct_change }} </span></p>
+,
+            <p class="mb-3 text-3xl"> {{ text_gain_loss }} <span class=" ml-1 text-xl"> {{ text_pct_change }} </span></p>
         <button class="card-actions justify-center">
             <a class="btn btn-primary border-indigo-400 bg-transparent hover:gradient-bg hover:border-indigo-400  transition-all " href="{{ buttonLink }}"> {{ button }} </a>
         </button>
@@ -57,7 +58,7 @@
         <figure>
             <!-- <img src="https://picsum.photos/seed/picsum/200/300" alt="Image"> -->
             <!-- stock graph from google charts hur -->
-            <img src="https://quickchart.io/chart?c={type:'line',data:{labels:['January','February','March','April','May','June','July'],datasets:[{label:'Paper Trading Game',fill:false,borderColor:'rgb(75, 192, 192)',data:[0,10,5,2,20,30,45]}]}}" alt="Image" class="p-4 bg-base-100">
+            <img src="https://quickchart.io/chart?c={type:'line',data:{labels:['January','February','March','April','May','June','July'],datasets:[{label:'{{ title }}',fill:false,borderColor:'rgb(75, 192, 192)',data:{{ chartData }}}]}}" alt="Image" class="p-4 bg-base-100">
         </figure>
     </div>
 {%- endmacro %}

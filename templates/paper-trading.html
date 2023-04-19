@@ -1,10 +1,10 @@
 {% extends "template.html" %}
-{% block title %}Profile{% endblock title %}
-{% block pageTitle %}Investify{% endblock pageTitle %}
+{% block title %}Paper Trading{% endblock title %}
 {% block wholebody %}
+
 <div class="grid items-center w-[94%] p-[3%] grid-cols-2 container-fluid mx-10 text-black rounded-pill h-[100vh]">
     <div class="search-container col-span-1 translate-y-[-4rem]">
-      <h1 class="text-6xl font-bold text-white leading-tight">Stay in the know <br> Watch your<br/> <span class="gradient-text">money grow.</span> </strong></h1> <br> <br>
+      <h1 class="text-6xl font-bold text-white leading-tight">Start Paper Trading <br> NOW! <br/> <span class="gradient-text">Search stocks to buy and sell!</span> </strong></h1> <br> <br>
       <form class="form-control" role="search" method="POST" action="search" autocomplete="off" autocapitalize="characters">
         <div class="input-group">
           {% if searchForm.ticker.errors %}
@@ -21,24 +21,19 @@
         </div>
       </form>
     </div>
-    <div class="h-full col-span-1">
+    <div class="h-full col-span-1"> 
       <div class="relative bg-primary w-full grid justify-center mt-[8rem]">
         <img class="absolute w-full top-0 z-[2]" src="{{url_for('static', filename='assets/images/header-image.svg')}}" alt="Header Image"/>
           </div>
         </div>
       </div>
     </div>
-{% block body %}
-{{ super() }}
-<div class="container mx-auto px-4">
-  <!-- User avatar and welcome message -->
-  <div class="flex items-center py-6">
-    <img src="https://images.unsplash.com/photo-1511367461989-f85a21fda167?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cHJvZmlsZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60" alt="User avatar" class="h-16 aspect-square rounded-full bg-contain">
-    <h1 class="ml-3 font-bold text-6xl">Welcome, <span class="gradient-text">{{ current_identity }}!</span></h1>
-  </div>
 
+{% block body %}
+
+<div class="container mx-auto px-4">
   <!-- Paper trading simulations -->
-  <div class="my-6">
+  <div class="my-6 flex flex-row">
     {{ 
       macros.card_graph(title='Paper Trading Simulation #1',
                   text_gain_loss='$315.31',
@@ -47,6 +42,8 @@
                   buttonLink='/paper-trading'
       )
     }}
+   
+    </div>
 
   <!-- Favorited stocks -->
   <div class="my-6">
@@ -78,3 +75,4 @@
 </div>
 {% endblock body %}
 {% block results %}{% endblock results %}
+{% endblock wholebody %}

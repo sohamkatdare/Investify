@@ -1,15 +1,18 @@
 import yfinance as yf
 import pandas as pd
-
+import datetime
 
 class PaperTrader:
-    def __init__(self, portfolio, capital):
+    def __init__(self, portfolio, capital, id):
         self.portfolio = portfolio
         self.capital = capital
         self.prices = self.get_prices()
+        self.id = id
 
     def get_price(ticker):
-        return yf.download([ticker], start="2021-01-01", end="2023-04-16")['Close']
+        # Look at the last 2 weeks of data for the ticker using datetime.
+        return yf.download([ticker], start="2021-01-01", end=str(datetime.datetime.now().date))['Close']
+
 
     def get_prices(self):
         tickers = list(self.portfolio.keys())
@@ -77,7 +80,7 @@ if __name__ == '__main__':
     # Create a portfolio with $10,000 to invest
     portfolio = {'AAPL': 10, 'AMZN': 5, 'TSLA': 3}
     capital = 10000
-    trader = PaperTrader(portfolio, capital)
+    trader = PaperTrader(portfolio, capital, 'saptak.das625@gmail.com')
 
     # Buy some shares of a stock
     trader.buy('MSFT', 2)

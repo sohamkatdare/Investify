@@ -3,32 +3,12 @@ from data.firebase_init import get_db, get_auth
 db = get_db()
 auth = get_auth()
 
-# def add_data():
-#     doc_ref = db.collection(u'users').document(u'alovelace')
-#     doc_ref.set({
-#         u'first': u'Ada',
-#         u'last': u'Lovelace',
-#         u'born': 1815
-#     })
-
-#     doc_ref = db.collection(u'users').document(u'aturing')
-#     doc_ref.set({
-#         u'first': u'Alan',
-#         u'middle': u'Mathison',
-#         u'last': u'Turing',
-#         u'born': 1912
-#     })
-
-# def get_data():
-#     users_ref = db.collection(u'users')
-#     docs = users_ref.stream()
-
-#     for doc in docs:
-#         print(f'{doc.id} => {doc.to_dict()}')
-
-
 def create_user(email, password):
-    auth.create_user_with_email_and_password(email, password)
+    uid = auth.create_user_with_email_and_password(email, password)
+    from data.user import User
+    user = User(uid['idToken'], email, {})
+    # Add a new doc in collection 'cities' with ID 'LA'
+    db.collection(u'users').document(email).set(user.to_dict())
     print(f'Sucessfully created new user.')
 
 def get_user(email, password):
@@ -39,11 +19,25 @@ def get_user(email, password):
     if not user['registered']:
         print(f'Email not verified. Sending verification email.')
         auth.send_email_verification(uid)
-    return user
+    # Get user data from database
+    user_data = db.collection(u'users').document(email).get().to_dict()
+    print('user_data: ', user_data)
+    return user, user_data
 
 def reset_password(email):
     auth.send_password_reset_email(email)
     print(f'Successfully sent password reset email.')
+
+def create_game(game):
+    db.child('games').push(game)
+    print(f'Successfully created new game: {game}')
+
+def get_portfolio(user, game):
+    paper_trader = db.child('games').child(user).child(game).get()
+
+
+def check_for_existing_game(game):
+    pass
 
 if __name__ == '__main__':
     # add_data()

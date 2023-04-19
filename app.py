@@ -10,6 +10,7 @@ from polygon_io import getStockData
 from finance_analysis import get_pe_and_eps, get_composite_score, get_news
 from webscraper import investopedia_search, investopedia_web_scrape
 from text_simplifier import summarize
+from insider_trading import scrape_insider_data
 
 from data.firebase_init import get_db
 from data.user import User
@@ -24,7 +25,7 @@ jwt = JWTManager(app)
 @jwt.expired_token_loader
 def my_expired_token_callback(jwt_header, jwt_payload):
   response = redirect(url_for('login'))
-  unset_jwt_cookies(response)
+  unset_jwt_cookies(response) # type: ignore
   flash('Login session has expired. Please login again.', 'error')
   return response
 
@@ -46,7 +47,7 @@ def login():
     print('Login Form Submitted')
     try:
       user = User.get_user(loginForm.email.data, loginForm.password.data)
-      access_token = create_access_token(identity=user.user_data['localId'], expires_delta=datetime.timedelta(days=1))
+      access_token = create_access_token(identity=user.email, expires_delta=datetime.timedelta(days=1))
       response = redirect(url_for('profile'))
       set_access_cookies(response, access_token) # type: ignore
       flash('Login Successful!', 'success')
@@ -95,6 +96,7 @@ def search():
   finance_analysis = {}
   news = None
   tweets = None
+  insider_data = None
   sentimentData = []
   averageSentiment = None
   current_identity = get_jwt_identity()
@@ -108,11 +110,13 @@ def search():
       news = get_news(ticker)
       tweets, sentimentData, averageSentiment  = getSocialStats(ticker)
       averageSentiment = round(averageSentiment, 2)
-      return render_template('search.html', data=data, searchForm=searchForm, ticker=ticker, finance_analysis=finance_analysis, news=news, tweets=tweets, sentimentData=list(sentimentData), averageSentiment=averageSentiment, current_identity=current_identity if current_identity else '')
+      insider_data = scrape_insider_data(ticker)
+      print(insider_data)
+      return render_template('search.html', is_search=True, data=data, searchForm=searchForm, ticker=ticker, finance_analysis=finance_analysis, news=news, tweets=tweets, sentimentData=list(sentimentData), averageSentiment=averageSentiment, current_identity=current_identity if current_identity else '', insider_data=insider_data)
     except Exception as e:
       print(e)
       flash(f'Ticker "{searchForm.ticker.data.upper()}" not found.', 'error')
-  return render_template('search.html', data=data, searchForm=searchForm, ticker=ticker, finance_analysis=finance_analysis, news=news, tweets=tweets, sentimentData=sentimentData, averageSentiment=averageSentiment, current_identity=current_identity if current_identity else '')
+  return render_template('search.html', is_search=True, data=data, searchForm=searchForm, ticker=ticker, finance_analysis=finance_analysis, news=news, tweets=tweets, sentimentData=sentimentData, averageSentiment=averageSentiment, current_identity=current_identity if current_identity else '', insider_data=insider_data)
 
 @app.route('/education')
 @jwt_required(optional=True)
@@ -144,11 +148,11 @@ def simplify():
       link = investopedia_search(articleForm.topic.data)
       article = investopedia_web_scrape(link)
       summarized_article = summarize(article)
-      return render_template('simplify.html', data=summarized_article, link=link, searchForm=searchForm, articleForm=articleForm, current_identity=current_identity if current_identity else '')
+      return render_template('simplify.html', is_search=True, data=summarized_article, link=link, searchForm=searchForm, articleForm=articleForm, current_identity=current_identity if current_identity else '')
     except Exception as e:
       print(e)
       flash(f'Article "{articleForm.topic.data}" not found.', 'error')
-  return render_template('simplify.html', data=data, link=link, searchForm=searchForm, articleForm=articleForm, current_identity=current_identity if current_identity else '')
+  return render_template('simplify.html', is_search=True, data=data, link=link, searchForm=searchForm, articleForm=articleForm, current_identity=current_identity if current_identity else '')
 
 
 # Login Required Routes
@@ -157,7 +161,9 @@ def simplify():
 def profile():
   searchForm = TickerForm()
   user_id = get_jwt_identity()
-  return render_template('profile.html', data=None, searchForm=searchForm, user_id=user_id, current_identity=user_id)
+  print(user_id)
+  user = User.get_user_by_email(user_id)
+  return render_template('profile.html', data=None, searchForm=searchForm, user_id=user_id, current_identity=user_id, user=user)
 
 @app.route('/logout')
 @jwt_required()

@@ -1,22 +1,22 @@
-from data.firebase_init import get_db
+from data.firebase_init import db
 from data.firebase_controller import create_user, get_user, reset_password
-
-db = get_db()
 
 class User:
     """
     User Data Model. Stores ChatGPT conversation information for each user.
     """
 
-    def __init__(self, user_id, user_data):
+    def __init__(self, user_id, email, user_data={}, games = []):
         """
         Initializes a new User object.
         
         :param user_id: User ID
         """
         self.user_id = user_id
+        self.email = email
         self.user_data = user_data
         self.conversation = []
+        self.games = games
 
     def add_to_conversation(self, utterance):
         self.conversation.append(utterance)
@@ -39,7 +39,8 @@ class User:
         :param password: Password of the user
         :return: User object
         """
-        uid = create_user(email, password)
+        create_user(email, password)
+
     
     @staticmethod
     def get_user(email, password):
@@ -49,8 +50,9 @@ class User:
         :param email: Email of the user
         :return: User object
         """
-        user = get_user(email, password)
-        return User(user['idToken'], user)
+        user, user_data = get_user(email, password)
+        print(user_data)
+        return User(user['idToken'], email, user_data=user, games=user_data['games'])
     
     @staticmethod
     def reset_password(email):
@@ -61,4 +63,28 @@ class User:
         :return: User object
         """
         reset_password(email)
+
+    @staticmethod
+    def get_user_by_email(email):
+        """
+        Get a user by email.
+        
+        :param email: Email of the user
+        :return: User object
+        """
+        user_data = db.collection(u'users').document(email).get().to_dict()
+        return User(user_data['user_id'], email, user_data=user_data)
     
+    
+    def to_dict(self):
+        """
+        Converts User object to a dictionary.
+        
+        :return: Dictionary of User object
+        """
+        return {
+            'user_id': self.user_id,
+            'email': self.email,
+            'conversation': self.conversation,
+            'games': self.games
+        }

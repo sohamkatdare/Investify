@@ -44,4 +44,4 @@ def scrape_insider_data(stock_symbol):
 
 
 if __name__ == '__main__':
-    print(scrape_insider_data('HHC'))
+    print(scrape_insider_data('AAPL'))

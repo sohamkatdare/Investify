@@ -1,27 +1,32 @@
 {% extends "template.html" %}
-{% block title %}Simplify{% endblock title %}
-{% block pageTitle %}Simplify{% endblock pageTitle %}
-{% block body %}
-{{ super() }}
-<form class="form-control min-w-full ml-2" role="search" method="POST" action="" autocapitalize="characters" autocomplete="off">
-    <div class="input-group mb-3 flex">
-      {% if articleForm.topic.errors %}
-      {{ articleForm.topic(class="input input-bordered w-full") }}
-          {% for error in articleForm.topic.errors %}
-          <span class="invalid-feedback">{{ error }}</span>
-          {% endfor %}
-      {% else %}
-          {{ articleForm.topic(class="input input-bordered w-full") }}
-      {% endif %}
-      <button class="btn btn-square" id="submit" name="submit" type="submit">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-      </button>
-    </div>
-  </form>
-{% endblock body %}
+{% block title %}Home{% endblock title %}
+{% block pageTitle %}Search{% endblock pageTitle %}
+{% block search_body %}
+{{super()}}
+<form class="form-control min-w-full ml-2 -translate-y-[40rem] order-0" role="search" method="POST" action="" autocapitalize="characters"
+  autocomplete="off">
+  {{ searchForm.csrf_token }}
+  <div class="input-group mb-3 flex">
+    {% if searchForm.ticker.errors %}
+    {{ searchForm.ticker(class="input input-bordered w-full") }}
+    {% for error in searchForm.ticker.errors %}
+    <span class="invalid-feedback">{{ error }}</span>
+    {% endfor %}
+    {% else %}
+    {{ searchForm.ticker(class="input input-bordered w-full") }}
+    {% endif %}
+    <button class="btn btn-square" id="submit" name="submit" type="submit">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+      </svg>
+    </button>
+  </div>
+</form>
+{% endblock search_body %}
+{{ super()}}
+{% block search_results %}
 
-{% block results %}
-{{ super() }}
 {% if data != None %}
 <div id="data">
   <h1 class="text-5xl text-primary mt-10 mb-10">Article Summary</h1>
@@ -29,6 +34,6 @@
   <h3 class="text-xl mt-10 mb-10">{{data}}</h3>
 </div>
 {% endif %}
-{% endblock results %}
+{% endblock search_results %}
 
 {% block footerClass %}fixed-bottom{% endblock footerClass %}

@@ -1,4 +1,10 @@
 import pyrebase
+from firebase_admin import credentials, firestore, initialize_app
+
+# Initialize Firestore DB
+cred = credentials.Certificate('investify-d81b6-firebase-adminsdk-nwh3q-8ce381cf50.json')
+default_app = initialize_app(cred)
+db = firestore.client()
 
 firebaseConfig = {
     "apiKey": "AIzaSyDKBXoncvcNoKu0eEpD_SnKom_S5nE16vE",
@@ -13,8 +19,6 @@ firebaseConfig = {
 
 pb = pyrebase.initialize_app(firebaseConfig)
 
-db = pb.database()
-
 auth = pb.auth()
 
 def get_pb():
@@ -27,3 +31,14 @@ def get_auth():
     return auth
 
 print('Initialized Pyrebase.')
+
+if __name__ == '__main__':
+    db = get_db()
+    print(db)
+
+    # Add a new doc in collection 'cities' with ID 'LA'
+    db.collection(u'cities').document(u'LA').set({
+        u'name': u'Los Angeles',
+        u'state': u'CA',
+        u'country': u'USA'
+    })

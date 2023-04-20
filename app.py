@@ -203,7 +203,7 @@ def papertrading():
   searchForm = TickerForm()
   user_id = get_jwt_identity()
   user = User.get_user_by_email(user_id)
-  return render_template('paper-trading.html', data=None, searchForm=searchForm, is_search=True, user_id=user_id, current_identity=current_identity)
+  return render_template('paper-trading.html', data=None, searchForm=searchForm, is_search=True, user_id=user_id, current_identity=user_id, user=user)
 
 @app.route('/logout')
 @jwt_required()

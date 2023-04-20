@@ -10,13 +10,13 @@
     </div>
 {%- endmacro %}
 {% macro section(header="Header", text="Some long lorem ipsum text", imagehref='', equation="") -%}
-    <section class="justify-self-center min-w-[20%]  ">
-        <h1 class="text-5xl text-primary mb-10">{{ header }}</h1>
+    <section class="container mx-auto justify-self-center min-w-[20%] px-20 mt-5">
+        <h1 class="text-5xl gradient-text mb-2 leading-relaxed">{{ header }}</h1>
         {% if equation != '' %}
             \[{{ equation }}\]
-            <p class="text-content mt-10 mb-5 leading-loose">{{ text|safe }}</p>
+            <p class="text-content mt-2 mb-4 leading-loose">{{ text|safe }}</p>
         {% else %}
-            <p class="text-content mb-5 leading-loose">{{ text|safe }}</p>
+            <p class="text-content mb-5 mt-4 leading-loose h-full">{{ text|safe }}</p>
         {% endif %}
         {% if imagehref != '' %}
             <img src="{{ imagehref }}" alt="Image">
@@ -46,11 +46,10 @@
 {%- endmacro %}
 
 {% macro card_graph(title='Card Title', text_gain_loss="Some efjiowwww", text_pct_change="Some efjiowwww", button='Go', buttonLink="#", chartData="[0,10,5,2,20,30,45]") -%}
-    <div class="card w-96 bg-white/[0.075] hover:shadow-2xl hover:drop-shadow-2xl hover:translate-y-[-2rem] transition-all">
+    <div class="card w-96 bg-white/[0.075] hover:shadow-2xl hover:drop-shadow-2xl hover:-translate-y-[1rem] translate-y-[1rem] transition-all">
         <div class="card-body">
         <h2 class="card-title"> {{ title }} </h2>
-,
-            <p class="mb-3 text-3xl"> {{ text_gain_loss }} <span class=" ml-1 text-xl"> {{ text_pct_change }} </span></p>
+        <p class="mb-3 text-3xl"> {{ text_gain_loss }} <span class=" ml-1 text-xl"> {{ text_pct_change }} </span></p>
         <button class="card-actions justify-center">
             <a class="btn btn-primary border-indigo-400 bg-transparent hover:gradient-bg hover:border-indigo-400  transition-all " href="{{ buttonLink }}"> {{ button }} </a>
         </button>
@@ -58,7 +57,38 @@
         <figure>
             <!-- <img src="https://picsum.photos/seed/picsum/200/300" alt="Image"> -->
             <!-- stock graph from google charts hur -->
-            <img src="https://quickchart.io/chart?c={type:'line',data:{labels:['January','February','March','April','May','June','July'],datasets:[{label:'{{ title }}',fill:false,borderColor:'rgb(75, 192, 192)',data:{{ chartData }}}]}}" alt="Image" class="p-4 bg-base-100">
+            <img src="https://quickchart.io/chart?c={type:'line',data:{labels:['January','February','March','April','May','June','July'],datasets:[{label:'Paper Trading',fill:false,borderColor:'rgb(75, 192, 192)',data:[0,10,5,2,20,30,45]}]}}" alt="Image" class="p-4 bg-base-100">
         </figure>
     </div>
+{%- endmacro %}
+{% macro card_conversation(title='Card Title', button='Go', buttonLink="#") -%}
+    <div class="card w-96 bg-white/[0.075] hover:shadow-2xl hover:drop-shadow-2xl hover:-translate-y-[1rem] translate-y-[1rem] transition-all">
+        <div class="card-body">
+        <h2 class="card-title"> {{ title }} </h2>
+        <p class="mb-3 text-3xl"> {{ text_gain_loss }} <span class=" ml-1 text-xl"> {{ text_pct_change }} </span></p>
+        <button class="card-actions justify-center">
+            <a class="btn btn-primary border-indigo-400 bg-transparent hover:gradient-bg hover:border-indigo-400  transition-all " href="{{ buttonLink }}"> {{ button }} </a>
+        </button>
+        </div>
+        <figure>
+            <!-- <img src="https://picsum.photos/seed/picsum/200/300" alt="Image"> -->
+            <!-- stock graph from google charts hur -->
+            <img src="https://quickchart.io/chart?c={type:'line',data:{labels:['January','February','March','April','May','June','July'],datasets:[{label:'Paper Trading',fill:false,borderColor:'rgb(75, 192, 192)',data:[0,10,5,2,20,30,45]}]}}" alt="Image" class="p-4 bg-base-100">
+        </figure>
+    </div>
+{%- endmacro %}
+{% macro stock_chip(ticker='AAPL', price='21.78', outline=False) %}
+    {% if outline %}
+        <button class="flex justify-center items-center text-white text-xl font-bold hover:bg-white/[0.075] bg-transparent border-2 border-white/25 hover:border-0 rounded-full min-w-64 h-8 p-2 mb-2 text-center" onclick="fillTicker({{ ticker }})">
+            <span class="mr-3">{{ ticker }}</span>
+            <span class="text-lg font-normal text-white/50">{{ price }}</span>
+        </button>
+      
+    {% else %}
+        <button class="flex justify-center items-center text-white text-xl font-bold bg-base-200 hover:brightness-[1.4] hover:shadow-2xl hover:drop-shadow-2xl transition-all ease-in-out rounded-full min-w-64 h-8 p-2 mb-2 text-center" onclick="fillTicker({{ ticker }})">
+            <span class="mr-3">{{ ticker }}</span>
+            <span class="text-lg font-normal text-white/50">{{ price }}</span>
+        </button>
+      
+    {% endif %}
 {%- endmacro %}

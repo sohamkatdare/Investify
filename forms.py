@@ -7,6 +7,14 @@ class LoginForm(FlaskForm):
   password = PasswordField('Password', validators=[DataRequired()])
   submit = SubmitField('Sign In')
 
+class PlayersForm(FlaskForm):
+  email_2 = StringField('Player 2: Email')
+  email_3 = StringField('Player 3: Email')
+  email_4 = StringField('Player 4: Email')
+  email_5 = StringField('Player 5: Email')
+  email_6 = StringField('Player 6: Email')
+  submit = SubmitField('Create Game')
+
 class RegisterForm(FlaskForm):
   email = StringField('Email', validators=[DataRequired()])
   password = PasswordField('Password', validators=[DataRequired(), Length(min=6)])
@@ -25,3 +33,4 @@ class ArticleForm(FlaskForm):
   topic = StringField('Topic: ',
                       validators=[DataRequired()], render_kw={"placeholder": "Altman Z-Score"})
   submit = SubmitField('🔎')
+

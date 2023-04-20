@@ -1,15 +1,17 @@
 import yfinance as yf
 import yahoo_fin.stock_info as si
+from yahoofinancials import YahooFinancials
 
 def get_pe_and_eps(ticker_symbol):
     ticker = si.get_quote_table(ticker_symbol)
     return ticker['PE Ratio (TTM)'], ticker['EPS (TTM)']
 
 def get_composite_score(ticker_name):
-    ticker = yf.Ticker(ticker_name)
-
+    ticker = si(ticker_name)
+    
     # Get the financials of the stock
-    income_statement = ticker.quarterly_income_stmt
+    income_statement = ticker.get_financial_stmts(frequency = 'quarterly', statement_type = 
+    'income')
     balance_sheet = ticker.quarterly_balance_sheet
 
     # Calculate EBIT
@@ -27,6 +29,6 @@ def get_news(ticker_name):
     return ticker.news
 
 if __name__ == '__main__':
-    # print('Composite Indicator: ', get_composite_score('MSFT'))
-    # print('PE and EPS Ratios: ', get_pe_and_eps('MSFT'))
+    print('Composite Indicator: ', get_composite_score('MSFT'))
+    print('PE and EPS Ratios: ', get_pe_and_eps('MSFT'))
     print(get_news('MSFT'))

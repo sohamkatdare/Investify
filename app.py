@@ -4,7 +4,7 @@ import requests
 import datetime
 from flask_jwt_extended import JWTManager, jwt_required, create_access_token, set_access_cookies, unset_jwt_cookies, get_jwt_identity
 
-from forms import LoginForm, RegisterForm, ResetPasswordForm, TickerForm, ArticleForm
+from forms import LoginForm, RegisterForm, ResetPasswordForm, TickerForm, ArticleForm, PlayersForm
 from socialstats import getSocialStats
 from polygon_io import getStockData
 from finance_analysis import get_pe_and_eps, get_composite_score, get_news
@@ -192,15 +192,18 @@ def simplify():
 def profile():
   searchForm = TickerForm()
   user_id = get_jwt_identity()
+  playersForm = PlayersForm()
   print(user_id)
   user = User.get_user_by_email(user_id)
-  return render_template('profile.html', data=None, searchForm=searchForm, user_id=user_id, current_identity=user_id, user=user, is_search=False)
+  return render_template('profile.html', data=None, searchForm=searchForm, playersForm=playersForm, user_id=user_id, current_identity=user_id, user=user, is_search=False)
 
 @app.route('/paper-trading')
 @jwt_required()
 def papertrading():
   searchForm = TickerForm()
-  return render_template('paper-trading.html', data=None, searchForm=searchForm, is_search=True)
+  user_id = get_jwt_identity()
+  user = User.get_user_by_email(user_id)
+  return render_template('paper-trading.html', data=None, searchForm=searchForm, is_search=True, user_id=user_id, current_identity=current_identity)
 
 @app.route('/logout')
 @jwt_required()

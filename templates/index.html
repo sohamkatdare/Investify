@@ -22,7 +22,7 @@
       </form>
     </div>
     <div class="h-full col-span-1">
-      <div class="relative bg-primary w-full grid justify-center mt-[8rem]">
+      <div class="relative bg-primary w-full grid justify-center mt-[4rem]">
         <img class="absolute w-full top-0 z-[2]" src="{{url_for('static', filename='assets/images/header-image.svg')}}" alt="Header Image"/>
           </div>
         </div>
@@ -35,53 +35,22 @@
   <div class="divider"></div>
 
 
-  <div class="grid items-top w-[94%] p-[3%] grid-cols-2 container-fluid mx-10 text-black rounded-lg h-[80vh]">
-    <div class="about_content pt-11 pl-24 mt-[9rem] lg:pt-15 lg:pb-15 col-span-1 translate-y-[-8rem] order-1 text-white">
-        <div class="pb-9">
-            <h5 class="gradient-text-alt text-5xl font-semibold mb-4">Why Choose Us</h5>
-            <h4 class="">Your Goal is Our Achievement</h4>
-        </div> <!-- section title -->
-        <p>Nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat sed diam voluptua. At vero eos et accusam et justo duo dolores et rebum. Stet clita kasd gubergren, no sea takimata sanctus. </p>
-        <ul class="about_list pt-3">
-            <li class="flex mt-5">
-                <div class="about_check">
-                    <i class="lni lni-checkmark-circle"></i>
-                </div>
-                <div class="about_list_content pl-5 pr-2">
-                    <p>Vero eos et accusam et justo duo dolores et rebum. Stet clita kasd gubergrenv</p>
-                </div>
-            </li>
-            <li class="flex mt-5">
-                <div class="about_check">
-                    <i class="lni lni-checkmark-circle"></i>
-                </div>
-                <div class="about_list_content pl-5 pr-2">
-                    <p>At vero eos et accusam et justo duo dolores et rebum. Stet clita kasd gubergrenv</p>
-                </div>
-            </li>
-            <li class="flex mt-5">
-                <div class="about_check">
-                    <i class="lni lni-checkmark-circle"></i>
-                </div>
-                <div class="about_list_content pl-5 pr-2">
-                    <p>Dvero eos et accusam et justo duo dolores et rebum. Stet clita kasd gubergrenv</p>
-                </div>
-            </li>
-        </ul>
-    </div> <!-- about content -->
-    <div class="h-full col-span-1 pr-20 translate-y-20">
-      <div class="relative bg-primary w-full grid justify-center">
-        <img class="absolute w-full top-0 z-[2] order-0" src="{{url_for('static', filename='assets/images/about.svg')}}" alt="about"/>
-          </div>
-        </div>
-      </div>
+  <div class="grid items-top w-[94%] p-[3%] grid-cols-2 container-fluid mx-10 text-black rounded-lg min-h-[80vh] max-h-max">
+    <div class="about_content pt-11 pr-24 mt-[9rem] lg:pt-15 lg:pb-15 col-span-1 h-min max-h-max translate-y-[-8rem] order-0 text-white">
+        <h5 class="gradient-text-alt text-5xl font-semibold mb-4 pb-9">Why Use Investify</h5>
+        <p>
+          Investify is a comprehensive financial tool designed to empower you with the knowledge and tools to make informed investment decisions. <p class="sm:inline hidden">Our software is packed with features that provide you with valuable insights and education to navigate the complex world of investing. You can easily research stocks and access crucial investment data <p class="md:inline hidden">such as candle graphs, open, close, low, high, and volume information </p>Our algorithmic stock rating score provides users with a quantitative assessment of a stock's potential, while relevant tweet and news articles, sentiment analysis, and insider trading data offer valuable market intelligence. <p class="md:inline hidden"> Our education section consists of over 20 articles on stock indicators to help users deepen their understanding of investment concepts. Users can also query using the GPT-3.5 model for information on any topic not covered in our articles. </p>Additionally, our paper trading functionality enables users to create an account and engage in simulated trading games with friends or other users worldwide, providing a fun and educational way to practice investing strategies without risking real money.
+        </p>
+    </div> 
+    <div class="h-full col-span-1 pr-20 flex justify-center items-center mx-auto">
+      <img class="w-full z-[2] order-1" src="{{url_for('static', filename='assets/images/about.svg')}}" alt="about"/>
     </div>
+    
   </div>
 
-    <!--====== ABOUT PART ENDS ======-->
 
     <div class="grid lg:grid-cols-3 max-lg:grid-rows-3 p-[3%] items-top justify-stretch m-0 translate-x-8 gap-x-[5%] w-[94%]  ">
-        <div class=" min-w-max max-w-full p-[3%] row-span-1 lg:col-span-1 mt-16 text-white rounded-lg min-h-min bg-gradient-to-bl from-fuchsia-500 to-pink-500">
+        <div class=" min-w-max max-w-full p-[3%] row-span-1 lg:col-span-1  text-white rounded-lg min-h-min bg-gradient-to-bl from-fuchsia-500 to-pink-500">
             <div class="overflow-x-auto">
                 <div class="pb-9">
                     <h5 class="sub_title font-bold text-2xl text-magenta-500">Daily Top Gainers</h5>
@@ -164,7 +133,7 @@
                 </table>
               </div>
           </div>
-        <div class=" min-w-max max-w-full p-[3%] row-span-1 lg:col-span-1 mt-16 text-white rounded-lg min-h-min bg-gradient-to-bl from-purple-500 to-pink-500">
+        <div class=" min-w-max max-w-full p-[3%] row-span-1 lg:col-span-1  text-white rounded-lg min-h-min bg-gradient-to-bl from-purple-500 to-pink-500">
             <div class="overflow-x-auto">
                 <div class="pb-9">
                     <h5 class="sub_title font-bold text-2xl text-magenta-500">Daily Top Losers</h5>
@@ -247,7 +216,7 @@
                 </table>
               </div>
           </div>
-        <div class=" min-w-max max-w-full p-[3%] row-span-1 lg:col-span-1 mt-16 text-white rounded-lg min-h-min bg-gradient-to-bl from-purple-500 to-pink-500">
+        <div class=" min-w-max max-w-full p-[3%] row-span-1 lg:col-span-1  text-white rounded-lg min-h-min bg-gradient-to-bl from-purple-500 to-pink-500">
             <div class="overflow-x-auto">
                 <div class="pb-9">
                     <h5 class="sub_title font-bold text-2xl text-magenta-500">Daily Top Movers</h5>

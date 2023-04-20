@@ -26,16 +26,6 @@ def investopedia_web_scrape(link):
     
     return article
 
-# if __name__ == '__main__':
-#     # print(investopedia_search('Altman Z Score'))
-#     print(investopedia_web_scrape(investopedia_search('Altman Z Score')))
-
-# print(investopedia_web_scrape('bollinger bands'))
-# print(investopedia_web_scrape('worden stochatics'))
-# print(investopedia_web_scrape('macd'))
-# print(investopedia_web_scrape('On-Balance-volume'))
-# print(investopedia_web_scrape('parabolic stop and reverse'))
-# print(investopedia_web_scrape('relative strength index'))
-# print(investopedia_web_scrape('commodity channel index how to calculate'))
-# print(investopedia_web_scrape('chaikin oscillator'))
-# print(investopedia_web_scrape(investopedia_search('EBITDA: Meaning, Formula and History')))
+if __name__ == '__main__':
+    # print(investopedia_search('Altman Z Score'))
+    print(investopedia_web_scrape(investopedia_search('Aroon')).strip().replace("\n", ""))

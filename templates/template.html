@@ -100,6 +100,7 @@
           </div>
         </a>
         {% else %}
+        
         <a href="{{ url_for('logout') }}" class="m-2 mr-5 pr-2">
           <div class="btn">
             <span class="gradient-text m-2">
@@ -107,6 +108,9 @@
             </span>
             <i class="fa-solid fa-right-to-bracket fa-xl text-indigo-400"></i>
           </div>
+        </a>
+        <a href="{{ url_for('profile') }}" class="mr-10">
+          Profile
         </a>
         {% endif %}
       </button>

@@ -15,8 +15,8 @@
     {% for g in games %}
       {{ 
         macros.card_graph(title=g.name,
-                    text_gain_loss='$'+(g.get_portfolio_value()).__str__(),
-                    text_pct_change=g.growth().__str__() + '%',
+                    text_gain_loss='$'+(g.get_portfolio_value()).__round__(2).__str__(),
+                    text_pct_change=g.growth().__round__(3).__str__() + '%',
                     button='Go to Simulation',
                     buttonLink= '/paper-trading?' + g.get_url_from_name(),
         )

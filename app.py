@@ -1,4 +1,4 @@
-from flask import Flask, render_template, flash, redirect, url_for
+from flask import Flask, render_template, flash, redirect, url_for, request
 from functools import wraps
 import requests
 import datetime
@@ -14,11 +14,13 @@ from insider_trading import scrape_insider_data
 
 from data.firebase_init import get_db
 from data.user import User
+from data.paper_trading_game import PaperTraderGame
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '7b7e30111ddc1f8a5b1d80934d336798'
 app.config['JWT_SECRET_KEY'] = '3e8e162993f9dbfb44921e63b3301994c14ee16b5e04b2c29de9272f4685c32c'
-app.config["JWT_TOKEN_LOCATION"] = ["headers", "cookies"]
+app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
+app.config["JWT_COOKIE_CSRF_PROTECT"] = False
 
 jwt = JWTManager(app)
 
@@ -34,6 +36,16 @@ def my_expired_token_callback(jwt_header, jwt_payload):
 def index():
   current_identity = get_jwt_identity()
   searchForm = TickerForm()
+  ticker = None
+  data = None
+  if searchForm.ticker.data:
+    try:
+      ticker = searchForm.ticker.data.upper()
+      prevAggs = getStockData(ticker)
+      data = [prevAggs]
+    except Exception as e:
+      print(e)
+      flash(f'Ticker "{searchForm.ticker.data.upper()}" not found.', 'error')
   return render_template('index.html', data=None, searchForm=searchForm, current_identity=current_identity if current_identity else '')
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -100,13 +112,14 @@ def search():
   sentimentData = []
   averageSentiment = None
   current_identity = get_jwt_identity()
+  print('Ticker Form Submitted', f'www{searchForm.ticker.data}www')
   if searchForm.ticker.data:
     try:
       ticker = searchForm.ticker.data.upper()
       prevAggs = getStockData(ticker)
       data = [prevAggs]
-      # pe_ratio, eps = get_pe_and_eps(ticker)
-      # finance_analysis = {'PE Ratio (TTM)': pe_ratio, 'EPS (TTM)': eps, 'Composite Indicator': get_composite_score(ticker)}
+      pe_ratio, eps = get_pe_and_eps(ticker)
+      finance_analysis = {'PE Ratio (TTM)': pe_ratio, 'EPS (TTM)': eps, 'Composite Indicator': get_composite_score(ticker)}
       news = get_news(ticker)
       tweets, sentimentData, averageSentiment  = getSocialStats(ticker)
       averageSentiment = round(averageSentiment, 2)
@@ -117,37 +130,6 @@ def search():
       print(e)
       flash(f'Ticker "{searchForm.ticker.data.upper()}" not found.', 'error')
   return render_template('search.html', is_search=True, data=data, searchForm=searchForm, ticker=ticker, finance_analysis=finance_analysis, news=news, tweets=tweets, sentimentData=sentimentData, averageSentiment=averageSentiment, current_identity=current_identity if current_identity else '', insider_data=insider_data)
-
-@app.route('/paper-trading-search', methods=['GET', 'POST'])
-@jwt_required()
-def papertradingsearch():
-  searchForm = TickerForm()
-  data = None
-  ticker = None
-  finance_analysis = {}
-  news = None
-  tweets = None
-  insider_data = None
-  sentimentData = []
-  averageSentiment = None
-  current_identity = get_jwt_identity()
-  if searchForm.ticker.data:
-    try:
-      ticker = searchForm.ticker.data.upper()
-      prevAggs = getStockData(ticker)
-      data = [prevAggs]
-      # pe_ratio, eps = get_pe_and_eps(ticker)
-      # finance_analysis = {'PE Ratio (TTM)': pe_ratio, 'EPS (TTM)': eps, 'Composite Indicator': get_composite_score(ticker)}
-      news = get_news(ticker)
-      tweets, sentimentData, averageSentiment  = getSocialStats(ticker)
-      averageSentiment = round(averageSentiment, 2)
-      insider_data = scrape_insider_data(ticker)
-      print(insider_data)
-      return render_template('paper-trading-search.html', is_search=True, data=data, searchForm=searchForm, ticker=ticker, finance_analysis=finance_analysis, news=news, tweets=tweets, sentimentData=list(sentimentData), averageSentiment=averageSentiment, current_identity=current_identity if current_identity else '', insider_data=insider_data)
-    except Exception as e:
-      print(e)
-      flash(f'Ticker "{searchForm.ticker.data.upper()}" not found.', 'error')
-  return render_template('paper-trading-search.html', is_search=True, data=data, searchForm=searchForm, ticker=ticker, finance_analysis=finance_analysis, news=news, tweets=tweets, sentimentData=sentimentData, averageSentiment=averageSentiment, current_identity=current_identity if current_identity else '', insider_data=insider_data)
 
 @app.route('/education')
 @jwt_required(optional=True)
@@ -187,15 +169,28 @@ def simplify():
 
 
 # Login Required Routes
-@app.route('/profile')
+@app.route('/profile', methods=['GET', 'POST'])
 @jwt_required()
 def profile():
   searchForm = TickerForm()
   user_id = get_jwt_identity()
   playersForm = PlayersForm()
-  print(user_id)
   user = User.get_user_by_email(user_id)
-  return render_template('profile.html', data=None, searchForm=searchForm, playersForm=playersForm, user_id=user_id, current_identity=user_id, user=user, is_search=False)
+  print(user_id)
+  games = PaperTraderGame.get_games(user_id)
+
+  # Validate create game form
+  if playersForm.name.data and playersForm.starting_amount.data:
+    try:
+      players = [user_id, playersForm.email_2.data, playersForm.email_3.data, playersForm.email_4.data, playersForm.email_5.data]
+      game = PaperTraderGame(playersForm.name.data, playersForm.starting_amount.data, user_id, players=[p for p in players if p])
+      game.create_game()
+      flash(f'Game "{playersForm.name.data}" created successfully!', 'success')
+      return redirect(url_for('profile'))
+      # return render_template('profile.html', data=None, searchForm=searchForm, playersForm=playersForm, user_id=user_id, current_identity=user_id, user=user, is_search=False)
+    except Exception as e:
+      flash(str(e), 'error')
+  return render_template('profile.html', data=None, searchForm=searchForm, playersForm=playersForm, user_id=user_id, current_identity=user_id, user=user, is_search=False, games=games)
 
 @app.route('/paper-trading')
 @jwt_required()
@@ -203,7 +198,10 @@ def papertrading():
   searchForm = TickerForm()
   user_id = get_jwt_identity()
   user = User.get_user_by_email(user_id)
-  return render_template('paper-trading.html', data=None, searchForm=searchForm, is_search=True, user_id=user_id, current_identity=user_id, user=user)
+  game = request.args.get('gid')
+  userDetail, otherDetail = PaperTraderGame.get_game_detail(game, user_id)
+
+  return render_template('paper-trading.html', data=None, searchForm=searchForm, is_search=True, user_id=user_id, current_identity=user_id, user=user, userDetail=userDetail, otherDetail=otherDetail)
 
 @app.route('/logout')
 @jwt_required()

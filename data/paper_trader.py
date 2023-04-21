@@ -3,16 +3,20 @@ import pandas as pd
 import datetime
 
 class PaperTrader:
-    def __init__(self, portfolio, capital, id):
+    def __init__(self, name, portfolio, initial, capital, id):
+        self.name = name
         self.portfolio = portfolio
+        self.initial = initial
         self.capital = capital
         self.prices = self.get_prices()
         self.id = id
 
+    def get_url_from_name(self):
+        return 'gid=' + self.name.replace(' ', '+')
+
     def get_price(ticker):
         # Look at the last 2 weeks of data for the ticker using datetime.
         return yf.download([ticker], start="2021-01-01", end=str(datetime.datetime.now().date))['Close']
-
 
     def get_prices(self):
         tickers = list(self.portfolio.keys())
@@ -71,6 +75,17 @@ class PaperTrader:
             print(portfolio_df.to_string(index=False))
             print(f"\nTotal portfolio value: ${portfolio_value:.2f}")
 
+    def to_dict(self):
+        return {
+            'name': self.name,
+            'portfolio': self.portfolio,
+            'initial': self.initial,
+            'capital': self.capital,
+            'id': self.id
+        }
+    
+    def growth(self):
+        return (self.get_portfolio_value() - self.initial) / self.initial
 
 if __name__ == '__main__':
     # msft = yf.Ticker("MSFT")
@@ -79,8 +94,9 @@ if __name__ == '__main__':
 
     # Create a portfolio with $10,000 to invest
     portfolio = {'AAPL': 10, 'AMZN': 5, 'TSLA': 3}
+    initial = 5000
     capital = 10000
-    trader = PaperTrader(portfolio, capital, 'saptak.das625@gmail.com')
+    trader = PaperTrader('hello', portfolio, initial, capital, 'saptak.das625@gmail.com')
 
     # Buy some shares of a stock
     trader.buy('MSFT', 2)

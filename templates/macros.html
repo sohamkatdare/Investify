@@ -24,7 +24,7 @@
     </section>
 {%- endmacro %}
 {% macro card(title='Card Title', text="Some efjiowwww", button='Go', buttonLink="#", button_external=True, verified_tweet=True) -%}
-    <div class="card w-96 bg-base-100 hover:shadow-2xl hover:drop-shadow-2xl hover:translate-y-[-2rem] transition-all">
+    <div class="card w-96 bg-base-100 hover:shadow-2xl hover:drop-shadow-2xl hover:translate-y-[-2rem] hover:border-indigo-400/75 hover:border-2 transition-all">
         <div class="card-body">
         <h2 class="card-title">{{ title }}
             {% if verified_tweet != '' %}
@@ -34,7 +34,7 @@
         {% if text != '' %}
             <p class="mb-3">{{ text }}</p>
         {% endif %}
-        <button class="card-actions justify-center">
+        <button class="card-actions mt-4 justify-center">
             <a class="btn btn-primary border-indigo-400 bg-transparent hover:gradient-bg hover:border-indigo-400  transition-all " href="{{ buttonLink }}" {% if button_external != '' %} target="_blank" {% endif %}>{{ button }}   
                 {% if button_external != '' %}   
                     <i class="ml-2 fas fa-external-link-alt inline-block justify-end"></i>
@@ -54,11 +54,6 @@
             <a class="btn btn-primary border-indigo-400 bg-transparent hover:gradient-bg hover:border-indigo-400  transition-all " href="{{ buttonLink }}"> {{ button }} </a>
         </button>
         </div>
-        <figure>
-            <!-- <img src="https://picsum.photos/seed/picsum/200/300" alt="Image"> -->
-            <!-- stock graph from google charts hur -->
-            <img src="https://quickchart.io/chart?c={type:'line',data:{labels:['January','February','March','April','May','June','July'],datasets:[{label:'Paper Trading',fill:false,borderColor:'rgb(75, 192, 192)',data:[0,10,5,2,20,30,45]}]}}" alt="Image" class="p-4 bg-base-100">
-        </figure>
     </div>
 {%- endmacro %}
 {% macro card_conversation(title='Card Title', button='Go', buttonLink="#") -%}
@@ -77,15 +72,15 @@
         </figure>
     </div>
 {%- endmacro %}
-{% macro stock_chip(ticker='AAPL', price='21.78', outline=False) %}
+{% macro stock_chip(ticker='AAPL', price='21.78', outline=True) %}
     {% if outline %}
-        <button class="flex justify-center items-center text-white text-xl font-bold hover:bg-white/[0.075] bg-transparent border-2 border-white/25 hover:border-0 rounded-full min-w-64 h-8 p-2 mb-2 text-center" onclick="fillTicker({{ ticker }})">
+        <button class="flex justify-center items-center text-white text-xl font-bold hover:bg-white/[0.075] bg-transparent border-2 border-white/25 hover:border-0 rounded-full min-w-64 h-8 p-2 mb-2 text-center" onclick="fillTicker('{{ ticker }}')">
             <span class="mr-3">{{ ticker }}</span>
             <span class="text-lg font-normal text-white/50">{{ price }}</span>
         </button>
       
     {% else %}
-        <button class="flex justify-center items-center text-white text-xl font-bold bg-base-200 hover:brightness-[1.4] hover:shadow-2xl hover:drop-shadow-2xl transition-all ease-in-out rounded-full min-w-64 h-8 p-2 mb-2 text-center" onclick="fillTicker({{ ticker }})">
+        <button class="flex justify-center items-center text-white text-xl font-bold bg-base-200 hover:brightness-[1.4] hover:shadow-2xl hover:drop-shadow-2xl transition-all ease-in-out rounded-full min-w-64 h-8 p-2 mb-2 text-center" onclick="fillTicker('{{ ticker }}')">
             <span class="mr-3">{{ ticker }}</span>
             <span class="text-lg font-normal text-white/50">{{ price }}</span>
         </button>

@@ -20,6 +20,27 @@
           </button>
         </div>
       </form>
+      <div class="flex flex-row gap-x-4 -translate-x-4 mt-5">
+        {{
+          macros.stock_chip(ticker='AAPL',
+                            price='$123.45',
+                            outline=True,
+          )
+        }}
+        {{
+          macros.stock_chip(ticker='TSLA',
+                            price='$37.45',
+                            outline=True,
+          )
+        }}
+        <script>
+          function fillTicker(ticker) {
+            var tickerInput = document.getElementById('nav-search');
+            tickerInput.value = ticker;
+            document.getElementById('submit').click();
+          }
+        </script>
+      </div>
     </div>
     <div class="h-full col-span-1">
       <div class="relative bg-primary w-full grid justify-center mt-[4rem]">
@@ -53,7 +74,7 @@
         <div class=" min-w-max max-w-full p-[3%] row-span-1 lg:col-span-1  text-white rounded-lg min-h-min bg-gradient-to-bl from-fuchsia-500 to-pink-500">
             <div class="overflow-x-auto">
                 <div class="pb-9">
-                    <h5 class="sub_title font-bold text-2xl text-magenta-500">Daily Top Gainers</h5>
+                    <h5 class="sub_title font-bold text-2xl text-magenta-500">Daily Most Active</h5>
                 </div> <!-- section title -->
                 <table class="table  w-full">
                   <!-- head -->
@@ -61,73 +82,157 @@
                     <tr>
                       <th></th>
                       <th>Ticker</th>
-                      <th>% Chg</th>
-                      <th>Last Price</th>
+                      <th>Volume</th>
+                      <th>% Range</th>
                     </tr>
                   </thead>
                   <tbody>
                     <!-- row 1 -->
-                    <tr class="hover">
+                    <tr class="hover tex onclick="fillTicker('')"t-red-400">
                       <th>1</th>
-                      <td>AAPL</td>
-                      <td>30%</td>
-                      <td>$11.42</td>
+                      <td>BBBY</td>
+                      <td>340.93M</td>
+                      <td>-35.34%</td>
                     </tr>
                     <!-- row 2 -->
-                    <tr class="hover">
-                      <th>2</th>
-                      <td>TSLA</td>
-                      <td>11.6%</td>
-                      <td>$3.56</td>
+                    <tr class="hover tex onclick="fillTicker('')"t-red-400">
+                      <th>2</-35.34%>
+                      <td>MULN</td>
+                      <td>215.39M</td>
+                      <td>-5.78%
+                      </td>
                     </tr>
                     <!-- row 3 -->
-                    <tr class="hover">
+                    <tr class="hover tex onclick="fillTicker('')"t-red-400">
                       <th>3</th>
-                      <td>HAD</td>
-                      <td>5.65%</td>
-                      <td>$4.99</td>
+                      <td>TSLA</td>
+                      <td>210.77M</td>
+                      <td>-9.75%</td>
                     </tr>
-                    <tr class="hover">
+                    <tr class="hover tex onclick="fillTicker('')"t-red-400">
                         <th>4</th>
-                        <td>HAD</td>
-                        <td>5.65%</td>
-                        <td>$4.99</td>
+                        <td>T</td>
+                        <td>129.87M</td>
+                        <td>-10.41%</td>
                       </tr>
-                      <tr class="hover">
+                      <tr class="hover tex onclick="fillTicker('')"t-red-400">
                         <th>5</th>
-                        <td>HAD</td>
-                        <td>5.65%</td>
-                        <td>$4.99</td>
+                        <td>IDEX</td>
+                        <td>114.24M</td>
+                        <td>-20.34%</td>
                       </tr>
-                      <tr class="hover">
+                      <tr class="hover tex onclick="fillTicker('')"t-red-400">
                         <th>6</th>
-                        <td>HAD</td>
-                        <td>5.65%</td>
-                        <td>$4.99</td>
+                        <td>F</td>
+                        <td>79.55M</td>
+                        <td>-2.86%</td>
                       </tr>
-                      <tr class="hover">
+                      <tr class="hover tex onclick="fillTicker('')"t-green-400">
                         <th>7</th>
-                        <td>HAD</td>
-                        <td>5.65%</td>
-                        <td>$4.99</td>
+                        <td>CNSP</td>
+                        <td>71.35M</td>
+                        <td>+48.02%</td>
                       </tr>
-                      <tr class="hover">
+                      <tr class="hover tex onclick="fillTicker('')"t-red-400">
                         <th>8</th>
-                        <td>HAD</td>
-                        <td>5.65%</td>
-                        <td>$4.99</td>
+                        <td>NIO</td>
+                        <td>59.54M</td>
+                        <td>-5.80%</td>
                       </tr>
-                      <tr class="hover">
+                      <tr class="hover tex onclick="fillTicker('')"t-red-400">
                         <th>9</th>
-                        <td>HAD</td>
-                        <td>5.65%</td>
-                        <td>$4.99</td>
+                        <td>NOK</td>
+                        <td>58.37M</td>
+                        <td>-9.09%</td>
                       </tr>
-                      <tr class="hover">
+                      <tr class="hover tex onclick="fillTicker('')"t-red-400">
                         <th>10</th>
-                        <td>HAD</td>
-                        <td>5.65%</td>
-                        <td>$4.99</td>
+                        <td>AMZN</td>
+                        <td>57.66M</td>
+                        <td>-0.47%</td>
+                      </tr>
+                  </tbody>
+                </table>
+              </div>
+          </div>
+        <div class=" min-w-max max-w-full p-[3%] row-span-1 lg:col-span-1  text-white rounded-lg min-h-min bg-gradient-to-bl from-purple-500 to-pink-500">
+            <div class="overflow-x-auto">
+                <div class="pb-9">
+                    <h5 class="sub_title font-bold text-2xl text-magenta-500">Daily Top Gainers</h5>
+                </div> <!-- section title -->
+                <table class="table  w-full">
+                  <!-- head -->
+                  <thead>
+                    <tr class="hover" onclick="fillTicker('')">
+                      <th></th>
+                      <th>Ticker</th>
+                      <th>% Chg</th>
+                      <th>Last Price</th>
+                    </tr>
+                  </thead>
+                  <tbody class ="text-green-400">
+                    <!-- row 1 -->
+                    <tr class="hover" onclick="fillTicker('')">
+                      <th>1</th>
+                      <td>WLGS</td>
+                      <td>77.10%</td>
+                      <td>$5.49</td>
+                    </tr>
+                    <!-- row 2 -->
+                    <tr class="hover" onclick="fillTicker('')">
+                      <th>2</th>
+                      <td>AZYO</td>
+                      <td>35.54%</td>
+                      <td>$2.25</td>
+                    </tr>
+                    <!-- row 3 -->
+                    <tr class="hover" onclick="fillTicker('')">
+                      <th>3</th>
+                      <td>HSTO</td>
+                      <td>22.77%</td>
+                      <td>$1.24</td>
+                    </tr>
+                    <tr class="hover" onclick="fillTicker('')">
+                        <th>4</th>
+                        <td>WISH</td>
+                        <td>22.56%</td>
+                        <td>$8.80</td>
+                      </tr>
+                      <tr class="hover" onclick="fillTicker('')">
+                        <th>5</th>
+                        <td>AEMD</td>
+                        <td>18.63%</td>
+                        <td>$0.6999</td>
+                      </tr>
+                      <tr class="hover" onclick="fillTicker('')">
+                        <th>6</th>
+                        <td>MULN</td>
+                        <td>16.65%</td>
+                        <td>$0.0988</td>
+                      </tr>
+                      <tr class="hover" onclick="fillTicker('')">
+                        <th>7</th>
+                        <td>PRFX</td>
+                        <td>14.04%</td>
+                        <td>$0.65</td>
+                      </tr>
+                      <tr class="hover" onclick="fillTicker('')">
+                        <th>8</th>
+                        <td>BWEN</td>
+                        <td>12.99%</td>
+                        <td>$5.22</td>
+                      </tr>
+                      <tr class="hover" onclick="fillTicker('')">
+                        <th>9</th>
+                        <td>THMO</td>
+                        <td>11.17%</td>
+                        <td>$2.29</td>
+                      </tr>
+                      <tr class="hover" onclick="fillTicker('')">
+                        <th>10</th>
+                        <td>MAPS</td>
+                        <td>10.04%</td>
+                        <td>$0.7597</td>
                       </tr>
                   </tbody>
                 </table>
@@ -141,164 +246,88 @@
                 <table class="table  w-full">
                   <!-- head -->
                   <thead>
-                    <tr class="hover">
+                    <tr class="hover" onclick="fillTicker('')">
                       <th></th>
                       <th>Ticker</th>
                       <th>% Chg</th>
                       <th>Last Price</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody class="text-red-400">
                     <!-- row 1 -->
-                    <tr class="hover">
+                    <tr class="hover" onclick="fillTicker('')">
                       <th>1</th>
-                      <td>AAPL</td>
-                      <td>30%</td>
-                      <td>$11.42</td>
+                      <td>SIDU</td>
+                      <td>-22.69%</td>
+                      <td>$0.29</td>
                     </tr>
                     <!-- row 2 -->
-                    <tr class="hover" class="hover">
+                    <tr class="hover onclick="fillTicker('')"" class="hover">
                       <th>2</th>
-                      <td>TSLA</td>
-                      <td>11.6%</td>
-                      <td>$3.56</td>
+                      <td>PEV</td>
+                      <td>-18.09%</td>
+                      <td>$0.77</td>
                     </tr>
                     <!-- row 3 -->
-                    <tr class="hover">
+                    <tr class="hover" onclick="fillTicker('')">
                       <th>3</th>
-                      <td>HAD</td>
-                      <td>5.65%</td>
-                      <td>$4.99</td>
+                      <td>UCAR</td>
+                      <td>-14.31%</td>
+                      <td>$37.00</td>
                     </tr>
-                    <tr class="hover">
+                    <tr class="hover" onclick="fillTicker('')">
                         <th>4</th>
-                        <td>HAD</td>
-                        <td>5.65%</td>
-                        <td>$4.99</td>
+                        <td>SATX</td>
+                        <td>-13.57%</td>
+                        <td>$1.21</td>
                       </tr>
-                      <tr class="hover">
+                      <tr class="hover" onclick="fillTicker('')">
                         <th>5</th>
-                        <td>HAD</td>
-                        <td>5.65%</td>
-                        <td>$4.99</td>
+                        <td>SNAX</td>
+                        <td>-12.48%</td>
+                        <td>$0.4201</td>
                       </tr>
-                      <tr class="hover">
+                      <tr class="hover" onclick="fillTicker('')">
                         <th>6</th>
-                        <td>HAD</td>
-                        <td>5.65%</td>
-                        <td>$4.99</td>
+                        <td>PSTV</td>
+                        <td>-12.35%</td>
+                        <td>$0.269</td>
                       </tr>
-                      <tr class="hover">
+                      <tr class="hover" onclick="fillTicker('')">
                         <th>7</th>
-                        <td>HAD</td>
-                        <td>5.65%</td>
-                        <td>$4.99</td>
+                        <td>POAI</td>
+                        <td>-10.80%</td>
+                        <td>$0.247</td>
                       </tr>
-                      <tr class="hover">
+                      <tr class="hover" onclick="fillTicker('')">
                         <th>8</th>
-                        <td>HAD</td>
-                        <td>5.65%</td>
-                        <td>$4.99</td>
+                        <td>RCRT</td>
+                        <td>-10.36%</td>
+                        <td>$0.2958</td>
                       </tr>
-                      <tr class="hover">
+                      <tr class="hover" onclick="fillTicker('')">
                         <th>9</th>
-                        <td>HAD</td>
-                        <td>5.65%</td>
-                        <td>$4.99</td>
+                        <td>KPLT</td>
+                        <td>-9.79%</td>
+                        <td>$0.46</td>
                       </tr>
-                      <tr class="hover">
+                      <tr class="hover" onclick="fillTicker('')">
                         <th>10</th>
-                        <td>HAD</td>
-                        <td>5.65%</td>
-                        <td>$4.99</td>
+                        <td>VLON</td>
+                        <td>-8.91%</td>
+                        <td>$0.419</td>
                       </tr>
                   </tbody>
                 </table>
               </div>
           </div>
-        <div class=" min-w-max max-w-full p-[3%] row-span-1 lg:col-span-1  text-white rounded-lg min-h-min bg-gradient-to-bl from-purple-500 to-pink-500">
-            <div class="overflow-x-auto">
-                <div class="pb-9">
-                    <h5 class="sub_title font-bold text-2xl text-magenta-500">Daily Top Movers</h5>
-                </div> <!-- section title -->
-                <table class="table  w-full">
-                  <!-- head -->
-                  <thead>
-                    <tr class="hover">
-                      <th></th>
-                      <th>Ticker</th>
-                      <th>% Chg</th>
-                      <th>Last Price</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <!-- row 1 -->
-                    <tr class="hover">
-                      <th>1</th>
-                      <td>AAPL</td>
-                      <td>30%</td>
-                      <td>$11.42</td>
-                    </tr>
-                    <!-- row 2 -->
-                    <tr class="hover" class="hover">
-                      <th>2</th>
-                      <td>TSLA</td>
-                      <td>11.6%</td>
-                      <td>$3.56</td>
-                    </tr>
-                    <!-- row 3 -->
-                    <tr class="hover">
-                      <th>3</th>
-                      <td>HAD</td>
-                      <td>5.65%</td>
-                      <td>$4.99</td>
-                    </tr>
-                    <tr class="hover">
-                        <th>4</th>
-                        <td>HAD</td>
-                        <td>5.65%</td>
-                        <td>$4.99</td>
-                      </tr>
-                      <tr class="hover">
-                        <th>5</th>
-                        <td>HAD</td>
-                        <td>5.65%</td>
-                        <td>$4.99</td>
-                      </tr>
-                      <tr class="hover">
-                        <th>6</th>
-                        <td>HAD</td>
-                        <td>5.65%</td>
-                        <td>$4.99</td>
-                      </tr>
-                      <tr class="hover">
-                        <th>7</th>
-                        <td>HAD</td>
-                        <td>5.65%</td>
-                        <td>$4.99</td>
-                      </tr>
-                      <tr class="hover">
-                        <th>8</th>
-                        <td>HAD</td>
-                        <td>5.65%</td>
-                        <td>$4.99</td>
-                      </tr>
-                      <tr class="hover">
-                        <th>9</th>
-                        <td>HAD</td>
-                        <td>5.65%</td>
-                        <td>$4.99</td>
-                      </tr>
-                      <tr class="hover">
-                        <th>10</th>
-                        <td>HAD</td>
-                        <td>5.65%</td>
-                        <td>$4.99</td>
-                      </tr>
-                  </tbody>
-                </table>
-              </div>
-          </div>
+          <script>
+            function fillTicker(ticker) {
+              var tickerInput = document.getElementById('ticker');
+              tickerInput.value = ticker;
+              document.getElementById('submit').click();
+            }
+          </script>
     </div>
 
       

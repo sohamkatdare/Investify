@@ -12,23 +12,26 @@ def get_composite_score(ticker_name):
     # Get the financials of the stock
     latest_income_statement = ticker.get_financial_stmts(frequency='quarterly', statement_type='income')['incomeStatementHistoryQuarterly'][ticker_name][-1]
     latest_balance_sheet = ticker.get_financial_stmts(frequency='quarterly', statement_type='balance')['balanceSheetHistoryQuarterly'][ticker_name][-1]
-    print(latest_income_statement)
-    print(latest_balance_sheet)
+
     income_statement_dict = latest_income_statement[list(latest_income_statement.keys())[0]]
     balance_sheet_dict = latest_balance_sheet[list(latest_balance_sheet.keys())[0]]
+
+    stock_potential_general_worse = stock_potential_general(income_statement_dict, balance_sheet_dict)
+
+    return stock_potential_general_worse
     
 
-    # Calculate EBIT with the latest date possible
-    ebit = income_statement_dict['ebit']
 
-    # Calculate Net Fixed Assets
-    net_fixed_assets = balance_sheet_dict['totalNonCurrentAssets']
-
-    # Calculate Working Capital
-    working_capital = balance_sheet_dict['totalCapitalization']
-
+def stock_potential_general(income, balance_sheet):
+    ebit = income['ebit']
+    net_fixed_assets = balance_sheet['totalNonCurrentAssets']
+    working_capital = balance_sheet['totalCapitalization']
 
     return round(ebit / (net_fixed_assets + working_capital), 4)
+
+def stock_potential_precise(income, balance_sheet):
+    
+    pass
 
 def get_news(ticker_name):
     ticker = yf.Ticker(ticker_name)

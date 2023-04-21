@@ -4,6 +4,9 @@
 {% block body %}
 {{ super() }}
 <form class="form-control min-w-full ml-2" role="search" method="POST" action="" autocapitalize="characters" autocomplete="off">
+  <div class="gradient-text text-2xl mb-2">
+    <h1>Look Up Financial Term:</h1>
+  </div>
     <div class="input-group mb-3 flex">
       {% if articleForm.topic.errors %}
       {{ articleForm.topic(class="input input-bordered w-full") }}
@@ -25,8 +28,8 @@
 {% if data != None %}
 <div id="data">
   <h1 class="text-5xl text-primary mt-10 mb-10">Article Summary</h1>
-  <button class="btn btn-primary btn-lg inline-block"><a href="{{link}}">Go to Original Article</a></button>
   <h3 class="text-xl mt-10 mb-10">{{data}}</h3>
+  <button class="btn btn-primary border-indigo-400 bg-transparent hover:gradient-bg hover:border-indigo-400  transition-all inline-block"><a href="{{link}}" target="_blank">Go to Original Article</a></button>
 </div>
 {% endif %}
 {% endblock search_results %}

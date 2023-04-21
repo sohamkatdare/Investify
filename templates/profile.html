@@ -2,7 +2,7 @@
 {% block title %}Profile{% endblock title %}
 {% block body %}
 {{ super() }}
-<div class="container mx-auto px-4">
+<div class="container mx-auto px-4 -translate-y-[1.5rem]">
   <!-- User avatar and welcome message -->
   <div class="flex items-center py-6">
     <img src="https://images.unsplash.com/photo-1511367461989-f85a21fda167?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cHJvZmlsZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60" alt="User avatar" class="h-16 aspect-square rounded-full bg-contain">
@@ -12,14 +12,16 @@
   <h1 class="text-3xl text-white mt-12 font-bold underline decoration-purple-400"">Your Paper Trading Games</h1> 
   <!-- Paper trading simulations -->
   <div class="my-6 flex lg:flex-row flex-col  lg:gap-x-8 gap-y-8">
-    {{ 
-      macros.card_graph(title='Paper Trading Simulation #1',
-                  text_gain_loss='$315.31',
-                  text_pct_change='13.1%',
-                  button='Go to Simulation',
-                  buttonLink='/paper-trading'
-      )
-    }}
+    {% for g in games %}
+      {{ 
+        macros.card_graph(title=g.name,
+                    text_gain_loss='$'+(g.get_portfolio_value()).__str__(),
+                    text_pct_change=g.growth().__str__() + '%',
+                    button='Go to Simulation',
+                    buttonLink= '/paper-trading?' + g.get_url_from_name(),
+        )
+      }}
+    {% endfor %}
     
     
     <div class="card w-96 border-4 border-dashed border-white/[0.1]">
@@ -47,6 +49,13 @@
                         outline=True,
       )
     }}
+    <script>
+      function fillTicker(ticker) {
+        var tickerInput = document.getElementById('nav-search');
+        tickerInput.value = ticker;
+        document.getElementById('submit').click();
+      }
+    </script>
   </div>
 
   <!-- Chatbot conversations -->
@@ -69,11 +78,13 @@
   <div class="modal-box">
     <div class="modal-action">
       <h1 class="text-2xl text-white font-bold underline decoration-purple-400 text-left mr-40 leading-5">Create Game</h1>
-      <a href="#" class="btn btn-primary border-indigo-400 bg-transparent hover:gradient-bg hover:border-indigo-400  transition-all ">Exit</a>
+      <a href="#" class="btn btn-primary border-indigo-400 bg-transparent hover:gradient-bg hover:border-indigo-400 transition-all ">Exit</a>
      </div>
-    <form class="flex flex-col gap-y-6">
-      <input type="text"  class="input input-bordered border-purple-400 w-full max-w-xs" placeholder="Player 1: {{ current_identity }}" readonly></input>
-      {{ playersForm.email_2(class="input input-bordered w-full max-w-xx` s", placeholder="Player 2: Email(optional)") }}
+    <form class="flex flex-col gap-y-6" method="POST" action="">
+      {{ playersForm.name(class="input input-bordered w-full max-w-xs", placeholder="Game Name") }}
+      {{ playersForm.starting_amount(class="input input-bordered w-full max-w-xs", placeholder="10000") }}
+      <input type="text"  class="input input-bordered border-purple-400 w-full max-w-xs" placeholder="Owner: {{ current_identity }}" readonly></input>
+      {{ playersForm.email_2(class="input input-bordered w-full max-w-xs", placeholder="Player 2: Email(optional)") }}
       {{ playersForm.email_3(class="input input-bordered w-full max-w-xs", placeholder="Player 3: Email(optional)") }}
       {{ playersForm.email_4(class="input input-bordered w-full max-w-xs", placeholder="Player 4: Email(optional)") }}
       {{ playersForm.email_5(class="input input-bordered w-full max-w-xs", placeholder="Player 5: Email(optional)") }}

@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
+from wtforms import StringField, IntegerField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Length
 
 class LoginForm(FlaskForm):
@@ -8,6 +8,8 @@ class LoginForm(FlaskForm):
   submit = SubmitField('Sign In')
 
 class PlayersForm(FlaskForm):
+  name = StringField('Game Name', validators=[DataRequired()])
+  starting_amount = IntegerField('Starting Amount', validators=[DataRequired()])
   email_2 = StringField('Player 2: Email')
   email_3 = StringField('Player 3: Email')
   email_4 = StringField('Player 4: Email')

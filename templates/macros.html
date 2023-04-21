@@ -46,7 +46,7 @@
 {%- endmacro %}
 
 {% macro card_graph(title='Card Title', text_gain_loss="Some efjiowwww", text_pct_change="Some efjiowwww", button='Go', buttonLink="#", chartData="[0,10,5,2,20,30,45]") -%}
-    <div class="card w-96 bg-white/[0.075] hover:shadow-2xl hover:drop-shadow-2xl hover:-translate-y-[1rem] translate-y-[1rem] transition-all">
+    <div class="card w-96 bg-white/[0.075] hover:shadow-2xl hover:drop-shadow-2xl hover:-translate-y-[2rem] transition-all">
         <div class="card-body">
         <h2 class="card-title"> {{ title }} </h2>
         <p class="mb-3 text-3xl"> {{ text_gain_loss }} <span class=" ml-1 text-xl"> {{ text_pct_change }} </span></p>
@@ -57,7 +57,7 @@
     </div>
 {%- endmacro %}
 {% macro card_conversation(title='Card Title', button='Go', buttonLink="#") -%}
-    <div class="card w-96 bg-white/[0.075] hover:shadow-2xl hover:drop-shadow-2xl hover:-translate-y-[1rem] translate-y-[1rem] transition-all">
+    <div class="card w-96 bg-white/[0.075] hover:shadow-2xl hover:drop-shadow-2xl hover:-translate-y-[2rem]  transition-all">
         <div class="card-body">
         <h2 class="card-title"> {{ title }} </h2>
         <p class="mb-3 text-3xl"> {{ text_gain_loss }} <span class=" ml-1 text-xl"> {{ text_pct_change }} </span></p>
@@ -72,18 +72,11 @@
         </figure>
     </div>
 {%- endmacro %}
-{% macro stock_chip(ticker='AAPL', price='21.78', outline=True) %}
-    {% if outline %}
-        <button class="flex justify-center items-center text-white text-xl font-bold hover:bg-white/[0.075] bg-transparent border-2 border-white/25 hover:border-0 rounded-full min-w-64 h-8 p-2 mb-2 text-center" onclick="fillTicker('{{ ticker }}')">
-            <span class="mr-3">{{ ticker }}</span>
+{% macro stock_chip(ticker='AAPL', price='') %}
+    <button class="flex justify-center items-center text-white text-xl font-bold hover:bg-white/[0.075] bg-transparent border-2 border-white/25 hover:border-transparent rounded-full min-w-64 h-8 p-4 mb-2 text-center" onclick="fillTicker('{{ ticker }}')">
+        <span class="{% if price == '' %} text-center {% else %} mr-3  {% endif %}">{{ ticker }}</span>
+        {% if price == '' %}
             <span class="text-lg font-normal text-white/50">{{ price }}</span>
-        </button>
-      
-    {% else %}
-        <button class="flex justify-center items-center text-white text-xl font-bold bg-base-200 hover:brightness-[1.4] hover:shadow-2xl hover:drop-shadow-2xl transition-all ease-in-out rounded-full min-w-64 h-8 p-2 mb-2 text-center" onclick="fillTicker('{{ ticker }}')">
-            <span class="mr-3">{{ ticker }}</span>
-            <span class="text-lg font-normal text-white/50">{{ price }}</span>
-        </button>
-      
-    {% endif %}
+        {% endif %}
+    </button>
 {%- endmacro %}

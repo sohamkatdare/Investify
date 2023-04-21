@@ -43,10 +43,13 @@ def index():
       ticker = searchForm.ticker.data.upper()
       prevAggs = getStockData(ticker)
       data = [prevAggs]
+      tsla_price = [getStockData('TSLA')]
+      aapl_price = [getStockData('AAPL')]
+      return render_template('index.html', data=data, searchForm=searchForm, current_identity=current_identity if current_identity else '')
     except Exception as e:
       print(e)
       flash(f'Ticker "{searchForm.ticker.data.upper()}" not found.', 'error')
-  return render_template('index.html', data=None, searchForm=searchForm, current_identity=current_identity if current_identity else '')
+  return render_template('index.html', data=data, searchForm=searchForm, current_identity=current_identity if current_identity else '')
 
 @app.route('/login', methods=['GET', 'POST'])
 @jwt_required(optional=True)

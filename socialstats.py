@@ -3,7 +3,7 @@ import pandas as pd
 import matplotlib
 import matplotlib.pyplot as plt
 from textblob import TextBlob
-from wordcloud import WordCloud, STOPWORDS
+# from wordcloud import WordCloud, STOPWORDS
 
 matplotlib.use('Agg')
 
@@ -65,15 +65,15 @@ def getSocialStats(ticker):
 
     text = " ".join(text for text in df.Tweet)
 
-    stopwords = set(STOPWORDS)
+    stopwords = set({'until', 'do', 'why', "we'll", 'there', 'in', 'all', "why's", "i'm", 'r', "hadn't", 'because', 'from', 'you', 'yourselves', 'few', 'himself', 'as', 'about', 'these', 'where', 'other', 'hers', 'above', 'being', 'further', 'through', 'therefore', "mustn't", "they've", 'com', 'into', 'not', 'itself', 'out', 'ought', "can't", 'ever', "it's", "you'll", 'while', 'get', "he's", "isn't", 'themselves', 'just', 'should', 'ourselves', 'can', 'shall', "here's", "when's", 'a', 'them', 'they', 'and', 'own', 'she', "they'll", 'like', 'off', 'http', 'or', 'been', "hasn't", 'herself', 'whom', 'no', "wasn't", "you've", 'how', "they're", 'me', 'nor', 'before', 'did', "she'll", "i'd", "she'd", "you'd", 'at', 'below', 'hence', 'otherwise', "weren't", 'when', 'having', 'more', 'cannot', "we've", 'such', 'him', "where's", 'who', 'than', 'between', 'k', 'since', 'their', 'am', 'the', 'it', 'then', 'same', 'of', 'any', 'once', 'those', 'we', 'are', 'else', 'very', 'theirs', 'your', "we're", "won't", 'has', 'had', "they'd", "how's", 'under', 'down', 'were', "wouldn't", 'here', 'up', "he'll", 'each', "don't", 'against', "let's", 'over', 'most', 'after', 'its', 'on', "couldn't", "i'll", 'i', 'my', 'during', 'both', "doesn't", 'for', 'he', "shouldn't", 'so', 'if', 'again', 'does', 'doing', 'our', "didn't", 'myself', 'only', "shan't", 'www', 'that', "who's", 'was', "she's", "he'd", 'yourself', "you're", 'his', 'some', 'with', 'too', 'is', 'have', 'her', "i've", 'to', 'which', 'by', "haven't", 'would', 'what', 'an', "what's", 'be', 'ours', 'could', "that's", "aren't", "there's", 'also', 'yours', 'but', 'however', 'this', "we'd"})
     stopwords.update(["HTTPS", "CO", 'T', 'H'])
 
-    wordcloud = WordCloud(stopwords=stopwords, background_color="#171212").generate(text)
+    # wordcloud = WordCloud(stopwords=stopwords, background_color="#171212").generate(text)
 
-    plt.imshow(wordcloud, interpolation='bilinear')
-    plt.axis('off')
-    plt.tight_layout()
-    plt.savefig('static/wordcloud.png', facecolor=plt.gca().get_facecolor())
+    # plt.imshow(wordcloud, interpolation='bilinear')
+    # plt.axis('off')
+    # plt.tight_layout()
+    # plt.savefig('static/wordcloud.png', facecolor=plt.gca().get_facecolor())
     # # plt.show()
 
     return [i for i in own_tweets if len(i.text.split(' ')) > 15][:6], df, df.loc[:, 'Sentiment'].mean()

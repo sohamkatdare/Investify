@@ -115,7 +115,6 @@ webencodings==0.5.1
 websocket-client==1.5.1
 websockets==10.4
 Werkzeug==2.2.3
-wordcloud==1.8.2.2
 wrapt==1.15.0
 wsproto==1.2.0
 WTForms==3.0.1

@@ -94,6 +94,7 @@ class PaperTrader:
         else:
             price = self.prices[ticker][-1]
             revenue = price * int(quantity)
+            self.capital += revenue
             self.portfolio[ticker] -= int(quantity)
             if self.portfolio[ticker] == 0:
                 del self.portfolio[ticker]

@@ -13,6 +13,7 @@ from insider_trading import scrape_insider_data
 
 from data.user import User
 from data.paper_trading_game import PaperTraderGame
+import traceback
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '7b7e30111ddc1f8a5b1d80934d336798'
@@ -117,7 +118,9 @@ def search():
       return render_template('search.html', is_search=True, data=data, searchForm=searchForm, ticker=ticker, finance_analysis=finance_analysis, news=news, tweets=tweets, sentimentData=list(sentimentData), averageSentiment=averageSentiment, current_identity=current_identity if current_identity else '', insider_data=insider_data)
     except Exception as e:
       print(e)
-      flash(str(e), 'error')
+      # Flash entire stack trace
+      flash(traceback.format_exc(), 'error')
+      # flash(str(e), 'error')
       # flash(f'Ticker "{searchForm.ticker.data.upper()}" not found.', 'error')
   return render_template('search.html', is_search=True, data=data, searchForm=searchForm, ticker=ticker, finance_analysis=finance_analysis, news=news, tweets=tweets, sentimentData=sentimentData, averageSentiment=averageSentiment, current_identity=current_identity if current_identity else '', insider_data=insider_data)
 

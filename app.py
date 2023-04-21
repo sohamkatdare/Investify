@@ -34,11 +34,8 @@ def my_expired_token_callback(jwt_header, jwt_payload):
 def index():
   current_identity = get_jwt_identity()
   searchForm = TickerForm()
-  ticker = None
-  data = None
-  tsla_price = [getStockData('TSLA')]
-  aapl_price = [getStockData('AAPL')]
-  return render_template('index.html', data=data, searchForm=searchForm, current_identity=current_identity if current_identity else '', tsla_price=tsla_price, )
+
+  return render_template('index.html', searchForm=searchForm, current_identity=current_identity if current_identity else '', data=None)
 
 @app.route('/login', methods=['GET', 'POST'])
 @jwt_required(optional=True)

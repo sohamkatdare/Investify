@@ -7,7 +7,8 @@
     <thead>
       <tr class="text-2xl">
         <th class="text-xl">Name</th>
-        <th class="text-xl">Value</th>
+        <th class="text-xl">Capital</th>
+        <th class="text-xl">Portfolio Value</th>
         <th class="text-xl">Growth</th>
       </tr>
     </thead>
@@ -15,7 +16,8 @@
       {% for user in leaderboard %}
         <tr class="hover">
           <th class="font-light">{{ user.id }}</th>
-          <th class="font-light">{{ user.get_portfolio_value().__round__(2) }}</th>
+          <th class="font-light">${{ user.capital.__round__(2) }}</th>
+          <th class="font-light">${{ user.get_portfolio_value().__round__(2) }}</th>
           <th class="font-light">{{ user.growth().__round__(3) }}%</th>
         </tr>
       {% endfor %}

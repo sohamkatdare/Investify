@@ -56,20 +56,12 @@
                 You have bought ${{ (userDetail.get_portfolio_value() - userDetail.capital).__round__(2) }} worth of stocks.
               </div>
               <a href="paper-trading/buy?{{userDetail.get_url_from_name()}}" class="text-xl btn btn-primary border-indigo-400 bg-transparent hover:gradient-bg hover:border-indigo-400 mx-24  transition-all">Buy Stock</a>
+              <a href="paper-trading/sell?{{userDetail.get_url_from_name()}}" class="text-xl btn btn-primary border-indigo-400 bg-transparent hover:gradient-bg hover:border-indigo-400 mx-24  transition-all">Sell Stock</a>      
             </div>
           </div>
         </tr>
       </tbody>
     </table>
-
-    
-    <div class="w-full">
-      <div class="card w-full border-2 mt-6 border-dashed border-white/[0.1]">
-        <div class="card-body m-auto">
-          <a href="paper-trading/sell?{{userDetail.get_url_from_name()}}" class="text-xl btn btn-primary border-indigo-400 bg-transparent hover:gradient-bg hover:border-indigo-400 mx-24  transition-all">Sell Stock</a>
-        </div>
-      </div>
-    </div>
  
 
 {% block body %}

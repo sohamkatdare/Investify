@@ -38,22 +38,28 @@
       </tr>
     </thead>
     <tbody> 
-      {% if list(user_detail.portfolio.keys()).__len__() >= 1 %}
-      {% for stock, quantity in user_detail.portfolio.items() %}
-        <tr class="hover">
-          <th class="font-light">{{ stock }}</th>
-          <th class="font-light">{{ quantity }}</th>
-          <th class="font-light">${{ user_detail.get_price(stock)[-1] }}</th>
-          <!-- <th class="font-light">{{ user_detail.get_price(stock)[0] }}</th> -->
-          <th class="font-light">${{ user_detail.get_price(stock)[-1] * quantity }}</th>
-          <th class="font-light"> {{ user_detail.get_price(stock)[-1] * quantity /  user_detail.get_portfolio_value()}} </th>
+        {% for stock, quantity in userDetail.portfolio.items() %}
+          <tr class="hover">
+            <th class="font-light">{{ stock }}</th>
+            <th class="font-light">{{ quantity }}</th>
+            <th class="font-light">${{ userDetail.get_price(stock)[-1] }}</th>
+            <!-- <th class="font-light">{{ userDetail.get_price(stock)[0] }}</th> -->
+            <th class="font-light">${{ userDetail.get_price(stock)[-1] * quantity }}</th>
+            <th class="font-light"> {{ userDetail.get_price(stock)[-1] * quantity /  userDetail.get_portfolio_value()}} </th>
+          </tr>
+        {% endfor %}
+        <tr class="col-span-5 hover">
+          <div class="card w-full border-2 mt-6 border-dashed border-white/[0.1]">
+            <div class="card-body m-auto">
+              <div class="card-title m-auto">
+                You have bought {{ userDetail.get_portfolio_value() }} worth of stocks.
+              </div>
+            </div>
+          </div>
         </tr>
-      {% endfor %}
-      {% else %}
-      <p class="text-xl text-white font-normal">You have not bought any stocks</p>
-      {% endif %}
-    </tbody>
-  </table>
+      </tbody>
+    </table>
+    
  
 
 {% block body %}

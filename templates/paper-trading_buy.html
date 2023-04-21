@@ -34,10 +34,10 @@
           <p>Quantity: {{quantity}}</p>
         </div>
         <div class="flex justify-center items-center text-red-400 text-xl font-bold hover:bg-white/[0.075] bg-transparent border-2 border-white/25 hover:border-transparent rounded-full min-w-64 h-8 p-4 mb-2 text-center">
-          <p>Price Per Share: ${{price}}</p>
+          <p>Price Per Share: ${{price.__round__(2)}}</p>
         </div>
         <div class="flex justify-center items-center text-red-400 text-xl font-bold hover:bg-white/[0.075] bg-transparent border-2 border-white/25 hover:border-transparent rounded-full min-w-64 h-8 p-4 mb-2 text-center">
-          <p>Total Price: ${{price * quantity}}</p>
+          <p>Total Price: ${{ (price * quantity).__round__(2) }}</p>
         </div>
         {{confirm.confirm(class="btn btn-primary border-indigo-400 bg-transparent hover:gradient-bg hover:border-indigo-400  transition-all ")}}
       {% endif %}

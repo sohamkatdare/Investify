@@ -38,18 +38,9 @@ def index():
   searchForm = TickerForm()
   ticker = None
   data = None
-  if searchForm.ticker.data:
-    try:
-      ticker = searchForm.ticker.data.upper()
-      prevAggs = getStockData(ticker)
-      data = [prevAggs]
-      tsla_price = [getStockData('TSLA')]
-      aapl_price = [getStockData('AAPL')]
-      return render_template('index.html', data=data, searchForm=searchForm, current_identity=current_identity if current_identity else '')
-    except Exception as e:
-      print(e)
-      flash(f'Ticker "{searchForm.ticker.data.upper()}" not found.', 'error')
-  return render_template('index.html', data=data, searchForm=searchForm, current_identity=current_identity if current_identity else '')
+  tsla_price = [getStockData('TSLA')]
+  aapl_price = [getStockData('AAPL')]
+  return render_template('index.html', data=data, searchForm=searchForm, current_identity=current_identity if current_identity else '', tsla_price=tsla_price, )
 
 @app.route('/login', methods=['GET', 'POST'])
 @jwt_required(optional=True)
@@ -203,8 +194,9 @@ def papertrading():
   user = User.get_user_by_email(user_id)
   game = request.args.get('gid')
   userDetail, otherDetail = PaperTraderGame.get_game_detail(game, user_id)
-
-  return render_template('paper-trading.html', data=None, searchForm=searchForm, is_search=True, user_id=user_id, current_identity=user_id, user=user, userDetail=userDetail, otherDetail=otherDetail)
+  leaderboard = sorted([userDetail, *otherDetail], key=lambda x: x.get_portfolio_value(), reverse=True)
+  print(leaderboard)
+  return render_template('paper-trading.html', data=None, searchForm=searchForm, is_search=True, user_id=user_id, current_identity=user_id, user=user, userDetail=userDetail, otherDetail=otherDetail, leaderboard=leaderboard)
 
 @app.route('/logout')
 @jwt_required()

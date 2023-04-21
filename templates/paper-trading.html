@@ -2,6 +2,7 @@
 {% block title %}Paper Trading{% endblock title %}
 {% block wholebody %}
 
+  <h1 class="text-3xl gradient-text my-12 font-bold underline ">Leaderboard</h1> 
   <table class="table table-zebra w-full text-white">
     <thead>
       <tr class="text-2xl">
@@ -11,21 +12,48 @@
       </tr>
     </thead>
     <tbody> 
-      <tr class="hover">
-        <th class="font-light">{{ userDetail.id }}</th>
-        <th class="font-light">{{ userDetail.get_portfolio_value() }}</th>
-        <th class="font-light">{{ userDetail.growth() }}%</th>
-      </tr>
-      {% for otherUser in otherDetail %}
+      {% for user in leaderboard %}
         <tr class="hover">
-          <th class="font-light">{{ otherUser.id }}</th>
-          <th class="font-light">{{ otherUser.get_portfolio_value() }}</th>
-          <th class="font-light">{{ otherUser.growth() }}%</th>
+          <th class="font-light">{{ user.id }}</th>
+          <th class="font-light">{{ user.get_portfolio_value() }}</th>
+          <th class="font-light">{{ user.growth() }}%</th>
         </tr>
       {% endfor %}
     </tbody>
   </table>
-  
+
+  <h1 class="text-3xl gradient-text my-12 font-bold underline ">Owned Stocks</h1> 
+
+  <table class="table table-zebra w-full text-white">
+    <thead>
+      <tr class="text-2xl">
+        <th class="text-xl">Ticker</th>
+        <th class="text-xl">Quantity</th>
+        <th class="text-xl">Price</th>
+        <!-- <th class="text-xl">Purchase Price</th>
+        <th class="text-xl">Change</th>
+        <th class="text-xl">% Chg</th> -->
+        <th class="text-xl">Value</th>
+        <th class="text-xl">Portfolio %</th>
+      </tr>
+    </thead>
+    <tbody> 
+      {% if list(user_detail.portfolio.keys()).__len__() >= 1 %}
+      {% for stock, quantity in user_detail.portfolio.items() %}
+        <tr class="hover">
+          <th class="font-light">{{ stock }}</th>
+          <th class="font-light">{{ quantity }}</th>
+          <th class="font-light">${{ user_detail.get_price(stock)[-1] }}</th>
+          <!-- <th class="font-light">{{ user_detail.get_price(stock)[0] }}</th> -->
+          <th class="font-light">${{ user_detail.get_price(stock)[-1] * quantity }}</th>
+          <th class="font-light"> {{ user_detail.get_price(stock)[-1] * quantity /  user_detail.get_portfolio_value()}} </th>
+        </tr>
+      {% endfor %}
+      {% else %}
+      <p class="text-xl text-white font-normal">You have not bought any stocks</p>
+      {% endif %}
+    </tbody>
+  </table>
  
 
 {% block body %}

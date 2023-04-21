@@ -2705,14 +2705,14 @@ html {
   margin-bottom: 0.75rem;
 }
 
-.my-6 {
-  margin-top: 1.5rem;
-  margin-bottom: 1.5rem;
-}
-
 .my-12 {
   margin-top: 3rem;
   margin-bottom: 3rem;
+}
+
+.my-6 {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
 }
 
 .my-auto {
@@ -2782,10 +2782,6 @@ html {
 
 .mr-3 {
   margin-right: 0.75rem;
-}
-
-.mt-\[8rem\] {
-  margin-top: 8rem;
 }
 
 .ml-3 {
@@ -2904,10 +2900,6 @@ html {
 .max-h-max {
   max-height: -moz-max-content;
   max-height: max-content;
-}
-
-.max-h-\[300px\] {
-  max-height: 300px;
 }
 
 .max-h-0 {
@@ -3211,10 +3203,6 @@ html {
 
 .overflow-x-hidden {
   overflow-x: hidden;
-}
-
-.overflow-y-scroll {
-  overflow-y: scroll;
 }
 
 .rounded-lg {

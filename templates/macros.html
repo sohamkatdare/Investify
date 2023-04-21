@@ -75,7 +75,7 @@
 {% macro stock_chip(ticker='AAPL', price='') %}
     <button class="flex justify-center items-center text-white text-xl font-bold hover:bg-white/[0.075] bg-transparent border-2 border-white/25 hover:border-transparent rounded-full min-w-64 h-8 p-4 mb-2 text-center" onclick="fillTicker('{{ ticker }}')">
         <span class="{% if price == '' %} text-center {% else %} mr-3  {% endif %}">{{ ticker }}</span>
-        {% if price == '' %}
+        {% if price != '' %}
             <span class="text-lg font-normal text-white/50">{{ price }}</span>
         {% endif %}
     </button>

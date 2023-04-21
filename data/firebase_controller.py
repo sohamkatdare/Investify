@@ -65,6 +65,10 @@ def get_all_games(user):
         all_games.append(PaperTrader(game_data['name'], game_data['portfolio'], game_data['initial'], game_data['capital'], game_data['id']))
     return all_games
 
+def get_paper_trader(game, user):
+    data = db.collection(u'games').document(game).collection(u'portfolios').document(user).get().to_dict()
+    return PaperTrader(data['name'], data['portfolio'], data['initial'], data['capital'], data['id'])
+
 def get_game_detail(game, user):
     # Note: Use of CollectionRef stream() is prefered to get()
     docs = db.collection(u'games').document(game).collection(u'portfolios').stream()
@@ -79,6 +83,10 @@ def get_game_detail(game, user):
             print(d)
             other_users.append(PaperTrader(d['name'], d['portfolio'], d['initial'], d['capital'], d['id']))
     return main_user, other_users
+
+def updatePortfolio(game, paper_trader):
+    # Update game
+    db.collection(u'games').document(game).collection(u'portfolios').document(paper_trader.id).set(paper_trader.to_dict())
 
 if __name__ == '__main__':
     # add_data()

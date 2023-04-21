@@ -14,9 +14,13 @@ class PaperTrader:
     def get_url_from_name(self):
         return 'gid=' + self.name.replace(' ', '+')
 
+    @staticmethod
     def get_price(ticker):
         # Look at the last 2 weeks of data for the ticker using datetime.
-        return yf.download([ticker], start="2021-01-01", end=str(datetime.datetime.now().date))['Close']
+        # print('Dates', str((datetime.datetime.now()-datetime.timedelta(weeks=2)).strftime('%Y-%m-%d')), str(datetime.datetime.now().strftime('%Y-%m-%d')))
+        # print(type(str((datetime.datetime.now()-datetime.timedelta(weeks=2)).strftime('%Y-%m-%d'))), type(str(datetime.datetime.now().strftime('%Y-%m-%d'))))
+        print('Ticker', ticker)
+        return yf.download([ticker], start="2021-01-01", end="2023-04-16")['Close']
 
     def get_prices(self):
         tickers = list(self.portfolio.keys())
@@ -30,36 +34,74 @@ class PaperTrader:
         portfolio_value = 0
         for ticker, quantity in self.portfolio.items():
             price = self.prices[ticker][-1]
-            value = price * quantity
+            print('Price', price, type(price), 'Quantity', quantity, type(quantity))
+            value = price * int(quantity)
             portfolio_value += value
         return portfolio_value + self.capital
 
-    def buy(self, ticker, quantity):
+    def preview_buy(self, ticker, quantity):
         prices = PaperTrader.get_price(ticker)
         price = prices[-1]
         cost = price * quantity
+        if cost > self.capital:
+            print("Insufficient funds to make this purchase")
+            raise ValueError("Insufficient funds to make this purchase")
+        else:
+            print(f"Buying {quantity} shares of {ticker} at ${price} would cost ${cost:.2f}")
+        return price, cost
+    
+    def preview_sell(self, ticker, quantity):
+        prices = PaperTrader.get_price(ticker)
+        price = prices[-1]
+        cost = price * quantity
+        if ticker not in self.portfolio:
+            print("You don't own any shares of this stock")
+            raise ValueError("You don't own any shares of this stock")
+        elif quantity > self.portfolio[ticker]:
+            print("You don't own enough shares to make this sale")
+            raise ValueError("You don't own enough shares to make this sale")
+        else:
+            print(f"Selling {quantity} shares of {ticker} at ${price} would earn ${cost:.2f}")
+        return price, cost
+
+    def buy(self, ticker, quantity):
+        prices = PaperTrader.get_price(ticker)
+        price = float(prices[-1])
+        print('Price', price)
+        print('Quantity', quantity)
+        cost = price * int(quantity)
         if cost > self.capital: # Check if the purchase can be made (enough free capital (not invested in stocks)).
             print("Insufficient funds to make this purchase")
+            raise ValueError("Insufficient funds to make this purchase")
         else:
-            self.portfolio[ticker] = self.portfolio.get(ticker, 0) + quantity
+            if ticker not in self.portfolio:
+                self.portfolio[ticker] = int(quantity)
+            else:
+                self.portfolio[ticker] += int(quantity)
             self.prices[ticker] = prices
+            self.capital -= cost
             print(f"Bought {quantity} shares of {ticker} at ${price}")
+            from data.firebase_controller import updatePortfolio
+            updatePortfolio(self.name, self)
 
     def sell(self, ticker, quantity):
         if ticker not in self.portfolio:
-            print("You don't own any shares of this stock")
-        elif quantity > self.portfolio[ticker]:
-            print("You don't own enough shares to make this sale")
+            print("You don't own any shares of this stock.")
+            raise ValueError("You don't own any shares of this stock.")
+        elif int(quantity) > self.portfolio[ticker]:
+            print("You don't own enough shares to make this sale.")
+            raise ValueError("You don't own enough shares to make this sale.")
         else:
             price = self.prices[ticker][-1]
-            revenue = price * quantity
-            self.portfolio[ticker] -= quantity
+            revenue = price * int(quantity)
+            self.portfolio[ticker] -= int(quantity)
             if self.portfolio[ticker] == 0:
                 del self.portfolio[ticker]
                 # Remove the ticker from the prices DataFrame
                 self.prices.drop(ticker, axis=1, inplace=True)
-            print(f"Sold {quantity} shares of {ticker} at ${price}")
-            return revenue
+            print(f"Sold {int(quantity)} shares of {ticker} at ${price}")
+            from data.firebase_controller import updatePortfolio
+            updatePortfolio(self.name, self)
 
     def print_portfolio(self):
         if not self.portfolio:

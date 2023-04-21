@@ -17,6 +17,21 @@ class PlayersForm(FlaskForm):
   email_6 = StringField('Player 6: Email')
   submit = SubmitField('Create Game')
 
+
+
+class BuyStockForm(FlaskForm):
+  ticker = StringField('Ticker: ', validators=[DataRequired()], render_kw={"placeholder": "Ticker"})
+  quantity = IntegerField('Quantity: ', validators=[DataRequired()], render_kw={"placeholder": "Quantity"})
+  submit = SubmitField('Buy')
+
+class ConfirmForm(FlaskForm):
+  confirm = SubmitField('Confirm')
+
+class SellStockForm(FlaskForm):
+  ticker = StringField('Ticker: ', validators=[DataRequired()], render_kw={"placeholder": "Ticker"})
+  quantity = IntegerField('Quantity: ', validators=[DataRequired()], render_kw={"placeholder": "Quantity"})
+  submit = SubmitField('Sell')
+
 class RegisterForm(FlaskForm):
   email = StringField('Email', validators=[DataRequired()])
   password = PasswordField('Password', validators=[DataRequired(), Length(min=6)])

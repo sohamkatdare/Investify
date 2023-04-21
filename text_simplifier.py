@@ -16,7 +16,7 @@ def summarize(prompt):
                 {"role": "system", "content": "You are a helpful assistant that summarizes and simplifies Investopedia articles through your complete knowledge of finance and investing."},
                 {"role": "user", "content": augmented_prompt}, 
         ],
-        max_tokens=2000,
+        max_tokens=1500,
     )['choices'][0]['message']['content'].strip(' .')
     incomplete = ''
     if raw_return[0] == raw_return[0].lower():

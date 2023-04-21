@@ -15,8 +15,8 @@
       {% for user in leaderboard %}
         <tr class="hover">
           <th class="font-light">{{ user.id }}</th>
-          <th class="font-light">{{ user.get_portfolio_value() }}</th>
-          <th class="font-light">{{ user.growth() }}%</th>
+          <th class="font-light">{{ user.get_portfolio_value().__round__(2) }}</th>
+          <th class="font-light">{{ user.growth().__round__(3) }}%</th>
         </tr>
       {% endfor %}
     </tbody>
@@ -39,27 +39,37 @@
     </thead>
     <tbody> 
         {% for stock, quantity in userDetail.portfolio.items() %}
-          <tr class="hover">
+          <tr class="hover mt-5">
             <th class="font-light">{{ stock }}</th>
             <th class="font-light">{{ quantity }}</th>
-            <th class="font-light">${{ userDetail.get_price(stock)[-1] }}</th>
+            <th class="font-light">${{ userDetail.get_price(stock)[-1].__round__(2) }}</th>
             <!-- <th class="font-light">{{ userDetail.get_price(stock)[0] }}</th> -->
-            <th class="font-light">${{ userDetail.get_price(stock)[-1] * quantity }}</th>
-            <th class="font-light"> {{ userDetail.get_price(stock)[-1] * quantity /  userDetail.get_portfolio_value()}} </th>
+            <th class="font-light">${{ (userDetail.get_price(stock)[-1] * quantity).__round__(2) }}</th>
+            <th class="font-light">{{ ((userDetail.get_price(stock)[-1] * quantity) / userDetail.capital * 100).__round__(2) }}%</th>
+            
           </tr>
         {% endfor %}
         <tr class="col-span-5 hover">
           <div class="card w-full border-2 mt-6 border-dashed border-white/[0.1]">
             <div class="card-body m-auto">
               <div class="card-title m-auto">
-                You have bought {{ userDetail.get_portfolio_value() }} worth of stocks.
+                You have bought ${{ (userDetail.get_portfolio_value() - userDetail.capital).__round__(2) }} worth of stocks.
               </div>
+              <a href="paper-trading/buy?{{userDetail.get_url_from_name()}}" class="text-xl btn btn-primary border-indigo-400 bg-transparent hover:gradient-bg hover:border-indigo-400 mx-24  transition-all">Buy Stock</a>
             </div>
           </div>
         </tr>
       </tbody>
     </table>
+
     
+    <div class="w-full">
+      <div class="card w-full border-2 mt-6 border-dashed border-white/[0.1]">
+        <div class="card-body m-auto">
+          <a href="paper-trading/sell?{{userDetail.get_url_from_name()}}" class="text-xl btn btn-primary border-indigo-400 bg-transparent hover:gradient-bg hover:border-indigo-400 mx-24  transition-all">Sell Stock</a>
+        </div>
+      </div>
+    </div>
  
 
 {% block body %}

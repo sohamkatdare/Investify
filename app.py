@@ -1,10 +1,9 @@
 from flask import Flask, render_template, flash, redirect, url_for, request
-from functools import wraps
 import requests
 import datetime
 from flask_jwt_extended import JWTManager, jwt_required, create_access_token, set_access_cookies, unset_jwt_cookies, get_jwt_identity
 
-from forms import LoginForm, RegisterForm, ResetPasswordForm, TickerForm, ArticleForm, PlayersForm
+from forms import LoginForm, RegisterForm, ResetPasswordForm, TickerForm, ArticleForm, PlayersForm, BuyStockForm, SellStockForm, ConfirmForm
 from socialstats import getSocialStats
 from polygon_io import getStockData
 from finance_analysis import get_pe_and_eps, get_composite_score, get_news
@@ -12,7 +11,6 @@ from webscraper import investopedia_search, investopedia_web_scrape
 from text_simplifier import summarize
 from insider_trading import scrape_insider_data
 
-from data.firebase_init import get_db
 from data.user import User
 from data.paper_trading_game import PaperTraderGame
 
@@ -197,6 +195,69 @@ def papertrading():
   leaderboard = sorted([userDetail, *otherDetail], key=lambda x: x.get_portfolio_value(), reverse=True)
   print(leaderboard)
   return render_template('paper-trading.html', data=None, searchForm=searchForm, is_search=True, user_id=user_id, current_identity=user_id, user=user, userDetail=userDetail, otherDetail=otherDetail, leaderboard=leaderboard)
+
+@app.route('/paper-trading/buy', methods=['GET', 'POST'])
+@jwt_required()
+def papertrading_buy():
+  searchForm = TickerForm()
+  buyStock = BuyStockForm()
+  confirm = ConfirmForm()
+  user_id = get_jwt_identity()
+  user = User.get_user_by_email(user_id)
+  game = request.args.get('gid')
+  buyPreviewPassed = request.args.get('p')
+  ticker = request.args.get('t')
+  quantity = int(request.args.get('q')) if request.args.get('q') else None
+  price = float(request.args.get('pr')) if request.args.get('pr') else None
+  if buyStock.ticker.data and buyStock.quantity.data:
+    paperTrader = PaperTraderGame.get_paper_trader(game, user_id)
+    try:
+      price, cost = paperTrader.preview_buy(buyStock.ticker.data, buyStock.quantity.data)
+      buyPreviewPassed = True
+      price = round(price, 2)
+      return redirect(url_for('papertrading_buy', gid=game, p=1, t=buyStock.ticker.data, q=buyStock.quantity.data, pr=price))
+    except ValueError as e:
+      flash(str(e), 'error')
+  if confirm.confirm.data:
+    paperTrader = PaperTraderGame.get_paper_trader(game, user_id)
+    try:
+      paperTrader.buy(ticker, quantity)
+      flash(f'Buy order for {quantity} shares of {ticker} placed successfully!', 'success')
+      return redirect(url_for('papertrading', gid=game))
+    except ValueError as e:
+      flash(str(e), 'error')
+  return render_template('paper-trading_buy.html', data=None, searchForm=searchForm, is_search=True, user_id=user_id, current_identity=user_id, user=user, buyStock=buyStock, confirm=confirm, game=game, buyPreviewPassed=buyPreviewPassed, ticker=ticker, quantity=quantity, price=price)
+
+@app.route('/paper-trading/sell', methods=['GET', 'POST'])
+@jwt_required()
+def papertrading_sell():
+  searchForm = TickerForm()
+  sellStock = SellStockForm()
+  confirm = ConfirmForm()
+  user_id = get_jwt_identity()
+  user = User.get_user_by_email(user_id)
+  game = request.args.get('gid')
+  sellPreviewPassed = request.args.get('p')
+  ticker = request.args.get('t')
+  quantity = int(request.args.get('q')) if request.args.get('q') else None
+  price = float(request.args.get('pr')) if request.args.get('pr') else None
+  if sellStock.ticker.data and sellStock.quantity.data:
+    paperTrader = PaperTraderGame.get_paper_trader(game, user_id)
+    try:
+      price, cost = paperTrader.preview_sell(sellStock.ticker.data, sellStock.quantity.data)
+      sellPreviewPassed = True
+      return redirect(url_for('papertrading_sell', gid=game, p=1, t=sellStock.ticker.data, q=sellStock.quantity.data, pr=price))
+    except ValueError as e:
+      flash(str(e), 'error')
+  if confirm.confirm.data:
+    paperTrader = PaperTraderGame.get_paper_trader(game, user_id)
+    try:
+      paperTrader.sell(ticker, quantity)
+      flash(f'Sell order for {quantity} shares of {ticker} placed successfully!', 'success')
+      return redirect(url_for('papertrading', gid=game))
+    except ValueError as e:
+      flash(str(e), 'error')
+  return render_template('paper-trading_sell.html', data=None, searchForm=searchForm, is_search=True, user_id=user_id, current_identity=user_id, user=user, sellStock=sellStock, confirm=confirm, game=game, sellPreviewPassed=sellPreviewPassed, ticker=ticker, quantity=quantity, price=price)
 
 @app.route('/logout')
 @jwt_required()

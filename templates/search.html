@@ -3,7 +3,7 @@
 {% block pageTitle %}Search{% endblock pageTitle %}
 {% block search_body %}
 
-<form class="form-control min-w-full ml-2 -translate-y-[42rem] order-0" role="search" method="POST" action="" autocapitalize="characters"
+<form class="form-control min-w-full ml-2 -translate-y-[44rem] order-0" role="search" method="POST" action="" autocapitalize="characters"
   autocomplete="off">
   {{ searchForm.csrf_token }}
   <div class="gradient-text text-2xl mb-2">
@@ -41,14 +41,7 @@
   <div class="grid grid-cols-12 grid-rows-1 h-min max-h-max lg:w-full md:max-w-6xl md:shrink-0 p-4 ">
     <div class="grid col-span-9">
       <!-- graph -->
-      <div class="flex flex-row justify-start ">
-        <div class="flex-1 font-bold text-green-500 text-6xl">
-          {{ data[0][2]['open'][0] }}
-        </div>
-        <div class="flex-1 text-red-500 text-2xl">
-          {{ data[0][2]['close'][0] }}
-        </div>
-      </div>
+      
       
       <div class="card bg-base-100 shadow-xl mx-auto w-full h-full min-h-[44rem] border border-1 border-white/[0.1] " id="candle_div"></div>
       <!-- sentiment score -->
@@ -147,6 +140,8 @@
           {% for sentence in insider_data %}
               <li>{{ sentence }}</li>
           {% endfor %}
+          {% else %}
+              <li>No insider data found for {{ ticker }}.</li>
         {% endif %}
       </ul>
 </div>

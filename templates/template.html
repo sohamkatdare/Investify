@@ -241,40 +241,6 @@
     document.getElementById("scrollTo").scrollIntoView();
     {% endif %}
   </script>
-  <script>
-    function getCookie(name) {
-      const value = `; ${document.cookie}`;
-      const parts = value.split(`; ${name}=`);
-      if (parts.length === 2) return parts.pop().split(';').shift();
-    }
-
-    async function addCSRFHeader(event) {
-      console.log('adding csrf header for double submit cookie pattern');
-      event.preventDefault(); // prevent the form from submitting normally
-
-      const form = event.target; // the form element
-      console.log(form);
-      const token = getCookie('csrf_access_token'); // replace with your actual token value
-      const url = form.action; // the URL to submit the form data to
-      const data = new FormData(form); // the form data to be submitted
-
-      const options = {
-        method: 'POST',
-        headers: {
-          'X-CSRF-TOKEN': token
-        },
-        body: data
-      };
-
-      try {
-        const response = await fetch(url, options);
-        const json = await response.json();
-        console.log(json); // do something with the response
-      } catch (error) {
-        console.error(error);
-      }
-  }
-  </script>
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
   <script src="assets/js/tiny-slider.js"></script>

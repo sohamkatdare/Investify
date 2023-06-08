@@ -37,6 +37,14 @@ def index():
 
   return render_template('index.html', searchForm=searchForm, current_identity=current_identity if current_identity else '', data=None)
 
+@app.route('/market')
+@jwt_required(optional=True)
+def market():
+  current_identity = get_jwt_identity()
+  searchForm = TickerForm()
+
+  return render_template('market.html', searchForm=searchForm, current_identity=current_identity if current_identity else '', data=None)
+
 @app.route('/login', methods=['GET', 'POST'])
 @jwt_required(optional=True)
 def login():

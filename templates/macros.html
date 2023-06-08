@@ -24,7 +24,7 @@
     </section>
 {%- endmacro %}
 {% macro card(title='Card Title', text="Some efjiowwww", button='Go', buttonLink="#", button_external=True, verified_tweet=True) -%}
-    <div class="card w-96 bg-base-100 hover:shadow-2xl hover:drop-shadow-2xl hover:translate-y-[-2rem] hover:border-indigo-400/75 hover:border-2 transition-all">
+    <div class="card w-96 bg-base-100 hover:shadow-2xl hover:drop-shadow-2xl hover:translate-y-[-2rem] border-indigo-400/75 border-[1px] hover:border-transparent transition-all">
         <div class="card-body">
         <h2 class="card-title">{{ title }}
             {% if verified_tweet != '' %}

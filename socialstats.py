@@ -10,10 +10,10 @@ matplotlib.use('Agg')
 def getSocialStats(ticker):
     plt.style.use('dark_background')
 
-    consumer_key = "44GowZTEx9UJyVAt1Re2qUZTE"
-    consumer_secret = "npEIqH5c2lIojIYOCDeSFbk0r0QDM9h4kxkxNe5zqkhY8hs6UE"
-    access_token = "1411679681393434628-irZ7HTOgXyloLL7t1w7kpUyl3mjI7u"
-    access_token_secret = "594smzKprI4VT0kvlqSnuZZr5at538uZpnyKT04UMKgIR"
+    consumer_key = "EPYMAG7GmiaSi44IleswgtFYP"
+    consumer_secret = "DzUoLxV3aVkC9nQcsqzL5Vv9G90yyNqVyKT09U656pWrwRKSkk"
+    access_token = "1667261040294350864-IdZXuqSepncmdaCnmuCsEUCfQwmgKK"
+    access_token_secret = "Zut62J8rMLZovoMi8hRVkKJeh5VDhgkIxURKd8gYDYl1N"
 
     auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
     auth.set_access_token(access_token, access_token_secret)

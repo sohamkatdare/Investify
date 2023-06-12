@@ -46,8 +46,3 @@ class TickerForm(FlaskForm):
                       validators=[DataRequired()], render_kw={"placeholder": "Ticker"})
   submit = SubmitField('🔎')
 
-class ArticleForm(FlaskForm):
-  topic = StringField('Topic: ',
-                      validators=[DataRequired()], render_kw={"placeholder": "Altman Z-Score"})
-  submit = SubmitField('🔎')
-

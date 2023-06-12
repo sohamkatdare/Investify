@@ -16,8 +16,6 @@ def summarize(prompt):
     return ask(messages)
 
 def ask(messages):
-    # print(messages)
-    # print()
     raw_return = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=messages,
@@ -26,7 +24,8 @@ def ask(messages):
     incomplete = ''
     if raw_return[0] == raw_return[0].lower():
         incomplete = raw_return[:raw_return.index('.')+2]
-    return raw_return.replace(incomplete, '') + '.'
+    new_response = raw_return.replace(incomplete, '') + '.'
+    return (messages + [{"role": "system", "content": new_response}])[2:] # Don't include the context and investopedia text in the returned JSON.
 
 if __name__ == '__main__':
     text = '''Pete Rathburn is a copy editor and fact-checker with expertise in economics and personal finance and over twenty years of experience in the classroom. Investopedia / Laura Porter 

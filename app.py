@@ -1,14 +1,15 @@
-from flask import Flask, render_template, flash, redirect, url_for, request
+from flask import Flask, render_template, flash, redirect, url_for, request, Response
 import requests
 import datetime
+import json
 from flask_jwt_extended import JWTManager, jwt_required, create_access_token, set_access_cookies, unset_jwt_cookies, get_jwt_identity
 
-from forms import LoginForm, RegisterForm, ResetPasswordForm, TickerForm, ArticleForm, PlayersForm, BuyStockForm, SellStockForm, ConfirmForm
+from forms import LoginForm, RegisterForm, ResetPasswordForm, TickerForm, PlayersForm, BuyStockForm, SellStockForm, ConfirmForm
 from socialstats import getSocialStats
 from polygon_io import getStockData
 from finance_analysis import get_pe_and_eps, get_composite_score, get_news
 from webscraper import investopedia_search, investopedia_web_scrape
-from text_simplifier import summarize
+from text_simplifier import summarize, ask
 from insider_trading import scrape_insider_data
 
 from data.user import User
@@ -118,11 +119,11 @@ def search():
       pe_ratio, eps = get_pe_and_eps(ticker)
       finance_analysis = {'PE Ratio (TTM)': pe_ratio, 'EPS (TTM)': eps, 'Composite Indicator': get_composite_score(ticker)}
       news = get_news(ticker)
-      tweets, sentimentData, averageSentiment  = getSocialStats(ticker)
-      averageSentiment = round(averageSentiment, 2)
+      # tweets, sentimentData, averageSentiment  = getSocialStats(ticker)
+      # averageSentiment = round(averageSentiment, 2)
       insider_data = scrape_insider_data(ticker)
       print(insider_data)
-      return render_template('search.html', is_search=True, data=data, searchForm=searchForm, ticker=ticker, finance_analysis=finance_analysis, news=news, tweets=tweets, sentimentData=list(sentimentData), averageSentiment=averageSentiment, current_identity=current_identity if current_identity else '', insider_data=insider_data)
+      return render_template('search.html', is_search=True, data=data, searchForm=searchForm, ticker=ticker, finance_analysis=finance_analysis, news=news, tweets=tweets, sentimentData=sentimentData, averageSentiment=averageSentiment, current_identity=current_identity if current_identity else '', insider_data=insider_data)
     except Exception as e:
       print(e)
       flash(f'Ticker "{searchForm.ticker.data.upper()}" not found.', 'error')
@@ -150,20 +151,31 @@ def educatePath(path):
 def simplify():
   current_identity = get_jwt_identity()
   searchForm = TickerForm()
-  articleForm = ArticleForm()
   data = None
-  link = None
-  if articleForm.topic.data:
-    try:
-      link = investopedia_search(articleForm.topic.data)
-      article = investopedia_web_scrape(link)
-      summarized_article = summarize(article)
-      return render_template('simplify.html', is_search=True, data=summarized_article, link=link, searchForm=searchForm, articleForm=articleForm, current_identity=current_identity if current_identity else '')
-    except Exception as e:
-      print(e)
-      flash(f'Article "{articleForm.topic.data}" not found.', 'error')
-  return render_template('simplify.html', is_search=True, data=data, link=link, searchForm=searchForm, articleForm=articleForm, current_identity=current_identity if current_identity else '')
-
+  if request.method == 'GET':
+    return render_template('simplify.html', is_search=True, data=data, current_identity=current_identity if current_identity else '')
+  else:
+    topic = request.headers['topic']
+    messages = request.headers['messages']
+    if topic:
+      try:
+        link = investopedia_search(topic)
+        article = investopedia_web_scrape(link)
+        messages = summarize(article)
+        return Response(json.dumps(messages), mimetype='application/json', status=200)
+      except Exception as e:
+        print(e)
+        flash(f'Article "{topic}" not found.', 'error')
+        return Response(response='Service Unavailable', status=503)
+    elif messages:
+      try:
+        messages = json.loads(messages)
+        new_messages = ask(messages)
+        return Response(json.dumps(new_messages), mimetype='application/json', status=200)
+      except Exception as e:
+        print(e)
+        flash(f'Conversation failed.', 'error')
+        return Response(response='Service Unavailable', status=503)
 
 # Login Required Routes
 @app.route('/profile', methods=['GET', 'POST'])

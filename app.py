@@ -30,6 +30,20 @@ def my_expired_token_callback(jwt_header, jwt_payload):
   flash('Login session has expired. Please login again.', 'error')
   return response
 
+@jwt.invalid_token_loader
+def my_invalid_token_callback(jwt_header, jwt_payload):
+  response = redirect(url_for('login'))
+  unset_jwt_cookies(response) # type: ignore
+  flash('Invalid token. Please login again.', 'error')
+  return response
+
+@jwt.unauthorized_loader
+def my_unauthorized_token_callback(jwt_payload):
+  response = redirect(url_for('login'))
+  flash('Please login to access this page.', 'error')
+  return response
+
+
 @app.route('/')
 @jwt_required(optional=True)
 def index():

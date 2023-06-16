@@ -36,15 +36,15 @@ def getStockData(ticker):
     ohlc.set_index(stock_prices['date'], inplace=True)
 
     # Plot
-    mc = mplfinance.make_marketcolors(up='#1EB854',down='#ff0000', edge='inherit', wick={'up':'#1EB854','down':'#ff0000'}, volume='#1EB854')
-    customstyle = mplfinance.make_mpf_style(base_mpf_style='nightclouds',
-                                 facecolor='#171212', marketcolors=mc)
-    mplfinance.plot(ohlc, type='candle', style=customstyle,
-            title=f'{ticker}, {start_date} - {end_date}',
-            ylabel='Price ($)',
-            ylabel_lower='Shares \nTraded',
-            volume=True)
-    plt.savefig('static/candle-bars.png', facecolor='#171212')
+    # mc = mplfinance.make_marketcolors(up='#1EB854',down='#ff0000', edge='inherit', wick={'up':'#1EB854','down':'#ff0000'}, volume='#1EB854')
+    # customstyle = mplfinance.make_mpf_style(base_mpf_style='nightclouds',
+    #                              facecolor='#171212', marketcolors=mc)
+    # mplfinance.plot(ohlc, type='candle', style=customstyle,
+    #         title=f'{ticker}, {start_date} - {end_date}',
+    #         ylabel='Price ($)',
+    #         ylabel_lower='Shares \nTraded',
+    #         volume=True)
+    # plt.savefig('static/candle-bars.png', facecolor='#171212')
     dates = stock_prices['date'].dt.strftime('%Y-%m-%d').tolist()
     return (start_date, end_date), dates, ohlc
 

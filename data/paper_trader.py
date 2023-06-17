@@ -19,8 +19,11 @@ class PaperTrader:
         # Look at the last 2 weeks of data for the ticker using datetime.
         # print('Dates', str((datetime.datetime.now()-datetime.timedelta(weeks=2)).strftime('%Y-%m-%d')), str(datetime.datetime.now().strftime('%Y-%m-%d')))
         # print(type(str((datetime.datetime.now()-datetime.timedelta(weeks=2)).strftime('%Y-%m-%d'))), type(str(datetime.datetime.now().strftime('%Y-%m-%d'))))
+        # Get the date range for the last 2 weeks in the form YYYY-MM-DD.
+        startDate = str((datetime.datetime.now()-datetime.timedelta(weeks=1)).strftime('%Y-%m-%d'))
+        endDate = str(datetime.datetime.now().strftime('%Y-%m-%d'))
         print('Ticker', ticker)
-        return yf.download([ticker], start="2021-01-01", end="2023-04-16")['Close']
+        return yf.download([ticker], start=startDate, end=endDate)['Close']
 
     def get_prices(self):
         tickers = list(self.portfolio.keys())

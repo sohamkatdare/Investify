@@ -47,7 +47,7 @@ class User:
         return self.stocks.remove(stock)
 
     @staticmethod
-    def create_user(email, password):
+    def create_user(email, password=None):
         """
         Creates a new user in the database.
         
@@ -59,7 +59,7 @@ class User:
 
     
     @staticmethod
-    def get_user(email, password):
+    def get_user(email, password=None):
         """
         Login a user and create User Object.
         

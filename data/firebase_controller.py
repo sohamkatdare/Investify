@@ -1,12 +1,21 @@
-from data.firebase_init import get_db, get_auth
+from data.firebase_init import get_db, get_auth, get_fbauth
 from data.paper_trader import PaperTrader
 
 
 db = get_db()
 auth = get_auth()
+fbauth = get_fbauth()
 
 def create_user(email, password):
-    uid = auth.create_user_with_email_and_password(email, password)
+    if password is not None:
+        uid = auth.create_user_with_email_and_password(email, password)
+    else:
+        uid = fbauth.create_user(
+            email=email,
+            email_verified=True,
+            disabled=False
+        )
+        uid = {'idToken': uid.uid, 'registered': True}
     from data.user import User
     user = User(uid['idToken'], email, {})
     # Add a new doc in collection 'cities' with ID 'LA'
@@ -14,11 +23,14 @@ def create_user(email, password):
     print(f'Sucessfully created new user.')
 
 def get_user(email, password):
-    user = auth.sign_in_with_email_and_password(email, password)
+    if password is not None: # Regular login
+        user = auth.sign_in_with_email_and_password(email, password)
+    else: # Google OAuth login
+        user = fbauth.get_user_by_email(email)
+        user = {'idToken': user.uid, 'registered': True}
     uid = user['idToken']
     print(f'Successfully fetched user data: {uid}')
     print(user)
-    # csrf_token = user['csrfToken']
     if not user['registered']:
         print(f'Email not verified. Sending verification email.')
         auth.send_email_verification(uid)

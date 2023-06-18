@@ -1,5 +1,5 @@
 import pyrebase
-from firebase_admin import credentials, firestore, initialize_app
+from firebase_admin import credentials, auth as fbauth, firestore, initialize_app
 from data.firebase_config import firebaseConfig
 
 # Initialize Firestore DB
@@ -19,6 +19,9 @@ def get_db():
 
 def get_auth():
     return auth
+
+def get_fbauth():
+    return fbauth
 
 print('Initialized Pyrebase.')
 

@@ -1,9 +1,13 @@
 from flask import Flask, render_template, flash, redirect, url_for, request, Response, jsonify
+from flask_jwt_extended import JWTManager, jwt_required, create_access_token, set_access_cookies, unset_jwt_cookies, get_jwt_identity
+from oauthlib.oauth2 import WebApplicationClient
+from firebase_admin._auth_utils  import EmailAlreadyExistsError 
 import requests
 import datetime
 import json
-from flask_jwt_extended import JWTManager, jwt_required, create_access_token, set_access_cookies, unset_jwt_cookies, get_jwt_identity
-import firebase
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
 from forms import LoginForm, RegisterForm, ResetPasswordForm, TickerForm, PlayersForm, BuyStockForm, SellStockForm, ConfirmForm
 from socialstats import getSocialStats
@@ -12,8 +16,7 @@ from finance_analysis import get_pe_and_eps, get_composite_score, get_news
 from webscraper import investopedia_search, investopedia_web_scrape
 from text_simplifier import summarize, ask
 from insider_trading import scrape_insider_data
-from data.firebase_config import firebaseConfig
-
+from data.firebase_init import get_fbauth
 
 from data.user import User
 from data.paper_trading_game import PaperTraderGame
@@ -25,8 +28,16 @@ app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
 app.config["JWT_COOKIE_CSRF_PROTECT"] = False
 
 jwt = JWTManager(app)
-fb_app = firebase.initialize_app(firebaseConfig)
-auth = fb_app.auth(client_secret='client_secret_780102944771-i83qjf4jblci1lm2bkqhen63q3iec5ee.apps.googleusercontent.com.json')
+
+GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
+GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET")
+GOOGLE_DISCOVERY_URL = (
+    "https://accounts.google.com/.well-known/openid-configuration"
+)
+client = WebApplicationClient(GOOGLE_CLIENT_ID)
+
+def get_google_provider_cfg():
+    return requests.get(GOOGLE_DISCOVERY_URL).json()
 
 @jwt.expired_token_loader
 def my_expired_token_callback(jwt_header, jwt_payload):
@@ -87,12 +98,75 @@ def login():
 
 @app.route('/login/google')
 def login_google():
-   return redirect(auth.authenticate_login_with_google())
+  # Find out what URL to hit for Google login
+  google_provider_cfg = get_google_provider_cfg()
+  authorization_endpoint = google_provider_cfg["authorization_endpoint"]
 
-@app.route('/login/callback')
-def oauth2callback():
-  user = auth.sign_in_with_oauth_credential(request.url)
-  return jsonify(**user)
+  # Use library to construct the request for Google login and provide
+  # scopes that let you retrieve user's profile from Google
+  request_uri = client.prepare_request_uri(
+      authorization_endpoint,
+      redirect_uri=request.base_url + "/callback",
+      scope=["openid", "email", "profile"],
+  )
+  return redirect(request_uri)
+
+@app.route('/login/google/callback')
+def login_google_callback():
+  # Get authorization code Google sent back to you
+  code = request.args.get("code")
+  # Find out what URL to hit to get tokens that allow you to ask for
+  # things on behalf of a user
+  google_provider_cfg = get_google_provider_cfg()
+  token_endpoint = google_provider_cfg["token_endpoint"]
+  # Prepare and send a request to get tokens! Yay tokens!
+  token_url, headers, body = client.prepare_token_request(
+      token_endpoint,
+      authorization_response=request.url,
+      redirect_url=request.base_url,
+      code=code
+  )
+  token_response = requests.post(
+      token_url,
+      headers=headers,
+      data=body,
+      auth=(GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET), # type: ignore
+  )
+  # Parse the tokens!
+  client.parse_request_body_response(json.dumps(token_response.json()))
+  # Now that you have tokens (yay) let's find and hit the URL
+  # from Google that gives you the user's profile information,
+  # including their Google profile image and email
+  userinfo_endpoint = google_provider_cfg["userinfo_endpoint"]
+  uri, headers, body = client.add_token(userinfo_endpoint)
+  userinfo_response = requests.get(uri, headers=headers, data=body)
+  # You want to make sure their email is verified.
+  # The user authenticated with Google, authorized your
+  # app, and now you've verified their email through Google!
+  resp = redirect(url_for('login'))
+  if userinfo_response.json().get("email_verified"):
+    # Create new user if not already in database
+    users_email = userinfo_response.json()["email"]
+    try:
+      User.create_user(users_email)
+    except: # If user already exists, no need to do anything.
+      pass
+
+    # Login user after successful registration or if user already exists and redirects to profile page.
+    try:
+      user = User.get_user(users_email)
+      access_token = create_access_token(identity=user.email, expires_delta=datetime.timedelta(days=1))
+      response = redirect(url_for('profile'))
+      set_access_cookies(response, access_token) # type: ignore
+      flash('Login Successful!', 'success')
+      return response
+    except requests.exceptions.HTTPError:
+      flash('Login Unsuccessful. Please check email and password.', 'error')
+      return resp
+  else:
+    flash("User email not available or not verified by Google.", 'error')
+    return resp
+
 
 @app.route('/register', methods=['GET', 'POST'])
 @jwt_required(optional=True)

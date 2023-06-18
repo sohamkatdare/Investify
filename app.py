@@ -1,8 +1,9 @@
-from flask import Flask, render_template, flash, redirect, url_for, request, Response
+from flask import Flask, render_template, flash, redirect, url_for, request, Response, jsonify
 import requests
 import datetime
 import json
 from flask_jwt_extended import JWTManager, jwt_required, create_access_token, set_access_cookies, unset_jwt_cookies, get_jwt_identity
+import firebase
 
 from forms import LoginForm, RegisterForm, ResetPasswordForm, TickerForm, PlayersForm, BuyStockForm, SellStockForm, ConfirmForm
 from socialstats import getSocialStats
@@ -11,6 +12,8 @@ from finance_analysis import get_pe_and_eps, get_composite_score, get_news
 from webscraper import investopedia_search, investopedia_web_scrape
 from text_simplifier import summarize, ask
 from insider_trading import scrape_insider_data
+from data.firebase_config import firebaseConfig
+
 
 from data.user import User
 from data.paper_trading_game import PaperTraderGame
@@ -22,6 +25,8 @@ app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
 app.config["JWT_COOKIE_CSRF_PROTECT"] = False
 
 jwt = JWTManager(app)
+fb_app = firebase.initialize_app(firebaseConfig)
+auth = fb_app.auth(client_secret='client_secret_780102944771-i83qjf4jblci1lm2bkqhen63q3iec5ee.apps.googleusercontent.com.json')
 
 @jwt.expired_token_loader
 def my_expired_token_callback(jwt_header, jwt_payload):
@@ -79,6 +84,15 @@ def login():
     except requests.exceptions.HTTPError:
       flash('Login Unsuccessful. Please check email and password.', 'error')
   return render_template('login.html', data=None, loginForm=loginForm, searchForm=searchForm, current_identity=current_identity if current_identity else '', is_search=False)
+
+@app.route('/login/google')
+def login_google():
+   return redirect(auth.authenticate_login_with_google())
+
+@app.route('/login/callback')
+def oauth2callback():
+  user = auth.sign_in_with_oauth_credential(request.url)
+  return jsonify(**user)
 
 @app.route('/register', methods=['GET', 'POST'])
 @jwt_required(optional=True)
@@ -312,5 +326,5 @@ def forbidden(e):
   searchForm = TickerForm()
   return render_template("403.html", deta=None, searchForm=searchForm, current_identity=current_identity if current_identity else '', is_search=False)
 
-# if __name__ == '__main__':
-#   app.run(debug=True)
+if __name__ == "__main__":
+  app.run(ssl_context="adhoc", debug=True)

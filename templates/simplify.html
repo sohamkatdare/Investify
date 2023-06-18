@@ -3,35 +3,6 @@
 {% block pageTitle %}Simplify{% endblock pageTitle %}
 {% block body %}
 {{ super() }}
-<form class="form-control min-w-full ml-2" role="search" method="POST" action="" autocapitalize="characters" autocomplete="off">
-  <div class="gradient-text text-2xl mb-2">
-    <h1>Look Up Financial Term:</h1>
-  </div>
-    <div class="input-group mb-3 flex">
-      {% if articleForm.topic.errors %}
-      {{ articleForm.topic(class="input input-bordered w-full") }}
-          {% for error in articleForm.topic.errors %}
-          <span class="invalid-feedback">{{ error }}</span>
-          {% endfor %}
-      {% else %}
-          {{ articleForm.topic(class="input input-bordered w-full") }}
-      {% endif %}
-      <button class="btn btn-square" id="submit" name="submit" type="submit">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-      </button>
-    </div>
-  </form>
 {% endblock body %}
-{{ super()}}
-{% block search_results %}
-
-{% if data != None %}
-<div id="data">
-  <h1 class="text-5xl text-primary mt-10 mb-10">Article Summary</h1>
-  <h3 class="text-xl mt-10 mb-10">{{data}}</h3>
-  <button class="btn btn-primary border-indigo-400 bg-transparent hover:gradient-bg hover:border-indigo-400  transition-all inline-block"><a href="{{link}}" target="_blank">Go to Original Article</a></button>
-</div>
-{% endif %}
-{% endblock search_results %}
 
 {% block footerClass %}fixed-bottom{% endblock footerClass %}

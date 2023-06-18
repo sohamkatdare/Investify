@@ -179,9 +179,8 @@ def educatePath(path):
 def simplify():
   current_identity = get_jwt_identity()
   searchForm = TickerForm()
-  data = None
   if request.method == 'GET':
-    return render_template('simplify.html', is_search=True, data=data, current_identity=current_identity if current_identity else '')
+    return render_template('simplify.html', data=None, searchForm=searchForm, current_identity=current_identity if current_identity else '', is_search=False)
   else:
     topic = request.headers['topic']
     messages = request.headers['messages']
@@ -237,7 +236,7 @@ def papertrading():
   user = User.get_user_by_email(user_id)
   game = request.args.get('gid')
   userDetail, otherDetail = PaperTraderGame.get_game_detail(game, user_id)
-  leaderboard = sorted([userDetail, *otherDetail], key=lambda x: x.get_portfolio_value(), reverse=True)
+  leaderboard = sorted([userDetail, *otherDetail], key=lambda x: x.get_portfolio_value(), reverse=True) # type: ignore
   print(leaderboard)
   return render_template('paper-trading.html', data=None, searchForm=searchForm, is_search=True, user_id=user_id, current_identity=user_id, user=user, userDetail=userDetail, otherDetail=otherDetail, leaderboard=leaderboard)
 
@@ -252,8 +251,8 @@ def papertrading_buy():
   game = request.args.get('gid')
   buyPreviewPassed = request.args.get('p')
   ticker = request.args.get('t')
-  quantity = int(request.args.get('q')) if request.args.get('q') else None
-  price = float(request.args.get('pr')) if request.args.get('pr') else None
+  quantity = int(request.args.get('q')) if request.args.get('q') else None # type: ignore
+  price = float(request.args.get('pr')) if request.args.get('pr') else None # type: ignore
   if buyStock.ticker.data and buyStock.quantity.data:
     paperTrader = PaperTraderGame.get_paper_trader(game, user_id)
     try:
@@ -284,8 +283,8 @@ def papertrading_sell():
   game = request.args.get('gid')
   sellPreviewPassed = request.args.get('p')
   ticker = request.args.get('t')
-  quantity = int(request.args.get('q')) if request.args.get('q') else None
-  price = float(request.args.get('pr')) if request.args.get('pr') else None
+  quantity = int(request.args.get('q')) if request.args.get('q') else None # type: ignore
+  price = float(request.args.get('pr')) if request.args.get('pr') else None # type: ignore
   if sellStock.ticker.data and sellStock.quantity.data:
     paperTrader = PaperTraderGame.get_paper_trader(game, user_id)
     try:

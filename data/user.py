@@ -6,7 +6,7 @@ class User:
     User Data Model. Stores ChatGPT conversation information for each user.
     """
 
-    def __init__(self, user_id, email, user_data={}, games = [], stocks=[]):
+    def __init__(self, user_id, email, user_data={}, favorite_stocks=[], games=[]):
         """
         Initializes a new User object.
         
@@ -16,8 +16,8 @@ class User:
         self.email = email
         self.user_data = user_data
         self.conversation = []
+        self.favorite_stocks = favorite_stocks
         self.games = games
-        self.stocks = stocks
 
     def add_to_conversation(self, utterance):
         self.conversation.append(utterance)
@@ -37,14 +37,16 @@ class User:
     def get_games(self):
         return self.games
     
-    def add_stock(self, stock):
-        self.stocks.append(stock)
+    def add_favorite_stock(self, stock):
+        self.favorite_stocks.append(stock)
+        self.save()
 
-    def get_stocks(self):
-        return self.stocks
+    def get_favorite_stocks(self):
+        return self.favorite_stocks
     
-    def delete_stock(self, stock):
-        return self.stocks.remove(stock)
+    def remove_favorite_stock(self, stock):
+        self.favorite_stocks.remove(stock)
+        self.save()
 
     @staticmethod
     def create_user(email, password=None):
@@ -68,7 +70,7 @@ class User:
         """
         user, user_data = get_user(email, password)
         print(user_data)
-        return User(user['idToken'], email, user_data=user, games=user_data['games'])
+        return User(user['idToken'], email, user_data=user, favorite_stocks=user_data['favorite_stocks'], games=user_data['games'])
     
     @staticmethod
     def reset_password(email):
@@ -89,9 +91,16 @@ class User:
         :return: User object
         """
         user_data = db.collection(u'users').document(email).get().to_dict()
-        return User(user_data['user_id'], email, user_data=user_data)
+        return User(user_data['user_id'], email, user_data=user_data, favorite_stocks=user_data['favorite_stocks'], games=user_data['games'])
     
-    
+    def save(self):
+        """
+        Saves the user object to the database.
+        
+        :return: None
+        """
+        db.collection(u'users').document(self.email).set(self.to_dict())
+
     def to_dict(self):
         """
         Converts User object to a dictionary.
@@ -102,5 +111,6 @@ class User:
             'user_id': self.user_id,
             'email': self.email,
             'conversation': self.conversation,
+            'favorite_stocks': self.favorite_stocks,
             'games': self.games
         }

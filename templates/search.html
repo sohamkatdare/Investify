@@ -2,7 +2,7 @@
 {% block title %}Home{% endblock title %}
 {% block pageTitle %}Search{% endblock pageTitle %}
 {% block search_body %}
-
+<link rel="stylesheet" href="{{ url_for('static', filename='css/search.css') }}">
 <form class="form-control min-w-full ml-2 -translate-y-[44rem] order-0" role="search" method="POST" action="" autocapitalize="characters"
   autocomplete="off">
   {{ searchForm.csrf_token }}
@@ -31,13 +31,26 @@
 {{ super()}}
 {% block search_results %}
 
+
 {% if data != None %}
 <div id="data" class="w-screen -translate-x-[8.5rem] -translate-y-[8.5rem]">
   {% if noResults %}
    <h3 class="text-center text-5xl font-bold gradient-text">No Results</h3>
   {% else %}
+  
   <!-- <div class="h-screen w-screen grid "></div> -->
   <h1 class="text-5xl text-white mt-10 mb-10"><strong class="gradient-text">{{ ticker }}</strong> Monthly Aggregate Data from {{ data[0][0][0] }} to {{ data[0][0][1] }}</h1>
+  <!-- Add star button here -->
+
+  {% if current_identity != '' %}
+    <button class="favorite-button" id="favorite-button">
+      <div class="icon">
+          <div class="star"></div>
+      </div>
+      <span>Favorite</span>
+    </button>
+  {% endif %}
+
   <div class="grid grid-cols-12 grid-rows-1 h-min max-h-max lg:w-full md:max-w-6xl md:shrink-0 p-4 ">
     <div class="grid col-span-9">
       <!-- graph -->
@@ -47,6 +60,7 @@
       <!-- sentiment score -->
       {% if averageSentiment %} <!--If no tweets found on company.-->
         <h1 class="text-5xl gradient-text mt-10 mb-10">Sentiment Analysis</h1>
+        
         <h3 class="text-xl mt-10 mb-10 text-center">Average Sentiment: <span class="gradient-text text-4xl">{{ averageSentiment }}</span></h3>
       {% endif %}
       <!-- tweets -->
@@ -152,6 +166,8 @@
 {% endblock search_results %}
 
 {% block script %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+<script src="{{ url_for('static', filename='js/star_button.js') }}"></script>
 <script type="text/javascript">
   google.charts.load('current', { 'packages': ['corechart'] });
 
@@ -161,110 +177,110 @@
   }
 
   function drawCandleChart() {
-    {% if data != None %}
+  {% if data != None %}
     var data = google.visualization.arrayToDataTable([
       {% for i in range((data[0][2]).__len__()) %}
-  ["{{ data[0][1][i].__str__() }}", {{ data[0][2]['low'][i] }}, {{ data[0][2]['open'][i] }}, {{ data[0][2]['close'][i] }}, {{ data[0][2]['high'][i] }}],
-    {% endfor %}
+        ["{{ data[0][1][i].__str__() }}", {{ data[0][2]['low'][i] }}, {{ data[0][2]['open'][i] }}, {{ data[0][2]['close'][i] }}, {{ data[0][2]['high'][i] }}],
+      {% endfor %}
     ], true);
 
-  var options = {
-    legend: 'none',
-    candlestick: {
-      fallingColor: { strokeWidth: 0, fill: '#ff0000' }, // red
-      risingColor: { strokeWidth: 0, fill: '#1EB854' },   // green
-    },
-    backgroundColor: { strokeWidth: 0, fill: '#171212' },
-    chartArea: {
+    var options = {
+      legend: 'none',
+      candlestick: {
+        fallingColor: { strokeWidth: 0, fill: '#ff0000' }, // red
+        risingColor: { strokeWidth: 0, fill: '#1EB854' },   // green
+      },
       backgroundColor: { strokeWidth: 0, fill: '#171212' },
-    },
-    hAxis: {
-      title: 'Date',
-      textStyle: {
+      chartArea: {
+        backgroundColor: { strokeWidth: 0, fill: '#171212' },
+      },
+      hAxis: {
+        title: 'Date',
+        textStyle: {
+          color: '#fff',
+        },
+        titleTextStyle: {
+          color: '#fff'
+        }
+      },
+      vAxis: {
+        title: 'Price ($)',
+        textStyle: {
+          color: '#fff',
+        },
+        titleTextStyle: {
+          color: '#fff'
+        }
+      },
+      title: '{{ ticker }}, {{ data[0][1][0].__str__() }} - {{ data[0][1][-1].__str__() }}',
+      titleTextStyle: {
         color: '#fff',
       },
-      titleTextStyle: {
-        color: '#fff'
-      }
-    },
-    vAxis: {
-      title: 'Price ($)',
-      textStyle: {
-        color: '#fff',
-      },
-      titleTextStyle: {
-        color: '#fff'
-      }
-    },
-    title: '{{ ticker }}, {{ data[0][1][0].__str__() }} - {{ data[0][1][-1].__str__() }}',
-    titleTextStyle: {
-      color: '#fff',
-    },
-  };
+    };
 
-  var chart = new google.visualization.CandlestickChart(document.getElementById('candle_div'));
+    var chart = new google.visualization.CandlestickChart(document.getElementById('candle_div'));
 
-  chart.draw(data, options);
+    chart.draw(data, options);
   {% endif %}
   }
 
   function drawSentimentChart() {
-    {% if sentimentData.__len__() %}
+  {% if sentimentData.__len__() %}
     // Define the chart to be drawn.
     var data = google.visualization.arrayToDataTable([
       ['Sentiment', 'Frequency'],
       {% for i in range(sentimentData.__len__()) %}
-  ['{{ i }}', {{ sentimentData[i]['Sentiment'] }}],
-    {% endfor %}
+        ['{{ i }}', {{ sentimentData[i]['Sentiment'] }}],
+      {% endfor %}
     ]);
 
-  var options = {
-    legend: 'none',
-    candlestick: {
-      fallingColor: { strokeWidth: 0, fill: '#ff0000' }, // red
-      risingColor: { strokeWidth: 0, fill: '#1EB854' },   // green
-    },
-    backgroundColor: { strokeWidth: 0, fill: '#171212' },
-    chartArea: {
+    var options = {
+      legend: 'none',
+      candlestick: {
+        fallingColor: { strokeWidth: 0, fill: '#ff0000' }, // red
+        risingColor: { strokeWidth: 0, fill: '#1EB854' },   // green
+      },
       backgroundColor: { strokeWidth: 0, fill: '#171212' },
-    },
-    colors: ['#1EB854'],
-    hAxis: {
-      title: 'Sentiment',
-      textStyle: {
+      chartArea: {
+        backgroundColor: { strokeWidth: 0, fill: '#171212' },
+      },
+      colors: ['#1EB854'],
+      hAxis: {
+        title: 'Sentiment',
+        textStyle: {
+          color: '#fff',
+        },
+        titleTextStyle: {
+          color: '#fff'
+        }
+      },
+      vAxis: {
+        title: 'Frequency',
+        textStyle: {
+          color: '#fff',
+        },
+        titleTextStyle: {
+          color: '#fff'
+        }
+      },
+      title: 'Sentiment of Tweets (Histogram)',
+      titleTextStyle: {
         color: '#fff',
       },
-      titleTextStyle: {
-        color: '#fff'
+      histogram: {
+        bucketSize: 0.25,
+        maxNumBuckets: 8,
+        minValue: -1,
+        maxValue: 1
       }
-    },
-    vAxis: {
-      title: 'Frequency',
-      textStyle: {
-        color: '#fff',
-      },
-      titleTextStyle: {
-        color: '#fff'
-      }
-    },
-    title: 'Sentiment of Tweets (Histogram)',
-    titleTextStyle: {
-      color: '#fff',
-    },
-    histogram: {
-      bucketSize: 0.25,
-      maxNumBuckets: 8,
-      minValue: -1,
-      maxValue: 1
-    }
-  };
+    };
 
-  // Instantiate and draw the chart.
-  var chart = new google.visualization.Histogram(document.getElementById('sentiment_div'));
-  chart.draw(data, options);
+    // Instantiate and draw the chart.
+    var chart = new google.visualization.Histogram(document.getElementById('sentiment_div'));
+    chart.draw(data, options);
   {% endif %}
   }
-
+  
   google.charts.setOnLoadCallback(drawCharts);
 </script>
 {% endblock script %}

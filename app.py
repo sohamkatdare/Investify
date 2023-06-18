@@ -1,7 +1,6 @@
-from flask import Flask, render_template, flash, redirect, url_for, request, Response, jsonify
+from flask import Flask, render_template, flash, redirect, url_for, request, Response
 from flask_jwt_extended import JWTManager, jwt_required, create_access_token, set_access_cookies, unset_jwt_cookies, get_jwt_identity
 from oauthlib.oauth2 import WebApplicationClient
-from firebase_admin._auth_utils  import EmailAlreadyExistsError 
 import requests
 import datetime
 import json
@@ -16,7 +15,6 @@ from finance_analysis import get_pe_and_eps, get_composite_score, get_news
 from webscraper import investopedia_search, investopedia_web_scrape
 from text_simplifier import summarize, ask
 from insider_trading import scrape_insider_data
-from data.firebase_init import get_fbauth
 
 from data.user import User
 from data.paper_trading_game import PaperTraderGame
@@ -212,7 +210,6 @@ def search():
   sentimentData = []
   averageSentiment = None
   current_identity = get_jwt_identity()
-  print('Ticker Form Submitted', f'www{searchForm.ticker.data}www')
   if searchForm.ticker.data:
     try:
       ticker = searchForm.ticker.data.upper()
@@ -256,8 +253,9 @@ def simplify():
   if request.method == 'GET':
     return render_template('simplify.html', data=None, searchForm=searchForm, current_identity=current_identity if current_identity else '', is_search=False)
   else:
-    topic = request.headers['topic']
-    messages = request.headers['messages']
+    print(request.json)
+    topic = request.json['topic'] if 'topic' in request.json else None # type: ignore
+    messages = request.json['messages'] if 'messages' in request.json else None # type: ignore
     if topic:
       try:
         link = investopedia_search(topic)
@@ -277,6 +275,8 @@ def simplify():
         print(e)
         flash(f'Conversation failed.', 'error')
         return Response(response='Service Unavailable', status=503)
+    else:
+      return Response(response='Bad Request', status=400)
 
 # Login Required Routes
 @app.route('/profile', methods=['GET', 'POST'])
@@ -301,6 +301,25 @@ def profile():
     except Exception as e:
       flash(str(e), 'error')
   return render_template('profile.html', data=None, searchForm=searchForm, playersForm=playersForm, user_id=user_id, current_identity=user_id, user=user, is_search=False, games=games)
+
+@app.route('/favorite_stocks', methods=['GET', 'POST'])
+@jwt_required()
+def favorite_stocks():
+  try:
+    user_id = get_jwt_identity()
+    user = User.get_user_by_email(user_id)
+    if request.method == 'POST':
+      if request.headers['action'].lower() == 'add':
+        user.add_favorite_stock(request.headers['ticker'])
+        return Response(response='OK', status=200)
+      else:
+        user.remove_favorite_stock(request.headers['ticker'])
+        return Response(response='OK', status=200)
+    else:
+      return Response(response=user.favorite_stocks, status=200)
+  except Exception as e:
+    print(e)
+    return Response(response='Service Unavailable', status=503)
 
 @app.route('/paper-trading')
 @jwt_required()

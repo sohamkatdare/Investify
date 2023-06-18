@@ -17,7 +17,7 @@ def create_user(email, password):
         )
         uid = {'idToken': uid.uid, 'registered': True}
     from data.user import User
-    user = User(uid['idToken'], email, {})
+    user = User(uid['idToken'], email)
     # Add a new doc in collection 'cities' with ID 'LA'
     db.collection(u'users').document(email).set(user.to_dict())
     print(f'Sucessfully created new user.')

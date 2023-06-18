@@ -294,7 +294,7 @@ def papertrading_sell():
       return redirect(url_for('papertrading_sell', gid=game, p=1, t=sellStock.ticker.data, q=sellStock.quantity.data, pr=price))
     except ValueError as e:
       flash(str(e), 'error')
-  if confirm.confirm.data:
+  elif confirm.confirm.data:
     paperTrader = PaperTraderGame.get_paper_trader(game, user_id)
     try:
       paperTrader.sell(ticker, quantity)
@@ -302,6 +302,9 @@ def papertrading_sell():
       return redirect(url_for('papertrading', gid=game))
     except ValueError as e:
       flash(str(e), 'error')
+  if ticker and quantity:
+    sellStock.ticker.data = ticker
+    sellStock.quantity.data = quantity
   return render_template('paper-trading_sell.html', data=None, searchForm=searchForm, is_search=True, user_id=user_id, current_identity=user_id, user=user, sellStock=sellStock, confirm=confirm, game=game, sellPreviewPassed=sellPreviewPassed, ticker=ticker, quantity=quantity, price=price)
 
 @app.route('/logout')

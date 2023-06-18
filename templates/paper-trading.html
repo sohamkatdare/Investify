@@ -37,6 +37,7 @@
         <th class="text-xl">% Chg</th> -->
         <th class="text-xl">Value</th>
         <th class="text-xl">Portfolio %</th>
+        <th class="text-xl"></th>
       </tr>
     </thead>
     <tbody> 
@@ -48,7 +49,9 @@
             <!-- <th class="font-light">{{ userDetail.get_price(stock)[0] }}</th> -->
             <th class="font-light">${{ (userDetail.get_price(stock)[-1] * quantity).__round__(2) }}</th>
             <th class="font-light">{{ ((userDetail.get_price(stock)[-1] * quantity) / userDetail.capital * 100).__round__(2) }}%</th>
-            
+            <th class="font-light">
+              <a href="{{ userDetail.get_sell_url(stock, quantity) }}" class="text-xl btn btn-primary w-full border-indigo-400 bg-transparent hover:gradient-bg hover:border-indigo-400 transition-all">Sell</a>      
+            </th>    
           </tr>
         {% endfor %}
         <tr class="col-span-5 hover">

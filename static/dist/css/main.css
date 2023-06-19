@@ -3010,6 +3010,10 @@ html {
   height: 100vh;
 }
 
+.h-auto {
+  height: auto;
+}
+
 .h-5 {
   height: 1.25rem;
 }
@@ -3492,6 +3496,11 @@ html {
   background-color: rgb(190 18 60 / var(--tw-bg-opacity));
 }
 
+.bg-slate-100 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(241 245 249 / var(--tw-bg-opacity));
+}
+
 .bg-base-100\/\[0\.35\] {
   background-color: hsl(var(--b1) / 0.35);
 }
@@ -3511,6 +3520,10 @@ html {
 .bg-base-200 {
   --tw-bg-opacity: 1;
   background-color: hsl(var(--b2, var(--b1)) / var(--tw-bg-opacity));
+}
+
+.bg-slate-100\/25 {
+  background-color: rgb(241 245 249 / 0.25);
 }
 
 .bg-gradient-to-bl {
@@ -3667,6 +3680,11 @@ html {
 .py-\[-2rem\] {
   padding-top: -2rem;
   padding-bottom: -2rem;
+}
+
+.py-10 {
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
 }
 
 .px-5 {
@@ -4291,10 +4309,6 @@ section.grid>* {
     display: none;
   }
 
-  .max-lg\:grid-cols-3 {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
   .max-lg\:grid-rows-3 {
     grid-template-rows: repeat(3, minmax(0, 1fr));
   }
@@ -4353,10 +4367,6 @@ section.grid>* {
 
   .lg\:grid-cols-3 {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  .lg\:grid-rows-3 {
-    grid-template-rows: repeat(3, minmax(0, 1fr));
   }
 
   .lg\:flex-row {

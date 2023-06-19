@@ -197,6 +197,14 @@ def resetPassword():
       flash('Email does not exist. Please register.', 'error')
   return render_template('reset_password.html', data=None, resetPasswordForm=resetPasswordForm, searchForm=searchForm, is_search=False)
 
+@app.route('/search/highcharts', methods=['GET', 'POST'])
+@jwt_required(optional=True)
+def searchTicker():
+  ticker = request.headers.get('ticker')
+  prevAggs = getStockData(ticker)
+  
+  return json.dumps(prevAggs)
+
 @app.route('/search', methods=['GET', 'POST'])
 @jwt_required(optional=True)
 def search():
@@ -214,6 +222,7 @@ def search():
     try:
       ticker = searchForm.ticker.data.upper()
       prevAggs = getStockData(ticker)
+      print(prevAggs)
       data = [prevAggs]
       pe_ratio, eps = get_pe_and_eps(ticker)
       finance_analysis = {'PE Ratio (TTM)': pe_ratio, 'EPS (TTM)': eps, 'Composite Indicator': get_composite_score(ticker)}
@@ -256,25 +265,25 @@ def simplify():
     print(request.json)
     topic = request.json['topic'] if 'topic' in request.json else None # type: ignore
     messages = request.json['messages'] if 'messages' in request.json else None # type: ignore
+    service_unavailable = Response(response='Service Unavailable', status=503)
     if topic:
       try:
         link = investopedia_search(topic)
         article = investopedia_web_scrape(link)
         messages = summarize(article)
-        return Response(json.dumps(messages), mimetype='application/json', status=200)
+        return Response(messages, mimetype='text/plain', status=200)
       except Exception as e:
         print(e)
         flash(f'Article "{topic}" not found.', 'error')
-        return Response(response='Service Unavailable', status=503)
+        return service_unavailable
     elif messages:
       try:
-        messages = json.loads(messages)
         new_messages = ask(messages)
-        return Response(json.dumps(new_messages), mimetype='application/json', status=200)
+        return Response(new_messages, mimetype='text/plain', status=200)
       except Exception as e:
         print(e)
         flash(f'Conversation failed.', 'error')
-        return Response(response='Service Unavailable', status=503)
+        return service_unavailable
     else:
       return Response(response='Bad Request', status=400)
 

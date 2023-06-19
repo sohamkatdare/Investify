@@ -2712,6 +2712,11 @@ html {
   left: 0px;
 }
 
+.inset-y-0 {
+  top: 0px;
+  bottom: 0px;
+}
+
 .top-0 {
   top: 0px;
 }
@@ -2784,10 +2789,6 @@ html {
   margin: auto;
 }
 
-.m-6 {
-  margin: 1.5rem;
-}
-
 .m-2 {
   margin: 0.5rem;
 }
@@ -2830,11 +2831,6 @@ html {
 .my-auto {
   margin-top: auto;
   margin-bottom: auto;
-}
-
-.my-10 {
-  margin-top: 2.5rem;
-  margin-bottom: 2.5rem;
 }
 
 .mt-\[9rem\] {
@@ -2953,6 +2949,10 @@ html {
   margin-top: 0.75rem;
 }
 
+.mt-48 {
+  margin-top: 12rem;
+}
+
 .block {
   display: block;
 }
@@ -3034,10 +3034,6 @@ html {
   height: 100vh;
 }
 
-.h-auto {
-  height: auto;
-}
-
 .max-h-max {
   max-height: -moz-max-content;
   max-height: max-content;
@@ -3110,6 +3106,10 @@ html {
 
 .w-auto {
   width: auto;
+}
+
+.w-\[100vw\] {
+  width: 100vw;
 }
 
 .min-w-max {
@@ -3244,6 +3244,36 @@ html {
 
 .-translate-x-36 {
   --tw-translate-x: -9rem;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.-translate-y-full {
+  --tw-translate-y: -100%;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.translate-y-full {
+  --tw-translate-y: 100%;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.translate-y-1\/2 {
+  --tw-translate-y: 50%;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.translate-y-\[50\%\] {
+  --tw-translate-y: 50%;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.translate-y-\[60\%\] {
+  --tw-translate-y: 60%;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.translate-y-\[70\%\] {
+  --tw-translate-y: 70%;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
@@ -3531,14 +3561,6 @@ html {
   background-color: rgb(190 18 60 / var(--tw-bg-opacity));
 }
 
-.bg-slate-200\/50 {
-  background-color: rgb(226 232 240 / 0.5);
-}
-
-.bg-slate-400\/50 {
-  background-color: rgb(148 163 184 / 0.5);
-}
-
 .bg-base-100\/\[0\.35\] {
   background-color: hsl(var(--b1) / 0.35);
 }
@@ -3560,16 +3582,61 @@ html {
   background-color: hsl(var(--b2, var(--b1)) / var(--tw-bg-opacity));
 }
 
-.bg-slate-200\/25 {
-  background-color: rgb(226 232 240 / 0.25);
-}
-
-.bg-slate-400\/25 {
-  background-color: rgb(148 163 184 / 0.25);
+.bg-slate-100 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(241 245 249 / var(--tw-bg-opacity));
 }
 
 .bg-slate-100\/25 {
   background-color: rgb(241 245 249 / 0.25);
+}
+
+.bg-slate-100\/75 {
+  background-color: rgb(241 245 249 / 0.75);
+}
+
+.bg-slate-100\/50 {
+  background-color: rgb(241 245 249 / 0.5);
+}
+
+.bg-slate-100\/\[0\.6\] {
+  background-color: rgb(241 245 249 / 0.6);
+}
+
+.bg-slate-100\/\[0\.4\] {
+  background-color: rgb(241 245 249 / 0.4);
+}
+
+.bg-slate-100\/\[0\.2\] {
+  background-color: rgb(241 245 249 / 0.2);
+}
+
+.bg-slate-100\/\[0\.\] {
+  background-color: rgb(241 245 249 / 0.);
+}
+
+.bg-slate-100\/\[0\.1\] {
+  background-color: rgb(241 245 249 / 0.1);
+}
+
+.bg-slate-100\/\[0\.07\] {
+  background-color: rgb(241 245 249 / 0.07);
+}
+
+.bg-slate-100\/\[0\.05\] {
+  background-color: rgb(241 245 249 / 0.05);
+}
+
+.bg-slate-100\/\[0\.02\] {
+  background-color: rgb(241 245 249 / 0.02);
+}
+
+.bg-slate-100\/\[0\.001\] {
+  background-color: rgb(241 245 249 / 0.001);
+}
+
+.bg-slate-100\/\[0\.01\] {
+  background-color: rgb(241 245 249 / 0.01);
 }
 
 .bg-gradient-to-bl {
@@ -3752,6 +3819,11 @@ html {
   padding-right: 20rem;
 }
 
+.px-16 {
+  padding-left: 4rem;
+  padding-right: 4rem;
+}
+
 .pt-11 {
   padding-top: 2.75rem;
 }
@@ -3786,6 +3858,10 @@ html {
 
 .pt-\[5\%\] {
   padding-top: 5%;
+}
+
+.pt-4 {
+  padding-top: 1rem;
 }
 
 .text-left {

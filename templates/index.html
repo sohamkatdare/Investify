@@ -34,19 +34,13 @@
     </div>
     <div class="h-full col-span-1">
       <div class="relative bg-primary w-full grid justify-center mt-[4rem]">
-        <img class="absolute w-full top-0 z-[2]" src="{{url_for('static', filename='assets/images/header-image.svg')}}" alt="Header Image"/>
+        <img loading="lazy" class="absolute w-full top-0 z-[2]" src="{{url_for('static', filename='assets/images/header-image.svg')}}" alt="Header Image"/>
           </div>
         </div>
       </div>
-    </div>
-    
-    
+    </div>    
   </div>
-
-  <div class="divider"></div>
-
-
-  <div class="grid items-top w-[94%] p-[3%] grid-cols-2 container-fluid mx-10 text-black rounded-lg min-h-[80vh] max-h-max">
+  <div class="grid items-top w-screen px-16 bg-slate-100/[0.02] grid-cols-2 container-fluid text-black  min-h-[80vh] max-h-max">
     <div class="about_content pt-11 pr-24 mt-[9rem] lg:pt-15 lg:pb-15 col-span-1 h-min max-h-max translate-y-[-8rem] order-0 text-white">
         <h5 class="gradient-text-alt text-5xl font-semibold mb-4 pb-9">Why Use Investify</h5>
         <p>
@@ -54,7 +48,7 @@
         </p>
     </div> 
     <div class="h-full col-span-1 pr-20 flex justify-center items-center mx-auto">
-      <img class="w-full z-[2] order-1" src="{{url_for('static', filename='assets/images/about.svg')}}" alt="about"/>
+      <img loading="lazy" class="w-full z-[2] order-1" src="{{url_for('static', filename='assets/images/about.svg')}}" alt="about"/>
     </div>
     
   </div>
@@ -322,16 +316,14 @@
           </script>
     </div>
 
-      
-
-      <div class="divider"></div>
-
-
-      <div class="grid items-center w-[94%] p-[3%] grid-cols-2 container-fluid mx-6 text-black rounded-lg h-[100vh]">
+      <div class="grid items-center w-screen px-16 grid-cols-2 container-fluid bg-slate-100/[0.02]  text-black rounded-lg h-[100vh]">
         <div class="h-full col-span-1 content-center items-center order-1">
-            <div class="relative bg-primary w-full grid items-center">
-                <img class="w-full z-[2] rounded-lg" src="{{url_for('static', filename='assets/images/work-2.jpg')}}" alt="Header Image"/>
+          <div class="relative flex bg-primary w-full items-center">
+            <div class="absolute inset-y-0 left-0   flex items-center justify-center w-full">
+                <img loading="lazy" class="w-full translate-y-[50%] z-2 rounded-lg" src="{{url_for('static', filename='assets/images/work-2.jpg')}}" alt="Header Image" />
             </div>
+        </div>
+        
         </div>
         <div class="col-span-1 text-center order-0 -translate-y-20 mr-10">
             <h1 class="text-5xl font-bold text-white leading-tight mx-10">Upgrade your  <br> financial literacy <span class="gradient-text">NOW.</span> </strong></h1> <br>
@@ -341,15 +333,7 @@
         </div>
     </div>
 
-
-
-    <!-- <div class="m-4 tabs">
-        <button class="tab tab-lg tab-lifted">Tab 1</button>
-        <button class="tab tab-lg tab-lifted tab-active">Tab 2</button>
-        <button class="tab tab-lg tab-lifted">Tab 3</button>
-      </div> -->
-    <!--====== SERVICES PART START ======-->
-    <div class=" bg-gradient-to-r from-pink-500 to-purple-500 mt-24 mb-8 w-[98.65vw] -translate-x-5 -translate-y-40" style="overflow-anchor: none;">
+    <div class=" bg-gradient-to-r from-pink-500 to-purple-500 w-screen mt-12" style="overflow-anchor: none;">
         <div class="flex justify-center gap-5 py-2">
           <a href="#item1" class="btn btn-xs carousel-link" style="overflow-anchor: none;">Stocks</a> 
           <a href="#item2" class="btn btn-xs carousel-link" style="overflow-anchor: none;">Options</a> 
@@ -359,35 +343,35 @@
         </div>
         <div class="carousel w-[90vw] h-28 mx-auto py-4">
           <div id="item1" class="carousel-item w-full bg-black/25 rounded-lg p-2">
-            <img src = "{{url_for('static', filename='assets/images/candlestick-chart.png')}}" class="w-14 aspect-square"/>
+            <img loading="lazy" src = "{{url_for('static', filename='assets/images/candlestick-chart.png')}}" class="w-14 aspect-square"/>
             <div class="grid grid-rows-2">
                 <h1 class="text-5xl font-bold text-white leading-tight px-8 row-span-1">Stocks</h1>
                 <p class="row-span-1 px-8 inline translate-x-56 ">Invest in thousands of companies and fractional shares using our analytics to create your own financial portfolio.</p>
             </div>
           </div> 
           <div id="item2" class="carousel-item w-full bg-black/25 rounded-lg p-2">
-            <img src = "{{url_for('static', filename='assets/images/chart.png')}}" class="w-14 aspect-square"/>
+            <img loading="lazy" src = "{{url_for('static', filename='assets/images/chart.png')}}" class="w-14 aspect-square"/>
             <div class="grid grid-rows-2">
                 <h1 class="text-5xl font-bold text-white leading-tight px-8 row-span-1">Options</h1>
                 <p class="row-span-1 px-8 inline translate-x-60">Options provide a strategic alternative to just investing in equity.</p>
             </div>
           </div> 
           <div id="item3" class="carousel-item w-full bg-black/25 rounded-lg p-2">
-            <img src = "{{url_for('static', filename='assets/images/etf.png')}}" class="w-14 aspect-square"/>
+            <img loading="lazy" src = "{{url_for('static', filename='assets/images/etf.png')}}" class="w-14 aspect-square"/>
             <div class="grid grid-rows-2">
                 <h1 class="text-5xl font-bold text-white leading-tight px-8 row-span-1">ETFs</h1>
                 <p class="row-span-1 px-8 inline translate-x-40">Diversify your holdings by investing into a group of stocks with the same convenience as trading a single stock.</p>
             </div>
           </div>  
           <div id="item4" class="carousel-item w-full bg-black/25 rounded-lg p-2">
-            <img src = "{{url_for('static', filename='assets/images/cycle.png')}}" class="w-14 aspect-square"/>
+            <img loading="lazy" src = "{{url_for('static', filename='assets/images/cycle.png')}}" class="w-14 aspect-square"/>
             <div class="grid grid-rows-2">
                 <h1 class="text-5xl font-bold text-white leading-tight px-8 row-span-1">OTC</h1>
                 <p class="row-span-1 px-8 inline translate-x-40">Get a better understanding of what OTCs are and how you can invest in OTCs with Webull.</p>
             </div>
           </div> 
           <div id="item5" class="carousel-item w-full bg-black/25 rounded-lg p-2">
-            <img src = "{{url_for('static', filename='assets/images/bitcoin.png')}}" class="w-14 aspect-square"/>
+            <img loading="lazy" src = "{{url_for('static', filename='assets/images/bitcoin.png')}}" class="w-14 aspect-square"/>
             <div class="grid grid-rows-2">
                 <h1 class="text-5xl font-bold text-white leading-tight px-8 row-span-1">Crypto</h1>
                 <p class="row-span-1 px-8 inline translate-x-56">Diversify your holdings by investing in digital currencies including Bitcoin, Ethereum, Bitcoin Cash and Litecoin.</p>
@@ -410,7 +394,7 @@
 <div class="grid items-center w-[94%] p-[3%] grid-cols-2 container-fluid mx-6 text-black rounded-lg h-[80vh]">
     <div class="h-full col-span-1 content-center items-center">
         <div class="relative bg-transparent w-full grid items-center">
-            <img class="w-full z-[2] rounded-lg  bg-transparent" src="{{url_for('static', filename='assets/images/work-4.png')}}" alt="Header Image"/>
+            <img loading="lazy" class="w-full z-[2] rounded-lg  bg-transparent" src="{{url_for('static', filename='assets/images/work-4.png')}}" alt="Header Image"/>
         </div>
     </div>
     <div class="col-span-1 text-center">

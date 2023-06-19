@@ -2,7 +2,6 @@ import numpy as np
 import pandas as pd
 import matplotlib
 import matplotlib.pyplot as plt
-import mplfinance
 from polygon import RESTClient
 from dotenv import load_dotenv
 load_dotenv()
@@ -12,6 +11,9 @@ import datetime
 
 POLYGON_API_KEY = os.getenv('POLYGON_KEY')
 client = RESTClient(POLYGON_API_KEY)
+
+POLYGON_API_KEY_TWO = os.getenv('POLYGON_KEY_TWO')
+client_two = RESTClient(POLYGON_API_KEY_TWO)
 
 matplotlib.use('Agg')
 
@@ -23,8 +25,7 @@ def getStockData(ticker):
     start_date = (end_date - datetime.timedelta(days=30)).strftime('%Y-%m-%d')
     end_date = end_date.strftime('%Y-%m-%d')
     past = client.get_aggs(ticker, 1, 'day', start_date, end_date, adjusted=True)
-    stock_prices = pd.DataFrame({'date': np.array([datetime.datetime.fromtimestamp(i.timestamp/1000).strftime('%Y-%m-%d')
-                                               for i in past]),
+    stock_prices = pd.DataFrame({'date': np.array([datetime.datetime.fromtimestamp(i.timestamp/1000).strftime('%Y-%m-%d') for i in past]),
                              'open': [i.open for i in past],
                              'close': [i.close for i in past],
                              'high': [i.high for i in past],
@@ -50,5 +51,4 @@ def getStockData(ticker):
 
 if __name__ == '__main__':
     data = getStockData('AAPL')
-    print(data)
-    print(data[2]['close'][0])
+    print(data[2])

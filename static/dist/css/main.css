@@ -2937,6 +2937,10 @@ html {
   margin-top: 0.75rem;
 }
 
+.-mt-3 {
+  margin-top: -0.75rem;
+}
+
 .block {
   display: block;
 }
@@ -3455,6 +3459,10 @@ html {
 
 .border-\[\#e5e7eb\]\/\[0\.1\] {
   border-color: rgb(229 231 235 / 0.1);
+}
+
+.border-transparent {
+  border-color: transparent;
 }
 
 .bg-primary {
@@ -4091,30 +4099,15 @@ section.grid>* {
   }
 }
 
-#nav-container > li > * {
-  color: rgba(255, 255, 255, 1);
-}
-
-#nav-container:hover > li > * {
-  color: rgba(255, 255, 255, 0.25);
-}
-
-#nav-container:hover > li:hover > * {
-  color: rgba(255, 255, 255, 1);
-}
-
-#nav-container:hover > form:hover + * {
-  color: rgba(255, 255, 255, 1);
-}
-
-#nav-container:hover > li.parent:hover > a {
-  color: rgba(255, 255, 255, 1);
-}
-
+#nav-container:hover > li > *,
 #nav-container:hover > li.parent:hover > ul > li > a {
   color: rgba(255, 255, 255, 0.25);
 }
 
+#nav-container > li > *,
+#nav-container:hover > li:hover > *,
+#nav-container:hover > form:hover + *,
+#nav-container:hover > li.parent:hover > a,
 #nav-container:hover > li.parent:hover > ul > li:hover > a {
   color: rgba(255, 255, 255, 1);
 }
@@ -4291,10 +4284,6 @@ section.grid>* {
     display: none;
   }
 
-  .max-lg\:grid-cols-3 {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
   .max-lg\:grid-rows-3 {
     grid-template-rows: repeat(3, minmax(0, 1fr));
   }
@@ -4355,10 +4344,6 @@ section.grid>* {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
-  .lg\:grid-rows-3 {
-    grid-template-rows: repeat(3, minmax(0, 1fr));
-  }
-
   .lg\:flex-row {
     flex-direction: row;
   }
@@ -4378,4 +4363,5 @@ section.grid>* {
     line-height: 2.5rem;
   }
 }
+
 

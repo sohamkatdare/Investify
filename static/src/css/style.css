@@ -149,25 +149,17 @@ section.grid>* {
     transform: scale(1);
   }
 }
-#nav-container > li > * {
-  color: rgba(255, 255, 255, 1);
-}
-#nav-container:hover > li > * {
-  color: rgba(255, 255, 255, 0.25);
-}
-#nav-container:hover > li:hover > * {
-  color: rgba(255, 255, 255, 1);
-}
-#nav-container:hover > form:hover + * {
-  color: rgba(255, 255, 255, 1);
-}
-#nav-container:hover > li.parent:hover > a {
-  color: rgba(255, 255, 255, 1);
-}
+#nav-container:hover > li > *,
 #nav-container:hover > li.parent:hover > ul > li > a {
   color: rgba(255, 255, 255, 0.25);
 }
+
+#nav-container > li > *,
+#nav-container:hover > li:hover > *,
+#nav-container:hover > form:hover + *,
+#nav-container:hover > li.parent:hover > a,
 #nav-container:hover > li.parent:hover > ul > li:hover > a {
   color: rgba(255, 255, 255, 1);
 }
+
 

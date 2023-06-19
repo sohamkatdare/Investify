@@ -35,7 +35,7 @@
             <p class="mb-3">{{ text }}</p>
         {% endif %}
         <button class="card-actions mt-4 justify-center">
-            <a class="btn btn-primary border-indigo-400 bg-transparent hover:gradient-bg hover:border-indigo-400  transition-all " href="{{ buttonLink }}" {% if button_external != '' %} target="_blank" {% endif %}>{{ button }}   
+            <a class="btn btn-primary border-transparent bg-transparent gradient-bg " href="{{ buttonLink }}" {% if button_external != '' %} target="_blank" {% endif %}>{{ button }}   
                 {% if button_external != '' %}   
                     <i class="ml-2 fas fa-external-link-alt inline-block justify-end"></i>
                 {% endif %}

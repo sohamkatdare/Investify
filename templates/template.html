@@ -58,8 +58,8 @@
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
       </label>
       <ul tabindex="0" class="lg:hidden dropdown-content bg-base-100 w-screen h-screen absolute inset-0 -translate-x-[calc(100%-73.64px)] ">
-        <button tabindex="0" class="relative top-0 right-0 m-4 btn-circle text-xl">x</button>
-        <div class="relative inset-0 mx-[10%] my-6" id="nav-container">
+        <!-- <button tabindex="0" class="relative top-0 right-0 m-4 btn-circle text-xl">x</button> -->
+        <div class="relative inset-0 mx-[10%] mt-3" id="nav-container">
           <form class="form-control w-full" role="search" method="POST" action="search" autocapitalize="characters" autocomplete="off">
             <div class="input-group w-full">
               {% if searchForm.ticker.errors %}
@@ -84,7 +84,7 @@
           <li class="py-7 border-y-2 my-[-2px] border-[#e5e7eb]/[0.1] peer-hover:border-transparent hover:border-pink-500 transition-all duration-700"><a class="md:text-5xl text-4xl transition-all duration-700" href="/search">Search</a></li>
           <li class="py-7 border-y-2 my-[-2px] border-[#e5e7eb]/[0.1] peer-hover:border-transparent hover:border-pink-500 transition-all duration-700 parent"><a class="md:text-5xl text-4xl transition-all duration-700">Education</a>
             <ul class="p-2">
-              <li class="my-3"><a class="md:text-5xl text-4xl transition-all duration-700">Technical Indicators</a></li>
+              <li class="my-3"><a class="md:text-5xl text-4xl transition-all duration-700" href="/education/statistics">Technical Indicators</a></li>
             </ul>
           </li>
           <li class="py-7 border-y-2 my-[-2px] border-[#e5e7eb]/[0.1] peer-hover:border-transparent hover:border-pink-500 transition-all duration-700"><a class="md:text-5xl text-4xl transition-all duration-700" href="/simplify">Simplify</a></li>

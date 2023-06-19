@@ -15,15 +15,27 @@
   .gradient-text-alt {
     @apply bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-amber-300
   }
-  .gradient-bg {
-    @apply bg-gradient-to-r from-pink-500 to-purple-500
-  }
-  .gradient-bg:hover {
-    @apply bg-gradient-to-l from-pink-500 to-purple-500
-  }
   .gradient-border {
     @apply bg-gradient-to-r from-pink-500 to-purple-500
   }
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none; 
+  scrollbar-width: none;  
+}
+.gradient-bg {
+  background-image: linear-gradient(to right,  rgb(236 72 153) 0%, rgb(168 85 247) 33%, rgb(168 85 247) 66%,  rgb(236 72 153) 100%);
+  transition: all 500ms ease-in-out;
+  background-size: 200% auto;
+}
+
+.gradient-bg:hover {
+  transition: all ease .4s;
+  background-position: right center;
 }
 
 body {
@@ -137,3 +149,25 @@ section.grid>* {
     transform: scale(1);
   }
 }
+#nav-container > li > * {
+  color: rgba(255, 255, 255, 1);
+}
+#nav-container:hover > li > * {
+  color: rgba(255, 255, 255, 0.25);
+}
+#nav-container:hover > li:hover > * {
+  color: rgba(255, 255, 255, 1);
+}
+#nav-container:hover > form:hover + * {
+  color: rgba(255, 255, 255, 1);
+}
+#nav-container:hover > li.parent:hover > a {
+  color: rgba(255, 255, 255, 1);
+}
+#nav-container:hover > li.parent:hover > ul > li > a {
+  color: rgba(255, 255, 255, 0.25);
+}
+#nav-container:hover > li.parent:hover > ul > li:hover > a {
+  color: rgba(255, 255, 255, 1);
+}
+

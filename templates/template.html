@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 
 <head>
   <meta charset="utf-8">
@@ -30,13 +30,13 @@
   
 </head>
 
-<body class="leading-normal tracking-normal bg-cover bg-fixed overflow-x-hidden" data-theme="forest" style="background-image: url('header.png');">
+<body class="leading-normal tracking-normal bg-cover bg-fixed overflow-x-hidden no-scrollbar" data-theme="forest" style="background-image: url('header.png');">
   <nav class="navbar bg-base-100/[0.35] backdrop-blur-sm z-10 fixed top-0 px-5">
     <div class="flex-1">
-      <a class="flex items-center text-indigo-400 no-underline hover:no-underline font-bold text-2xl lg:text-4xl" href="/">
+      <a class="flex items-center text-indigo-400 no-underline hover:no-underline font-bold text-2xl transition-all duration-700 lg:text-4xl" href="/">
         <span class="bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-purple-500">investify.</span>
       </a>
-      <ul class="menu menu-horizontal px-1">
+      <ul class="max-lg:hidden menu menu-horizontal px-1">
         <li><a id="market" href="/market">Market</a></li>
         <li><a id="search" href="/search">Search</a></li>
         <li tabindex="0">
@@ -53,9 +53,46 @@
         <li><a id="simplify" href="/simplify">Simplify</a></li>
       </ul>
     </div>
-    <div class="flex-none">
-      <form class="form-control" role="search" method="POST" action="search" autocapitalize="characters"
-        autocomplete="off">
+    <div class="flex-none dropdown">
+      <label tabindex="0" class="btn btn-ghost lg:hidden">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
+      </label>
+      <ul tabindex="0" class="lg:hidden dropdown-content bg-base-100 w-screen h-screen absolute inset-0 -translate-x-[calc(100%-73.64px)] ">
+        <button tabindex="0" class="relative top-0 right-0 m-4 btn-circle text-xl">x</button>
+        <div class="relative inset-0 mx-[10%] my-6" id="nav-container">
+          <form class="form-control w-full" role="search" method="POST" action="search" autocapitalize="characters" autocomplete="off">
+            <div class="input-group w-full">
+              {% if searchForm.ticker.errors %}
+              {{ searchForm.ticker(class="input input-bordered w-full") }}
+              {% for error in searchForm.ticker.errors %}
+              <span class="invalid-feedback">{{ error }}</span>
+              {% endfor %}
+              {% else %}
+              {{ searchForm.ticker(class="input my-8 input-bordered w-full", id="nav-search") }}
+              {% endif %}
+              <button class="btn btn-square my-8" id="submit" name="submit" type="submit">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                  stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+              </button>
+
+            </div>
+          </form>
+          <li class="py-7 border-y-2 my-[-2px] border-[#e5e7eb]/[0.1] peer-hover:border-transparent hover:border-pink-500 transition-all duration-700"><a class="md:text-5xl text-4xl transition-all duration-700" href="/market">Market</a></li>
+          <li class="py-7 border-y-2 my-[-2px] border-[#e5e7eb]/[0.1] peer-hover:border-transparent hover:border-pink-500 transition-all duration-700"><a class="md:text-5xl text-4xl transition-all duration-700" href="/search">Search</a></li>
+          <li class="py-7 border-y-2 my-[-2px] border-[#e5e7eb]/[0.1] peer-hover:border-transparent hover:border-pink-500 transition-all duration-700 parent"><a class="md:text-5xl text-4xl transition-all duration-700">Education</a>
+            <ul class="p-2">
+              <li class="my-3"><a class="md:text-5xl text-4xl transition-all duration-700">Technical Indicators</a></li>
+            </ul>
+          </li>
+          <li class="py-7 border-y-2 my-[-2px] border-[#e5e7eb]/[0.1] peer-hover:border-transparent hover:border-pink-500 transition-all duration-700"><a class="md:text-5xl text-4xl transition-all duration-700" href="/simplify">Simplify</a></li>
+        </div>
+      </ul>
+    </div>
+    <div class="max-lg:hidden flex-none">
+      <form class="form-control" role="search" method="POST" action="search" autocapitalize="characters" autocomplete="off">
         <div class="input-group">
           {% if searchForm.ticker.errors %}
           {{ searchForm.ticker(class="input input-bordered") }}
@@ -75,7 +112,7 @@
 
         </div>
       </form>
-      <button>
+      <button class="max-lg:hidden">
         {% if current_identity == '' %}
         <a href="{{ url_for('register') }}" class="m-2 ml-4">
           Sign Up

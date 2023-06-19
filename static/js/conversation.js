@@ -64,7 +64,10 @@ function submit(event) {
 
                 // If last message is a user message, add the chunk to the messages array.
                 if (messages[messages.length - 1]["role"] === "user") {
+                    var conversation = document.getElementById("conversation");
                     messages = [...messages, {"role": "system", "content": chunk}];
+                    const last_message = conversation.lastChild;
+                    last_message.scrollIntoView();
                 } else {
                     messages[messages.length - 1]["content"] += chunk;
                 }
@@ -99,6 +102,7 @@ function updateChat() {
         div.innerHTML = message["content"];
         conversation.appendChild(div);
     }
+    conversation.scrollTop = conversation.scrollHeight - conversation.clientHeight;
 }
 
 document.getElementById("form").onsubmit = submit;

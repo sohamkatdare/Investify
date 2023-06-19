@@ -1,5 +1,7 @@
 import openai
 import os
+import time
+import json
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -16,16 +18,34 @@ def summarize(prompt):
     return ask(messages)
 
 def ask(messages):
-    raw_return = openai.ChatCompletion.create(
+    ### STREAM CHATGPT API RESPONSES
+    delay_time = 0.01 #  faster
+    max_response_length = 1500
+    start_time = time.time()
+
+    response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=messages,
         max_tokens=1500,
-    )['choices'][0]['message']['content'].strip(' .')
-    incomplete = ''
-    if raw_return[0] == raw_return[0].lower():
-        incomplete = raw_return[:raw_return.index('.')+2]
-    new_response = raw_return.replace(incomplete, '') + '.'
-    return (messages + [{"role": "system", "content": new_response}]) # Don't include the context and investopedia text in the returned JSON.
+        stream=True
+    )
+    whole_answer = ''
+    for event in response:         
+        # RETRIEVE THE TEXT FROM THE RESPONSE
+        event_time = time.time() - start_time  # CALCULATE TIME DELAY BY THE EVENT
+        event_text = event['choices'][0]['delta'] # type: ignore # EVENT DELTA RESPONSE
+        answer = event_text.get('content', '') # RETRIEVE CONTENT
+
+        # STREAM THE ANSWER
+        if answer:
+            whole_answer += answer
+
+            # Convert string to byte string
+            answer = answer.encode('utf-8')
+            yield answer # Yield the response
+        time.sleep(delay_time)
+    
+    yield json.dumps(messages + [{"role": "system", "content": whole_answer}])
 
 if __name__ == '__main__':
     text = '''Pete Rathburn is a copy editor and fact-checker with expertise in economics and personal finance and over twenty years of experience in the classroom. Investopedia / Laura Porter 
@@ -65,4 +85,6 @@ In 2007, the credit ratings of certain asset-related securities were rated highe
 Investors may consider purchasing a stock if its Altman Z-Score value is closer to 3 and selling, or shorting, a stock if the value is closer to 1.8. The Altman Z-Score has become a reliable measure of calculating credit risk, and the Altman Z-Score Plus provides investors with a more inclusive analysis."""},
                 {"role": "user", "content": "How can the Altman Z-Score be used to assess a company's financial health and predict its risk of bankruptcy?"},
     ]
-    print(ask(messages))
+    g = ask(messages)
+    for m in g:
+        print(m, end='', flush=True)

@@ -1,9 +1,9 @@
 .favorite-button {
   --background-default: #313440;
   --text-color-default: #FAFBFF;
-  --star-color-default: #62677C;
+  --star-color-default: #543eff;
   --star-face-color-default: #1F2128;
-  --star-color-active: #F6C206;
+  --star-color-active: #f60606;
   --star-face-color-active: #845901;
   --star-hole: #16181E;
   --star-hole-inner: #20232C;
@@ -16,7 +16,6 @@
   --text-x: 0px;
   --text-o: 1;
   -webkit-tap-highlight-color: transparent;
-  -webkit-appearance: none;
   outline: none;
   border: none;
   background: none;

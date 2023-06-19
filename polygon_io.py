@@ -1,8 +1,9 @@
 import numpy as np
 import pandas as pd
 import matplotlib
+import json
 import matplotlib.pyplot as plt
-from polygon import RESTClient
+import requests
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -10,28 +11,50 @@ import os
 import datetime
 
 POLYGON_API_KEY = os.getenv('POLYGON_KEY')
-client = RESTClient(POLYGON_API_KEY)
-
 POLYGON_API_KEY_TWO = os.getenv('POLYGON_KEY_TWO')
-client_two = RESTClient(POLYGON_API_KEY_TWO)
+POLYGON_API_KEY_THREE = os.getenv('POLYGON_KEY_THREE')
+POLYGON_API_KEY_FOUR = os.getenv('POLYGON_KEY_FOUR')
+POLYGON_API_KEY_FIVE = os.getenv('POLYGON_KEY_FIVE')
+POLYGON_API_KEY_SIX = os.getenv('POLYGON_KEY_SIX')
+POLYGON_API_KEY_SEVEN = os.getenv('POLYGON_KEY_SEVEN')
+POLYGON_API_KEY_EIGHT = os.getenv('POLYGON_KEY_EIGHT')
+POLYGON_API_KEY_NINE = os.getenv('POLYGON_KEY_NINE')
+POLYGON_API_KEY_TEN = os.getenv('POLYGON_KEY_TEN')
+
+POLYGON_KEYS = [POLYGON_API_KEY, POLYGON_API_KEY_TWO, POLYGON_API_KEY_THREE, POLYGON_API_KEY_FOUR, POLYGON_API_KEY_FIVE, POLYGON_API_KEY_SIX, POLYGON_API_KEY_SEVEN, POLYGON_API_KEY_EIGHT, POLYGON_API_KEY_NINE, POLYGON_API_KEY_TEN]
 
 matplotlib.use('Agg')
 
 def getStockData(ticker):
     plt.style.use('dark_background')
 
-    # start_date and end_date are strings in the format 'YYYY-MM-DD'. Dates must be within the last 2 years.
+    # start_date and end_date are strings in the format 'YYYY-MM-DD'. Dates must be within the last 10 years.
     end_date = datetime.datetime.now()
-    start_date = (end_date - datetime.timedelta(days=30)).strftime('%Y-%m-%d')
+    start_date = (end_date - datetime.timedelta(days=365.25*2)).strftime('%Y-%m-%d')
     end_date = end_date.strftime('%Y-%m-%d')
-    past = client.get_aggs(ticker, 1, 'day', start_date, end_date, adjusted=True)
-    stock_prices = pd.DataFrame({'date': np.array([datetime.datetime.fromtimestamp(i.timestamp/1000).strftime('%Y-%m-%d') for i in past]),
-                             'open': [i.open for i in past],
-                             'close': [i.close for i in past],
-                             'high': [i.high for i in past],
-                             'low': [i.low for i in past],
-                             'volume': [i.volume for i in past],
-                             'vwap': [i.vwap for i in past]})
+    
+    # Send GET request to https://api.polygon.io/v2/aggs/ticker/AAPL/range/30/minute/2021-01-09/2023-01-09?adjusted=true&sort=asc&limit=50000&apiKey=Eu58Vwvimp7zHkrIuypgLiLpwg5uGjN5
+    past = []
+    url = f'https://api.polygon.io/v2/aggs/ticker/{ticker.upper()}/range/1/day/{start_date}/{end_date}?'
+    i = 0
+    while True:
+        polygon_key = POLYGON_KEYS[i % len(POLYGON_KEYS)]
+        params = f'adjusted=true&sort=asc&limit=50000&apiKey={polygon_key}'
+        resp = requests.get(url+params)
+        past += resp.json()['results']
+        if 'next_url' in resp.json():
+            url = resp.json()['next_url']+'&'
+            i += 1
+        else:
+            break
+
+    stock_prices = pd.DataFrame({'date': np.array([datetime.datetime.fromtimestamp(i['t']/1000).strftime('%Y-%m-%d') for i in past]), # type: ignore
+                             'open': [i['o'] for i in past],  # type: ignore
+                             'close': [i['c'] for i in past],  # type: ignore
+                             'high': [i['h'] for i in past], # type: ignore
+                             'low': [i['l'] for i in past], # type: ignore
+                             'volume': [i['v'] for i in past],  # type: ignore
+                             'vwap': [i['vw'] for i in past]})  # type: ignore
     ohlc = stock_prices.loc[:, ['open', 'high', 'low', 'close', 'volume', 'vwap']]
     stock_prices['date'] = pd.to_datetime(stock_prices['date'])
     ohlc.set_index(stock_prices['date'], inplace=True)
@@ -51,4 +74,10 @@ def getStockData(ticker):
 
 if __name__ == '__main__':
     data = getStockData('AAPL')
-    print(data[2])
+    ohlc = data[2]
+    ohlc.drop("vwap", axis=1)
+    ohlc = ohlc.reset_index()
+    ohlc_formatted = []
+    for i in ohlc.index:
+        ohlc_formatted.append([int(ohlc['date'][i].to_pydatetime().timestamp())*1000, ohlc['open'][i], ohlc['high'][i], ohlc['low'][i], ohlc['close'][i], ohlc['volume'][i]])
+    ohlc_json = json.dumps(ohlc_formatted)

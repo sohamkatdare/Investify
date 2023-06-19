@@ -35,7 +35,7 @@
             <p class="mb-3">{{ text }}</p>
         {% endif %}
         <button class="card-actions mt-4 justify-center">
-            <a class="btn btn-primary border-transparent bg-transparent gradient-bg " href="{{ buttonLink }}" {% if button_external != '' %} target="_blank" {% endif %}>{{ button }}   
+            <a class="btn btn-primary border-indigo-400 bg-transparent gradient-border hover:border-transparent  transition-all " href="{{ buttonLink }}" {% if button_external != '' %} target="_blank" {% endif %}>{{ button }}   
                 {% if button_external != '' %}   
                     <i class="ml-2 fas fa-external-link-alt inline-block justify-end"></i>
                 {% endif %}
@@ -51,25 +51,20 @@
         <h2 class="card-title"> {{ title }} </h2>
         <p class="mb-3 text-3xl"> {{ text_gain_loss }} <span class=" ml-1 text-xl"> {{ text_pct_change }} </span></p>
         <button class="card-actions justify-center">
-            <a class="btn btn-primary border-indigo-400 bg-transparent hover:gradient-bg hover:border-indigo-400  transition-all " href="{{ buttonLink }}"> {{ button }} </a>
+            <a class="btn btn-primary border-indigo-400 bg-transparent gradient-border hover:border-transparent  transition-all " href="{{ buttonLink }}"> {{ button }} </a>
         </button>
         </div>
     </div>
 {%- endmacro %}
-{% macro card_conversation(title='Card Title', button='Go', buttonLink="#") -%}
-    <div class="card w-96 bg-white/[0.075] hover:shadow-2xl hover:drop-shadow-2xl hover:-translate-y-[2rem]  transition-all">
+{% macro card_conversation(title='Card Title', button='Go', buttonLink="#", conversation="He he HOOOOOOOOOOOOOOOOO") -%}
+    <div class="card w-96 bg-white/[0.075] hover:shadow-2xl hover:drop-shadow-2xl hover:-translate-y-[2rem] transition-all">
         <div class="card-body">
-        <h2 class="card-title"> {{ title }} </h2>
-        <p class="mb-3 text-3xl"> {{ text_gain_loss }} <span class=" ml-1 text-xl"> {{ text_pct_change }} </span></p>
+        <h2 class="card-title text-white font-bold text-2xl"> {{ title }} </h2>
+        <p class="mb-3 text-lg text-white/50"> {{ conversation }} </p>
         <button class="card-actions justify-center">
-            <a class="btn btn-primary border-indigo-400 bg-transparent hover:gradient-bg hover:border-indigo-400  transition-all " href="{{ buttonLink }}"> {{ button }} </a>
+            <a class="btn btn-primary border-indigo-400 bg-transparent gradient-border hover:border-transparent transition-all" href="{{ buttonLink }}"> {{ button }} </a>
         </button>
-        </div>
-        <figure>
-            <!-- <img src="https://picsum.photos/seed/picsum/200/300" alt="Image"> -->
-            <!-- stock graph from google charts hur -->
-            <img src="https://quickchart.io/chart?c={type:'line',data:{labels:['January','February','March','April','May','June','July'],datasets:[{label:'Paper Trading',fill:false,borderColor:'rgb(75, 192, 192)',data:[0,10,5,2,20,30,45]}]}}" alt="Image" class="p-4 bg-base-100">
-        </figure>
+        </div>  
     </div>
 {%- endmacro %}
 {% macro stock_chip(ticker='AAPL', price='') %}

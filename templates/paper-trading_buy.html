@@ -25,7 +25,7 @@
         {% else %}
             {{ buyStock.quantity(class="input input-bordered w-full") }}
         {% endif %}
-        {{buyStock.submit(class="btn btn-primary border-indigo-400 bg-transparent hover:gradient-bg hover:border-indigo-400  transition-all ")}}
+        {{buyStock.submit(class="btn btn-primary border-indigo-400 bg-transparent gradient-border hover:border-transparent  transition-all ")}}
       {% else %}
         <div class="flex justify-center items-center text-green-400 text-xl font-bold hover:bg-white/[0.075] bg-transparent border-2 border-white/25 hover:border-transparent rounded-full min-w-64 h-8 p-4 mb-2 text-center">
           <p>Ticker: {{ticker.upper()}}</p>
@@ -39,7 +39,7 @@
         <div class="flex justify-center items-center text-red-400 text-xl font-bold hover:bg-white/[0.075] bg-transparent border-2 border-white/25 hover:border-transparent rounded-full min-w-64 h-8 p-4 mb-2 text-center">
           <p>Total Price: ${{ (price * quantity).__round__(2) }}</p>
         </div>
-        {{confirm.confirm(class="btn btn-primary border-indigo-400 bg-transparent hover:gradient-bg hover:border-indigo-400  transition-all ")}}
+        {{confirm.confirm(class="btn btn-primary border-indigo-400 bg-transparent gradient-border hover:border-transparent  transition-all ")}}
       {% endif %}
     </div>
   </form>
@@ -51,7 +51,7 @@
 <div id="data">
   <h1 class="text-5xl text-primary mt-10 mb-10">Article Summary</h1>
   <h3 class="text-xl mt-10 mb-10">{{data}}</h3>
-  <button class="btn btn-primary border-indigo-400 bg-transparent hover:gradient-bg hover:border-indigo-400  transition-all inline-block"><a href="{{link}}" target="_blank">Go to Original Article</a></button>
+  <button class="btn btn-primary border-indigo-400 bg-transparent gradient-border hover:border-transparent  transition-all inline-block"><a href="{{link}}" target="_blank">Go to Original Article</a></button>
 </div>
 {% endif %}
 {% endblock search_results %}

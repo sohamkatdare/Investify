@@ -142,7 +142,7 @@
     </div>
   </nav>
   <div class="flex flex-col min-h-screen ">
-    <div class="flex-1">
+    <div class="flex-1" id="flex-1">
       <br><br><br>
       <div class="container mx-auto my-3">
         {% with messages = get_flashed_messages(with_categories=true) %}
@@ -281,14 +281,6 @@
   </script>
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-  <script src="assets/js/tiny-slider.js"></script>
-
-    <!--====== Wow js ======-->
-    <script src="assets/js/wow.min.js"></script>
-
-    <!--====== Main js ======-->
-    <script src="assets/js/main.js"></script>
-
     {% block script %}{% endblock script %}
   
 </body>

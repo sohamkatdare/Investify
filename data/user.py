@@ -6,7 +6,7 @@ class User:
     User Data Model. Stores ChatGPT conversation information for each user.
     """
 
-    def __init__(self, user_id, email, user_data={}, favorite_stocks=[], games=[]):
+    def __init__(self, user_id, email, user_data={}, conversations=[], favorite_stocks=[], games=[]):
         """
         Initializes a new User object.
         
@@ -15,21 +15,12 @@ class User:
         self.user_id = user_id
         self.email = email
         self.user_data = user_data
-        self.conversation = []
+        self.conversations = conversations
         self.favorite_stocks = favorite_stocks
         self.games = games
 
-    def add_to_conversation(self, utterance):
-        self.conversation.append(utterance)
-
-    def get_last_utterance(self):
-        return self.conversation[-1]
-
     def get_conversation(self):
-        return self.conversation
-
-    def clear_conversation(self):
-        self.conversation = []
+        return self.conversations
 
     def add_game(self, game):
         self.games.append(game)
@@ -110,7 +101,7 @@ class User:
         return {
             'user_id': self.user_id,
             'email': self.email,
-            'conversation': self.conversation,
+            'conversation': self.conversations,
             'favorite_stocks': self.favorite_stocks,
             'games': self.games
         }

@@ -15,7 +15,7 @@ class PaperTrader:
         return 'gid=' + self.name.replace(' ', '+')
     
     def get_sell_url(self, ticker, quantity):
-        return f'paper-trading/sell?{self.get_url_from_name()}&t={ticker}&q={quantity}'
+        return f'paper-trading/sell?{self.get_url_from_name()}&t={ticker.upper()}&q={quantity}'
 
     @staticmethod
     def get_price(ticker):

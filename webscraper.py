@@ -1,3 +1,5 @@
+# This code takes in a search query and returns the first result from Investopedia. It then extracts the text from the article and returns it as a string.
+
 import requests
 from bs4 import BeautifulSoup as bs
 from selenium import webdriver
@@ -27,5 +29,4 @@ def investopedia_web_scrape(link):
     return article
 
 if __name__ == '__main__':
-    # print(investopedia_search('Altman Z Score'))
     print(investopedia_web_scrape(investopedia_search('Aroon')).strip().replace("\n", ""))

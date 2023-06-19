@@ -3,20 +3,20 @@
 {% block pageTitle %}Search{% endblock pageTitle %}
 {% block search_body %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/search.css') }}">
-<form class="form-control min-w-full ml-2 -translate-y-[44rem] order-0" role="search" method="POST" action="" autocapitalize="characters"
-  autocomplete="off">
+<form class="form-control min-w-full ml-2 -translate-y-[44rem] order-0" role="search" action="" autocapitalize="characters"
+  autocomplete="off" id="search-form">
   {{ searchForm.csrf_token }}
   <div class="gradient-text text-2xl mb-2">
     <h1>Enter Stock Ticker:</h1>
   </div>
   <div class="input-group mb-3 flex">
     {% if searchForm.ticker.errors %}
-    {{ searchForm.ticker(class="input input-bordered w-full") }}
+    {{ searchForm.ticker(class="input input-bordered w-full", id="ticker") }}
     {% for error in searchForm.ticker.errors %}
     <span class="invalid-feedback">{{ error }}</span>
     {% endfor %}
     {% else %}
-    {{ searchForm.ticker(class="input input-bordered w-full") }}
+    {{ searchForm.ticker(class="input input-bordered w-full", id="ticker") }}
     {% endif %}
     <button class="btn btn-square" id="submit" name="submit" type="submit">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -26,6 +26,21 @@
     </button>
   </div>
 </form>
+<div class="" id="candle_div"></div>
+<style>
+  .highcharts-label.highcharts-range-input > text[style],
+  .highcharts-label.highcharts-range-label > text[style] {
+    fill: transparent !important;
+    display: none !important;
+  }
+
+  .highcharts-scrollbar-thumb {
+    fill: white !important;
+  }
+  .highcharts-scrollbar-thumb:hover {
+    fill: rgb(210, 210, 210) !important;
+  }
+</style>
 {{super()}}
 {% endblock search_body %}
 {{ super()}}
@@ -170,7 +185,67 @@
 {% block script %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
 <script src="{{ url_for('static', filename='js/star_button.js') }}"></script>
-<script type="text/javascript">
+<script src="{{ url_for('static', filename='js/search.js') }}"></script>
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/highcharts-more.js"></script>
+<script src="https://code.highcharts.com/highcharts-3d.js"></script>
+<script src="https://code.highcharts.com/modules/stock.js"></script>
+<script src="https://code.highcharts.com/maps/modules/map.js"></script>
+<script src="https://code.highcharts.com/modules/gantt.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/parallel-coordinates.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+<script src="https://code.highcharts.com/modules/annotations-advanced.js"></script>
+<script src="https://code.highcharts.com/modules/data.js"></script>
+<script src="https://code.highcharts.com/modules/draggable-points.js"></script>
+<script src="https://code.highcharts.com/modules/static-scale.js"></script>
+<script src="https://code.highcharts.com/modules/broken-axis.js"></script>
+<script src="https://code.highcharts.com/modules/heatmap.js"></script>
+<script src="https://code.highcharts.com/modules/tilemap.js"></script>
+<script src="https://code.highcharts.com/modules/timeline.js"></script>
+<script src="https://code.highcharts.com/modules/treemap.js"></script>
+<script src="https://code.highcharts.com/modules/treegraph.js"></script>
+<script src="https://code.highcharts.com/modules/item-series.js"></script>
+<script src="https://code.highcharts.com/modules/drilldown.js"></script>
+<script src="https://code.highcharts.com/modules/histogram-bellcurve.js"></script>
+<script src="https://code.highcharts.com/modules/bullet.js"></script>
+<script src="https://code.highcharts.com/modules/funnel.js"></script>
+<script src="https://code.highcharts.com/modules/funnel3d.js"></script>
+<script src="https://code.highcharts.com/modules/pyramid3d.js"></script>
+<script src="https://code.highcharts.com/modules/networkgraph.js"></script>
+<script src="https://code.highcharts.com/modules/pareto.js"></script>
+<script src="https://code.highcharts.com/modules/pattern-fill.js"></script>
+<script src="https://code.highcharts.com/modules/price-indicator.js"></script>
+<script src="https://code.highcharts.com/modules/sankey.js"></script>
+<script src="https://code.highcharts.com/modules/arc-diagram.js"></script>
+<script src="https://code.highcharts.com/modules/dependency-wheel.js"></script>
+<script src="https://code.highcharts.com/modules/series-label.js"></script>
+<script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
+<script src="https://code.highcharts.com/modules/sonification.js"></script>
+<script src="https://code.highcharts.com/modules/stock-tools.js"></script>
+<script src="https://code.highcharts.com/modules/streamgraph.js"></script>
+<script src="https://code.highcharts.com/modules/sunburst.js"></script>
+<script src="https://code.highcharts.com/modules/variable-pie.js"></script>
+<script src="https://code.highcharts.com/modules/variwide.js"></script>
+<script src="https://code.highcharts.com/modules/vector.js"></script>
+<script src="https://code.highcharts.com/modules/venn.js"></script>
+<script src="https://code.highcharts.com/modules/windbarb.js"></script>
+<script src="https://code.highcharts.com/modules/wordcloud.js"></script>
+<script src="https://code.highcharts.com/modules/xrange.js"></script>
+<script src="https://code.highcharts.com/modules/no-data-to-display.js"></script>
+<script src="https://code.highcharts.com/modules/drag-panes.js"></script>
+<script src="https://code.highcharts.com/modules/debugger.js"></script>
+<script src="https://code.highcharts.com/modules/dumbbell.js"></script>
+<script src="https://code.highcharts.com/modules/lollipop.js"></script>
+<script src="https://code.highcharts.com/modules/cylinder.js"></script>
+<script src="https://code.highcharts.com/modules/organization.js"></script>
+<script src="https://code.highcharts.com/modules/dotplot.js"></script>
+<script src="https://code.highcharts.com/modules/marker-clusters.js"></script>
+<script src="https://code.highcharts.com/modules/hollowcandlestick.js"></script>
+<script src="https://code.highcharts.com/modules/heikinashi.js"></script>
+
+<!-- <script type="text/javascript">
   google.charts.load('current', { 'packages': ['corechart'] });
 
   function drawCharts() {
@@ -179,7 +254,7 @@
   }
 
   function drawCandleChart() {
-  {% if data != None %}
+  {% if (data != None) %}
     var data = google.visualization.arrayToDataTable([
       {% for i in range((data[0][2]).__len__()) %}
         ["{{ data[0][1][i].__str__() }}", {{ data[0][2]['low'][i] }}, {{ data[0][2]['open'][i] }}, {{ data[0][2]['close'][i] }}, {{ data[0][2]['high'][i] }}],
@@ -284,7 +359,7 @@
   }
   
   google.charts.setOnLoadCallback(drawCharts);
-</script>
+</script> -->
 {% endblock script %}
 
 

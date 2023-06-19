@@ -15,9 +15,9 @@
   .gradient-text-alt {
     @apply bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-amber-300
   }
-  .gradient-border {
-    @apply bg-gradient-to-r from-pink-500 to-purple-500
-  }
+}
+.gradient-border:hover {
+  background-image: linear-gradient(to right,  hsl(330, 81%, 30%) 0%, hsl(271, 91%, 35%) 100%);
 }
 .no-scrollbar::-webkit-scrollbar {
   display: none;

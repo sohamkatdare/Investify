@@ -3434,10 +3434,6 @@ html {
   border-color: rgb(129 140 248 / 0.75);
 }
 
-.border-transparent {
-  border-color: transparent;
-}
-
 .border-white\/25 {
   border-color: rgb(255 255 255 / 0.25);
 }
@@ -3965,6 +3961,10 @@ html {
   transition-duration: 700ms;
 }
 
+.gradient-border:hover {
+  background-image: linear-gradient(to right,  hsl(330, 81%, 30%) 0%, hsl(271, 91%, 35%) 100%);
+}
+
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
@@ -4148,11 +4148,6 @@ section.grid>* {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
-.hover\:border-indigo-400:hover {
-  --tw-border-opacity: 1;
-  border-color: rgb(129 140 248 / var(--tw-border-opacity));
-}
-
 .hover\:border-transparent:hover {
   border-color: transparent;
 }
@@ -4315,6 +4310,12 @@ section.grid>* {
   }
 }
 
+@media not all and (min-width: 768px) {
+  .max-md\:grid-cols-1 {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+}
+
 @media (min-width: 640px) {
   .sm\:inline {
     display: inline;
@@ -4332,6 +4333,10 @@ section.grid>* {
 
   .md\:shrink-0 {
     flex-shrink: 0;
+  }
+
+  .md\:grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .md\:flex-row {
@@ -4387,5 +4392,11 @@ section.grid>* {
   .lg\:text-4xl {
     font-size: 2.25rem;
     line-height: 2.5rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .xl\:grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }

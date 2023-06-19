@@ -1,10 +1,11 @@
-from flask import Flask, render_template, flash, redirect, url_for, request, Response
+from flask import Flask, render_template, flash, redirect, url_for, request, Response, abort
 from flask_jwt_extended import JWTManager, jwt_required, create_access_token, set_access_cookies, unset_jwt_cookies, get_jwt_identity
 from oauthlib.oauth2 import WebApplicationClient
 import requests
 import datetime
 import json
 import os
+import pandas as pd
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -197,13 +198,36 @@ def resetPassword():
       flash('Email does not exist. Please register.', 'error')
   return render_template('reset_password.html', data=None, resetPasswordForm=resetPasswordForm, searchForm=searchForm, is_search=False)
 
-@app.route('/search/highcharts', methods=['GET', 'POST'])
+@app.route('/search/highcharts', methods=['GET'])
 @jwt_required(optional=True)
 def searchTicker():
+  try:
+    ticker = request.args.get('ticker')
+    print('Ticker', ticker)
+    data = getStockData(ticker)
+    ohlc = data[2]
+    ohlc.drop("vwap", axis=1)
+    ohlc = ohlc.reset_index()
+    ohlc_formatted = []
+    for i in ohlc.index:
+        ohlc_formatted.append([int(ohlc['date'][i].to_pydatetime().timestamp())*1000, ohlc['open'][i], ohlc['high'][i], ohlc['low'][i], ohlc['close'][i], ohlc['volume'][i]])
+    return Response(response=json.dumps(ohlc_formatted), status=200, mimetype='application/json')
+  except Exception as e:
+    print(e)
+    return Response(response='Service Unavailable', status=400)
+
+@app.route('/search/pe-and-eps', methods=['GET'])
+@jwt_required(optional=True)
+def searchPeAndEps():
   ticker = request.headers.get('ticker')
-  prevAggs = getStockData(ticker)
-  
-  return json.dumps(prevAggs)
+  pe_ratio, eps = get_pe_and_eps(ticker)
+  return json.dumps({'pe_ratio': pe_ratio, 'eps': eps})
+
+@app.route('/search/composite-score', methods=['GET'])
+@jwt_required(optional=True)
+def searchCompositeScore():
+  ticker = request.headers.get('ticker')
+  return json.dumps({'composite_score': get_composite_score(ticker)})
 
 @app.route('/search', methods=['GET', 'POST'])
 @jwt_required(optional=True)
@@ -222,7 +246,7 @@ def search():
     try:
       ticker = searchForm.ticker.data.upper()
       prevAggs = getStockData(ticker)
-      print(prevAggs)
+      # print(prevAggs)
       data = [prevAggs]
       pe_ratio, eps = get_pe_and_eps(ticker)
       finance_analysis = {'PE Ratio (TTM)': pe_ratio, 'EPS (TTM)': eps, 'Composite Indicator': get_composite_score(ticker)}
@@ -250,7 +274,11 @@ def educatePath(path):
   current_identity = get_jwt_identity()
   searchForm = TickerForm()
   if path:
-    return render_template(f'education/{path}.html', data=None, searchForm=searchForm, current_identity=current_identity if current_identity else '')
+    try:
+      return render_template(f'education/{path}.html', data=None, searchForm=searchForm, current_identity=current_identity if current_identity else '')
+    except Exception as e:
+      print(e)
+      abort(404)
   else:
     return render_template('education.html', data=None, searchForm=searchForm, current_identity=current_identity if current_identity else '', is_search=False)
 

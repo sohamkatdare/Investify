@@ -49,7 +49,7 @@ def scrape_insider_data(stock_symbol):
             current_value = float(share_price) * int(remaining_shares.replace(',', ''))
             print('Current Value', current_value)
 
-            sentence = f"On {trade_date}, {insider_name} {code.lower()} {shares} {security_title.lower()} in {ticker} for ${value} for ${share_price}/share. {insider_name} is an {insider_role} of {ticker}, filed the trade on {file_date}, and still has {remaining_shares} {security_title.lower()} left, at a current value of about ${current_value:,.2f}"
+            sentence = f"On {trade_date}, {insider_name} {code.lower()} {shares} {security_title.lower()} in {ticker} for ${value} for ${share_price}/share. {insider_name} is a {insider_role} of {ticker}, filed the trade on {file_date}, and now owns {remaining_shares} {security_title.lower()}, at a current value of about ${current_value:,.2f}"
             print('Sentence', sentence)
             insider_data.append(sentence)
 

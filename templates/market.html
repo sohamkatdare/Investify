@@ -2,391 +2,561 @@
 {% block title %}Home{% endblock title %}
 {% block pageTitle %}Investify{% endblock pageTitle %}
 {% block wholebody %}
+<style>
+  .tab-content {
+    display: none;
+  }
+
+  .tab-content.active {
+    display: block;
+  }
+  
+  .underline-on-hover:hover {
+  		text-decoration: underline;
+	}
+
+  /*sticky header position*/
+.sticky.is-sticky {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+}
+
+  
+</style>
+
+<script>
+var navBar = document.querySelector("#topNav");
+
+window.addEventListener("scroll", function() {
+  if (window.pageYOffset > 10 + 50) {
+    navBar.classList.add("navScrolled");
+  } else {
+    navBar.classList.remove("navScrolled");
+  }
+});
+
+</script>
 
 
-
-
-<div class="py-10">
-  <div class="container mx-auto">
-    <div class="sm:hidden relative w-11/12 mx-auto bg-white rounded">
-      <div class="absolute inset-0 m-auto mr-4 z-0 w-6 h-6">
-        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-selector" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#A0AEC0" fill="none" stroke-linecap="round" stroke-linejoin="round">
-          <path stroke="none" d="M0 0h24v24H0z" />
-          <polyline points="8 9 12 5 16 9" />
-          <polyline points="16 15 12 19 8 15" />
-        </svg>
+<div class="flex justify-center py-4">
+  <div class="w-[100vw]">
+    <div class="flex justify-center gap-2 rounded-lg mx-16" id="topNav">
+      <div class="px-4 py-2">
+        <a href="#" onclick="openTab('overview')" class="block  px-4 py-2 btn  btn-primary text-xl font-thin  border-indigo-400 bg-transparent hover:gradient-bg hover:border-indigo-400  transition-all rounded-lg">Overview</a>
       </div>
-      <select aria-label="Selected tab" class="form-select block w-full p-3 border border-gray-300 rounded text-gray-600 appearance-none bg-transparent relative z-10">
-        <option slected class="text-sm text-gray-600">Overview</option>
-        <option class="text-sm text-gray-600">Top Gainers</option>
-        <option class="text-sm text-gray-600">Top Losers</option>
-        <option class="text-sm text-gray-600">Most Active</option>
-        <option class="text-sm text-gray-600">Top Options</option>
-        <option class="text-sm text-gray-600">Calender</option>
-      </select>
+      <div class="px-4 py-2">
+        <a href="#" onclick="openTab('gainers')" class="block  px-4 py-2 btn  btn-primary text-xl font-thin  border-indigo-400 bg-transparent hover:gradient-bg hover:border-indigo-400  transition-all rounded-lg">Top Gainers</a>
+      </div>
+      <div class="px-4 py-2">
+        <a href="#" onclick="openTab('losers')" class="block  px-4 py-2 btn  btn-primary text-xl font-thin  border-indigo-400 bg-transparent hover:gradient-bg hover:border-indigo-400  transition-all rounded-lg">Top Losers</a>
+      </div>
+      <div class="px-4 py-2">
+        <a href="#" onclick="openTab('active')" class="block  px-4 py-2 btn  btn-primary text-xl font-thin  border-indigo-400 bg-transparent hover:gradient-bg hover:border-indigo-400  transition-all rounded-lg">Most Active</a>
+      </div>
+      <div class="px-4 py-2">
+        <a href="#" onclick="openTab('options')" class="block  px-4 py-2 btn  btn-primary text-xl font-thin  border-indigo-400 bg-transparent hover:gradient-bg hover:border-indigo-400  transition-all rounded-lg">Top Options</a>
+      </div>
+      <div class="px-4 py-2">
+        <a href="#" onclick="openTab('calendar')" class="block  px-4 py-2 btn  btn-primary text-xl font-thin  border-indigo-400 bg-transparent hover:gradient-bg hover:border-indigo-400  transition-all rounded-lg">Calendar</a>
+      </div>
     </div>
-    <div class="xl:w-full xl:mx-0 h-12 hidden sm:block bg-white shadow rounded">
-      <div class="flex border-b px-5">
-        <button onclick="activeTab(this)" class="focus:outline-none focus:text-indigo-700 text-sm border-indigo-700 pt-3 rounded-t text-indigo-700 mr-12 cursor-pointer">
-          <div class="flex items-center mb-3">
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="16" height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-              <path stroke="none" d="M0 0h24v24H0z" />
-              <polyline points="5 12 3 12 12 3 21 12 19 12" />
-              <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
-              <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
-            </svg>
-            <span class="ml-1 font-normal">Overview</span>
-          </div>
-          <div class="grid lg:grid-cols-3 max-lg:grid-rows-3 p-[3%] items-top justify-stretch m-0 translate-x-8 gap-x-[5%] w-[94%]">
-            <div class=" min-w-max max-w-full p-[3%] row-span-1 lg:col-span-1  text-white rounded-lg min-h-min bg-gradient-to-bl from-fuchsia-500 to-pink-500">
-                <div class="overflow-x-auto">
-                    <div class="pb-9">
-                        <h5 class="sub_title font-bold text-2xl text-magenta-500">Daily Most Active</h5>
-                    </div> <!-- section title -->
-                    <table class="table  w-full">
-                      <!-- head -->
-                      <thead>
-                        <tr>
-                          <th></th>
-                          <th>Ticker</th>
-                          <th>Volume</th>
-                          <th>% Range</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <!-- row 1 -->
-                        <tr class="hover text-red-400"  onclick="fillTicker('BBBY')">
-                          <th>1</th>
-                          <td>BBBY</td>
-                          <td>340.93M</td>
-                          <td>-35.34%</td>
-                        </tr>
-                        <!-- row 2 -->
-                        <tr class="hover text-red-400"  onclick="fillTicker('MULN')">
-                          <th>2</th>
-                          <td>MULN</td>
-                          <td>215.39M</td>
-                          <td>-5.78%</td>
-                        </tr>
-                        <!-- row 3 -->
-                        <tr class="hover text-red-400"  onclick="fillTicker('TSLA')">
-                          <th>3</th>
-                          <td>TSLA</td>
-                          <td>210.77M</td>
-                          <td>-9.75%</td>
-                        </tr>
-                        <tr class="hover text-red-400"  onclick="fillTicker('T')">
-                            <th>4</th>
-                            <td>T</td>
-                            <td>129.87M</td>
-                            <td>-10.41%</td>
-                          </tr>
-                          <tr class="hover text-red-400"  onclick="fillTicker('IDEX')">
-                            <th>5</th>
-                            <td>IDEX</td>
-                            <td>114.24M</td>
-                            <td>-20.34%</td>
-                          </tr>
-                          <tr class="hover text-red-400"  onclick="fillTicker('F')">
-                            <th>6</th>
-                            <td>F</td>
-                            <td>79.55M</td>
-                            <td>-2.86%</td>
-                          </tr>
-                          <tr class="hover text-green-400"  onclick="fillTicker('CNSP')">
-                            <th>7</th>
-                            <td>CNSP</td>
-                            <td>71.35M</td>
-                            <td>+48.02%</td>
-                          </tr>
-                          <tr class="hover text-red-400"  onclick="fillTicker('NIO')">
-                            <th>8</th>
-                            <td>NIO</td>
-                            <td>59.54M</td>
-                            <td>-5.80%</td>
-                          </tr>
-                          <tr class="hover text-red-400"  onclick="fillTicker('NOK')">
-                            <th>9</th>
-                            <td>NOK</td>
-                            <td>58.37M</td>
-                            <td>-9.09%</td>
-                          </tr>
-                          <tr class="hover text-red-400"  onclick="fillTicker('AMZN')">
-                            <th>10</th>
-                            <td>AMZN</td>
-                            <td>57.66M</td>
-                            <td>-0.47%</td>
-                          </tr>
-                      </tbody>
-                    </table>
-                  </div>
+    <div class="divider mx-16"></div>
+    <div id="overview" class="tab-content active mt-4 mx-16 z-[2]">
+      <h2 class="text-xl font-bold">Index</h2>
+      <div class="grid lg:grid-cols-3 lg:grid-rows-3 p-[3%] items-top justify-stretch m-0 translate-x-8 gap-x-[5%] w-[94%]">
+        <div class=" min-w-max max-w-full p-[3%] row-span-1 lg:col-span-1  text-white rounded-lg min-h-min border-indigo-400 border-2 max-lg:my-6">
+            <div class="overflow-x-auto">
+                <div class="pb-9">
+                  <button>
+                  <h5 href="#" onclick="openTab('active')" class="sub_title font-bold text-2xl text-magenta-500 underline-on-hover">Daily Most Active</h5>
+                  <button>
+                </div> <!-- section title -->
+                <table class="table  w-full">
+                  <!-- head -->
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th>Ticker</th>
+                      <th>Volume</th>
+                      <th>% Range</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!-- row 1 -->
+                    <tr class="hover text-red-400"  onclick="fillTicker('BBBY')">
+                      <th>1</th>
+                      <td>BBBY</td>
+                      <td>340.93M</td>
+                      <td>-35.34%</td>
+                    </tr>
+                    <!-- row 2 -->
+                    <tr class="hover text-red-400"  onclick="fillTicker('MULN')">
+                      <th>2</th>
+                      <td>MULN</td>
+                      <td>215.39M</td>
+                      <td>-5.78%</td>
+                    </tr>
+                    <!-- row 3 -->
+                    <tr class="hover text-red-400"  onclick="fillTicker('TSLA')">
+                      <th>3</th>
+                      <td>TSLA</td>
+                      <td>210.77M</td>
+                      <td>-9.75%</td>
+                    </tr>
+                    <tr class="hover text-red-400"  onclick="fillTicker('T')">
+                        <th>4</th>
+                        <td>T</td>
+                        <td>129.87M</td>
+                        <td>-10.41%</td>
+                      </tr>
+                      <tr class="hover text-red-400"  onclick="fillTicker('IDEX')">
+                        <th>5</th>
+                        <td>IDEX</td>
+                        <td>114.24M</td>
+                        <td>-20.34%</td>
+                      </tr>
+                      <tr class="hover text-red-400"  onclick="fillTicker('F')">
+                        <th>6</th>
+                        <td>F</td>
+                        <td>79.55M</td>
+                        <td>-2.86%</td>
+                      </tr>
+                      <tr class="hover text-green-400"  onclick="fillTicker('CNSP')">
+                        <th>7</th>
+                        <td>CNSP</td>
+                        <td>71.35M</td>
+                        <td>+48.02%</td>
+                      </tr>
+                      <tr class="hover text-red-400"  onclick="fillTicker('NIO')">
+                        <th>8</th>
+                        <td>NIO</td>
+                        <td>59.54M</td>
+                        <td>-5.80%</td>
+                      </tr>
+                      <tr class="hover text-red-400"  onclick="fillTicker('NOK')">
+                        <th>9</th>
+                        <td>NOK</td>
+                        <td>58.37M</td>
+                        <td>-9.09%</td>
+                      </tr>
+                      <tr class="hover text-red-400"  onclick="fillTicker('AMZN')">
+                        <th>10</th>
+                        <td>AMZN</td>
+                        <td>57.66M</td>
+                        <td>-0.47%</td>
+                      </tr>
+                  </tbody>
+                </table>
               </div>
-            <div class=" min-w-max max-w-full p-[3%] row-span-1 lg:col-span-1  text-white rounded-lg min-h-min bg-gradient-to-bl from-purple-500 to-pink-500">
-                <div class="overflow-x-auto">
-                    <div class="pb-9">
-                        <h5 class="sub_title font-bold text-2xl text-magenta-500">Daily Top Gainers</h5>
-                    </div> <!-- section title -->
-                    <table class="table  w-full">
-                      <!-- head -->
-                      <thead>
-                        <tr class="hover">
-                          <th></th>
-                          <th>Ticker</th>
-                          <th>% Chg</th>
-                          <th>Last Price</th>
-                        </tr>
-                      </thead>
-                      <tbody class ="text-green-400">
-                        <!-- row 1 -->
-                        <tr class="hover" onclick="fillTicker('WLGS')">
-                          <th>1</th>
-                          <td>WLGS</td>
-                          <td>77.10%</td>
-                          <td>$5.49</td>
-                        </tr>
-                        <!-- row 2 -->
-                        <tr class="hover" onclick="fillTicker('AZYO')">
-                          <th>2</th>
-                          <td>AZYO</td>
-                          <td>35.54%</td>
-                          <td>$2.25</td>
-                        </tr>
-                        <!-- row 3 -->
-                        <tr class="hover" onclick="fillTicker('HSTO')">
-                          <th>3</th>
-                          <td>HSTO</td>
-                          <td>22.77%</td>
-                          <td>$1.24</td>
-                        </tr>
-                        <tr class="hover" onclick="fillTicker('WISH')">
-                            <th>4</th>
-                            <td>WISH</td>
-                            <td>22.56%</td>
-                            <td>$8.80</td>
-                          </tr>
-                          <tr class="hover" onclick="fillTicker('AEMD')">
-                            <th>5</th>
-                            <td>AEMD</td>
-                            <td>18.63%</td>
-                            <td>$0.6999</td>
-                          </tr>
-                          <tr class="hover" onclick="fillTicker('MULN')">
-                            <th>6</th>
-                            <td>MULN</td>
-                            <td>16.65%</td>
-                            <td>$0.0988</td>
-                          </tr>
-                          <tr class="hover" onclick="fillTicker('PRFX')">
-                            <th>7</th>
-                            <td>PRFX</td>
-                            <td>14.04%</td>
-                            <td>$0.65</td>
-                          </tr>
-                          <tr class="hover" onclick="fillTicker('BWEN')">
-                            <th>8</th>
-                            <td>BWEN</td>
-                            <td>12.99%</td>
-                            <td>$5.22</td>
-                          </tr>
-                          <tr class="hover" onclick="fillTicker('THMO')">
-                            <th>9</th>
-                            <td>THMO</td>
-                            <td>11.17%</td>
-                            <td>$2.29</td>
-                          </tr>
-                          <tr class="hover" onclick="fillTicker('MAPS')">
-                            <th>10</th>
-                            <td>MAPS</td>
-                            <td>10.04%</td>
-                            <td>$0.7597</td>
-                          </tr>
-                      </tbody>
-                    </table>
-                  </div>
+          </div>
+        <div class=" min-w-max max-w-full p-[3%] row-span-1 lg:col-span-1  text-white rounded-lg min-h-min border-rose-400 border-2 max-lg:my-6">
+            <div class="overflow-x-auto">
+                <div class="pb-9">
+                    <h5 href="#" onclick="openTab('gainers')" class="sub_title font-bold text-2xl text-magenta-500 underline-on-hover">Daily Top Gainers</h5>
+                </div> <!-- section title -->
+                <table class="table  w-full">
+                  <!-- head -->
+                  <thead>
+                    <tr class="hover">
+                      <th></th>
+                      <th>Ticker</th>
+                      <th>% Chg</th>
+                      <th>Last Price</th>
+                    </tr>
+                  </thead>
+                  <tbody class ="text-green-400">
+                    <!-- row 1 -->
+                    <tr class="hover" onclick="fillTicker('WLGS')">
+                      <th>1</th>
+                      <td>WLGS</td>
+                      <td>77.10%</td>
+                      <td>$5.49</td>
+                    </tr>
+                    <!-- row 2 -->
+                    <tr class="hover" onclick="fillTicker('AZYO')">
+                      <th>2</th>
+                      <td>AZYO</td>
+                      <td>35.54%</td>
+                      <td>$2.25</td>
+                    </tr>
+                    <!-- row 3 -->
+                    <tr class="hover" onclick="fillTicker('HSTO')">
+                      <th>3</th>
+                      <td>HSTO</td>
+                      <td>22.77%</td>
+                      <td>$1.24</td>
+                    </tr>
+                    <tr class="hover" onclick="fillTicker('WISH')">
+                        <th>4</th>
+                        <td>WISH</td>
+                        <td>22.56%</td>
+                        <td>$8.80</td>
+                      </tr>
+                      <tr class="hover" onclick="fillTicker('AEMD')">
+                        <th>5</th>
+                        <td>AEMD</td>
+                        <td>18.63%</td>
+                        <td>$0.6999</td>
+                      </tr>
+                      <tr class="hover" onclick="fillTicker('MULN')">
+                        <th>6</th>
+                        <td>MULN</td>
+                        <td>16.65%</td>
+                        <td>$0.0988</td>
+                      </tr>
+                      <tr class="hover" onclick="fillTicker('PRFX')">
+                        <th>7</th>
+                        <td>PRFX</td>
+                        <td>14.04%</td>
+                        <td>$0.65</td>
+                      </tr>
+                      <tr class="hover" onclick="fillTicker('BWEN')">
+                        <th>8</th>
+                        <td>BWEN</td>
+                        <td>12.99%</td>
+                        <td>$5.22</td>
+                      </tr>
+                      <tr class="hover" onclick="fillTicker('THMO')">
+                        <th>9</th>
+                        <td>THMO</td>
+                        <td>11.17%</td>
+                        <td>$2.29</td>
+                      </tr>
+                      <tr class="hover" onclick="fillTicker('MAPS')">
+                        <th>10</th>
+                        <td>MAPS</td>
+                        <td>10.04%</td>
+                        <td>$0.7597</td>
+                      </tr>
+                  </tbody>
+                </table>
               </div>
-            <div class=" min-w-max max-w-full p-[3%] row-span-1 lg:col-span-1  text-white rounded-lg min-h-min bg-gradient-to-bl from-purple-500 to-pink-500">
-                <div class="overflow-x-auto">
-                    <div class="pb-9">
-                        <h5 class="sub_title font-bold text-2xl text-magenta-500">Daily Top Losers</h5>
-                    </div> <!-- section title -->
-                    <table class="table  w-full">
-                      <!-- head -->
-                      <thead>
-                        <tr class="hover">
-                          <th></th>
-                          <th>Ticker</th>
-                          <th>% Chg</th>
-                          <th>Last Price</th>
-                        </tr>
-                      </thead>
-                      <tbody class="text-red-400">
-                        <!-- row 1 -->
-                        <tr class="hover" onclick="fillTicker('SIDU')">
-                          <th>1</th>
-                          <td>SIDU</td>
-                          <td>-22.69%</td>
-                          <td>$0.29</td>
-                        </tr>
-                        <!-- row 2 -->
-                        <tr onclick="fillTicker('PEV')"  class="hover">
-                          <th>2</th>
-                          <td>PEV</td>
-                          <td>-18.09%</td>
-                          <td>$0.77</td>
-                        </tr>
-                        <!-- row 3 -->
-                        <tr class="hover" onclick="fillTicker('UCAR')">
-                          <th>3</th>
-                          <td>UCAR</td>
-                          <td>-14.31%</td>
-                          <td>$37.00</td>
-                        </tr>
-                        <tr class="hover" onclick="fillTicker('SATX')">
-                            <th>4</th>
-                            <td>SATX</td>
-                            <td>-13.57%</td>
-                            <td>$1.21</td>
-                          </tr>
-                          <tr class="hover" onclick="fillTicker('SNAX')">
-                            <th>5</th>
-                            <td>SNAX</td>
-                            <td>-12.48%</td>
-                            <td>$0.4201</td>
-                          </tr>
-                          <tr class="hover" onclick="fillTicker('PSTV')">
-                            <th>6</th>
-                            <td>PSTV</td>
-                            <td>-12.35%</td>
-                            <td>$0.269</td>
-                          </tr>
-                          <tr class="hover" onclick="fillTicker('POAI')">
-                            <th>7</th>
-                            <td>POAI</td>
-                            <td>-10.80%</td>
-                            <td>$0.247</td>
-                          </tr>
-                          <tr class="hover" onclick="fillTicker('RCRT')">
-                            <th>8</th>
-                            <td>RCRT</td>
-                            <td>-10.36%</td>
-                            <td>$0.2958</td>
-                          </tr>
-                          <tr class="hover" onclick="fillTicker('KPLT')">
-                            <th>9</th>
-                            <td>KPLT</td>
-                            <td>-9.79%</td>
-                            <td>$0.46</td>
-                          </tr>
-                          <tr class="hover" onclick="fillTicker('VLON')">
-                            <th>10</th>
-                            <td>VLON</td>
-                            <td>-8.91%</td>
-                            <td>$0.419</td>
-                          </tr>
-                      </tbody>
-                    </table>
-                  </div>
-              </div> 
-        </button>
-        <button onclick="activeTab(this)" class="focus:outline-none focus:text-indigo-700 text-sm border-indigo-700 pt-3 rounded-t text-gray-600 mr-12 hover:text-indigo-700 cursor-pointer">
-          <div class="flex items-center mb-3">
-              <path stroke="none" d="M0 0h24v24H0z" />
-              <circle cx="12" cy="12" r="2" />
-              <path d="M2 12l1.5 2a11 11 0 0 0 17 0l1.5 -2" />
-              <path d="M2 12l1.5 -2a11 11 0 0 1 17 0l1.5 2" />
-            </svg>
-            <span class="ml-1 font-normal">Top Gainers</span>
           </div>
-          <div class="w-full h-1 bg-indigo-700 rounded-t-md hidden">
-
-            <p>sbmdlw</p>
-
+        <div class=" min-w-max max-w-full p-[3%] row-span-1 lg:col-span-1  text-white rounded-lg min-h-min border-indigo-400 border-2 max-lg:my-6">
+            <div class="overflow-x-auto">
+                <div class="pb-9">
+                    <h5 href="#" onclick="openTab('losers')" class="sub_title font-bold text-2xl text-magenta-500 underline-on-hover">Daily Top Losers</h5>
+                </div> <!-- section title -->
+                <table class="table  w-full">
+                  <!-- head -->
+                  <thead>
+                    <tr class="hover">
+                      <th></th>
+                      <th>Ticker</th>
+                      <th>% Chg</th>
+                      <th>Last Price</th>
+                    </tr>
+                  </thead>
+                  <tbody class="text-red-400">
+                    <!-- row 1 -->
+                    <tr class="hover" onclick="fillTicker('SIDU')">
+                      <th>1</th>
+                      <td>SIDU</td>
+                      <td>-22.69%</td>
+                      <td>$0.29</td>
+                    </tr>
+                    <!-- row 2 -->
+                    <tr onclick="fillTicker('PEV')"  class="hover">
+                      <th>2</th>
+                      <td>PEV</td>
+                      <td>-18.09%</td>
+                      <td>$0.77</td>
+                    </tr>
+                    <!-- row 3 -->
+                    <tr class="hover" onclick="fillTicker('UCAR')">
+                      <th>3</th>
+                      <td>UCAR</td>
+                      <td>-14.31%</td>
+                      <td>$37.00</td>
+                    </tr>
+                    <tr class="hover" onclick="fillTicker('SATX')">
+                        <th>4</th>
+                        <td>SATX</td>
+                        <td>-13.57%</td>
+                        <td>$1.21</td>
+                      </tr>
+                      <tr class="hover" onclick="fillTicker('SNAX')">
+                        <th>5</th>
+                        <td>SNAX</td>
+                        <td>-12.48%</td>
+                        <td>$0.4201</td>
+                      </tr>
+                      <tr class="hover" onclick="fillTicker('PSTV')">
+                        <th>6</th>
+                        <td>PSTV</td>
+                        <td>-12.35%</td>
+                        <td>$0.269</td>
+                      </tr>
+                      <tr class="hover" onclick="fillTicker('POAI')">
+                        <th>7</th>
+                        <td>POAI</td>
+                        <td>-10.80%</td>
+                        <td>$0.247</td>
+                      </tr>
+                      <tr class="hover" onclick="fillTicker('RCRT')">
+                        <th>8</th>
+                        <td>RCRT</td>
+                        <td>-10.36%</td>
+                        <td>$0.2958</td>
+                      </tr>
+                      <tr class="hover" onclick="fillTicker('KPLT')">
+                        <th>9</th>
+                        <td>KPLT</td>
+                        <td>-9.79%</td>
+                        <td>$0.46</td>
+                      </tr>
+                      <tr class="hover" onclick="fillTicker('VLON')">
+                        <th>10</th>
+                        <td>VLON</td>
+                        <td>-8.91%</td>
+                        <td>$0.419</td>
+                      </tr>
+                  </tbody>
+                </table>
+              </div>
           </div>
-        </button>
-        <button onclick="activeTab(this)" class="focus:outline-none focus:text-indigo-700 text-sm border-indigo-700 pt-3 rounded-t text-gray-600 mr-12 hover:text-indigo-700 cursor-pointer">
-          <div class="flex items-center mb-3">
-              <path stroke="none" d="M0 0h24v24H0z" />
-              <circle cx="12" cy="12" r="2" />
-              <path d="M2 12l1.5 2a11 11 0 0 0 17 0l1.5 -2" />
-              <path d="M2 12l1.5 -2a11 11 0 0 1 17 0l1.5 2" />
-            </svg>
-            <span class="ml-1 font-normal">Top Losers</span>
-          </div>
-          <div class="w-full h-1 bg-indigo-700 rounded-t-md hidden"></div>
-        </button>
-        <button onclick="activeTab(this)" class="focus:outline-none focus:text-indigo-700 text-sm border-indigo-700 pt-3 rounded-t text-gray-600 mr-12 hover:text-indigo-700 cursor-pointer">
-          <div class="flex items-center mb-3">
-            <span class="ml-1 font-normal">Most Active</span>
-          </div>
-          <div class="w-full h-1 bg-indigo-700 rounded-t-md hidden"></div>
-        </button>
-        <button onclick="activeTab(this)" class="focus:outline-none focus:text-indigo-700 text-sm border-indigo-700 pt-3 rounded-t text-gray-600 mr-12 hover:text-indigo-700 cursor-pointer">
-          <div class="flex items-center mb-3">
-            <span class="ml-1 font-normal">Top Options</span>
-          </div>
-          <div class="w-full h-1 bg-indigo-700 rounded-t-md hidden"></div>
-        </button>
-        <button onclick="activeTab(this)" class="focus:outline-none focus:text-indigo-700 text-sm border-indigo-700 pt-3 rounded-t text-gray-600 mr-12 hover:text-indigo-700 cursor-pointer">
-          <div class="flex items-center mb-3">
-            <span class="ml-1 font-normal">Calender</span>
-          </div>
-          <div class="w-full h-1 bg-indigo-700 rounded-t-md hidden"></div>
-        </button>
       </div>
+
+
+      <div class="p-[3%] text-white rounded-lg min-h-min border-indigo-400 border-2 mx-16">
+        <div class="overflow-x-auto">
+            <div class="pb-9">
+                <h5 href="#" onclick="openTab('options')" class="sub_title font-bold text-2xl text-magenta-500 underline-on-hover">Top Options</h5>
+            </div> <!-- section title -->
+            <table class="table  w-full">
+              <!-- head -->
+              <thead>
+                <tr class="hover">
+                  <th></th>
+                  <th>Ticker</th>
+                  <th>Total Volume</th>
+                  <th>P/C Volume Ratio</th>
+                  <th>Total Position</th>
+                  <th>P/C Open Int Ratio</th>
+                  <th>Underlying Price</th>
+                  <th>Underlying Change%</th>
+                </tr>
+              </thead>
+              <tbody class="text-red-400">
+                <!-- row 1 -->
+                <tr class="hover" onclick="fillTicker('SIDU')">
+                  <th>1</th>
+                  <td>SIDU</td>
+                  <td>-22.69%</td>
+                  <td>$0.29</td>
+                </tr>
+                <!-- row 2 -->
+                <tr onclick="fillTicker('PEV')"  class="hover">
+                  <th>2</th>
+                  <td>PEV</td>
+                  <td>-18.09%</td>
+                  <td>$0.77</td>
+                </tr>
+                <!-- row 3 -->
+                <tr class="hover" onclick="fillTicker('UCAR')">
+                  <th>3</th>
+                  <td>UCAR</td>
+                  <td>-14.31%</td>
+                  <td>$37.00</td>
+                </tr>
+                <tr class="hover" onclick="fillTicker('SATX')">
+                    <th>4</th>
+                    <td>SATX</td>
+                    <td>-13.57%</td>
+                    <td>$1.21</td>
+                  </tr>
+                  <tr class="hover" onclick="fillTicker('SNAX')">
+                    <th>5</th>
+                    <td>SNAX</td>
+                    <td>-12.48%</td>
+                    <td>$0.4201</td>
+                  </tr>
+                  <tr class="hover" onclick="fillTicker('PSTV')">
+                    <th>6</th>
+                    <td>PSTV</td>
+                    <td>-12.35%</td>
+                    <td>$0.269</td>
+                  </tr>
+                  <tr class="hover" onclick="fillTicker('POAI')">
+                    <th>7</th>
+                    <td>POAI</td>
+                    <td>-10.80%</td>
+                    <td>$0.247</td>
+                  </tr>
+                  <tr class="hover" onclick="fillTicker('RCRT')">
+                    <th>8</th>
+                    <td>RCRT</td>
+                    <td>-10.36%</td>
+                    <td>$0.2958</td>
+                  </tr>
+                  <tr class="hover" onclick="fillTicker('KPLT')">
+                    <th>9</th>
+                    <td>KPLT</td>
+                    <td>-9.79%</td>
+                    <td>$0.46</td>
+                  </tr>
+                  <tr class="hover" onclick="fillTicker('VLON')">
+                    <th>10</th>
+                    <td>VLON</td>
+                    <td>-8.91%</td>
+                    <td>$0.419</td>
+                  </tr>
+              </tbody>
+            </table>
+          </div>
+      </div>
+
+
+
+      <br>
+
+
+
+
+      <div class="p-[3%] text-white rounded-lg min-h-min border-indigo-400 border-2 mx-16">
+        <div class="overflow-x-auto">
+            <div class="pb-9">
+                <h5 href="#" onclick="openTab('calendar')" class="sub_title font-bold text-2xl text-magenta-500 underline-on-hover">Calendar Earnings</h5>
+            </div> <!-- section title -->
+            <table class="table  w-full">
+              <!-- head -->
+              <thead>
+                <tr class="hover">
+                  <th></th>
+                  <th>Ticker</th>
+                  <th>Release Time</th>
+                  <th>EPS Estimate</th>
+                  <th>Last EPS</th>
+                </tr>
+              </thead>
+              <tbody class="text-red-400">
+                <!-- row 1 -->
+                <tr class="hover" onclick="fillTicker('SIDU')">
+                  <th>1</th>
+                  <td>SIDU</td>
+                  <td>-22.69%</td>
+                  <td>$0.29</td>
+                </tr>
+                <!-- row 2 -->
+                <tr onclick="fillTicker('PEV')"  class="hover">
+                  <th>2</th>
+                  <td>PEV</td>
+                  <td>-18.09%</td>
+                  <td>$0.77</td>
+                </tr>
+                <!-- row 3 -->
+                <tr class="hover" onclick="fillTicker('UCAR')">
+                  <th>3</th>
+                  <td>UCAR</td>
+                  <td>-14.31%</td>
+                  <td>$37.00</td>
+                </tr>
+                <tr class="hover" onclick="fillTicker('SATX')">
+                    <th>4</th>
+                    <td>SATX</td>
+                    <td>-13.57%</td>
+                    <td>$1.21</td>
+                  </tr>
+                  <tr class="hover" onclick="fillTicker('SNAX')">
+                    <th>5</th>
+                    <td>SNAX</td>
+                    <td>-12.48%</td>
+                    <td>$0.4201</td>
+                  </tr>
+                  <tr class="hover" onclick="fillTicker('PSTV')">
+                    <th>6</th>
+                    <td>PSTV</td>
+                    <td>-12.35%</td>
+                    <td>$0.269</td>
+                  </tr>
+                  <tr class="hover" onclick="fillTicker('POAI')">
+                    <th>7</th>
+                    <td>POAI</td>
+                    <td>-10.80%</td>
+                    <td>$0.247</td>
+                  </tr>
+                  <tr class="hover" onclick="fillTicker('RCRT')">
+                    <th>8</th>
+                    <td>RCRT</td>
+                    <td>-10.36%</td>
+                    <td>$0.2958</td>
+                  </tr>
+                  <tr class="hover" onclick="fillTicker('KPLT')">
+                    <th>9</th>
+                    <td>KPLT</td>
+                    <td>-9.79%</td>
+                    <td>$0.46</td>
+                  </tr>
+                  <tr class="hover" onclick="fillTicker('VLON')">
+                    <th>10</th>
+                    <td>VLON</td>
+                    <td>-8.91%</td>
+                    <td>$0.419</td>
+                  </tr>
+              </tbody>
+            </table>
+          </div>
+      </div>
+
+
+
+
+
+
+
+      
+    </div>
+
+    <div id="gainers" class="tab-content mt-4 mx-16 z-[3]">
+      <h2 class="text-xl font-bold">Top Gainers</h2>
+      <p>This is the Top Gainers tab content.</p>
+    </div>
+
+    <div id="losers" class="tab-content mt-4 mx-16 z-[4]">
+      <h2 class="text-xl font-bold">Top Losers</h2>
+      <p>This is the Top Losers tab content.</p>
+    </div>
+
+    <div id="active" class="tab-content mt-4 mx-16 z-[5]">
+      <h2 class="text-xl font-bold">Most Active</h2>
+      <p>This is the Most Active tab content.</p>
+    </div>
+
+    <div id="options" class="tab-content mt-4 mx-16 z-[6]">
+      <h2 class="text-xl font-bold">Top Options</h2>
+      <p>This is the Top Options tab content.</p>
+    </div>
+
+    <div id="calendar" class="tab-content mt-4 mx-16 z-[7]">
+      <h2 class="text-xl font-bold">Calendar</h2>
+      <p>This is the Calendar tab content.</p>
     </div>
   </div>
+</div>
+
   <script>
-    function activeTab(element) {
-      let siblings = element.parentNode.querySelectorAll("button");
-      for (let item of siblings) {
-        item.children[1].classList.add("hidden");
-        item.classList.add("text-gray-600");
-        item.classList.remove("text-indigo-700");
-        //item.children[0].children[1].innerHTML = "Inactive";
+    function openTab(tabId) {
+      const tabs = document.getElementsByClassName('tab-content');
+      for (let i = 0; i < tabs.length; i++) {
+        tabs[i].classList.remove('active');
       }
-      element.children[1].classList.remove("hidden");
-      element.classList.remove("text-gray-600");
-      element.classList.add("text-indigo-700");
-      //element.children[0].children[1].innerHTML = "Active";
+      document.getElementById(tabId).classList.add('active');
+    }
+    
+    function fillTicker(ticker) {
+      console.log(ticker)
+      var tickerInput = document.getElementById('nav-search');
+      var indexTickerInput = document.getElementById('index-search');
+      tickerInput.value = ticker;
+      indexTickerInput.value = ticker;
+      document.getElementById('search-submit').click();
+      document.getElementById('submit').click();
     }
   </script>
 
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-          <script>
-            function fillTicker(ticker) {
-              var tickerInput = document.getElementById('nav-search');
-              var indexTickerInput = document.getElementById('index-search');
-              tickerInput.value = ticker;
-              indexTickerInput.value = ticker;
-              document.getElementById('search-submit').click();
-              document.getElementById('submit').click();
-            }
-          </script>
-    </div>
- 
-    
 
 {% endblock wholebody %}

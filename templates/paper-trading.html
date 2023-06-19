@@ -25,7 +25,7 @@
       </tbody>
     </table>
   
-    <h1 class="text-3xl gradient-text my-12 font-bold underline ">Owned Stocks</h1>
+    <h1 class="text-3xl gradient-text my-6 mt-12 font-bold underline ">Owned Stocks</h1>
   
     <table class="table table-zebra w-full text-white">
       <thead>
@@ -44,21 +44,32 @@
       <tbody>
           {% for stock, quantity in userDetail.portfolio.items() %}
             <tr class="hover mt-5">
+              {% set purchase_price = userDetail.get_price(stock)[0] %}
+              {% set current_price = userDetail.get_price(stock)[-1] %}
+              {% set change = current_price - purchase_price %}
               <th class="font-light">{{ stock.upper() }}</th>
               <th class="font-light">{{ quantity }}</th>
-              <th class="font-light">${{ userDetail.get_price(stock)[0].__round__(2) }}</th>
-              <th class="font-light">${{ userDetail.get_price(stock)[-1].__round__(2) }}</th>
-              <th class="font-light">${{( userDetail.get_price(stock)[-1] - userDetail.get_price(stock)[0]).__round__(2) }}</th>
-              <th class="font-light">{{(( userDetail.get_price(stock)[-1] - userDetail.get_price(stock)[0])/userDetail.get_price(stock)[0]).__round__(2) }}%</th>
-              <th class="font-light">${{ (userDetail.get_price(stock)[-1] * quantity).__round__(2) }}</th>
-              <th class="font-light">{{ ((userDetail.get_price(stock)[-1] * quantity) / userDetail.capital * 100).__round__(2) }}%</th>
+              <th class="font-light">${{ purchase_price.__round__(2) }}</th>
+              <th class="font-light">${{ current_price.__round__(2) }}</th>
+              {% if change < 0 %}
+                <th class="font-light text-red-500">${{ change.__round__(2) }}</th>
+                <th class="font-light text-red-500">{{ (change / purchase_price).__round__(2) }}%</th>
+              {% elif change > 0 %}
+                <th class="font-light text-success">${{ change.__round__(2) }}</th>
+                <th class="font-light text-success">{{ (change / purchase_price).__round__(2) }}%</th>
+              {% else %}
+                <th class="font-light">${{ change.__round__(2) }}</th>
+                <th class="font-light">{{ (change / purchase_price).__round__(2) }}%</th>
+              {% endif %}
+              <th class="font-light">${{ (current_price * quantity).__round__(2) }}</th>
+              <th class="font-light">{{ (current_price * quantity / userDetail.capital * 100).__round__(2) }}%</th>
               <th class="font-light">
                 <a href="{{ userDetail.get_sell_url(stock, quantity) }}" class="text-xl btn btn-primary w-full border-indigo-400 bg-transparent gradient-border hover:border-transparent transition-all">Sell</a>
               </th>
             </tr>
           {% endfor %}
           <tr class="col-span-5 hover">
-            <div class="card w-full border-2 mt-6 border-dashed border-white/[0.1]">
+            <div class="card w-full border-2 my-6 border-dashed border-white/[0.1]">
               <div class="card-body m-auto">
                 <div class="card-title m-auto">
                   You have bought ${{ (userDetail.get_portfolio_value() - userDetail.capital).__round__(2) }} worth of stocks.

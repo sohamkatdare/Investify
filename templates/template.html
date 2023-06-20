@@ -7,7 +7,6 @@
   <title>Investify - {% block title %}{% endblock title %}</title>
   <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename = 'favicon.ico') }}">
   <link rel="stylesheet" href="{{url_for('static',filename='dist/css/main.css')}}">
-  <link rel="stylesheet" href="{{url_for('static',filename='dist/css/home.css')}}">
   <meta charset="utf-8">
 
   <link rel="shortcut icon" href="{{ url_for('static', filename='assets/images/favicon.png') }}" type="image/png">
@@ -211,10 +210,10 @@
         </div>
         {% endblock results %}
       </div>
+      {% endblock wholebody %}
     </div>
-    {% endblock wholebody %}
     {% block search_whole_body %}
-      <div class="mx-auto w-[94%] pl-[6%] pt-[5%] h-min">
+      <div class="mx-auto w-screen">
         {% block search_body %}
         {% endblock search_body %}
         {% block search_results %}

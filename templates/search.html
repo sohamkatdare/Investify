@@ -7,7 +7,8 @@
 {% endblock head %}
 
 {% block search_body %}
-<form class="form-control min-w-full mt-20 ml-2 -translate-y-[35rem] order-0" role="search" action="" autocapitalize="characters"
+<link rel="stylesheet" href="{{ url_for('static', filename='css/search.css') }}">
+<form class="form-control min-w-full px-12 mt-24 order-0" role="search" action="" autocapitalize="characters"
   autocomplete="off" id="search-form">
   {{ searchForm.csrf_token }}
   <div class="gradient-text text-2xl mb-2">
@@ -65,6 +66,20 @@
   <h1 class="text-5xl mt-10 mb-10 gradient-text">Insider Trading:</h1>
   <div class="flex flex-col gap-y-10 md:gap-x-10 md:flex-row md:flex-wrap justify-center" id="insider-trading"></div>
 </div>
+<style>
+  .highcharts-label.highcharts-range-input > text[style],
+  .highcharts-label.highcharts-range-label > text[style] {
+    fill: transparent !important;
+    display: none !important;
+  }
+
+  .highcharts-scrollbar-thumb {
+    fill: white !important;
+  }
+  .highcharts-scrollbar-thumb:hover {
+    fill: rgb(210, 210, 210) !important;
+  }
+</style>
 {{super()}}
 {% endblock search_body %}
 {{ super()}}

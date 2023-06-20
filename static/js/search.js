@@ -3,29 +3,14 @@
 // The results are populated in the search.html page.
 
 // TODO: Style search.html page
-// ticker = document.getElementById("ticker");
-// document.getElementById("flex-1").style.display = "none";
-// addEventListener('fullscreenchanged', () => {
-//     const chart = document.querySelector('#candle-div')
-//     let classes = chart.classList.value;
-//     if (classes == 'no-class') {
-//         classes = 'neeeded classes'
-//     } else {
-//         classes = 'no-class'
-//     } 
-// })
+ticker = document.getElementById("ticker");
+document.getElementById("flex-1").style.display = "none";
 
 
 async function search(event) {
     // Prevent the form from submitting
     event.preventDefault();
 
-    // Get the ticker from the form
-    const ticker = document.getElementById("ticker").value;
-
-    // Hide flex-1 div. REMOVE THIS LATER IF NOT NEEDED.
-    document.getElementById("flex-1").style.display = "none";
-    document.getElementById("search-results").style.display = "block";
 
     // API Calls
     getHighcharts(ticker);
@@ -48,7 +33,6 @@ async function getHighcharts(ticker) {
         return response;
     });
     const data = await response.json();
-
     // split the data set into ohlc and volume
     var ohlc = [],
         volume = [],
@@ -77,7 +61,6 @@ async function getHighcharts(ticker) {
         data[i][5] // the volume
         ]);
     }
-
     // create the chart      
     Highcharts.stockChart("candle_div", {
         chart: {
@@ -234,6 +217,8 @@ async function getHighcharts(ticker) {
             }
         }
     });
+    const chart = document.querySelector('#candle_div')
+    chart.classList.remove('hidden')
 }
 
 async function getPeAndEPS(ticker) {
@@ -302,3 +287,24 @@ if (ticker) {
 
 // Remove all the query params from the url.
 window.history.replaceState({}, document.title, "/" + "search");
+addEventListener("fullscreenchange", (e) => {
+    let chart = document.querySelector('#candle_div');
+    let classes = chart.classList.value;
+    
+    if (classes == 'class-placeholder') {
+      console.log('minimize');
+      chart.classList.remove('class-placeholder');
+      chart.classList.add('order-2', 'mx-12', 'outline', 'outline-offset-2', 'outline-2', 'outline-slate-200/25', 'rounded-lg', 'hidden', 'mt-12', 'w-[60vw]', 'h-[43vh]');
+    } else {
+      console.log('maximize');
+      chart.classList.add('class-placeholder');
+      chart.classList.remove('order-2', 'mx-12', 'outline', 'outline-offset-2', 'outline-2', 'outline-slate-200/25', 'rounded-lg', 'hidden', 'mt-12', 'w-[60vw]', 'h-[43vh]');
+    }
+    
+    // Redraw the chart
+    if (typeof chart.redraw === 'function') {
+      chart.redraw();
+    }
+  });
+  
+  

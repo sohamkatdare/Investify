@@ -7,8 +7,10 @@ function loading() {
       data.style.display = 'none';
     }
     const spinner = document.getElementById("loadSpinner");
-    spinner.parentElement.style.display = 'block';
-    spinner.style.display = 'block';
+    if (spinner !== null) {
+      spinner.parentElement.style.display = 'block';
+      spinner.style.display = 'block';
+    }
 }
 
 // Example starter JavaScript for disabling form submissions if there are invalid fields.

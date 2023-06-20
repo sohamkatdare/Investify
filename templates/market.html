@@ -1,33 +1,11 @@
 {% extends "template.html" %}
 {% block title %}Home{% endblock title %}
 {% block pageTitle %}Investify{% endblock pageTitle %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/market.css') }}">
+{% endblock head %}
+
 {% block wholebody %}
-<style>
-  .tab-content {
-    display: none;
-  }
-
-  .tab-content.active {
-    display: block;
-  }
-  
-  .underline-on-hover:hover {
-  		text-decoration: underline;
-	}
-
-  /*sticky header position*/
-.sticky.is-sticky {
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: 0;
-  z-index: 1000;
-  width: 100%;
-}
-
-  
-</style>
-
 <script>
 var navBar = document.querySelector("#topNav");
 

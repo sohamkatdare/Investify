@@ -1,0 +1,12 @@
+.highcharts-label.highcharts-range-input > text[style],
+.highcharts-label.highcharts-range-label > text[style] {
+fill: transparent !important;
+display: none !important;
+}
+
+.highcharts-scrollbar-thumb {
+fill: white !important;
+}
+.highcharts-scrollbar-thumb:hover {
+fill: rgb(210, 210, 210) !important;
+}

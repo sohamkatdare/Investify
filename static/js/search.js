@@ -2,29 +2,53 @@
 // All requests are asynchronous.
 // The results are populated in the search.html page.
 
-ticker = document.getElementById("ticker");
+// TODO: Style search.html page
+// ticker = document.getElementById("ticker");
+// document.getElementById("flex-1").style.display = "none";
+// addEventListener('fullscreenchanged', () => {
+//     const chart = document.querySelector('#candle-div')
+//     let classes = chart.classList.value;
+//     if (classes == 'no-class') {
+//         classes = 'neeeded classes'
+//     } else {
+//         classes = 'no-class'
+//     } 
+// })
+
 
 async function search(event) {
     // Prevent the form from submitting
     event.preventDefault();
 
+    // Get the ticker from the form
+    const ticker = document.getElementById("ticker").value;
+
+    // Hide flex-1 div. REMOVE THIS LATER IF NOT NEEDED.
     document.getElementById("flex-1").style.display = "none";
+    document.getElementById("search-results").style.display = "block";
 
     // API Calls
-    getHighcharts();
+    getHighcharts(ticker);
+    getPeAndEPS(ticker);
+    getCompositeScore(ticker);
+    getNews(ticker);
+    getInsiderTrading(ticker);
 }
 
-async function getHighcharts() {
+let maximize;
+
+async function getHighcharts(ticker) {
     // Get the highcharts data from the backend asychronously
     // and populate the highcharts in the search.html page.
     // document.getElementById("candle_div").style.display = "block";
-    const response = await fetch('/search/highcharts?ticker=' + ticker.value, 
-        headers={
-            'Content-Type': 'application/json',
+    const response = await fetch('/search/highcharts?ticker=' + ticker).then((response) => {
+        if (response.status !== 200) {
+            onFail(ticker);
         }
-    );
+        return response;
+    });
     const data = await response.json();
-    console.log(data);
+
     // split the data set into ohlc and volume
     var ohlc = [],
         volume = [],
@@ -53,8 +77,6 @@ async function getHighcharts() {
         data[i][5] // the volume
         ]);
     }
-    console.log(ohlc);
-    console.log(volume);
 
     // create the chart      
     Highcharts.stockChart("candle_div", {
@@ -214,5 +236,69 @@ async function getHighcharts() {
     });
 }
 
+async function getPeAndEPS(ticker) {
+    // Get the PE and EPS data from the backend asychronously
+    // and populate the PE and EPS in the search.html page.
+    const response = await fetch('/search/pe-and-eps?ticker=' + ticker).catch(onFail);
+    const data = await response.json();
+    console.log(data);
+
+    // TODO: Formatting for PE and EPS.
+    document.getElementById("pe-ratio").innerHTML = data["pe_ratio"];
+    document.getElementById("eps-ratio").innerHTML = data["eps"];    
+}
+
+async function getCompositeScore(ticker) {
+    // Get the composite score data from the backend asychronously
+    // and populate the composite score in the search.html page.
+    const response = await fetch('/search/composite-score?ticker=' + ticker).catch(onFail);
+    const data = await response.json();
+    console.log(data);
+
+    // TODO: Formatting for Composite Score.
+    document.getElementById("composite-score").innerHTML = data["composite_score"];
+}
+
+async function getNews(ticker) {
+    // Get the news data from the backend asychronously
+    // and populate the news in the search.html page.
+    const response = await fetch('/search/news?ticker=' + ticker).catch(onFail);
+    const data = await response.json();
+    console.log(data);
+    
+    // TODO: Formatting for News. Probably will use cards, but not sure yet.
+    document.getElementById("news").innerHTML = data;
+}
+
+async function getInsiderTrading(ticker) {
+    // Get the news data from the backend asychronously
+    // and populate the news in the search.html page.
+    const response = await fetch('/search/insider-trading?ticker=' + ticker).catch(onFail);
+    const data = await response.json();
+    console.log(data);
+    
+    // TODO: Formatting for News. Probably will use cards, but not sure yet.
+    document.getElementById("insider-trading").innerHTML = data;
+}
+
+// TODO: Add other functions to get the other data from the backend.
+
+function onFail(ticker) {
+    // If stock ticker not found or data not available, then reload the page with flash message.
+    console.log("On fail");
+    window.location.href = "/search?" + "&error="+ticker;
+}
+
 form = document.getElementById("search-form");
 form.addEventListener("submit", search);
+
+// If url has query params, then populate the search bar with the ticker and submit the form.
+const urlParams = new URLSearchParams(window.location.search);
+const ticker = urlParams.get('ticker');
+if (ticker) {
+    document.getElementById("ticker").value = ticker;
+    document.getElementById("search-form-submit").click();
+}
+
+// Remove all the query params from the url.
+window.history.replaceState({}, document.title, "/" + "search");

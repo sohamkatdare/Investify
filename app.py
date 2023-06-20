@@ -214,20 +214,52 @@ def searchTicker():
     return Response(response=json.dumps(ohlc_formatted), status=200, mimetype='application/json')
   except Exception as e:
     print(e)
-    return Response(response='Service Unavailable', status=400)
+    return Response(response='Service Unavailable', status=503, mimetype='text/plain')
 
 @app.route('/search/pe-and-eps', methods=['GET'])
 @jwt_required(optional=True)
 def searchPeAndEps():
-  ticker = request.headers.get('ticker')
-  pe_ratio, eps = get_pe_and_eps(ticker)
-  return json.dumps({'pe_ratio': pe_ratio, 'eps': eps})
+  try:
+    ticker = request.args.get('ticker')
+    pe_ratio, eps = get_pe_and_eps(ticker)
+    return Response(response=json.dumps({'pe_ratio': pe_ratio, 'eps': eps}), status=200, mimetype='application/json')
+  except Exception as e:
+    print(e)
+    return Response(response='Service Unavailable', status=503, mimetype='text/plain')
 
 @app.route('/search/composite-score', methods=['GET'])
 @jwt_required(optional=True)
 def searchCompositeScore():
-  ticker = request.headers.get('ticker')
-  return json.dumps({'composite_score': get_composite_score(ticker)})
+  try:
+    ticker = request.args.get('ticker')
+    composite_score = get_composite_score(ticker)
+    return Response(response=json.dumps({'composite_score': composite_score}), status=200, mimetype='application/json')
+  except Exception as e:
+    print(e)
+    return Response(response='Service Unavailable', status=503, mimetype='text/plain')
+
+@app.route('/search/news', methods=['GET'])
+@jwt_required(optional=True)
+def searchNews():
+  try:
+    ticker = request.args.get('ticker')
+    news = get_news(ticker)
+    return Response(response=json.dumps(news), status=200, mimetype='application/json')
+  except Exception as e:
+    print(e)
+    return Response(response='Service Unavailable', status=503, mimetype='text/plain')
+  
+@app.route('/search/insider-trading', methods=['GET'])
+@jwt_required(optional=True)
+def searchInsiderTrading():
+  try:
+    ticker = request.args.get('ticker')
+    insider_trading = scrape_insider_data(ticker)
+    print(insider_trading)
+    return Response(response=json.dumps(insider_trading), status=200, mimetype='application/json')
+  except Exception as e:
+    print(e)
+    return Response(response='Service Unavailable', status=503, mimetype='text/plain')
 
 @app.route('/search', methods=['GET', 'POST'])
 @jwt_required(optional=True)
@@ -242,6 +274,9 @@ def search():
   sentimentData = []
   averageSentiment = None
   current_identity = get_jwt_identity()
+  if request.args.get('error'):
+    flash(f'No data could be found on the ticker {request.args.get("error")}.', 'error')
+
   if searchForm.ticker.data:
     try:
       ticker = searchForm.ticker.data.upper()
@@ -293,7 +328,7 @@ def simplify():
     print(request.json)
     topic = request.json['topic'] if 'topic' in request.json else None # type: ignore
     messages = request.json['messages'] if 'messages' in request.json else None # type: ignore
-    service_unavailable = Response(response='Service Unavailable', status=503)
+    service_unavailable = Response(response='Service Unavailable', status=503, mimetype='text/plain')
     if topic:
       try:
         link = investopedia_search(topic)
@@ -356,7 +391,7 @@ def favorite_stocks():
       return Response(response=user.favorite_stocks, status=200)
   except Exception as e:
     print(e)
-    return Response(response='Service Unavailable', status=503)
+    return Response(response='Service Unavailable', status=503, mimetype='text/plain')
 
 @app.route('/paper-trading')
 @jwt_required()

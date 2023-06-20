@@ -1,9 +1,13 @@
 {% extends "template.html" %}
 {% block title %}Home{% endblock title %}
 {% block pageTitle %}Search{% endblock pageTitle %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/favorite_button.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/highcharts_custom.css') }}">
+{% endblock head %}
+
 {% block search_body %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/search.css') }}">
-<form class="form-control min-w-full ml-2 -translate-y-[44rem] order-0" role="search" action="" autocapitalize="characters"
+<form class="form-control min-w-full mt-20 ml-2 -translate-y-[35rem] order-0" role="search" action="" autocapitalize="characters"
   autocomplete="off" id="search-form">
   {{ searchForm.csrf_token }}
   <div class="gradient-text text-2xl mb-2">
@@ -18,7 +22,7 @@
     {% else %}
     {{ searchForm.ticker(class="input input-bordered w-full", id="ticker") }}
     {% endif %}
-    <button class="btn btn-square" id="submit" name="submit" type="submit">
+    <button class="btn btn-square" id="search-form-submit" name="submit" type="submit">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
           d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -26,21 +30,41 @@
     </button>
   </div>
 </form>
-<div class="" id="candle_div"></div>
-<style>
-  .highcharts-label.highcharts-range-input > text[style],
-  .highcharts-label.highcharts-range-label > text[style] {
-    fill: transparent !important;
-    display: none !important;
-  }
-
-  .highcharts-scrollbar-thumb {
-    fill: white !important;
-  }
-  .highcharts-scrollbar-thumb:hover {
-    fill: rgb(210, 210, 210) !important;
-  }
-</style>
+<div style="display: none;" id="search-results">
+  <div>
+    <button class="btn">
+      <a href="{{ url_for('search') }}">
+        <i class="fa-solid fa-arrow-left"></i>
+        Back
+      </a>
+    </button>
+    {% if current_identity != '' %}
+      <button class="favorite-button" id="favorite-button">
+        <div class="icon">
+            <div class="star"></div>
+        </div>
+        <span>Favorite</span>
+      </button>
+    {% endif %}
+  </div>
+  <div class="mt-20" id="candle_div"></div>
+  <h1 class="text-4xl gradient-text mt-10 mb-10 text-center">Financial Analysis</h1>
+  <div class="-translate-y-[2.5rem]">
+    <h3 class="text-sm mt-10 mb-16 text-center">\[P/E=\frac{\text{Share price}}{\text{Earnings per share}}=\]
+      <span id="pe-ratio"></span>
+    </h3>
+    <h3 class="text-sm mt-10 mb-16 text-center">\[EPS=\frac{\text{Net income}-\text{Dividends on preferred stock}}{\text{Average outstanding common shares}}=\]
+      <span id="eps-ratio"></span>
+    </h3>
+    <h3 class="text-sm mt-10 mb-8 text-center">\[Composite\;Score=\frac{\text{Earnings before Interest and Taxes}}{\text{Net Fixed Assets}-\text{Working Capital}}=\]
+      <span id="composite-score"></span>
+    </h3>
+  </div>
+  <h1 class="text-5xl mt-10 mb-10 gradient-text">News:</h1>
+  <div class="flex flex-col gap-y-10 md:gap-x-10 md:flex-row md:flex-wrap justify-center" id="news"></div>
+  <h1 class="text-5xl mt-10 mb-10 gradient-text">Insider Trading:</h1>
+  <div class="flex flex-col gap-y-10 md:gap-x-10 md:flex-row md:flex-wrap justify-center" id="insider-trading"></div>
+</div>
 {{super()}}
 {% endblock search_body %}
 {{ super()}}
@@ -56,15 +80,6 @@
   <!-- <div class="h-screen w-screen grid "></div> -->
   <h1 class="text-5xl text-white mt-10 mb-10"><strong class="gradient-text">{{ ticker }}</strong> Monthly Aggregate Data from {{ data[0][0][0] }} to {{ data[0][0][1] }}</h1>
   <!-- Add star button here -->
-
-  {% if current_identity != '' %}
-    <button class="favorite-button" id="favorite-button">
-      <div class="icon">
-          <div class="star"></div>
-      </div>
-      <span>Favorite</span>
-    </button>
-  {% endif %}
 
   <div class="grid grid-cols-12 grid-rows-1 h-min max-h-max lg:w-full md:max-w-6xl md:shrink-0 p-4 ">
     <div class="grid col-span-9">
@@ -187,6 +202,7 @@
 <script src="{{ url_for('static', filename='js/star_button.js') }}"></script>
 <script src="{{ url_for('static', filename='js/search.js') }}"></script>
 
+<!-- Highcharts CDNs -->
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/highcharts-more.js"></script>
 <script src="https://code.highcharts.com/highcharts-3d.js"></script>
@@ -244,122 +260,6 @@
 <script src="https://code.highcharts.com/modules/marker-clusters.js"></script>
 <script src="https://code.highcharts.com/modules/hollowcandlestick.js"></script>
 <script src="https://code.highcharts.com/modules/heikinashi.js"></script>
-
-<!-- <script type="text/javascript">
-  google.charts.load('current', { 'packages': ['corechart'] });
-
-  function drawCharts() {
-    drawCandleChart();
-    drawSentimentChart();
-  }
-
-  function drawCandleChart() {
-  {% if (data != None) %}
-    var data = google.visualization.arrayToDataTable([
-      {% for i in range((data[0][2]).__len__()) %}
-        ["{{ data[0][1][i].__str__() }}", {{ data[0][2]['low'][i] }}, {{ data[0][2]['open'][i] }}, {{ data[0][2]['close'][i] }}, {{ data[0][2]['high'][i] }}],
-      {% endfor %}
-    ], true);
-
-    var options = {
-      legend: 'none',
-      candlestick: {
-        fallingColor: { strokeWidth: 0, fill: '#ff0000' }, // red
-        risingColor: { strokeWidth: 0, fill: '#1EB854' },   // green
-      },
-      backgroundColor: { strokeWidth: 0, fill: '#171212' },
-      chartArea: {
-        backgroundColor: { strokeWidth: 0, fill: '#171212' },
-      },
-      hAxis: {
-        title: 'Date',
-        textStyle: {
-          color: '#fff',
-        },
-        titleTextStyle: {
-          color: '#fff'
-        }
-      },
-      vAxis: {
-        title: 'Price ($)',
-        textStyle: {
-          color: '#fff',
-        },
-        titleTextStyle: {
-          color: '#fff'
-        }
-      },
-      title: '{{ ticker }}, {{ data[0][1][0].__str__() }} - {{ data[0][1][-1].__str__() }}',
-      titleTextStyle: {
-        color: '#fff',
-      },
-    };
-
-    var chart = new google.visualization.CandlestickChart(document.getElementById('candle_div'));
-
-    chart.draw(data, options);
-  {% endif %}
-  }
-
-  function drawSentimentChart() {
-  {% if sentimentData.__len__() %}
-    // Define the chart to be drawn.
-    var data = google.visualization.arrayToDataTable([
-      ['Sentiment', 'Frequency'],
-      {% for i in range(sentimentData.__len__()) %}
-        ['{{ i }}', {{ sentimentData[i]['Sentiment'] }}],
-      {% endfor %}
-    ]);
-
-    var options = {
-      legend: 'none',
-      candlestick: {
-        fallingColor: { strokeWidth: 0, fill: '#ff0000' }, // red
-        risingColor: { strokeWidth: 0, fill: '#1EB854' },   // green
-      },
-      backgroundColor: { strokeWidth: 0, fill: '#171212' },
-      chartArea: {
-        backgroundColor: { strokeWidth: 0, fill: '#171212' },
-      },
-      colors: ['#1EB854'],
-      hAxis: {
-        title: 'Sentiment',
-        textStyle: {
-          color: '#fff',
-        },
-        titleTextStyle: {
-          color: '#fff'
-        }
-      },
-      vAxis: {
-        title: 'Frequency',
-        textStyle: {
-          color: '#fff',
-        },
-        titleTextStyle: {
-          color: '#fff'
-        }
-      },
-      title: 'Sentiment of Tweets (Histogram)',
-      titleTextStyle: {
-        color: '#fff',
-      },
-      histogram: {
-        bucketSize: 0.25,
-        maxNumBuckets: 8,
-        minValue: -1,
-        maxValue: 1
-      }
-    };
-
-    // Instantiate and draw the chart.
-    var chart = new google.visualization.Histogram(document.getElementById('sentiment_div'));
-    chart.draw(data, options);
-  {% endif %}
-  }
-  
-  google.charts.setOnLoadCallback(drawCharts);
-</script> -->
 {% endblock script %}
 
 

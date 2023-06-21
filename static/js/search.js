@@ -4,16 +4,10 @@
 
 // TODO: Style search.html page
 // ticker = document.getElementById("ticker");
-// document.getElementById("flex-1").style.display = "none";
-// addEventListener('fullscreenchanged', () => {
-//     const chart = document.querySelector('#candle-div')
-//     let classes = chart.classList.value;
-//     if (classes == 'no-class') {
-//         classes = 'neeeded classes'
-//     } else {
-//         classes = 'no-class'
-//     } 
-// })
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById("flex-1").style.display = "none";
+})
+
 
 
 async function search(event) {
@@ -26,6 +20,9 @@ async function search(event) {
     // Hide flex-1 div. REMOVE THIS LATER IF NOT NEEDED.
     document.getElementById("flex-1").style.display = "none";
     document.getElementById("search-results").style.display = "block";
+    document.querySelectorAll(".search-appear").forEach((element) => {
+        element.style.display = "flex";
+    });
 
     // API Calls
     getHighcharts(ticker);
@@ -81,7 +78,7 @@ async function getHighcharts(ticker) {
     // create the chart      
     Highcharts.stockChart("candle_div", {
         chart: {
-            backgroundColor: "#171212",
+            backgroundColor: "#1B1716",
             style: {
             fontFamily: "'Unica One', sans-serif"
             },

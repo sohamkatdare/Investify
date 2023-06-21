@@ -16,9 +16,9 @@ def get_composite_score(ticker_name):
     income_statement_dict = latest_income_statement[list(latest_income_statement.keys())[0]]
     balance_sheet_dict = latest_balance_sheet[list(latest_balance_sheet.keys())[0]]
 
-    stock_potential_general_worse = stock_potential_general(income_statement_dict, balance_sheet_dict)
+    stock_potential = stock_potential_general(income_statement_dict, balance_sheet_dict)
 
-    return stock_potential_general_worse
+    return stock_potential
     
 
 

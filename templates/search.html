@@ -2,64 +2,86 @@
 {% block title %}Home{% endblock title %}
 {% block pageTitle %}Search{% endblock pageTitle %}
 {% block head %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/favorite_button.css') }}">
+ 
 <link rel="stylesheet" href="{{ url_for('static', filename='css/highcharts_custom.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/favorite_button.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/skeleton.css') }}">
 {% endblock head %}
 
 {% block search_body %}
-<form class="form-control min-w-full mt-20 ml-2 -translate-y-[35rem] order-0" role="search" action="" autocapitalize="characters"
-  autocomplete="off" id="search-form">
-  {{ searchForm.csrf_token }}
-  <div class="gradient-text text-2xl mb-2">
-    <h1>Enter Stock Ticker:</h1>
-  </div>
-  <div class="input-group mb-3 flex">
-    {% if searchForm.ticker.errors %}
-    {{ searchForm.ticker(class="input input-bordered w-full", id="ticker") }}
-    {% for error in searchForm.ticker.errors %}
-    <span class="invalid-feedback">{{ error }}</span>
-    {% endfor %}
-    {% else %}
-    {{ searchForm.ticker(class="input input-bordered w-full", id="ticker") }}
-    {% endif %}
-    <button class="btn btn-square" id="search-form-submit" name="submit" type="submit">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-      </svg>
-    </button>
-  </div>
-</form>
-<div style="display: none;" id="search-results">
-  <div>
-    <button class="btn">
-      <a href="{{ url_for('search') }}">
-        <i class="fa-solid fa-arrow-left"></i>
-        Back
-      </a>
-    </button>
-    {% if current_identity != '' %}
+<div class="flex flex-row flex-wrap items-center px-4 sm:px-16 mt-24 justify-center w-screen gap-3">
+  <!-- <button class="btn rounded-md grow-0 search-appear border-0 hover:border-0 translate-y-3 hover:underline bg-transparent hover:bg-transparent" style="display: none">
+    <a href="{{ url_for('search') }}">
+      <i class="fa-solid fa-arrow-left"></i>
+      Back
+    </a>
+  </button> 
+  honestly this bu
+  --> 
+  <form class="form-control grow order-0" role="search" action="" autocapitalize="characters"
+    autocomplete="off" id="search-form">
+    {{ searchForm.csrf_token }}
+    <div class="gradient-text whitespace-nowrap overflow-hidden text-2xl mb-2">
+      <h1>Enter Stock Ticker:</h1>
+    </div>
+    <div class="input-group mb-3 flex">
+      {% if searchForm.ticker.errors %}
+      {{ searchForm.ticker(class="input input-bordered w-full", id="ticker") }}
+      {% for error in searchForm.ticker.errors %}
+      <span class="invalid-feedback">{{ error }}</span>
+      {% endfor %}
+      {% else %}
+      {{ searchForm.ticker(class="input input-bordered w-full", id="ticker") }}
+      {% endif %}
+      <button class="btn btn-square" id="search-form-submit" name="submit" type="submit">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+      </button>
+    </div>
+  </form>
+  {% if current_identity != '' %}
+    <div class="grow-0 min-w-[125px] sm:-translate-y-2 max-sm:-translate-y-1 search-appear " style="display: none">
       <button class="favorite-button" id="favorite-button">
         <div class="icon">
             <div class="star"></div>
         </div>
         <span>Favorite</span>
       </button>
-    {% endif %}
+    </div>
+  {% endif %}
+</div>
+<div style="display: none;" id="search-results" class="px-4 sm:px-16">
+  <div class="grid mt-20 grid-cols-12">
+    <div class="col-span-12 sm:col-span-9 sm:mx-5 bg-base-100/50">
+      <div class="min-h-[50vh] skeleton" id="candle_div"></div>
+    </div>
+    <div class="col-span-12 sm:col-span-3">
+      <div class="divider my-10">
+        <h1 class="text-4xl gradient-text text-center">Financial Analysis</h1>
+      </div>
+      <div class="flex flex-row items-center self-stretch h-4 whitespace-nowrap my-12 text-center justify-center">
+        <h3 class="text-sm text-center">\[P/E=\frac{\text{Share price}}{\text{Earnings per share}}={  }\]</h3>
+        <span id="pe-ratio" class="inline">
+          <div class="skeleton skeleton-text">b </div>
+        </span>
+      </div>
+      <div class="flex flex-row items-center self-stretch h-4 whitespace-nowrap my-12 text-center justify-center">
+        <h3 class="text-sm text-center">\[EPS=\frac{\text{Net income}-\text{Dividends on preferred stock}}{\text{Average outstanding common shares}}={  }\]</h3>
+        <span id="eps-ratio" class="inline">
+          <div class="skeleton skeleton-text">b </div>
+        </span>
+      </div>
+      <div class="flex flex-row items-center self-stretch h-4 whitespace-nowrap my-12 text-center justify-center">
+        <h3 class="text-sm text-center">\[Composite\;Score=\frac{\text{Earnings before Interest and Taxes}}{\text{Net Fixed Assets}-\text{Working Capital}}={  }\]</h3>
+        <span id="composite-score" class="inline">
+          <div class="skeleton skeleton-text">b </div>
+        </span>
+      </div>
+    </div>
   </div>
-  <div class="mt-20" id="candle_div"></div>
-  <h1 class="text-4xl gradient-text mt-10 mb-10 text-center">Financial Analysis</h1>
-  <div class="-translate-y-[2.5rem]">
-    <h3 class="text-sm mt-10 mb-16 text-center">\[P/E=\frac{\text{Share price}}{\text{Earnings per share}}=\]
-      <span id="pe-ratio"></span>
-    </h3>
-    <h3 class="text-sm mt-10 mb-16 text-center">\[EPS=\frac{\text{Net income}-\text{Dividends on preferred stock}}{\text{Average outstanding common shares}}=\]
-      <span id="eps-ratio"></span>
-    </h3>
-    <h3 class="text-sm mt-10 mb-8 text-center">\[Composite\;Score=\frac{\text{Earnings before Interest and Taxes}}{\text{Net Fixed Assets}-\text{Working Capital}}=\]
-      <span id="composite-score"></span>
-    </h3>
-  </div>
+
   <h1 class="text-5xl mt-10 mb-10 gradient-text">News:</h1>
   <div class="flex flex-col gap-y-10 md:gap-x-10 md:flex-row md:flex-wrap justify-center" id="news"></div>
   <h1 class="text-5xl mt-10 mb-10 gradient-text">Insider Trading:</h1>

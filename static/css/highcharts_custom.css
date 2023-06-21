@@ -5,8 +5,9 @@ display: none !important;
 }
 
 .highcharts-scrollbar-thumb {
-fill: white !important;
+fill: transparent !important;
 }
-.highcharts-scrollbar-thumb:hover {
-fill: rgb(210, 210, 210) !important;
+.highcharts-axis-resizer {
+  stroke: white !important;
+  stroke-width: 0.75px !important;
 }

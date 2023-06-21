@@ -30,7 +30,7 @@
   align-items: center;
   cursor: pointer;
   position: fixed;
-  right: 4.5rem; /* Adjusted value */
+  /* right: 4.5rem;  */
   color: var(--text-color-default);
   transform: translateY(var(--button-y)) translateZ(0);
 }

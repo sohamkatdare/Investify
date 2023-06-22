@@ -7,22 +7,34 @@
 
 {% block wholebody %}
 <script>
-var navBar = document.querySelector("#topNav");
 
-window.addEventListener("scroll", function() {
-  if (window.pageYOffset > 10 + 50) {
-    navBar.classList.add("navScrolled");
+window.addEventListener('scroll', function() {
+  var tabBar = document.getElementById('topNav');
+  var navbar = document.querySelector('.navbar');
+  var navbarHeight = navbar.offsetHeight;
+
+  if (window.pageYOffset >= navbarHeight) {
+    tabBar.style.top = '0';
   } else {
-    navBar.classList.remove("navScrolled");
+    tabBar.style.top = navbarHeight + '32';
   }
 });
 
 </script>
 
+<style>
+.sticky-tab-bar {
+  position: sticky;
+  top: 32;
+  z-index: 100;
+}
+</style>
+
+<div class="divider mx-16"></div>
 
 <div class="flex justify-center py-4">
   <div class="w-[100vw]">
-    <div class="flex justify-center gap-2 rounded-lg mx-16" id="topNav">
+    <div class="flex justify-center gap-2 rounded-lg mx-16 sticky-tab-bar" id="topNav">
       <div class="px-4 py-2">
         <a href="#" onclick="openTab('overview')" class="block  px-4 py-2 btn  btn-primary text-xl font-thin  border-indigo-400 bg-transparent gradient-border hover:border-transparent  transition-all rounded-lg">Overview</a>
       </div>
@@ -42,7 +54,7 @@ window.addEventListener("scroll", function() {
         <a href="#" onclick="openTab('calendar')" class="block  px-4 py-2 btn  btn-primary text-xl font-thin  border-indigo-400 bg-transparent gradient-border hover:border-transparent  transition-all rounded-lg">Calendar</a>
       </div>
     </div>
-    <div class="divider mx-16"></div>
+    
     <div id="overview" class="tab-content active mt-4 mx-16 z-[2]">
       <h2 class="text-xl font-bold">Index</h2>
       <div class="grid lg:grid-cols-3 max-lg:grid-rows-3 p-[3%] items-top justify-stretch m-0 translate-x-8 gap-x-[5%] w-[94%]">

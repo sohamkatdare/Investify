@@ -76,7 +76,7 @@ async function getHighcharts(ticker) {
     }
 
     // create the chart      
-    Highcharts.stockChart("candle_div", {
+    await Highcharts.stockChart("candle_div", {
         chart: {
             backgroundColor: "#1B1716",
             style: {
@@ -231,6 +231,12 @@ async function getHighcharts(ticker) {
             }
         }
     });
+
+    document.getElementById("candle_div").classList.remove("skeleton");
+    document.getElementById("candle_div").classList.add("lg:outline");
+    document.getElementById("candle_div").classList.add("lg:outline-offset-2");
+    document.getElementById("candle_div").classList.add("lg:outline-2");
+    document.getElementById("candle_div").classList.add("lg:outline-pink-600/50");
 }
 
 async function getPeAndEPS(ticker) {

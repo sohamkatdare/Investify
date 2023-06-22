@@ -174,3 +174,12 @@ section.grid>* {
 .scrollbar::-webkit-scrollbar-track {
   background: transparent;
 }
+.scrollbar.minimalist::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+.scrollbar.minimalist::-webkit-scrollbar-thumb {
+  background: linear-gradient(to right,  rgb(236 72 153) 0%, rgb(168 85 247) 33%, rgb(168 85 247) 66%,  rgb(236 72 153) 100%);
+  border-radius: 4px;
+}

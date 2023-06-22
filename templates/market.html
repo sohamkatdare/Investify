@@ -1,5 +1,5 @@
 {% extends "template.html" %}
-{% block title %}Home{% endblock title %}
+{% block title %}Market{% endblock title %}
 {% block pageTitle %}Investify{% endblock pageTitle %}
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/market.css') }}">
@@ -7,51 +7,81 @@
 
 {% block wholebody %}
 <script>
+  let tabBar;
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        // Add the classes to the sticky-tab-bar
+        tabBar.classList.add('drop-shadow-2xl');
+        tabBar.classList.add('shadow-2xl');
+      } else {
+        // Remove the classes from the sticky-tab-bar
+        tabBar.classList.remove('drop-shadow-2xl');
+        tabBar.classList.remove('shadow-2xl');
+      }
+    });
+  }, {
+    threshold: 0,
+    root: document.querySelector('.navbar'), // Make sure the sticky-tab-bar is inside this element
+  });
+  window.addEventListener('scroll', function() {
+    tabBar = document.getElementById('topNav');
+    var navbar = document.querySelector('.navbar');
+    var navbarHeight = navbar.offsetHeight;
+    var offset = 2 * 24; // 2rem * 16px per rem
 
-window.addEventListener('scroll', function() {
-  var tabBar = document.getElementById('topNav');
-  var navbar = document.querySelector('.navbar');
-  var navbarHeight = navbar.offsetHeight;
+    if (window.pageYOffset >= navbarHeight - offset) {
+      tabBar.style.top = offset + 'px';
+    } else {
+      tabBar.style.top = navbarHeight - window.pageYOffset + 'px';
+    }
+      // Create a new Intersection Observer instance
+    
 
-  if (window.pageYOffset >= navbarHeight) {
-    tabBar.style.top = '0';
-  } else {
-    tabBar.style.top = navbarHeight + '32';
-  }
-});
+    // Start observing the toptabBar element
+    let observed = false;
+    if(tabBar != null && !observed) {
+      observer.observe(tabBar);
+      observed = true;
+    }
+  });
+  // Select the elements
+
+
+
 
 </script>
 
 <style>
 .sticky-tab-bar {
   position: sticky;
-  top: 32;
   z-index: 100;
 }
 </style>
 
-<div class="divider mx-16"></div>
 
-<div class="flex justify-center py-4">
+
+<div class="flex justify-center  ">
   <div class="w-[100vw]">
-    <div class="flex justify-center gap-2 rounded-lg mx-16 sticky-tab-bar" id="topNav">
-      <div class="px-4 py-2">
-        <a href="#" onclick="openTab('overview')" class="block  px-4 py-2 btn  btn-primary text-xl font-thin  border-indigo-400 bg-transparent gradient-border hover:border-transparent  transition-all rounded-lg">Overview</a>
+    <div class="divider mx-16"></div>
+    <div class="flex justify-center bg-base-100 gap-x-2 md:gap-x-6 rounded-lg -translate-y-16 pt-24 px-4 sm:px-8 md:px-12 lg:px-16 sticky-tab-bar overflow-x-auto scrollbar minimalist" id="topNav">
+      <div class="py-2">
+        <a href="#" onclick="openTab('overview')" class="block z-[1001] px-4 py-2 btn  btn-primary text-md lg:text-lg xl:text-xl font-thin  border-indigo-400 bg-transparent gradient-border hover:border-transparent  transition-all rounded-lg">Overview</a>
       </div>
-      <div class="px-4 py-2">
-        <a href="#" onclick="openTab('gainers')" class="block  px-4 py-2 btn  btn-primary text-xl font-thin  border-indigo-400 bg-transparent gradient-border hover:border-transparent  transition-all rounded-lg">Top Gainers</a>
+      <div class="py-2">
+        <a href="#" onclick="openTab('gainers')" class="block z-[1001] px-4 py-2 btn  btn-primary text-md lg:text-lg xl:text-xl font-thin  border-indigo-400 bg-transparent gradient-border hover:border-transparent  transition-all rounded-lg">Top Gainers</a>
       </div>
-      <div class="px-4 py-2">
-        <a href="#" onclick="openTab('losers')" class="block  px-4 py-2 btn  btn-primary text-xl font-thin  border-indigo-400 bg-transparent gradient-border hover:border-transparent  transition-all rounded-lg">Top Losers</a>
+      <div class="py-2">
+        <a href="#" onclick="openTab('losers')" class="block z-[1001] px-4 py-2 btn  btn-primary text-md lg:text-lg xl:text-xl font-thin  border-indigo-400 bg-transparent gradient-border hover:border-transparent  transition-all rounded-lg">Top Losers</a>
       </div>
-      <div class="px-4 py-2">
-        <a href="#" onclick="openTab('active')" class="block  px-4 py-2 btn  btn-primary text-xl font-thin  border-indigo-400 bg-transparent gradient-border hover:border-transparent  transition-all rounded-lg">Most Active</a>
+      <div class="py-2">
+        <a href="#" onclick="openTab('active')" class="block z-[1001] px-4 py-2 btn  btn-primary text-md lg:text-lg xl:text-xl font-thin  border-indigo-400 bg-transparent gradient-border hover:border-transparent  transition-all rounded-lg">Most Active</a>
       </div>
-      <div class="px-4 py-2">
-        <a href="#" onclick="openTab('options')" class="block  px-4 py-2 btn  btn-primary text-xl font-thin  border-indigo-400 bg-transparent gradient-border hover:border-transparent  transition-all rounded-lg">Top Options</a>
+      <div class="py-2">
+        <a href="#" onclick="openTab('options')" class="block z-[1001] px-4 py-2 btn  btn-primary text-md lg:text-lg xl:text-xl font-thin  border-indigo-400 bg-transparent gradient-border hover:border-transparent  transition-all rounded-lg">Top Options</a>
       </div>
-      <div class="px-4 py-2">
-        <a href="#" onclick="openTab('calendar')" class="block  px-4 py-2 btn  btn-primary text-xl font-thin  border-indigo-400 bg-transparent gradient-border hover:border-transparent  transition-all rounded-lg">Calendar</a>
+      <div class="py-2">
+        <a href="#" onclick="openTab('calendar')" class="block z-[1001] px-4 py-2 btn  btn-primary text-md lg:text-lg xl:text-xl font-thin  border-indigo-400 bg-transparent gradient-border hover:border-transparent  transition-all rounded-lg">Calendar</a>
       </div>
     </div>
     
@@ -59,7 +89,7 @@ window.addEventListener('scroll', function() {
       <h2 class="text-xl font-bold">Index</h2>
       <div class="grid lg:grid-cols-3 max-lg:grid-rows-3 p-[3%] items-top justify-stretch m-0 translate-x-8 gap-x-[5%] w-[94%]">
         <div class=" min-w-max max-w-full p-[3%] row-span-1 lg:col-span-1  text-white rounded-lg min-h-min border-indigo-400 border-2 max-lg:my-6">
-            <div class="overflow-x-auto">
+            <div class="overflow-x-auto scrollbar minimalist">
                 <div class="pb-9">
                   <button>
                   <h5 href="#" onclick="openTab('active')" class="sub_title font-bold text-2xl text-magenta-500 underline-on-hover">Daily Most Active</h5>
@@ -144,7 +174,7 @@ window.addEventListener('scroll', function() {
               </div>
           </div>
         <div class=" min-w-max max-w-full p-[3%] row-span-1 lg:col-span-1  text-white rounded-lg min-h-min border-rose-400 border-2 max-lg:my-6">
-            <div class="overflow-x-auto">
+            <div class="overflow-x-auto scrollbar minimalist">
                 <div class="pb-9">
                     <h5 href="#" onclick="openTab('gainers')" class="sub_title font-bold text-2xl text-magenta-500 underline-on-hover">Daily Top Gainers</h5>
                 </div> <!-- section title -->
@@ -227,7 +257,7 @@ window.addEventListener('scroll', function() {
               </div>
           </div>
         <div class=" min-w-max max-w-full p-[3%] row-span-1 lg:col-span-1  text-white rounded-lg min-h-min border-indigo-400 border-2 max-lg:my-6">
-            <div class="overflow-x-auto">
+            <div class="overflow-x-auto scrollbar minimalist">
                 <div class="pb-9">
                     <h5 href="#" onclick="openTab('losers')" class="sub_title font-bold text-2xl text-magenta-500 underline-on-hover">Daily Top Losers</h5>
                 </div> <!-- section title -->
@@ -313,7 +343,7 @@ window.addEventListener('scroll', function() {
 
 
       <div class="p-[3%] text-white rounded-lg min-h-min border-indigo-400 border-2 mx-16">
-        <div class="overflow-x-auto">
+        <div class="overflow-x-auto scrollbar minimalist">
             <div class="pb-9">
                 <h5 href="#" onclick="openTab('options')" class="sub_title font-bold text-2xl text-magenta-500 underline-on-hover">Top Options</h5>
             </div> <!-- section title -->
@@ -408,7 +438,7 @@ window.addEventListener('scroll', function() {
 
 
       <div class="p-[3%] text-white rounded-lg min-h-min border-indigo-400 border-2 mx-16">
-        <div class="overflow-x-auto">
+        <div class="overflow-x-auto scrollbar minimalist">
             <div class="pb-9">
                 <h5 href="#" onclick="openTab('calendar')" class="sub_title font-bold text-2xl text-magenta-500 underline-on-hover">Calendar Earnings</h5>
             </div> <!-- section title -->

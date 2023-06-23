@@ -36,19 +36,7 @@
 
   <!-- Favorited stocks -->
   <h1 class="text-3xl text-white my-12 font-bold underline decoration-purple-400"">Favorite Stocks</h1> 
-  <div class="my-6 flex lg:flex-row flex-col lg:gap-x-4 gap-y-4">
-    {{
-      macros.stock_chip(ticker='AAPL')
-    }}
-    {{
-      macros.stock_chip(ticker='TSLA')
-    }}
-    {{
-      macros.stock_chip(ticker='MSFT')
-    }}
-    {{
-      macros.stock_chip(ticker='SBUX')
-    }}
+  <div class="my-6 flex lg:flex-row flex-col lg:gap-x-4 gap-y-4" id="favorite-stocks">
   </div>
 
   <h1 class="text-3xl text-white my-12 font-bold underline decoration-purple-400"">Your Conversations</h1> 
@@ -111,14 +99,23 @@
 </div>
 {% endblock body %}
 
-{% block scripts %}
+{% block script %}
 <script src="{{ url_for('static', filename='js/f_stocks.js') }}"></script>
 <script>
-  const f_stocks = await getFavoriteStocks();
-  `<a class="flex justify-center items-center text-white text-xl font-bold hover:bg-white/[0.075] bg-transparent border-2 border-white/25 hover:border-transparent rounded-full min-w-64 h-8 p-4 mb-2 text-center" href="/search?ticker={{ ticker }}">
-    <span class="text-center">${ticker}</span>
-  </a>`
+  window.onload = async () => {
+    const f_stocks = await getFavoriteStocks();
+    console.log(f_stocks)
+    // For each stock, create a stock chip.
+    f_stocks.forEach((ticker) => {
+      console.log(ticker);
+      const stockChip = document.createElement('a');
+      stockChip.classList.add('flex', 'justify-center', 'items-center', 'text-white', 'text-xl', 'font-bold', 'hover:bg-white/[0.075]', 'bg-transparent', 'border-2', 'border-white/25', 'hover:border-transparent', 'rounded-full', 'min-w-64', 'h-8', 'p-4', 'mb-2', 'text-center');
+      stockChip.innerHTML = `<span class="text-center">${ticker}</span>`;
+      stockChip.href = `/search?ticker=${ticker}`;
+      document.getElementById("favorite-stocks").appendChild(stockChip);
+    });
+  };
 </script>
-{% endblock scripts %}
+{% endblock script %}
 
 {% block results %}{% endblock results %}

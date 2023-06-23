@@ -85,8 +85,9 @@
     </div>
   </div>
 
-  <h1 class="text-5xl mt-10 mb-10 gradient-text">News:</h1>
-  <div class="flex flex-col gap-y-10 md:gap-x-10 md:flex-row md:flex-wrap justify-center" id="news"></div>
+  <div class="divider my-10">
+    <h1 class="text-4xl gradient-text text-center">News</h1>
+  </div>  <div class="flex flex-col gap-y-10 md:gap-x-10 md:flex-row md:flex-wrap justify-center" id="news"><div>
   <h1 class="text-5xl mt-10 mb-10 gradient-text">Insider Trading:</h1>
   <div class="flex flex-col gap-y-10 md:gap-x-10 md:flex-row md:flex-wrap justify-center" id="insider-trading"></div>
 </div>
@@ -108,9 +109,7 @@
 
   <div class="grid grid-cols-12 grid-rows-1 h-min max-h-max lg:w-full md:max-w-6xl md:shrink-0 p-4 ">
     <div class="grid col-span-9">
-      <!-- graph -->
-      
-      
+      <!-- graph --> 
       <div class="card bg-base-100 shadow-xl mx-auto w-full h-full min-h-[44rem] border border-1 border-white/[0.1] " id="candle_div"></div>
       <!-- sentiment score -->
       {% if averageSentiment %} <!--If no tweets found on company.-->

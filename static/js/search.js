@@ -268,6 +268,17 @@ async function getNews(ticker) {
     const response = await fetch('/search/news?ticker=' + ticker).catch(onFail);
     const data = await response.json();
     console.log(data);
+
+    returnHTML = ""
+    
+    counter = 0
+
+    data.forEach((element) => {
+        counter += 1
+        if (counter <= 6){
+            returnHTML += `<a class="card border border-2 border-pink-600 border-offset-2 card-compact w-96 bg-base-100 shadow-xl" href="${element.link}"><figure><img class="h-30" src="${element.thumbnail.resolutions[0].url}"/></figure><div class="card-body"><h2 class="card-title hover:gradient-text inline">${element.title}</h2> <span class="text-slate-500">— ${element.publisher}</span></div></a>`
+        }
+    })
     
     // TODO: Formatting for News. Probably will use cards, but not sure yet.
     document.getElementById("news").textContent = data;

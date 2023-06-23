@@ -247,8 +247,8 @@ async function getPeAndEPS(ticker) {
     console.log(data);
 
     // TODO: Formatting for PE and EPS.
-    document.getElementById("pe-ratio").innerHTML = data["pe_ratio"];
-    document.getElementById("eps-ratio").innerHTML = data["eps"];    
+    document.getElementById("pe-ratio").textContent = data["pe_ratio"];
+    document.getElementById("eps-ratio").textContent = data["eps"];    
 }
 
 async function getCompositeScore(ticker) {
@@ -259,7 +259,7 @@ async function getCompositeScore(ticker) {
     console.log(data);
 
     // TODO: Formatting for Composite Score.
-    document.getElementById("composite-score").innerHTML = data["composite_score"];
+    document.getElementById("composite-score").textContent = data["composite_score"];
 }
 
 async function getNews(ticker) {
@@ -270,7 +270,7 @@ async function getNews(ticker) {
     console.log(data);
     
     // TODO: Formatting for News. Probably will use cards, but not sure yet.
-    document.getElementById("news").innerHTML = data;
+    document.getElementById("news").textContent = data;
 }
 
 async function getInsiderTrading(ticker) {
@@ -281,7 +281,7 @@ async function getInsiderTrading(ticker) {
     console.log(data);
     
     // TODO: Formatting for News. Probably will use cards, but not sure yet.
-    document.getElementById("insider-trading").innerHTML = data;
+    document.getElementById("insider-trading").textContent = data;
 }
 
 // TODO: Add other functions to get the other data from the backend.

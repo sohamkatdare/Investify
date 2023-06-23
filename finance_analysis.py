@@ -38,6 +38,7 @@ def get_news(ticker_name):
     return ticker.news
 
 if __name__ == '__main__':
-    print('Composite Indicator: ', get_composite_score('MSFT'))
+    # print('Composite Indicator: ', get_composite_score('MSFT'))
     # print('PE and EPS Ratios: ', get_pe_and_eps('MSFT'))
-    # print(get_news('MSFT'))
+    print(get_news('MSFT'))
+

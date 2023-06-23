@@ -56,29 +56,29 @@
   <div class="grid mt-20 grid-cols-12">
     <div class="col-span-12 lg:col-span-7 sm:mx-5">
       <div class="min-h-[50vh] rounded-lg drop-shadow-lg skeleton" id="candle_div"></div>
-      <div class="skeleton lg:outline lg:outline-offset-2 lg:outline-2 lg:outline-pink-600/50 hidden"></div>
+      <div class="skeleton lg:outline lg:outline-offset-2 lg:outline-2 lg:outline-pink-600/50 hidden"></div> <!-- this element is for styles that js dynamically adds which main.css won't load otherwise -->
     </div>
     <div class="col-span-12 lg:col-span-3 lg:col-start-9 lg:grid lg:place-content-center">
       <div>
         <div class="divider my-10">
           <h1 class="text-4xl gradient-text text-center">Financial Analysis</h1>
         </div>
-        <div class="flex flex-row items-center self-stretch h-4 whitespace-nowrap my-12 text-center justify-center">
+        <div class="flex flex-row items-center self-stretch h-4 whitespace-nowrap my-12 text-center justify-center text-xl">
           <h3 class="text-sm text-center">\[P/E=\frac{\text{Share price}}{\text{Earnings per share}}={  }\]</h3>
-          <span id="pe-ratio" class="inline">
-            <div class="skeleton skeleton-text"></div>
+          <span id="pe-ratio" class="w-12">
+            <div class="skeleton w-full h-2 mb-1 rounded-sm last:w-4/5 last:mb-0"></div>
           </span>
         </div>
-        <div class="flex flex-row items-center self-stretch h-4 whitespace-nowrap my-12 text-center justify-center">
+        <div class="flex flex-row items-center self-stretch h-4 whitespace-nowrap my-12 text-center justify-center text-xl">
           <h3 class="text-sm text-center">\[EPS=\frac{\text{Net income}-\text{Dividends on preferred stock}}{\text{Average outstanding common shares}}={  }</span>\]</h3>
-          <span id="eps-ratio" class="inline">
-            <div class="skeleton skeleton-text"></div>
+          <span id="eps-ratio" class="w-12">
+            <div class="skeleton w-full h-2 mb-1 rounded-sm last:w-4/5 last:mb-0"></div>
           </span>
         </div>
-        <div class="flex flex-row items-center self-stretch h-4 whitespace-nowrap my-12 text-center justify-center">
+        <div class="flex flex-row items-center self-stretch h-4 whitespace-nowrap my-12 text-center justify-center text-xl">
           <h3 class="text-sm text-center">\[Composite\;Score=\frac{\text{Earnings before Interest and Taxes}}{\text{Net Fixed Assets}-\text{Working Capital}}={  }\]</h3>
-          <span id="composite-score" class="inline">
-            <div class="skeleton skeleton-text"></div>
+          <span id="composite-score" class="w-12">
+            <div class="skeleton w-full h-2 mb-1 rounded-sm last:w-4/5 last:mb-0"></div>
           </span>
         </div>
       </div>

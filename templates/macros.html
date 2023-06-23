@@ -24,7 +24,7 @@
     </section>
 {%- endmacro %}
 {% macro card(title='Card Title', text="Some efjiowwww", button='Go', buttonLink="#", button_external=True, verified_tweet=True) -%}
-    <div class="card w-96 bg-base-100 hover:shadow-2xl hover:drop-shadow-2xl hover:translate-y-[-2rem] border-indigo-400/75 border-[1px] hover:border-transparent transition-all">
+    <div class="card w-96 bg-[#1b1726] hover:shadow-2xl hover:drop-shadow-2xl hover:translate-y-[-2rem] border-indigo-400/25 border-[1px] hover:border-transparent transition-all duration-500">
         <div class="card-body">
         <h2 class="card-title">{{ title }}
             {% if verified_tweet != '' %}
@@ -46,7 +46,7 @@
 {%- endmacro %}
 
 {% macro card_graph(title='Card Title', text_gain_loss="Some efjiowwww", text_pct_change="Some efjiowwww", button='Go', buttonLink="#", chartData="[0,10,5,2,20,30,45]") -%}
-    <div class="card w-96 bg-white/[0.075] hover:shadow-2xl hover:drop-shadow-2xl hover:-translate-y-[2rem] transition-all">
+    <div class="card w-96 bg-[#1b1726] hover:shadow-2xl hover:drop-shadow-2xl hover:-translate-y-[2rem] transition-all">
         <div class="card-body">
         <h2 class="card-title"> {{ title }} </h2>
         <p class="mb-3 text-3xl"> {{ text_gain_loss }} <span class=" ml-1 text-xl"> {{ text_pct_change }} </span></p>
@@ -57,7 +57,7 @@
     </div>
 {%- endmacro %}
 {% macro card_conversation(title='Card Title', button='Go', buttonLink="#", conversation="He he HOOOOOOOOOOOOOOOOO") -%}
-    <div class="card w-96 bg-white/[0.075] hover:shadow-2xl hover:drop-shadow-2xl hover:-translate-y-[2rem] transition-all">
+    <div class="card w-96 bg-[#1b1726] hover:shadow-2xl hover:drop-shadow-2xl hover:-translate-y-[2rem] transition-all">
         <div class="card-body">
         <h2 class="card-title text-white font-bold text-2xl"> {{ title }} </h2>
         <p class="mb-3 text-lg text-white/50"> {{ conversation }} </p>

@@ -51,7 +51,22 @@ def scrape_insider_data(stock_symbol):
 
             sentence = f"On {trade_date}, {insider_name} {code.lower()} {shares} {security_title.lower()} in {ticker} for ${value} for ${share_price}/share. {insider_name} is a {insider_role} of {ticker}, filed the trade on {file_date}, and now owns {remaining_shares} {security_title.lower()}, at a current value of about ${current_value:,.2f}"
             print('Sentence', sentence)
-            insider_data.append(sentence)
+
+            raw_data = {
+                trade_date: trade_date,
+                file_date: file_date,
+                name: insider_name,
+                role: insider_role,
+                action: code,
+                quantity: shares,
+                stock_type: security_title,
+                price: share_price,
+                total: value,
+                remaining: remaining_shares,
+                current_value: current_value
+            }
+
+            insider_data.append(raw_data)
 
         return insider_data
     except Exception as e:

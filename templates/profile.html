@@ -49,13 +49,6 @@
     {{
       macros.stock_chip(ticker='SBUX')
     }}
-    <script>
-      function fillTicker(ticker) {
-        var tickerInput = document.getElementById('nav-search');
-        tickerInput.value = ticker;
-        document.getElementById('submit').click();
-      }
-    </script>
   </div>
 
   <h1 class="text-3xl text-white my-12 font-bold underline decoration-purple-400"">Your Conversations</h1> 
@@ -117,4 +110,15 @@
     </form>
 </div>
 {% endblock body %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/f_stocks.js') }}"></script>
+<script>
+  let 
+  `<a class="flex justify-center items-center text-white text-xl font-bold hover:bg-white/[0.075] bg-transparent border-2 border-white/25 hover:border-transparent rounded-full min-w-64 h-8 p-4 mb-2 text-center" href="/search?ticker={{ ticker }}">
+    <span class="text-center">${ticker}</span>
+  </a>`
+</script>
+{% endblock scripts %}
+
 {% block results %}{% endblock results %}

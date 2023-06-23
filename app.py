@@ -96,6 +96,7 @@ def login():
   return render_template('login.html', data=None, loginForm=loginForm, searchForm=searchForm, current_identity=current_identity if current_identity else '', is_search=False)
 
 @app.route('/login/google')
+@jwt_required(optional=True)
 def login_google():
   # Find out what URL to hit for Google login
   google_provider_cfg = get_google_provider_cfg()
@@ -111,6 +112,7 @@ def login_google():
   return redirect(request_uri)
 
 @app.route('/login/google/callback')
+@jwt_required(optional=True)
 def login_google_callback():
   # Get authorization code Google sent back to you
   code = request.args.get("code")
@@ -184,6 +186,7 @@ def register():
   return render_template('register.html', data=None, registerForm=registerForm, searchForm=searchForm, is_search=False)
 
 @app.route('/reset-password', methods=['GET', 'POST'])
+@jwt_required(optional=True)
 def resetPassword():
   searchForm = TickerForm()
   resetPasswordForm = ResetPasswordForm()
@@ -388,7 +391,8 @@ def favorite_stocks():
         user.remove_favorite_stock(request.headers['ticker'])
         return Response(response='OK', status=200)
     else:
-      return Response(response=user.favorite_stocks, status=200)
+      print('f_stocks', json.dumps(user.favorite_stocks))
+      return Response(response=json.dumps(user.favorite_stocks), status=200)
   except Exception as e:
     print(e)
     return Response(response='Service Unavailable', status=503, mimetype='text/plain')

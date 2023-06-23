@@ -3,6 +3,7 @@
 @tailwind utilities;
 body {
   background-color: #100e17 !important;
+  font-family: 'Inter', sans-serif;
 }
 
 @layer components {
@@ -12,9 +13,7 @@ body {
   .hover-card:hover {
     @apply  -translate-y-6 shadow-lg;
   }
-  .gradient-text {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-purple-500
-  }
+
   .gradient-text-alt {
     @apply bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-amber-300
   }
@@ -26,6 +25,17 @@ body {
   display: none;
 }
 
+.gradient-text {
+  background-clip: text; 
+  background-image:  linear-gradient(to right, #EC4899 0%, #8B5CF6 45%, #8B5CF6 55%, #EC4899 100%); 
+  color: transparent; 
+  background-size: 200% auto;
+  transition: all 500ms ease-in-out;
+}
+.gradient-text:hover {
+  background-image:  linear-gradient(to right, #EC4899 0%, #8B5CF6 45%, #8B5CF6 55%, #EC4899 100%); 
+
+}
 .no-scrollbar {
   -ms-overflow-style: none; 
   scrollbar-width: none;  
@@ -178,8 +188,7 @@ section.grid>* {
   background: transparent;
 }
 .scrollbar.minimalist::-webkit-scrollbar {
-  width: 4px;
-  height: 4px;
+  height: 8px;
 }
 
 .scrollbar.minimalist::-webkit-scrollbar-thumb {
@@ -187,3 +196,20 @@ section.grid>* {
   border-radius: 4px;
 }
 /* Card Carousel */
+
+.stack-card:first-child:hover {
+  transform: translate(0, -10%) rotate(15deg);
+  transition: 0.4s ease-out;
+}
+
+.stack-card:hover {
+  transform: translate(0, -10%);
+  transition: 0.4s ease-out;
+}
+
+
+.stack-card:hover ~ .stack-card {
+  position: relative;
+  left: 120px;
+  transition: 0.4s ease-out;
+}

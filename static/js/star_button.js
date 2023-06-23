@@ -6,12 +6,12 @@ buttons.forEach((button) => {
 
   button.addEventListener("click", (e) => {
     e.preventDefault();
-
+  
     if (button.classList.contains("animated")) {
       return;
     }
     button.classList.add("animated");
-
+  
     gsap.to(button, {
       keyframes: [
         {
@@ -61,7 +61,7 @@ buttons.forEach((button) => {
         button.classList.remove("animated");
       },
     });
-
+  
     gsap.to(button, {
       keyframes: [
         {
@@ -76,14 +76,16 @@ buttons.forEach((button) => {
         },
       ],
     });
-
+  
     gsap.to(button, {
       "--star-rotate": "360deg",
       duration: 1.55,
       clearProps: true,
     });
-
+  
     starIcon.classList.toggle('fill-yellow');
-    buttonText.textContent = starIcon.classList.contains('fill-yellow') ? 'Favorited' : 'Favorite';
+    buttonText.textContent = starIcon.classList.contains('fill-yellow') ? 'Watchlisted' : 'Watchlist';
   });
 });
+
+

@@ -19,17 +19,26 @@ class User:
         self.favorite_stocks = favorite_stocks
         self.games = games
 
-    def get_conversation(self):
+    def add_conversation(self, conversation):
+        self.conversations.append(conversation)
+        self.save()
+
+    def get_conversations(self):
         return self.conversations
+    
+    def remove_conversation(self, conversation):
+        self.conversations.remove(conversation)
+        self.save()
 
     def add_game(self, game):
         self.games.append(game)
+        self.save()
     
     def get_games(self):
         return self.games
     
     def add_favorite_stock(self, stock):
-        self.favorite_stocks.append(stock)
+        self.favorite_stocks.append(stock.upper())
         self.save()
 
     def get_favorite_stocks(self):

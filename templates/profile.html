@@ -114,7 +114,7 @@
 {% block scripts %}
 <script src="{{ url_for('static', filename='js/f_stocks.js') }}"></script>
 <script>
-  let 
+  const f_stocks = await getFavoriteStocks();
   `<a class="flex justify-center items-center text-white text-xl font-bold hover:bg-white/[0.075] bg-transparent border-2 border-white/25 hover:border-transparent rounded-full min-w-64 h-8 p-4 mb-2 text-center" href="/search?ticker={{ ticker }}">
     <span class="text-center">${ticker}</span>
   </a>`

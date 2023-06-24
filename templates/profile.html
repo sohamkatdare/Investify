@@ -37,12 +37,23 @@
   <!-- Favorited stocks -->
   <h1 class="text-3xl text-white my-12 font-bold underline decoration-purple-400"">Favorite Stocks</h1> 
   <div class="my-6 flex lg:flex-row flex-col lg:gap-x-4 gap-y-4" id="favorite-stocks">
+    {% for ticker in user.favorite_stocks %}
+    {{ macros.stock_chip(ticker=ticker) }}
+    {% endfor %}
   </div>
 
   <h1 class="text-3xl text-white my-12 font-bold underline decoration-purple-400"">Your Conversations</h1> 
   <!-- Paper trading simulations -->
   <div class="my-6 flex lg:flex-row flex-col  lg:gap-x-8 gap-y-8" id="conversations">
-    
+    {% for conversation in user.conversations %}
+      {{ 
+        macros.card_conversation(title=conversation["messages"][1]["content"],
+                    conversation=conversation["messages"][-1]["content"][:50]+"...",
+                    button='Go to Conversation',
+                    buttonLink= '/simplify?cid=' + conversation["cid"],
+        )
+      }}
+    {% endfor %}
     <!-- <div class="card w-96 border-4 border-dashed border-white/[0.1]">
       <div class="card-body m-auto">
         <div class="card-title m-auto">
@@ -88,43 +99,5 @@
     </form>
 </div>
 {% endblock body %}
-
-{% block script %}
-<script src="{{ url_for('static', filename='js/f_stocks.js') }}"></script>
-<script src="{{ url_for('static', filename='js/conversation_data.js') }}"></script>
-<script>
-  let conversations;
-  window.onload = async () => {
-    const f_stocks = await getFavoriteStocks();
-    // For each stock, create a stock chip.
-    f_stocks.forEach((ticker) => {
-      const stockChip = document.createElement('a');
-      stockChip.classList.add('flex', 'justify-center', 'items-center', 'text-white', 'text-xl', 'font-bold', 'hover:bg-white/[0.075]', 'bg-transparent', 'border-2', 'border-white/25', 'hover:border-transparent', 'rounded-full', 'min-w-64', 'h-8', 'p-4', 'mb-2', 'text-center');
-      stockChip.innerHTML = `<span class="text-center">${ticker}</span>`;
-      stockChip.href = `/search?ticker=${ticker}`;
-      document.getElementById("favorite-stocks").appendChild(stockChip);
-    });
-
-    conversations = await getConversations();
-    console.log(conversations);
-    conversations.forEach((data) => {
-      let title = data["messages"][1]["content"];
-      // Get the first 20 characters of the conversation.
-      let latest = data["messages"][data["messages"].length - 1]["content"].substring(0, 50);
-      console.log(title, latest);
-      let conversationCard = `<div class="card w-96 bg-[#1b1726] hover:shadow-2xl hover:drop-shadow-2xl hover:-translate-y-[2rem] transition-all">
-        <div class="card-body">
-        <h2 class="card-title text-white font-bold text-2xl"> ${title} </h2>
-        <p class="mb-3 text-lg text-white/50"> ${latest}... </p>
-        <button class="card-actions justify-center">
-            <a class="btn btn-primary border-indigo-400 bg-transparent gradient-border hover:border-transparent transition-all" id="${data['cid']}" href="simplify?cid=${data['cid']}"> Go to Conversation </a>
-        </button>
-        </div>  
-      </div>`;
-      document.getElementById("conversations").innerHTML += conversationCard;
-    });
-  };
-</script>
-{% endblock script %}
 
 {% block results %}{% endblock results %}

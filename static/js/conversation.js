@@ -13,6 +13,7 @@ if (cid) {
     // Get the conversation from the backend.
     getConversations().then((conversations) => {
         // Iterate over the conversations and find the one with the matching cid.
+        let found = false
         for (var i = 0; i < conversations.length; i++) {
             if (conversations[i]["cid"] === cid) {
                 // Set the messages and request_messages variables to the conversation's messages.
@@ -27,13 +28,17 @@ if (cid) {
 
                 // Update the chat UI.
                 updateChat();
+                found = true;
                 break;
             }
         }
+
+        if (!found) {
+            // If the conversation was not found, then redirect to the simplify page without query params.
+            window.location.href = "/simplify";
+        }
     });
 }
-
-console.log("Conversation ID: " + conversation_id);
 
 function submit(event) {
     event.preventDefault();
@@ -136,8 +141,8 @@ function updateChat() {
     }
     conversation.scrollTop = conversation.scrollHeight - conversation.clientHeight;
 
-    if (messages.length > 1) {
-        document.getElementById("save-button").classList.remove("hidden");
+    if (messages.length > 1 && saveButton) {
+        saveButton.classList.remove("hidden");
     }
 }
 
@@ -156,6 +161,9 @@ async function toggleSave(e) {
 
 
 document.getElementById("form").onsubmit = submit;
-document.getElementById("save-button").addEventListener("click", toggleSave)
+let saveButton = document.getElementById("save-button")
+if (saveButton) {
+    saveButton.addEventListener("click", toggleSave)
+}
 
 updateChat();

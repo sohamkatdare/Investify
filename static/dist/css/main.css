@@ -1373,31 +1373,6 @@ html {
   align-items: flex-end;
 }
 
-.tab {
-  position: relative;
-  display: inline-flex;
-  cursor: pointer;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-          user-select: none;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  height: 2rem;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  line-height: 2;
-  --tab-padding: 1rem;
-  --tw-text-opacity: 0.5;
-  --tab-color: hsla(var(--bc) / var(--tw-text-opacity, 1));
-  --tab-bg: hsla(var(--b1) / var(--tw-bg-opacity, 1));
-  --tab-border-color: hsla(var(--b3) / var(--tw-bg-opacity, 1));
-  color: var(--tab-color);
-  padding-left: var(--tab-padding, 1rem);
-  padding-right: var(--tab-padding, 1rem);
-}
-
 .table {
   position: relative;
   text-align: left;
@@ -2040,31 +2015,6 @@ html {
   100% {
     transform: translateY(0);
   }
-}
-
-.tab:hover {
-  --tw-text-opacity: 1;
-}
-
-.tab.tab-active {
-  border-color: hsl(var(--bc) / var(--tw-border-opacity));
-  --tw-border-opacity: 1;
-  --tw-text-opacity: 1;
-}
-
-.tab:focus {
-  outline: 2px solid transparent;
-  outline-offset: 2px;
-}
-
-.tab:focus-visible {
-  outline: 2px solid currentColor;
-  outline-offset: -3px;
-}
-
-.tab:focus-visible.tab-lifted {
-  border-bottom-right-radius: var(--tab-radius, 0.5rem);
-  border-bottom-left-radius: var(--tab-radius, 0.5rem);
 }
 
 .table :where(th, td) {
@@ -2815,16 +2765,16 @@ html {
   margin-right: 0.75rem;
 }
 
+.mb-10 {
+  margin-bottom: 2.5rem;
+}
+
 .mt-12 {
   margin-top: 3rem;
 }
 
 .mt-10 {
   margin-top: 2.5rem;
-}
-
-.mb-10 {
-  margin-bottom: 2.5rem;
 }
 
 .ml-3 {
@@ -2928,6 +2878,10 @@ html {
   height: 2rem;
 }
 
+.h-32 {
+  height: 8rem;
+}
+
 .h-16 {
   height: 4rem;
 }
@@ -2964,6 +2918,10 @@ html {
 .min-h-min {
   min-height: -moz-min-content;
   min-height: min-content;
+}
+
+.min-h-0 {
+  min-height: 0px;
 }
 
 .min-h-\[50vh\] {
@@ -3037,10 +2995,6 @@ html {
 
 .min-w-\[125px\] {
   min-width: 125px;
-}
-
-.min-w-\[\] {
-  min-width: ;
 }
 
 .min-w-\[20vw\] {
@@ -3313,10 +3267,6 @@ html {
   overflow-x: hidden;
 }
 
-.overflow-x-scroll {
-  overflow-x: scroll;
-}
-
 .overflow-y-scroll {
   overflow-y: scroll;
 }
@@ -3444,13 +3394,13 @@ html {
   background-color: rgb(27 23 38 / var(--tw-bg-opacity));
 }
 
+.bg-white\/\[0\.1\] {
+  background-color: rgb(255 255 255 / 0.1);
+}
+
 .bg-\[\#100e17\] {
   --tw-bg-opacity: 1;
   background-color: rgb(16 14 23 / var(--tw-bg-opacity));
-}
-
-.bg-white\/\[0\.1\] {
-  background-color: rgb(255 255 255 / 0.1);
 }
 
 .bg-\[\#100e17\]\/\[0\.8\] {
@@ -3460,11 +3410,6 @@ html {
 .bg-rose-700 {
   --tw-bg-opacity: 1;
   background-color: rgb(190 18 60 / var(--tw-bg-opacity));
-}
-
-.bg-rose-900 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(136 19 55 / var(--tw-bg-opacity));
 }
 
 .bg-slate-100\/25 {
@@ -3612,6 +3557,11 @@ html {
   padding-right: 1rem;
 }
 
+.py-0 {
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
 .py-6 {
   padding-top: 1.5rem;
   padding-bottom: 1.5rem;
@@ -3742,6 +3692,11 @@ html {
   line-height: 1.75rem;
 }
 
+.text-sm {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
 .text-7xl {
   font-size: 4.5rem;
   line-height: 1;
@@ -3750,11 +3705,6 @@ html {
 .text-4xl {
   font-size: 2.25rem;
   line-height: 2.5rem;
-}
-
-.text-sm {
-  font-size: 0.875rem;
-  line-height: 1.25rem;
 }
 
 .font-bold {
@@ -3783,6 +3733,10 @@ html {
 
 .font-medium {
   font-weight: 500;
+}
+
+.capitalize {
+  text-transform: capitalize;
 }
 
 .normal-case {
@@ -3847,14 +3801,14 @@ html {
   color: rgb(255 255 255 / 0.5);
 }
 
-.text-red-500 {
-  --tw-text-opacity: 1;
-  color: rgb(239 68 68 / var(--tw-text-opacity));
-}
-
 .text-success {
   --tw-text-opacity: 1;
   color: hsl(var(--su) / var(--tw-text-opacity));
+}
+
+.text-red-500 {
+  --tw-text-opacity: 1;
+  color: rgb(239 68 68 / var(--tw-text-opacity));
 }
 
 .text-primary {
@@ -3965,7 +3919,6 @@ html {
 
 body {
   background-color: #100e17 !important;
-  font-family: 'Inter', sans-serif;
 }
 
 a:active {
@@ -4231,11 +4184,6 @@ section.grid>* {
 .hover\:bg-rose-800:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(159 18 57 / var(--tw-bg-opacity));
-}
-
-.hover\:bg-rose-700:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(190 18 60 / var(--tw-bg-opacity));
 }
 
 .hover\:underline:hover {
@@ -4510,9 +4458,9 @@ section.grid>* {
     padding-right: 4rem;
   }
 
-  .lg\:text-lg {
-    font-size: 1.125rem;
-    line-height: 1.75rem;
+  .lg\:text-sm {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
   }
 
   .lg\:text-4xl {
@@ -4586,11 +4534,6 @@ section.grid>* {
 @media (min-width: 1280px) {
   .xl\:grid-cols-3 {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  .xl\:text-xl {
-    font-size: 1.25rem;
-    line-height: 1.75rem;
   }
 }
 

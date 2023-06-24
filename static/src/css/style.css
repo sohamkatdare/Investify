@@ -3,7 +3,6 @@
 @tailwind utilities;
 body {
   background-color: #100e17 !important;
-  font-family: 'Inter', sans-serif;
 }
 
 a:active {

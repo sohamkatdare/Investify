@@ -24,13 +24,23 @@ class BuyStockForm(FlaskForm):
   quantity = IntegerField('Quantity: ', validators=[DataRequired()], render_kw={"placeholder": "Quantity"})
   submit = SubmitField('Buy')
 
-class ConfirmForm(FlaskForm):
-  confirm = SubmitField('Confirm')
-
 class SellStockForm(FlaskForm):
   ticker = StringField('Ticker: ', validators=[DataRequired()], render_kw={"placeholder": "Ticker"})
   quantity = IntegerField('Quantity: ', validators=[DataRequired()], render_kw={"placeholder": "Quantity"})
   submit = SubmitField('Sell')
+
+class ShortStockForm(FlaskForm):
+  ticker = StringField('Ticker: ', validators=[DataRequired()], render_kw={"placeholder": "Ticker"})
+  quantity = IntegerField('Quantity: ', validators=[DataRequired()], render_kw={"placeholder": "Quantity"})
+  submit = SubmitField('Short')
+
+class CoverStockForm(FlaskForm):
+  ticker = StringField('Ticker: ', validators=[DataRequired()], render_kw={"placeholder": "Ticker"})
+  quantity = IntegerField('Quantity: ', validators=[DataRequired()], render_kw={"placeholder": "Quantity"})
+  submit = SubmitField('Cover')
+
+class ConfirmForm(FlaskForm):
+  confirm = SubmitField('Confirm')
 
 class RegisterForm(FlaskForm):
   email = StringField('Email', validators=[DataRequired()])

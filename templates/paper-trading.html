@@ -9,6 +9,7 @@
         <tr class="text-2xl">
           <th class="text-xl">Name</th>
           <th class="text-xl">Capital</th>
+          <th class="text-xl">Buying Power</th>
           <th class="text-xl">Portfolio Value</th>
           <th class="text-xl">Growth</th>
         </tr>
@@ -18,12 +19,15 @@
           <tr class="hover">
             <th class="font-light">{{ user.id }}</th>
             <th class="font-light">${{ '%0.2f' % user.capital.__round__(2) }}</th>
-            <th class="font-light">${{ '%0.2f' % user.get_portfolio_value().__round__(2) }}</th>
+            <th class="font-light">${{ '%0.2f' % user.get_buying_power().__round__(2) }}</th>
             {% if user.growth() > 0 %}
+              <th class="font-light text-success">${{ '%0.2f' % user.get_portfolio_value().__round__(2) }}</th>
               <th class="font-light text-success">+{{ '%0.3f' % user.growth().__round__(3) }}%</th>
             {% elif user.growth() < 0 %}
+              <th class="font-light text-red-500">${{ '%0.2f' % user.get_portfolio_value().__round__(2) }}</th>
               <th class="font-light text-red-500">{{ '%0.3f' % user.growth().__round__(3) }}%</th>
             {% else %}
+              <th class="font-light">${{ '%0.2f' % user.get_portfolio_value().__round__(2) }}</th>
               <th class="font-light">{{ '%0.3f' % user.growth().__round__(3) }}%</th>
             {% endif %}
           </tr>
@@ -36,6 +40,8 @@
     <table class="table table-zebra w-full text-white">
       <thead>
         <tr class="text-2xl">
+          <th class="text-xl">Action</th>
+          <th class="text-xl">Date</th>
           <th class="text-xl">Ticker</th>
           <th class="text-xl">Quantity</th>
           <th class="text-xl">Purchase Price</th>
@@ -57,6 +63,8 @@
               {% set change = current_price - purchase_price %}
               {% set daily_change = current_price - userDetail.get_price(stock)[-2] %}
               {% set portfolio_value = userDetail.get_portfolio_value() %}
+              <th class="font-light">{{ trade['type'].capitalize() }}</th>
+              <th class="font-light">{{ trade['datetime'] }}</th>
               <th class="font-light">{{ stock.upper() }}</th>
               <th class="font-light">{{ quantity }}</th>
               <th class="font-light">${{ '%0.2f' % purchase_price.__round__(2) }}</th>
@@ -84,18 +92,28 @@
                 <th class="font-light">${{ '%0.2f' % (change * quantity).__round__(2) }}</th>
               {% endif %}
               <th class="font-light">
-                <a href="{{ userDetail.get_sell_url(trade['uid'], stock, quantity) }}" class="text-xl btn btn-primary w-full border-indigo-400 bg-transparent gradient-border hover:border-transparent transition-all">Sell</a>
-              </th>
+                {% if trade['type'] == 'buy'  %}
+                  <a href="{{ userDetail.get_sell_url(trade['uid'], stock, quantity) }}" class="text-xl btn btn-primary w-full border-indigo-400 bg-transparent gradient-border hover:border-transparent transition-all">Sell</a>
+                {% else %}
+                  <a href="{{ userDetail.get_cover_url(trade['uid'], stock, quantity) }}" class="text-xl btn btn-primary w-full border-indigo-400 bg-transparent gradient-border hover:border-transparent transition-all">Cover</a>
+                {% endif %}
+                </th>
             </tr>
           {% endfor %}
           <tr class="col-span-5 hover">
             <div class="card w-full border-2 my-6 border-dashed border-white/[0.1]">
               <div class="card-body m-auto">
                 <div class="card-title m-auto">
-                  You have bought ${{ (userDetail.get_portfolio_value() - userDetail.capital).__round__(2) }} worth of stocks.
+                  {% if userDetail.get_portfolio_value() - userDetail.capital > 0 %}
+                    You have bought ${{ (userDetail.get_portfolio_value() - userDetail.capital).__round__(2) }} worth of stocks.
+                  {% else %}
+                    You have bought -${{ -(userDetail.get_portfolio_value() - userDetail.capital).__round__(2) }} worth of stocks.
+                  {% endif %}
                 </div>
-                <a href="paper-trading/buy?{{userDetail.get_url_from_name()}}" class="text-xl btn btn-primary border-indigo-400 bg-transparent gradient-border hover:border-transparent mx-24  transition-all">Buy Stock</a>
-                <!-- <a href="paper-trading/sell?{{userDetail.get_url_from_name()}}" class="text-xl btn btn-primary border-indigo-400 bg-transparent gradient-border hover:border-transparent mx-24  transition-all">Sell Stock</a>       -->
+                <div class="grid grid-cols-2">
+                  <a href="paper-trading/buy?{{userDetail.get_url_from_name()}}" class="text-xl btn btn-primary border-indigo-400 bg-transparent gradient-border hover:border-transparent mx-6  transition-all">Buy Stock</a>
+                  <a href="paper-trading/short?{{userDetail.get_url_from_name()}}" class="text-xl btn btn-primary border-indigo-400 bg-transparent gradient-border hover:border-transparent mx-6  transition-all">Short Stock</a>
+                </div>    
               </div>
             </div>
           </tr>

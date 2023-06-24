@@ -1,31 +1,31 @@
 {% extends "template.html" %}
-{% block title %}Simplify{% endblock title %}
-{% block pageTitle %}Simplify{% endblock pageTitle %}
+{% block title %}Paper Trading - Buy{% endblock title %}
+{% block pageTitle %}Paper Trading - Buy{% endblock pageTitle %}
 {% block body %}
 {{ super() }}
 <form class="form-control min-w-full ml-2" role="search" method="POST" action="" autocapitalize="characters" autocomplete="off">
   <div class="gradient-text text-2xl mb-2">
-    <h1>"{{ game }}" Sell Stocks:</h1>
+    <h1>"{{ game }}" Buy Stocks:</h1>
   </div>
     <div class="flex flex-col gap-y-6">
-      {% if not sellPreviewPassed %}
-        {% if sellStock.ticker.errors %}
-        {{ sellStock.ticker(class="input input-bordered w-full") }}
-            {% for error in sellStock.ticker.errors %}
+      {% if not buyPreviewPassed %}
+        {% if buyStock.ticker.errors %}
+        {{ buyStock.ticker(class="input input-bordered w-full") }}
+            {% for error in buyStock.ticker.errors %}
             <span class="invalid-feedback">{{ error }}</span>
             {% endfor %}
         {% else %}
-            {{ sellStock.ticker(class="input input-bordered w-full") }}
+            {{ buyStock.ticker(class="input input-bordered w-full") }}
         {% endif %}
-        {% if sellStock.quantity.errors %}
-        {{ sellStock.quantity(class="input input-bordered w-full") }}
-            {% for error in sellStock.quantity.errors %}
+        {% if buyStock.quantity.errors %}
+        {{ buyStock.quantity(class="input input-bordered w-full") }}
+            {% for error in buyStock.quantity.errors %}
             <span class="invalid-feedback">{{ error }}</span>
             {% endfor %}
         {% else %}
-            {{ sellStock.quantity(class="input input-bordered w-full") }}
+            {{ buyStock.quantity(class="input input-bordered w-full") }}
         {% endif %}
-        {{sellStock.submit(class="btn btn-primary border-indigo-400 bg-transparent gradient-border hover:border-transparent  transition-all ")}}
+        {{buyStock.submit(class="btn btn-primary border-indigo-400 bg-transparent gradient-border hover:border-transparent  transition-all ")}}
       {% else %}
         <div class="flex justify-center items-center text-green-400 text-xl font-bold hover:bg-white/[0.075] bg-transparent border-2 border-white/25 hover:border-transparent rounded-full min-w-64 h-8 p-4 mb-2 text-center">
           <p>Ticker: {{ticker.upper()}}</p>
@@ -37,9 +37,9 @@
           <p>Price Per Share: ${{'%0.2f' % price.__round__(2)}}</p>
         </div>
         <div class="flex justify-center items-center text-red-400 text-xl font-bold hover:bg-white/[0.075] bg-transparent border-2 border-white/25 hover:border-transparent rounded-full min-w-64 h-8 p-4 mb-2 text-center">
-          <p>Total Sold: ${{'%0.2f' % (price * quantity).__round__(2)}}</p>
+          <p>Total Price: ${{ '%0.2f' % (price * quantity).__round__(2) }}</p>
         </div>
-        {{confirm.confirm(class="btn btn-primary border-indigo-400 bg-transparent gradient-border hover:border-transparent transition-all ")}}
+        {{confirm.confirm(class="btn btn-primary border-indigo-400 bg-transparent gradient-border hover:border-transparent  transition-all ")}}
       {% endif %}
     </div>
   </form>

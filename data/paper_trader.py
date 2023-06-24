@@ -17,6 +17,9 @@ class PaperTrader:
     
     def get_sell_url(self, uid, ticker, quantity):
         return f'paper-trading/sell?{self.get_url_from_name()}&uid={uid}&t={ticker.upper()}&q={quantity}'
+    
+    def get_cover_url(self, uid, ticker, quantity):
+        return f'paper-trading/cover?{self.get_url_from_name()}&uid={uid}&t={ticker.upper()}&q={quantity}'
 
     @staticmethod
     def get_price(ticker):
@@ -30,11 +33,12 @@ class PaperTrader:
         return yf.download([ticker], start=startDate, end=endDate)['Close']
 
     def get_prices(self):
-        tickers = [trade['ticker'] for trade in self.portfolio]
+        tickers = set([trade['ticker'] for trade in self.portfolio])
         # Use get_price() to get the price of a single ticker and combine the results into simple pd.DataFrame
         prices = pd.DataFrame()
         for ticker in tickers:
-            prices[ticker] = PaperTrader.get_price(ticker)
+            if ticker not in prices.columns:
+                prices[ticker] = PaperTrader.get_price(ticker)
         return prices
     
     def get_transaction_by_uuid(self, uuid):
@@ -46,20 +50,26 @@ class PaperTrader:
             ticker = trade['ticker']
             quantity = trade['quantity']
             price = self.prices[ticker][-1]
-            print('Price', price, type(price), 'Quantity', quantity, type(quantity))
             value = price * int(quantity)
+            if trade['type'] == 'short':
+                value *= -1
             portfolio_value += value
         return portfolio_value + self.capital
+    
+    def get_buying_power(self):
+        long_stocks = sum([trade['price'] * trade['quantity'] for trade in self.portfolio if trade['type'] == 'buy'])
+        short_stocks = sum([trade['price'] * trade['quantity'] for trade in self.portfolio if trade['type'] == 'short'])
+        return self.capital + (0.5 * long_stocks) - (1.5 * short_stocks)
 
     def preview_buy(self, ticker, quantity):
-        prices = PaperTrader.get_price(ticker)
+        prices = self.prices[ticker]
         price = prices[-1]
         cost = price * quantity
-        if cost > self.capital:
-            print("Insufficient funds to make this purchase")
-            raise ValueError("Insufficient funds to make this purchase")
+        if cost > self.capital and cost > self.get_buying_power():
+            print("Insufficient funds to make this purchase.")
+            raise ValueError("Insufficient funds to make this purchase.")
         else:
-            print(f"Buying {quantity} shares of {ticker} at ${price} would cost ${cost:.2f}")
+            print(f"Buying {quantity} shares of {ticker} at ${price} would cost ${cost:.2f}.")
         return price, cost
     
     def preview_sell(self, uuid, quantity):
@@ -69,25 +79,53 @@ class PaperTrader:
             raise ValueError("You cannot sell a stock you don't own.")
         trade = trade[0]
         ticker = trade['ticker']
-        prices = PaperTrader.get_price(ticker)
+        prices = self.prices[ticker]
         price = prices[-1]
         cost = price * quantity
         if quantity > trade['quantity']:
-            print("You don't own enough shares to make this sale")
-            raise ValueError("You don't own enough shares to make this sale")
+            print("You do not own enough shares to make this sale.")
+            raise ValueError("You do not own enough shares to make this sale.")
         else:
-            print(f"Selling {quantity} shares of {ticker} at ${price} would earn ${cost:.2f}")
+            print(f"Selling {quantity} shares of {ticker} at ${price} would earn ${cost:.2f}.")
+        return price, cost
+    
+    def preview_short(self, ticker, quantity):
+        prices = self.prices[ticker]
+        price = prices[-1]
+        cost = price * quantity
+        if cost > self.capital and cost > self.get_buying_power():
+            print("Insufficient funds to make this purchase.")
+            raise ValueError("Insufficient funds to make this purchase.")
+        else:
+            print(f"Shorting {quantity} shares of {ticker} at ${price} would cost ${cost:.2f}")
+        return price, cost
+    
+    def preview_cover(self, uuid, quantity):
+        trade = self.get_transaction_by_uuid(uuid)
+        if not trade:
+            print("You cannot cover a stock you have not shorted.")
+            raise ValueError("You cannot cover a stock you have not shorted.")
+        trade = trade[0]
+        ticker = trade['ticker']
+        prices = self.prices[ticker]
+        price = prices[-1]
+        cost = price * quantity
+        if quantity > trade['quantity']:
+            print("You have not shorted enough shares to make this sale.")
+            raise ValueError("You have not shorted enough shares to make this sale.")
+        else:
+            print(f"Covering {quantity} shares of {ticker} at ${price} would cost ${cost:.2f}.")
         return price, cost
 
     def buy(self, ticker, quantity):
-        prices = PaperTrader.get_price(ticker)
+        prices = self.prices[ticker]
         price = float(prices[-1])
         print('Price', price)
         print('Quantity', quantity)
         cost = price * int(quantity)
-        if cost > self.capital: # Check if the purchase can be made (enough free capital (not invested in stocks)).
-            print("Insufficient funds to make this purchase")
-            raise ValueError("Insufficient funds to make this purchase")
+        if cost > self.capital and cost > self.get_buying_power(): # Check if the purchase can be made (enough free capital (not invested in stocks)).
+            print("Insufficient funds to make this purchase.")
+            raise ValueError("Insufficient funds to make this purchase.")
         else:
             self.portfolio.append({'ticker': ticker, 'quantity': int(quantity), 'price': price, 'datetime': datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'), 'type': 'buy', 'uid': str(uuid.uuid4())})
             self.prices[ticker] = prices
@@ -119,6 +157,47 @@ class PaperTrader:
                         self.prices.drop(ticker, axis=1, inplace=True)
                     break
             print(f"Sold {int(quantity)} shares of {ticker} at ${price}")
+            from data.firebase_controller import updatePortfolio
+            updatePortfolio(self.name, self)
+
+    def short(self, ticker, quantity):
+        prices = PaperTrader.get_price(ticker)
+        price = float(prices[-1])
+        cost = price * int(quantity)
+        if cost > self.capital and cost > self.get_buying_power():
+            print("Insufficient funds to make this purchase.")
+            raise ValueError("Insufficient funds to make this purchase.")
+        else:
+            self.portfolio.append({'ticker': ticker, 'quantity': int(quantity), 'price': price, 'datetime': datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'), 'type': 'short', 'uid': str(uuid.uuid4())})
+            self.prices[ticker] = prices
+            self.capital += cost
+            print(f"Shorted {quantity} shares of {ticker} at ${price}")
+            from data.firebase_controller import updatePortfolio
+            updatePortfolio(self.name, self)
+
+    def cover(self, uuid, quantity):
+        trade = self.get_transaction_by_uuid(uuid)
+        if not trade:
+            print("You cannot cover a stock you have not shorted.")
+            raise ValueError("You cannot cover a stock you have not shorted.")
+        trade = trade[0]
+        ticker = trade['ticker']
+        if int(quantity) > trade['quantity']:
+            print("You have not shorted enough shares to make this sale.")
+            raise ValueError("You have not shorted enough shares to make this sale.")
+        else:
+            price = self.prices[ticker][-1]
+            cost = price * int(quantity)
+            self.capital -= cost
+            for trade in self.portfolio:
+                if trade['uid'] == uuid:
+                    trade['quantity'] -= int(quantity)
+                    if trade['quantity'] == 0:
+                        self.portfolio.remove(trade)
+                        # Remove the ticker from the prices DataFrame
+                        self.prices.drop(ticker, axis=1, inplace=True)
+                    break
+            print(f"Covered {int(quantity)} shares of {ticker} at ${price}")
             from data.firebase_controller import updatePortfolio
             updatePortfolio(self.name, self)
 

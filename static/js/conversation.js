@@ -11,9 +11,9 @@ const urlParams = new URLSearchParams(window.location.search);
 cid = urlParams.get('cid');
 if (cid) {
     // Get the conversation from the backend.
-    getConversations().then((response) => {
+    getConversations().then(async (response) => {
         // Get the conversations from the response.
-        conversations = response.json();
+        conversations = await response.json();
 
         // Iterate over the conversations and find the one with the matching cid.
         let found = false

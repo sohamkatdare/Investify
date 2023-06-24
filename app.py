@@ -441,21 +441,25 @@ def papertrading_sell():
   user = User.get_user_by_email(user_id)
   game = request.args.get('gid')
   sellPreviewPassed = request.args.get('p')
+  uid = request.args.get('uid')
   ticker = request.args.get('t')
   quantity = int(request.args.get('q')) if request.args.get('q') else None # type: ignore
   price = float(request.args.get('pr')) if request.args.get('pr') else None # type: ignore
+  if not uid:
+    flash('You cannot sell stocks that you do not own!', 'error')
+    redirect(url_for('papertrading', gid=game))
   if sellStock.ticker.data and sellStock.quantity.data:
     paperTrader = PaperTraderGame.get_paper_trader(game, user_id)
     try:
-      price, cost = paperTrader.preview_sell(sellStock.ticker.data, sellStock.quantity.data)
+      price, cost = paperTrader.preview_sell(uid, sellStock.quantity.data)
       sellPreviewPassed = True
-      return redirect(url_for('papertrading_sell', gid=game, p=1, t=sellStock.ticker.data, q=sellStock.quantity.data, pr=price))
+      return redirect(url_for('papertrading_sell', gid=game, p=1, uid=uid, t=sellStock.ticker.data, q=sellStock.quantity.data, pr=price))
     except ValueError as e:
       flash(str(e), 'error')
   elif confirm.confirm.data:
     paperTrader = PaperTraderGame.get_paper_trader(game, user_id)
     try:
-      paperTrader.sell(ticker, quantity)
+      paperTrader.sell(uid, quantity)
       flash(f'Sell order for {quantity} shares of {ticker} placed successfully!', 'success')
       return redirect(url_for('papertrading', gid=game))
     except ValueError as e:

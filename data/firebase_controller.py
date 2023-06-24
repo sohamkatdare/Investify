@@ -59,7 +59,7 @@ def create_game(game):
 
     # Make portfolio for each player
     for player in game['players']:
-        new_trader = PaperTrader(game['name'], {}, game['starting_amount'], game['starting_amount'], player)
+        new_trader = PaperTrader(game['name'], [], game['starting_amount'], game['starting_amount'], player)
         db.collection(u'games').document(game['name']).collection(u'portfolios').document(player).set(new_trader.to_dict())
         print(f'Successfully created new portfolio for {player}')
 

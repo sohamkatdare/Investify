@@ -19,7 +19,13 @@
             <th class="font-light">{{ user.id }}</th>
             <th class="font-light">${{ user.capital.__round__(2) }}</th>
             <th class="font-light">${{ user.get_portfolio_value().__round__(2) }}</th>
-            <th class="font-light">{{ user.growth().__round__(3) }}%</th>
+            {% if user.growth() > 0 %}
+              <th class="font-light text-success">{{ user.growth().__round__(3) }}%</th>
+            {% elif user.growth() < 0 %}
+              <th class="font-light text-red-500">{{ user.growth().__round__(3) }}%</th>
+            {% else %}
+              <th class="font-light">{{ user.growth().__round__(3) }}%</th>
+            {% endif %}
           </tr>
         {% endfor %}
       </tbody>
@@ -33,7 +39,7 @@
           <th class="text-xl">Ticker</th>
           <th class="text-xl">Quantity</th>
           <th class="text-xl">Purchase Price</th>
-          <th class="text-xl">Price</th>
+          <th class="text-xl">Current Price</th>
           <th class="text-xl">Change</th>
           <th class="text-xl">% Chg</th>
           <th class="text-xl">Value</th>
@@ -42,29 +48,33 @@
         </tr>
       </thead>
       <tbody>
-          {% for stock, quantity in userDetail.portfolio.items() %}
+          {% for trade in userDetail.portfolio %}
             <tr class="hover mt-5">
-              {% set purchase_price = userDetail.get_price(stock)[0] %}
+              {% set stock = trade['ticker'] %}
+              {% set quantity = trade['quantity'] %}
+              {% set purchase_price = trade['price'] %}
               {% set current_price = userDetail.get_price(stock)[-1] %}
               {% set change = current_price - purchase_price %}
               <th class="font-light">{{ stock.upper() }}</th>
               <th class="font-light">{{ quantity }}</th>
               <th class="font-light">${{ purchase_price.__round__(2) }}</th>
-              <th class="font-light">${{ current_price.__round__(2) }}</th>
               {% if change < 0 %}
-                <th class="font-light text-red-500">${{ change.__round__(2) }}</th>
+                <th class="font-light font-light text-red-500">${{ current_price.__round__(2) }}</th>
+                <th class="font-light text-red-500">-${{ -change.__round__(2) }}</th>
                 <th class="font-light text-red-500">{{ (change / purchase_price).__round__(2) }}%</th>
               {% elif change > 0 %}
+                <th class="font-light font-light text-success">${{ current_price.__round__(2) }}</th>
                 <th class="font-light text-success">${{ change.__round__(2) }}</th>
                 <th class="font-light text-success">{{ (change / purchase_price).__round__(2) }}%</th>
               {% else %}
+                <th class="font-light font-light">${{ current_price.__round__(2) }}</th>
                 <th class="font-light">${{ change.__round__(2) }}</th>
                 <th class="font-light">{{ (change / purchase_price).__round__(2) }}%</th>
               {% endif %}
               <th class="font-light">${{ (current_price * quantity).__round__(2) }}</th>
               <th class="font-light">{{ (current_price * quantity / userDetail.capital * 100).__round__(2) }}%</th>
               <th class="font-light">
-                <a href="{{ userDetail.get_sell_url(stock, quantity) }}" class="text-xl btn btn-primary w-full border-indigo-400 bg-transparent gradient-border hover:border-transparent transition-all">Sell</a>
+                <a href="{{ userDetail.get_sell_url(trade['uid'], stock, quantity) }}" class="text-xl btn btn-primary w-full border-indigo-400 bg-transparent gradient-border hover:border-transparent transition-all">Sell</a>
               </th>
             </tr>
           {% endfor %}

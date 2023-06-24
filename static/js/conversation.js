@@ -3,6 +3,38 @@ messages = [{"role": "system", "content": "Hello. I am your personal financial i
 request_messages = [];
 systemFinished = true;
 
+// Unique ID for the conversation.
+conversation_id = Math.random().toString(16).slice(2);
+
+// If query string is not empty, then the user is loading a saved conversation.
+const urlParams = new URLSearchParams(window.location.search);
+cid = urlParams.get('cid');
+if (cid) {
+    // Get the conversation from the backend.
+    getConversations().then((conversations) => {
+        // Iterate over the conversations and find the one with the matching cid.
+        for (var i = 0; i < conversations.length; i++) {
+            if (conversations[i]["cid"] === cid) {
+                // Set the messages and request_messages variables to the conversation's messages.
+                messages = conversations[i]["messages"];
+                request_messages = conversations[i]["request_messages"];
+                conversation_id = cid;
+
+                // Update the save button.
+                saveState = true;
+                document.getElementById("save-button").classList.toggle("bg-rose-900");
+                document.getElementById("save-button").classList.toggle("hover:bg-rose-700");
+
+                // Update the chat UI.
+                updateChat();
+                break;
+            }
+        }
+    });
+}
+
+console.log("Conversation ID: " + conversation_id);
+
 function submit(event) {
     event.preventDefault();
     if (!systemFinished) {
@@ -103,7 +135,27 @@ function updateChat() {
         conversation.appendChild(div);
     }
     conversation.scrollTop = conversation.scrollHeight - conversation.clientHeight;
+
+    if (messages.length > 1) {
+        document.getElementById("save-button").classList.remove("hidden");
+    }
 }
 
+let saveState = false;
+async function toggleSave(e) {
+    // Toggle the favorite button state in the backend asychronously
+    saveState = !saveState;
+    if (saveState) {
+        addConversation(conversation_id, messages, request_messages);
+    } else {
+        removeConversation(conversation_id, messages, request_messages);
+    }
+    document.getElementById("save-button").classList.toggle("bg-rose-900");
+    document.getElementById("save-button").classList.toggle("hover:bg-rose-700");
+}
+
+
 document.getElementById("form").onsubmit = submit;
+document.getElementById("save-button").addEventListener("click", toggleSave)
+
 updateChat();

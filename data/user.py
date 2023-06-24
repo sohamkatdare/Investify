@@ -70,7 +70,7 @@ class User:
         """
         user, user_data = get_user(email, password)
         print(user_data)
-        return User(user['idToken'], email, user_data=user, favorite_stocks=user_data['favorite_stocks'], games=user_data['games'])
+        return User(user['idToken'], email, user_data=user, conversations=user_data['conversations'], favorite_stocks=user_data['favorite_stocks'], games=user_data['games'])
     
     @staticmethod
     def reset_password(email):
@@ -91,7 +91,7 @@ class User:
         :return: User object
         """
         user_data = db.collection(u'users').document(email).get().to_dict()
-        return User(user_data['user_id'], email, user_data=user_data, favorite_stocks=user_data['favorite_stocks'], games=user_data['games'])
+        return User(user_data['user_id'], email, user_data=user_data, conversations=user_data['conversations'], favorite_stocks=user_data['favorite_stocks'], games=user_data['games'])
     
     def save(self):
         """
@@ -110,7 +110,7 @@ class User:
         return {
             'user_id': self.user_id,
             'email': self.email,
-            'conversation': self.conversations,
+            'conversations': self.conversations,
             'favorite_stocks': self.favorite_stocks,
             'games': self.games
         }

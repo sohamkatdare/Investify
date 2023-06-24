@@ -206,7 +206,6 @@ def resetPassword():
 def searchTicker():
   try:
     ticker = request.args.get('ticker')
-    print('Ticker', ticker)
     data = getStockData(ticker)
     ohlc = data[2]
     ohlc.drop("vwap", axis=1)
@@ -258,46 +257,20 @@ def searchInsiderTrading():
   try:
     ticker = request.args.get('ticker')
     insider_trading = scrape_insider_data(ticker)
-    print(insider_trading)
+    print('Insider Trading', insider_trading)
     return Response(response=json.dumps(insider_trading), status=200, mimetype='application/json')
   except Exception as e:
     print(e)
     return Response(response='Service Unavailable', status=503, mimetype='text/plain')
 
-@app.route('/search', methods=['GET', 'POST'])
+@app.route('/search', methods=['GET'])
 @jwt_required(optional=True)
 def search():
-  searchForm = TickerForm()
-  data = None
-  ticker = None
-  finance_analysis = {}
-  news = None
-  tweets = None
-  insider_data = None
-  sentimentData = []
-  averageSentiment = None
   current_identity = get_jwt_identity()
+  searchForm = TickerForm()
   if request.args.get('error'):
     flash(f'No data could be found on the ticker {request.args.get("error")}.', 'error')
-
-  if searchForm.ticker.data:
-    try:
-      ticker = searchForm.ticker.data.upper()
-      prevAggs = getStockData(ticker)
-      # print(prevAggs)
-      data = [prevAggs]
-      pe_ratio, eps = get_pe_and_eps(ticker)
-      finance_analysis = {'PE Ratio (TTM)': pe_ratio, 'EPS (TTM)': eps, 'Composite Indicator': get_composite_score(ticker)}
-      news = get_news(ticker)
-      # tweets, sentimentData, averageSentiment  = getSocialStats(ticker)
-      # averageSentiment = round(averageSentiment, 2)
-      insider_data = scrape_insider_data(ticker)
-      print(insider_data)
-      return render_template('search.html', is_search=True, data=data, searchForm=searchForm, ticker=ticker, finance_analysis=finance_analysis, news=news, tweets=tweets, sentimentData=sentimentData, averageSentiment=averageSentiment, current_identity=current_identity if current_identity else '', insider_data=insider_data)
-    except Exception as e:
-      print(e)
-      flash(f'Ticker "{searchForm.ticker.data.upper()}" not found.', 'error')
-  return render_template('search.html', is_search=True, data=data, searchForm=searchForm, ticker=ticker, finance_analysis=finance_analysis, news=news, tweets=tweets, sentimentData=sentimentData, averageSentiment=averageSentiment, current_identity=current_identity if current_identity else '', insider_data=insider_data)
+  return render_template('search.html', searchForm=searchForm, current_identity=current_identity if current_identity else '')
 
 @app.route('/education')
 @jwt_required(optional=True)
@@ -328,7 +301,6 @@ def simplify():
   if request.method == 'GET':
     return render_template('simplify.html', data=None, searchForm=searchForm, current_identity=current_identity if current_identity else '', is_search=False)
   else:
-    print(request.json)
     topic = request.json['topic'] if 'topic' in request.json else None # type: ignore
     messages = request.json['messages'] if 'messages' in request.json else None # type: ignore
     service_unavailable = Response(response='Service Unavailable', status=503, mimetype='text/plain')
@@ -391,8 +363,26 @@ def favorite_stocks():
         user.remove_favorite_stock(request.headers['ticker'])
         return Response(response='OK', status=200)
     else:
-      print('f_stocks', json.dumps(user.favorite_stocks))
       return Response(response=json.dumps(user.favorite_stocks), status=200)
+  except Exception as e:
+    print(e)
+    return Response(response='Service Unavailable', status=503, mimetype='text/plain')
+  
+@app.route('/conversations', methods=['GET', 'POST'])
+@jwt_required()
+def conversations():
+  try:
+    user_id = get_jwt_identity()
+    user = User.get_user_by_email(user_id)
+    if request.method == 'POST':
+      if request.headers['action'].lower() == 'add':
+        user.add_conversation(request.get_json())
+        return Response(response='OK', status=200)
+      else:
+        user.remove_conversation(request.get_json())
+        return Response(response='OK', status=200)
+    else:
+      return Response(response=json.dumps(user.conversations), status=200)
   except Exception as e:
     print(e)
     return Response(response='Service Unavailable', status=503, mimetype='text/plain')

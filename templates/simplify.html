@@ -17,7 +17,7 @@
 </div>
 
 {% if current_identity != '' %}
-  <div class="fixed top-28 left-8  btn bg-rose-900 hover:bg-rose-700 p-3 rounded-full" id="save-button">
+  <div class="fixed top-28 left-8 btn p-3 rounded-full hidden" id="save-button">
     Save  
     <svg class="fill-white ml-2 w-5 transition-all aspect-square" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
       viewBox="0 0 486 486" xml:space="preserve">
@@ -45,7 +45,11 @@
   <div class="h-auto w-full text-lg text-white py-10 px-[10vw] bg-slate-100/25">
   </div>
 </div>
-<script src="{{ url_for('static', filename='js/conversation.js') }}"></script>
 {% endblock body %}
-  
+
+{% block script %}
+<script src="{{ url_for('static', filename='js/conversation_data.js') }}"></script>
+<script src="{{ url_for('static', filename='js/conversation.js') }}"></script>
+{% endblock script %}
+
 {% block footerClass %}fixed-bottom{% endblock footerClass %}

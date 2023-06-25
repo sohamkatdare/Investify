@@ -20,6 +20,20 @@ def get_composite_score(ticker_name):
     stock_potential = stock_potential_general(income_statement_dict, balance_sheet_dict)
 
     return stock_potential
+
+# The numbers we need to retrieve from the API
+# From Income statement orbalance sheet(get from polygon i think because yahoo finance is slow)
+### current quarter's earnings
+### previous quarter's earnings
+### current quarter's revenue
+### previous quarter's revenue
+# Earning Yield = EPS / Price
+# Dividend Yield = Dividend / Price
+# Price Momentum = RSI from alpha vantage
+# Volume Trend = OBV from alpha vantage
+# Sentiment Score = from news/tweets API
+# Price Action = MACD from alpha vantage
+# Volatility we calculate from our prices. standard deviation multiplied by the square root of the number of periods of time, 
     
 def calculate_growth_potential(current_earnings, previous_earnings, current_revenue, previous_revenue):
     earnings_growth = (current_earnings - previous_earnings) / previous_earnings

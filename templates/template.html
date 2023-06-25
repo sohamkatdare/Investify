@@ -47,7 +47,8 @@
             </svg>
           </a>
           <ul class="p-2 bg-[#1b1726]/[0.35] backdrop-blur-sm text-white">
-            <li><a class="rounded-br-none rounded-bl-none" href="/education/statistics">Statistics</a></li>
+            <li class="rounded-b-none"><a class="" href="/education/statistics">Statistics</a></li>
+            <li class="rounded-t-none"><a class="" href="/education/tax_calculator">Tax Calculator</a></li>
           </ul>
         </li>
         <li><a id="simplify" href="/simplify">Simplify</a></li>
@@ -85,6 +86,7 @@
           <li class="py-7 border-y-2 my-[-2px] border-[#e5e7eb]/[0.1] peer-hover:border-transparent hover:border-pink-500 transition-all duration-700 parent"><a class="md:text-5xl text-4xl transition-all duration-700">Education</a>
             <ul class="p-2">
               <li class="my-3"><a class="md:text-5xl text-4xl transition-all duration-700" href="/education/statistics">Technical Indicators</a></li>
+              <li class="my-3"><a class="md:text-5xl text-4xl transition-all duration-700" href="/education/tax_calculator">Tax Calculator</a></li>
             </ul>
           </li>
           <li class="py-7 border-y-2 my-[-2px] border-[#e5e7eb]/[0.1] peer-hover:border-transparent hover:border-pink-500 transition-all duration-700"><a class="md:text-5xl text-4xl transition-all duration-700" href="/simplify">Simplify</a></li>
@@ -264,6 +266,33 @@
   <script type="text/javascript" src="{{ url_for('static',filename='src/js/main.js') }}"></script>
   <script type="text/javascript" src="{{ url_for('static',filename='js/search_submit.js') }}"></script>
   <script>
+    // Get the alert element
+    const alertElement = document.getElementById('myAlert');
+
+    // Function to remove the alert after a delay
+    const removeAlert = () => {
+      // Add the transition classes
+      alertElement.classList.add('transition-all', 'duration-500');
+      
+      // Translate the alert upwards
+      alertElement.classList.add('-translate-y-48');
+      
+      // Fade out the alert
+      alertElement.style.opacity = '0';
+      
+      // Wait for the animation to complete
+      setTimeout(() => {
+        // Hide the alert by adding the hidden class
+        alertElement.classList.add('hidden');
+      }, 500);
+    };
+
+    // Delay in milliseconds before removing the alert
+    const delay = 3000;
+
+    // Remove the alert after the specified delay
+    setTimeout(removeAlert, delay);
+
     function copyToClipboard(copyText) {
       rawString = String.raw`${copyText}`;
       navigator.clipboard.writeText(rawString);

@@ -2,9 +2,9 @@
 {% block title %}Home{% endblock title %}
 {% block pageTitle %}Investify{% endblock pageTitle %}
 {% block wholebody %}
-<div class="grid items-center w-[94%] p-[3%] grid-cols-2 container-fluid mx-10 text-black rounded-pill h-[100vh]">
-    <div class="search-container col-span-1 translate-y-[-4rem]">
-      <h1 class="text-6xl font-bold text-white leading-tight">Stay in the know <br> Watch your<br/> <span class="gradient-text">money grow.</span> </strong></h1> <br> <br>
+<div class="grid items-center w-[94%] p-[3%] grid-cols-8 container-fluid mx-10 text-black rounded-pill h-[100vh] transition-all ">
+    <div class="search-container max-md:self-center max-md:justify-self-center col-span-8 md:col-span-3 xl:col-span-4 w-max translate-y-[-4rem]">
+      <h1 class="text-6xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white leading-tight transition-all">Stay in the know <br> Watch your<br/> <span class="gradient-text">money grow.</span> </strong></h1> <br> <br>
       <form class="form-control" role="search" method="POST" action="search" autocomplete="off" autocapitalize="characters">
         <div class="input-group">
           {% if searchForm.ticker.errors %}
@@ -20,7 +20,7 @@
           </button>
         </div>
       </form>
-      <div class="flex flex-row gap-x-4 translate-x-4 mt-5">
+      <div class="flex flex-row gap-x-4 mt-5">
         {{
           macros.stock_chip(ticker='AAPL',
           )
@@ -32,7 +32,7 @@
         
       </div>
     </div>
-    <div class="h-full col-span-1">
+    <div class="h-full max-md:hidden md:col-span-5 xl:col-span-4">
       <div class="relative bg-primary w-full grid justify-center mt-[4rem]">
         <img loading="lazy" class="absolute w-full top-0 z-[2]" src="{{url_for('static', filename='assets/images/header-image.svg')}}" alt="Header Image"/>
           </div>
@@ -40,14 +40,14 @@
       </div>
     </div>    
   </div>
-  <div class="grid items-top w-screen px-16 bg-slate-100/[0.02] grid-cols-2 container-fluid text-black  min-h-[80vh] max-h-max">
-    <div class="about_content pt-11 pr-24 mt-[9rem] lg:pt-15 lg:pb-15 col-span-1 h-min max-h-max translate-y-[-8rem] order-0 text-white">
-        <h5 class="gradient-text-alt text-5xl font-semibold mb-4 pb-9">Why Use Investify</h5>
+  <div class="grid items-top w-screen px-16 bg-slate-100/[0.02] grid-cols-8 container-fluid text-black  min-h-[80vh] max-h-max">
+    <div class="about_content pt-11 pr-24 mt-[9rem] lg:pt-15 lg:pb-15 max-md:self-center max-md:justify-self-center col-span-8 md:col-span-3 xl:col-span-4 w-full h-min max-h-max translate-y-[-8rem] order-0 text-white">
+        <h5 class="gradient-text-alt text-5xl md:text-3xl lg:text-4xl xl:text-5xl font-semibold mb-4 pb-9">Why Use Investify</h5>
         <p>
           Investify is a comprehensive financial tool designed to empower you with the knowledge and tools to make informed investment decisions. <p class="sm:inline hidden">Our software is packed with features that provide you with valuable insights and education to navigate the complex world of investing. You can easily research stocks and access crucial investment data <p class="md:inline hidden">such as candle graphs, open, close, low, high, and volume information </p>Our algorithmic stock rating score provides users with a quantitative assessment of a stock's potential, while relevant tweet and news articles, sentiment analysis, and insider trading data offer valuable market intelligence. <p class="md:inline hidden"> Our education section consists of over 20 articles on stock indicators to help users deepen their understanding of investment concepts. Users can also query using the GPT-3.5 model for information on any topic not covered in our articles. </p>Additionally, our paper trading functionality enables users to create an account and engage in simulated trading games with friends or other users worldwide, providing a fun and educational way to practice investing strategies without risking real money.
         </p>
     </div> 
-    <div class="h-full col-span-1 pr-20 flex justify-center items-center mx-auto">
+    <div class="h-full pr-20 flex justify-center items-center mx-auto max-md:hidden md:col-span-5 xl:col-span-4">
       <img loading="lazy" class="w-full z-[2] order-1" src="{{url_for('static', filename='assets/images/about.svg')}}" alt="about"/>
     </div>
     
@@ -307,8 +307,8 @@
           </div>
     </div>
 
-      <div class="grid items-center w-screen px-16 grid-cols-2 container-fluid bg-slate-100/[0.02]  text-black rounded-lg h-[100vh]">
-        <div class="h-full col-span-1 content-center items-center order-1">
+      <div class="grid items-center w-screen px-16 grid-cols-8 container-fluid bg-slate-100/[0.02]  text-black rounded-lg h-[100vh]">
+        <div class="h-full max-md:hidden md:col-span-5 xl:col-span-4 content-center items-center order-1">
           <div class="relative flex bg-primary w-full items-center">
             <div class="absolute inset-y-0 left-0   flex items-center justify-center w-full">
                 <img loading="lazy" class="w-full translate-y-[50%] z-2 rounded-lg" src="{{url_for('static', filename='assets/images/work-2.jpg')}}" alt="Header Image" />
@@ -316,8 +316,8 @@
         </div>
         
         </div>
-        <div class="col-span-1 text-center order-0 -translate-y-20 mr-10">
-            <h1 class="text-5xl font-bold text-white leading-tight mx-10">Upgrade your  <br> financial literacy <span class="gradient-text">NOW.</span> </strong></h1> <br>
+        <div class="max-md:self-center max-md:justify-self-center col-span-8 md:col-span-3 xl:col-span-4 w-full text-center order-0 -translate-y-20 mr-10">
+            <h1 class="text-5xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-white leading-tight mx-10">Upgrade your  <br> financial literacy <span class="gradient-text">NOW.</span> </strong></h1> <br>
             <a class="btn btn-round-lg text-white gradient-bg" href="education/statistics">
               Get Started
             </a>

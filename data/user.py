@@ -23,6 +23,13 @@ class User:
         self.conversations.append(conversation)
         self.save()
 
+    def update_conversation(self, conversation):
+        for i in range(len(self.conversations)):
+            if self.conversations[i]['cid'] == conversation['cid']:
+                self.conversations[i] = conversation
+                self.save()
+                break
+
     def get_conversations(self):
         return self.conversations
     

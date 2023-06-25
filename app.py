@@ -378,6 +378,9 @@ def conversations():
       if request.headers['action'].lower() == 'add':
         user.add_conversation(request.get_json())
         return Response(response='OK', status=200)
+      elif request.headers['action'].lower() == 'update':
+        user.update_conversation(request.get_json())
+        return Response(response='OK', status=200)
       else:
         user.remove_conversation(request.get_json())
         return Response(response='OK', status=200)

@@ -3,7 +3,7 @@ def calculate_capital_gains_tax(selling_price, cost_basis, holding_period, taxab
     Args:
         selling_price (float): The price at which the asset was sold.
         cost_basis (float): The price at which the asset was purchased.
-        holding_period (int): The number of years the asset was held.
+        holding_period (float): The number of years the asset was held.
         taxable_income (float): The investor's taxable income.
     Returns:
         tax_owed (float): The amount of tax owed on the capital gains.

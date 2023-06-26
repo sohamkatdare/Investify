@@ -3195,8 +3195,8 @@ html {
   width: 0.75rem;
 }
 
-.w-\[9\%\] {
-  width: 9%;
+.w-\[8\%\] {
+  width: 8%;
 }
 
 .w-5 {
@@ -3857,6 +3857,11 @@ html {
   padding-right: 1.5rem;
 }
 
+.px-12 {
+  padding-left: 3rem;
+  padding-right: 3rem;
+}
+
 .px-2 {
   padding-left: 0.5rem;
   padding-right: 0.5rem;
@@ -3934,10 +3939,6 @@ html {
 
 .pt-24 {
   padding-top: 6rem;
-}
-
-.pl-12 {
-  padding-left: 3rem;
 }
 
 .pb-12 {
@@ -4470,6 +4471,11 @@ section.grid>* {
     left: 60px;
     transition: 0.4s ease-out;
   }
+}
+
+.bar {
+  width: calc(100% + 1.5rem);
+  transform: translate(-1.5rem, 0);
 }
 
 .last\:mb-0:last-child {

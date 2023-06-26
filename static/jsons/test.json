@@ -1,10 +1,195 @@
 [
-  {"uuid": "679fe9b6-6e32-3d6e-85e0-8ed9e78644fe", "title": "Apple, Google, Microsoft CEOs Attend Modi Dinner at White House", "publisher": "Bloomberg", "link": "https://finance.yahoo.com/news/apple-google-microsoft-ceos-attend-222608003.html", "providerPublishTime": 1687472768, "type": "STORY", "thumbnail": {"resolutions": [{"url": "https://s.yimg.com/uu/api/res/1.2/Pb.wgUes0_VyJWkV1Izyrw--~B/aD0xMzMzO3c9MjAwMDthcHBpZD15dGFjaHlvbg--/https://media.zenfs.com/en/bloomberg_technology_68/a2efd83e3051f74c1a2deaca25a4d13b", "width": 2000, "height": 1333, "tag": "original"}, {"url": "https://s.yimg.com/uu/api/res/1.2/3n1.RX.tpTgkO.aCIHKTPQ--~B/Zmk9ZmlsbDtoPTE0MDtweW9mZj0wO3c9MTQwO2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/bloomberg_technology_68/a2efd83e3051f74c1a2deaca25a4d13b", "width": 140, "height": 140, "tag": "140x140"}]}, "relatedTickers": ["AAPL", "MSFT"]}, 
-  {"uuid": "d13dfdfe-dc57-3756-9ac1-bcb4fb0bc950", "title": "Dow Jones Today: Index Flat as Investors Mull Global Rate Decisions", "publisher": "Investopedia", "link": "https://finance.yahoo.com/m/d13dfdfe-dc57-3756-9ac1-bcb4fb0bc950/dow-jones-today%3A-index-flat.html", "providerPublishTime": 1687466736, "type": "STORY", "thumbnail": {"resolutions": [{"url": "https://s.yimg.com/uu/api/res/1.2/28litqQ6DPxNeKwm3_koGA--~B/aD0zNjEwO3c9NTQxNDthcHBpZD15dGFjaHlvbg--/https://media.zenfs.com/en/investopedia.com/f6214fa5c7e41648f0a8b0644a9bfa8e", "width": 5414, "height": 3610, "tag": "original"}, {"url": "https://s.yimg.com/uu/api/res/1.2/liJoW4TjW6HL4hzh_csV3g--~B/Zmk9ZmlsbDtoPTE0MDtweW9mZj0wO3c9MTQwO2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/investopedia.com/f6214fa5c7e41648f0a8b0644a9bfa8e", "width": 140, "height": 140, "tag": "140x140"}]}, "relatedTickers": ["^DJI", "WBA", "BA", "MSFT"]}, 
-  {"uuid": "67d13255-83fc-3303-af7a-d99d5542a48d", "title": "Amazon Is Spending $100 Million to Teach Cloud Customers About AI", "publisher": "Bloomberg", "link": "https://finance.yahoo.com/news/amazon-spending-100-million-teach-170937486.html", "providerPublishTime": 1687466644, "type": "STORY", "thumbnail": {"resolutions": [{"url": "https://s.yimg.com/uu/api/res/1.2/opdzkYLuNtLuJZdJh3caVQ--~B/aD0xMzM0O3c9MjAwMDthcHBpZD15dGFjaHlvbg--/https://media.zenfs.com/en/bloomberg_technology_68/83877a56f96eb12adda9d462a5b6de91", "width": 2000, "height": 1334, "tag": "original"}, {"url": "https://s.yimg.com/uu/api/res/1.2/5o4kIuvIw.NjkC3EzVoupA--~B/Zmk9ZmlsbDtoPTE0MDtweW9mZj0wO3c9MTQwO2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/bloomberg_technology_68/83877a56f96eb12adda9d462a5b6de91", "width": 140, "height": 140, "tag": "140x140"}]}, "relatedTickers": ["AMZN", "GOOGL", "MSFT"]}, 
-  {"uuid": "796a2407-3106-3893-b6fa-e679a1056514", "title": "Congress Weighs How to Regulate AI Without Hindering Competition", "publisher": "Bloomberg", "link": "https://finance.yahoo.com/news/congress-weighs-regulate-ai-without-204021973.html", "providerPublishTime": 1687466421, "type": "STORY", "thumbnail": {"resolutions": [{"url": "https://s.yimg.com/uu/api/res/1.2/9wB8i2OKxFnl5To7phlmqA--~B/aD00MDAwO3c9NjAwMDthcHBpZD15dGFjaHlvbg--/https://media.zenfs.com/en/bloomberg_technology_68/37ea3091578b6c344069a936125c420a", "width": 6000, "height": 4000, "tag": "original"}, {"url": "https://s.yimg.com/uu/api/res/1.2/aPvx8h4K6HqKPR.ebS7FsA--~B/Zmk9ZmlsbDtoPTE0MDtweW9mZj0wO3c9MTQwO2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/bloomberg_technology_68/37ea3091578b6c344069a936125c420a", "width": 140, "height": 140, "tag": "140x140"}]}, "relatedTickers": ["MSFT"]}, 
-  {"uuid": "1c8510d4-6519-34e2-84d7-d9bab52c2ab4", "title": "Microsoft-Activision Hearing Begins as FTC Tries to Stop $75 Billion Deal", "publisher": "The Wall Street Journal", "link": "https://finance.yahoo.com/m/1c8510d4-6519-34e2-84d7-d9bab52c2ab4/microsoft-activision-hearing.html", "providerPublishTime": 1687465860, "type": "STORY", "thumbnail": {"resolutions": [{"url": "https://s.yimg.com/uu/api/res/1.2/kAk2kWt7yT7nxlsXWz.uqQ--~B/aD02NDA7dz0xMjgwO2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/wsj.com/8191fc4fe63439b0a776208fd433eacd", "width": 1280, "height": 640, "tag": "original"}, {"url": "https://s.yimg.com/uu/api/res/1.2/sE_OgdM5t5JKgStRyRm.VA--~B/Zmk9ZmlsbDtoPTE0MDtweW9mZj0wO3c9MTQwO2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/wsj.com/8191fc4fe63439b0a776208fd433eacd", "width": 140, "height": 140, "tag": "140x140"}]}, "relatedTickers": ["ATVI", "MSFT"]}, 
-  {"uuid": "247ab8ac-980f-3cde-9fbe-d7bc0ed639e9", "title": "Microsoft paints Sony as ‘complainer-in-chief’ against $75bn Activision deal", "publisher": "Financial Times", "link": "https://finance.yahoo.com/m/247ab8ac-980f-3cde-9fbe-d7bc0ed639e9/microsoft-paints-sony-as.html", "providerPublishTime": 1687463921, "type": "STORY", "relatedTickers": ["MSFT", "ATVI"]}, 
-  {"uuid": "99e20053-b39a-3e38-8e64-be641bf26a6f", "title": "OpenAI CEO Sam Altman Says AI Is ‘Most Important Step Yet’ For Humans and Tech", "publisher": "Bloomberg", "link": "https://finance.yahoo.com/news/openai-ceo-sam-altman-says-175853757.html", "providerPublishTime": 1687456733, "type": "STORY", "thumbnail": {"resolutions": [{"url": "https://s.yimg.com/uu/api/res/1.2/y9ou0JF_sf3lNVjUbQwuHA--~B/aD0xMzMxO3c9MjAwMDthcHBpZD15dGFjaHlvbg--/https://media.zenfs.com/en/bloomberg_technology_68/232e9515a8abee256c5b3f24a4e122e2", "width": 2000, "height": 1331, "tag": "original"}, {"url": "https://s.yimg.com/uu/api/res/1.2/Ee3iqv2j_PFiali3Q_IQmw--~B/Zmk9ZmlsbDtoPTE0MDtweW9mZj0wO3c9MTQwO2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/bloomberg_technology_68/232e9515a8abee256c5b3f24a4e122e2", "width": 140, "height": 140, "tag": "140x140"}]}, "relatedTickers": ["MSFT"]}, 
-  {"uuid": "a670cca9-a3fb-30e9-97a0-d8d2050b0cef", "title": "UPDATE 2-US FTC argues Microsoft's deal to buy Activision should be paused", "publisher": "Reuters", "link": "https://finance.yahoo.com/news/1-ftc-argues-microsofts-deal-160903254.html", "providerPublishTime": 1687450143, "type": "STORY", "relatedTickers": ["MSFT", "ATVI"]}
+  {
+    "uuid": "679fe9b6-6e32-3d6e-85e0-8ed9e78644fe",
+    "title": "Apple, Google, Microsoft CEOs Attend Modi Dinner at White House",
+    "publisher": "Bloomberg",
+    "link": "https://finance.yahoo.com/news/apple-google-microsoft-ceos-attend-222608003.html",
+    "providerPublishTime": 1687472768,
+    "type": "STORY",
+    "thumbnail": {
+      "resolutions": [
+        {
+          "url": "https://s.yimg.com/uu/api/res/1.2/Pb.wgUes0_VyJWkV1Izyrw--~B/aD0xMzMzO3c9MjAwMDthcHBpZD15dGFjaHlvbg--/https://media.zenfs.com/en/bloomberg_technology_68/a2efd83e3051f74c1a2deaca25a4d13b",
+          "width": 2000,
+          "height": 1333,
+          "tag": "original"
+        },
+        {
+          "url": "https://s.yimg.com/uu/api/res/1.2/3n1.RX.tpTgkO.aCIHKTPQ--~B/Zmk9ZmlsbDtoPTE0MDtweW9mZj0wO3c9MTQwO2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/bloomberg_technology_68/a2efd83e3051f74c1a2deaca25a4d13b",
+          "width": 140,
+          "height": 140,
+          "tag": "140x140"
+        }
+      ]
+    },
+    "relatedTickers": [
+      "AAPL",
+      "MSFT"
+    ]
+  },
+  {
+    "uuid": "d13dfdfe-dc57-3756-9ac1-bcb4fb0bc950",
+    "title": "Dow Jones Today: Index Flat as Investors Mull Global Rate Decisions",
+    "publisher": "Investopedia",
+    "link": "https://finance.yahoo.com/m/d13dfdfe-dc57-3756-9ac1-bcb4fb0bc950/dow-jones-today%3A-index-flat.html",
+    "providerPublishTime": 1687466736,
+    "type": "STORY",
+    "thumbnail": {
+      "resolutions": [
+        {
+          "url": "https://s.yimg.com/uu/api/res/1.2/28litqQ6DPxNeKwm3_koGA--~B/aD0zNjEwO3c9NTQxNDthcHBpZD15dGFjaHlvbg--/https://media.zenfs.com/en/investopedia.com/f6214fa5c7e41648f0a8b0644a9bfa8e",
+          "width": 5414,
+          "height": 3610,
+          "tag": "original"
+        },
+        {
+          "url": "https://s.yimg.com/uu/api/res/1.2/liJoW4TjW6HL4hzh_csV3g--~B/Zmk9ZmlsbDtoPTE0MDtweW9mZj0wO3c9MTQwO2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/investopedia.com/f6214fa5c7e41648f0a8b0644a9bfa8e",
+          "width": 140,
+          "height": 140,
+          "tag": "140x140"
+        }
+      ]
+    },
+    "relatedTickers": [
+      "^DJI",
+      "WBA",
+      "BA",
+      "MSFT"
+    ]
+  },
+  {
+    "uuid": "67d13255-83fc-3303-af7a-d99d5542a48d",
+    "title": "Amazon Is Spending $100 Million to Teach Cloud Customers About AI",
+    "publisher": "Bloomberg",
+    "link": "https://finance.yahoo.com/news/amazon-spending-100-million-teach-170937486.html",
+    "providerPublishTime": 1687466644,
+    "type": "STORY",
+    "thumbnail": {
+      "resolutions": [
+        {
+          "url": "https://s.yimg.com/uu/api/res/1.2/opdzkYLuNtLuJZdJh3caVQ--~B/aD0xMzM0O3c9MjAwMDthcHBpZD15dGFjaHlvbg--/https://media.zenfs.com/en/bloomberg_technology_68/83877a56f96eb12adda9d462a5b6de91",
+          "width": 2000,
+          "height": 1334,
+          "tag": "original"
+        },
+        {
+          "url": "https://s.yimg.com/uu/api/res/1.2/5o4kIuvIw.NjkC3EzVoupA--~B/Zmk9ZmlsbDtoPTE0MDtweW9mZj0wO3c9MTQwO2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/bloomberg_technology_68/83877a56f96eb12adda9d462a5b6de91",
+          "width": 140,
+          "height": 140,
+          "tag": "140x140"
+        }
+      ]
+    },
+    "relatedTickers": [
+      "AMZN",
+      "GOOGL",
+      "MSFT"
+    ]
+  },
+  {
+    "uuid": "796a2407-3106-3893-b6fa-e679a1056514",
+    "title": "Congress Weighs How to Regulate AI Without Hindering Competition",
+    "publisher": "Bloomberg",
+    "link": "https://finance.yahoo.com/news/congress-weighs-regulate-ai-without-204021973.html",
+    "providerPublishTime": 1687466421,
+    "type": "STORY",
+    "thumbnail": {
+      "resolutions": [
+        {
+          "url": "https://s.yimg.com/uu/api/res/1.2/9wB8i2OKxFnl5To7phlmqA--~B/aD00MDAwO3c9NjAwMDthcHBpZD15dGFjaHlvbg--/https://media.zenfs.com/en/bloomberg_technology_68/37ea3091578b6c344069a936125c420a",
+          "width": 6000,
+          "height": 4000,
+          "tag": "original"
+        },
+        {
+          "url": "https://s.yimg.com/uu/api/res/1.2/aPvx8h4K6HqKPR.ebS7FsA--~B/Zmk9ZmlsbDtoPTE0MDtweW9mZj0wO3c9MTQwO2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/bloomberg_technology_68/37ea3091578b6c344069a936125c420a",
+          "width": 140,
+          "height": 140,
+          "tag": "140x140"
+        }
+      ]
+    },
+    "relatedTickers": [
+      "MSFT"
+    ]
+  },
+  {
+    "uuid": "1c8510d4-6519-34e2-84d7-d9bab52c2ab4",
+    "title": "Microsoft-Activision Hearing Begins as FTC Tries to Stop $75 Billion Deal",
+    "publisher": "The Wall Street Journal",
+    "link": "https://finance.yahoo.com/m/1c8510d4-6519-34e2-84d7-d9bab52c2ab4/microsoft-activision-hearing.html",
+    "providerPublishTime": 1687465860,
+    "type": "STORY",
+    "thumbnail": {
+      "resolutions": [
+        {
+          "url": "https://s.yimg.com/uu/api/res/1.2/kAk2kWt7yT7nxlsXWz.uqQ--~B/aD02NDA7dz0xMjgwO2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/wsj.com/8191fc4fe63439b0a776208fd433eacd",
+          "width": 1280,
+          "height": 640,
+          "tag": "original"
+        },
+        {
+          "url": "https://s.yimg.com/uu/api/res/1.2/sE_OgdM5t5JKgStRyRm.VA--~B/Zmk9ZmlsbDtoPTE0MDtweW9mZj0wO3c9MTQwO2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/wsj.com/8191fc4fe63439b0a776208fd433eacd",
+          "width": 140,
+          "height": 140,
+          "tag": "140x140"
+        }
+      ]
+    },
+    "relatedTickers": [
+      "ATVI",
+      "MSFT"
+    ]
+  },
+  {
+    "uuid": "247ab8ac-980f-3cde-9fbe-d7bc0ed639e9",
+    "title": "Microsoft paints Sony as ‘complainer-in-chief’ against $75bn Activision deal",
+    "publisher": "Financial Times",
+    "link": "https://finance.yahoo.com/m/247ab8ac-980f-3cde-9fbe-d7bc0ed639e9/microsoft-paints-sony-as.html",
+    "providerPublishTime": 1687463921,
+    "type": "STORY",
+    "relatedTickers": [
+      "MSFT",
+      "ATVI"
+    ]
+  },
+  {
+    "uuid": "99e20053-b39a-3e38-8e64-be641bf26a6f",
+    "title": "OpenAI CEO Sam Altman Says AI Is ‘Most Important Step Yet’ For Humans and Tech",
+    "publisher": "Bloomberg",
+    "link": "https://finance.yahoo.com/news/openai-ceo-sam-altman-says-175853757.html",
+    "providerPublishTime": 1687456733,
+    "type": "STORY",
+    "thumbnail": {
+      "resolutions": [
+        {
+          "url": "https://s.yimg.com/uu/api/res/1.2/y9ou0JF_sf3lNVjUbQwuHA--~B/aD0xMzMxO3c9MjAwMDthcHBpZD15dGFjaHlvbg--/https://media.zenfs.com/en/bloomberg_technology_68/232e9515a8abee256c5b3f24a4e122e2",
+          "width": 2000,
+          "height": 1331,
+          "tag": "original"
+        },
+        {
+          "url": "https://s.yimg.com/uu/api/res/1.2/Ee3iqv2j_PFiali3Q_IQmw--~B/Zmk9ZmlsbDtoPTE0MDtweW9mZj0wO3c9MTQwO2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/bloomberg_technology_68/232e9515a8abee256c5b3f24a4e122e2",
+          "width": 140,
+          "height": 140,
+          "tag": "140x140"
+        }
+      ]
+    },
+    "relatedTickers": [
+      "MSFT"
+    ]
+  },
+  {
+    "uuid": "a670cca9-a3fb-30e9-97a0-d8d2050b0cef",
+    "title": "UPDATE 2-US FTC argues Microsoft's deal to buy Activision should be paused",
+    "publisher": "Reuters",
+    "link": "https://finance.yahoo.com/news/1-ftc-argues-microsofts-deal-160903254.html",
+    "providerPublishTime": 1687450143,
+    "type": "STORY",
+    "relatedTickers": [
+      "MSFT",
+      "ATVI"
+    ]
+  }
 ]

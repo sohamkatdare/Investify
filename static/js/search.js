@@ -318,12 +318,11 @@ async function getNews(ticker) {
 
 
     data.forEach((element) => {        
-        counter += 1
-        if (counter <= 6) {
             tickerList = ""
             for (i = 0; i <= 2; i++) {
                 if(element.relatedTickers[i]){
-                    tickerList += `<a class="flex justify-center items-center text-white text-base font-medium hover:bg-white/[0.075] bg-transparent border-2 border-white/25 hover:border-transparent rounded-full min-w-64 h-8 p-4 px-2 mb-2 text-center" href="/search?ticker=${ticker}">
+                    tickerList += `
+                    <a class="flex justify-center items-center text-white text-base font-medium hover:bg-white/[0.075] bg-transparent border-2 border-white/25 hover:border-transparent rounded-full min-w-64 h-8 p-4 px-2 mb-2 text-center" href="/search?ticker=${element.relatedTickers[i]}">
                         <span class="text-center">${element.relatedTickers[i]}</span>
                     </a>`
                 }
@@ -331,23 +330,24 @@ async function getNews(ticker) {
             console.log(tickerList)
 
             returnHTML += 
-            `<div class="h-full shadow-[-1rem_0_3rem_#000]  transition-all duration-700 rounded-lg overflow-hidden relative text-white flex flex-col w-96 group left-0 [&:not(:first-child)]:ml-[-100px] stack-card shrink-0 grow">
-                <figure class="grow overflow-hidden"><a href="finance.yahoo.com" target="_blank" class="grow"><img src="${element.thumbnail.resolutions[0].url}" class="grow w-full h-full object-cover group-hover:scale-110 transition-all brightness-[0.6] group-hover:brightness-100 duration-700 rounded-t-lg skeleton"></a></figure>
-                <a href="${element.link}" target="_blank">
-                    <div class="py-4 h-max overflow-visible bg-[#1b1726] grow-0">
-                        <h2 class=" text-2xl font-semibold hover:underline mb-2">${element.title}</h2>
-                        <h3 class="px-6 text-slate-500 text-sm mb-4">${element.publisher}</h3>
-                        <div class="bar w-full relative h-1.5  overflow-hidden bg-white/25 mb-4">
-                        <div class="w-0 h-full absolute top-0 left-0 bg-gradient-to-r from-pink-500 via-purple-500 to-pink-500 transition-all duration-700 hover:w-full group-hover:w-full"></div>
-                        </div>
-                        <div class="px-2 flex flex-wrap flex-row justify-center items-center gap-x-4 gap-y-2">${tickerList}</div>
-                    </div>
-                </a>
-            </div>`
-        }
+            `<div class="h-full max-sm:hover:shadow-xl max-sm:hover:drop-shadow-xl max-sm:hover:-translate-y-[10%] sm:shadow-[-1rem_0_3rem_#000]  transition-all duration-700 rounded-lg overflow-hidden relative text-white flex flex-col w-96 group left-0 sm:[&:not(:first-child)]:ml-[-100px] stack-card shrink-0 grow">
+            <figure class="grow overflow-hidden"><a href="${element.link}" target="_blank" class="grow"><img src=${element.thumbnail.resolutions[0].url} class="grow w-full h-full object-cover group-hover:scale-110 transition-all brightness-[0.6] group-hover:brightness-100 duration-700 rounded-t-lg skeleton"></a></figure>
+            <div class="py-4 px-6 h-max overflow-visible bg-[#1b1726] grow-0">
+                <a class="text-2xl font-semibold hover:underline mb-4" href="${element.link}">${element.title}</a>
+                <h3 class="text-slate-500 text-sm mb-4">${element.publisher}</h3>
+                <div class="bar relative h-1.5  overflow-hidden bg-white/25 mb-4">
+                    <div class="w-0 h-full absolute top-0 left-0 bg-gradient-to-r from-pink-500 via-purple-500 to-pink-500 transition-all duration-700 hover:w-full group-hover:w-full"></div>
+                </div>
+                <div class="px-2 flex flex-wrap flex-row justify-center items-center gap-x-4 gap-y-2">
+                    ${tickerList}
+                </div>
+            </div>
+          </div>`
     })
 
-    document.getElementById("news").innerHTML = returnHTML
+
+
+    document.getElementById("news").innerHTML = returnHTML + document.getElementById("news").innerHTML;
 }
 
 async function getInsiderTrading(ticker) {

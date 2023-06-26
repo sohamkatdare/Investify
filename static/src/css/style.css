@@ -217,3 +217,8 @@ section.grid>* {
     transition: 0.4s ease-out;
   }
 }
+
+.bar {
+  width: calc(100% + 1.5rem);
+  transform: translate(-1.5rem, 0);
+}

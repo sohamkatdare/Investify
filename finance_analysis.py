@@ -1,6 +1,19 @@
 import yfinance as yf
 import yahoo_fin.stock_info as si
 from yahoofinancials import YahooFinancials
+import os
+
+POLYGON_API_KEY_TWO = os.getenv('POLYGON_KEY_TWO')
+POLYGON_API_KEY_THREE = os.getenv('POLYGON_KEY_THREE')
+POLYGON_API_KEY_FOUR = os.getenv('POLYGON_KEY_FOUR')
+POLYGON_API_KEY_FIVE = os.getenv('POLYGON_KEY_FIVE')
+POLYGON_API_KEY_SIX = os.getenv('POLYGON_KEY_SIX')
+POLYGON_API_KEY_SEVEN = os.getenv('POLYGON_KEY_SEVEN')
+POLYGON_API_KEY_EIGHT = os.getenv('POLYGON_KEY_EIGHT')
+POLYGON_API_KEY_NINE = os.getenv('POLYGON_KEY_NINE')
+POLYGON_API_KEY_TEN = os.getenv('POLYGON_KEY_TEN')
+
+POLYGON_KEYS = [POLYGON_API_KEY_TWO, POLYGON_API_KEY_THREE, POLYGON_API_KEY_FOUR, POLYGON_API_KEY_FIVE, POLYGON_API_KEY_SIX, POLYGON_API_KEY_SEVEN, POLYGON_API_KEY_EIGHT, POLYGON_API_KEY_NINE, POLYGON_API_KEY_TEN]
 
 
 def get_pe_and_eps(ticker_symbol):
@@ -82,58 +95,58 @@ def get_news(ticker_name):
 if __name__ == '__main__':
     # print('Composite Indicator: ', get_composite_score('MSFT'))
     # print('PE and EPS Ratios: ', get_pe_and_eps('MSFT'))
-    # print(get_news('MSFT'))
+    print(get_news('GOOG'))
 
-    # Day Stock Score
-    price_action = 8.0  # Example price action score
-    volume = 7.5  # Example volume score
-    volatility = 9.2  # Example volatility score
+    # # Day Stock Score
+    # price_action = 8.0  # Example price action score
+    # volume = 7.5  # Example volume score
+    # volatility = 9.2  # Example volatility score
 
-    stock_score = calculate_day_stock_score(price_action, volume, volatility)
-    print("Day Trading Stock Score:", stock_score)
+    # stock_score = calculate_day_stock_score(price_action, volume, volatility)
+    # print("Day Trading Stock Score:", stock_score)
 
-    # On-Balance Volume (OBV)
-    previous_obv = 100000  # Example previous OBV
-    current_volume = 5000  # Example current volume
-    price_change = 1.5  # Example price change
+    # # On-Balance Volume (OBV)
+    # previous_obv = 100000  # Example previous OBV
+    # current_volume = 5000  # Example current volume
+    # price_change = 1.5  # Example price change
 
-    obv = calculate_obv(previous_obv, current_volume, price_change)
-    print("On-Balance Volume (OBV):", obv)
+    # obv = calculate_obv(previous_obv, current_volume, price_change)
+    # print("On-Balance Volume (OBV):", obv)
 
-    # Short-Term Stock Score
-    earnings_surprise = 8.0  # Example earnings surprise score
-    price_momentum = 7.5  # Example price momentum score
-    volume_trend = 9.2  # Example volume trend score
+    # # Short-Term Stock Score
+    # earnings_surprise = 8.0  # Example earnings surprise score
+    # price_momentum = 7.5  # Example price momentum score
+    # volume_trend = 9.2  # Example volume trend score
 
-    stock_score = calculate_short_stock_score(earnings_surprise, price_momentum, volume_trend)
-    print("Short-Term Stock Score:", stock_score)
+    # stock_score = calculate_short_stock_score(earnings_surprise, price_momentum, volume_trend)
+    # print("Short-Term Stock Score:", stock_score)
 
-    # Earnings Surprise
-    actual_earnings = 1500000  # Example actual earnings
-    estimated_earnings = 1200000  # Example estimated earnings
+    # # Earnings Surprise
+    # actual_earnings = 1500000  # Example actual earnings
+    # estimated_earnings = 1200000  # Example estimated earnings
 
-    earnings_surprise = calculate_earnings_surprise(actual_earnings, estimated_earnings)
-    print("Earnings Surprise:", earnings_surprise)
+    # earnings_surprise = calculate_earnings_surprise(actual_earnings, estimated_earnings)
+    # print("Earnings Surprise:", earnings_surprise)
 
-    # Long-term Stock Potential
-    growth_potential = 8.5  # Example growth potential score
-    value_potential = 7.2  # Example value potential score
-    sentiment_score = 9.0  # Example sentiment score
-    stock_score = calculate_long_stock_score(growth_potential, value_potential, sentiment_score)
-    print("Long-Term Stock Score:", stock_score)
+    # # Long-term Stock Potential
+    # growth_potential = 8.5  # Example growth potential score
+    # value_potential = 7.2  # Example value potential score
+    # sentiment_score = 9.0  # Example sentiment score
+    # stock_score = calculate_long_stock_score(growth_potential, value_potential, sentiment_score)
+    # print("Long-Term Stock Score:", stock_score)
 
-    # Value Potential
-    earnings_yield = 0.08  # Example earnings yield
-    dividend_yield = 0.04  # Example dividend yield
+    # # Value Potential
+    # earnings_yield = 0.08  # Example earnings yield
+    # dividend_yield = 0.04  # Example dividend yield
 
-    value_potential = calculate_value_potential(earnings_yield, dividend_yield)
-    print("Value Potential:", value_potential)
+    # value_potential = calculate_value_potential(earnings_yield, dividend_yield)
+    # print("Value Potential:", value_potential)
 
-    # Growth Potential
-    current_earnings= 5000000 # Example of earnings
-    previous_earnings= 69696969696969696969 #Example of previos earnings
-    current_revenue = 10000000  # Example current year's revenue
-    previous_revenue = 8000000  # Example previous year's revenue
+    # # Growth Potential
+    # current_earnings= 5000000 # Example of earnings
+    # previous_earnings= 69696969696969696969 #Example of previos earnings
+    # current_revenue = 10000000  # Example current year's revenue
+    # previous_revenue = 8000000  # Example previous year's revenue
 
-    growth_potential = calculate_growth_potential(current_earnings, previous_earnings, current_revenue, previous_revenue)
-    print("Growth Potential:", growth_potential)
+    # growth_potential = calculate_growth_potential(current_earnings, previous_earnings, current_revenue, previous_revenue)
+    # print("Growth Potential:", growth_potential)

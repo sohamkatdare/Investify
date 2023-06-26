@@ -16,6 +16,7 @@ from finance_analysis import get_pe_and_eps, get_composite_score, get_news
 from webscraper import investopedia_search, investopedia_web_scrape
 from text_simplifier import summarize, ask
 from insider_trading import scrape_insider_data
+from tax_calculator import calculate_capital_gains_tax
 
 from data.user import User
 from data.paper_trading_game import PaperTraderGame
@@ -295,6 +296,20 @@ def educatePath(path):
       abort(404)
   else:
     return render_template('education.html', data=None, searchForm=searchForm, current_identity=current_identity if current_identity else '', is_search=False)
+
+@app.route('/calculate-tax', methods=['POST'])
+@jwt_required(optional=True)
+def calculateTax():
+  try:
+    selling_price = float(request.json['selling_price']) if 'selling_price' in request.json else None # type: ignore
+    cost_basis = float(request.json['cost_basis']) if 'cost_basis' in request.json else None # type: ignore
+    holding_period = int(request.json['holding_period']) if 'holding_period' in request.json else None # type: ignore
+    taxable_income = float(request.json['taxable_income']) if 'taxable_income' in request.json else None # type: ignore
+    capital_gains_tax = calculate_capital_gains_tax(selling_price, cost_basis, holding_period, taxable_income)
+    return Response(response=json.dumps({'capital_gains_tax': capital_gains_tax}), status=200, mimetype='application/json')
+  except Exception as e:
+    print(e)
+    return Response(response='Service Unavailable', status=503, mimetype='text/plain')
 
 @app.route('/simplify', methods=['GET', 'POST'])
 @jwt_required(optional=True)

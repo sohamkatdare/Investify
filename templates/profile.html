@@ -5,8 +5,8 @@
 <div class="container mx-auto px-4 -translate-y-[1.5rem]">
   <!-- User avatar and welcome message -->
   <div class="flex items-center py-6">
-    <img src="https://images.unsplash.com/photo-1511367461989-f85a21fda167?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cHJvZmlsZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60" alt="User avatar" class="h-16 aspect-square rounded-full bg-contain">
-    <h1 class="ml-3 font-bold text-6xl">Welcome, <span class="gradient-text">{{ current_identity }}!</span></h1>
+    <img src="{{ url_for('static', filename='assets/images/favicon.png') }}" alt="Investify Logo" class="w-[5%] mr-3">
+    <h1 class="ml-3 font-bold text-6xl mt-2 text-white break-all">Welcome, <span class="gradient-text">{{ current_identity }}!</span></h1>
   </div>
   
   <h1 class="text-3xl text-white my-12 font-bold underline decoration-purple-400"">Your Paper Trading Games</h1> 

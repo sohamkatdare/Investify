@@ -29,9 +29,12 @@ class PaperTrader:
         startDate = str((datetime.datetime.now()-datetime.timedelta(days=4)).strftime('%Y-%m-%d'))
         endDate = str(datetime.datetime.now().strftime('%Y-%m-%d'))
         print('Ticker', ticker)
-        return yf.download(ticker, start=startDate, end=endDate)['Close']
+        data = yf.download(ticker, start=startDate, end=endDate)['Close']
+        if data.empty:
+            raise ValueError(f"No data found on ticker {ticker}.")
+        return data
 
-    def get_prices(self):
+    def get_prices(self): # Use this to get the prices for all the tickers in the portfolio. Initial Load
         tickers = list(set([trade['ticker'] for trade in self.portfolio]))
         # Use PaperTrader.get_prices_for_tickers() to get the price of a single ticker and combine the results.
         for ticker in tickers:
@@ -39,6 +42,8 @@ class PaperTrader:
                 PaperTrader.prices[ticker] = PaperTrader.get_prices_for_tickers(ticker)
     
     def get_price(self, ticker):
+        if ticker not in PaperTrader.prices.columns:
+            PaperTrader.prices[ticker] = PaperTrader.get_prices_for_tickers(ticker)
         return PaperTrader.prices[ticker]
     
     def get_transaction_by_uuid(self, uuid):
@@ -62,7 +67,7 @@ class PaperTrader:
         return self.capital + (0.5 * long_stocks) - (1.5 * short_stocks)
 
     def preview_buy(self, ticker, quantity):
-        prices = PaperTrader.prices[ticker]
+        prices = self.get_price(ticker)
         price = prices[-1]
         cost = price * quantity
         if cost > self.capital and cost > self.get_buying_power():
@@ -79,7 +84,7 @@ class PaperTrader:
             raise ValueError("You cannot sell a stock you don't own.")
         trade = trade[0]
         ticker = trade['ticker']
-        prices = PaperTrader.prices[ticker]
+        prices = self.get_price(ticker)
         price = prices[-1]
         cost = price * quantity
         if quantity > trade['quantity']:
@@ -90,7 +95,7 @@ class PaperTrader:
         return price, cost
     
     def preview_short(self, ticker, quantity):
-        prices = PaperTrader.prices[ticker]
+        prices = self.get_price(ticker)
         price = prices[-1]
         cost = price * quantity
         if cost > self.capital and cost > self.get_buying_power():
@@ -107,7 +112,7 @@ class PaperTrader:
             raise ValueError("You cannot cover a stock you have not shorted.")
         trade = trade[0]
         ticker = trade['ticker']
-        prices = PaperTrader.prices[ticker]
+        prices = self.get_price(ticker)
         price = prices[-1]
         cost = price * quantity
         if quantity > trade['quantity']:
@@ -118,7 +123,7 @@ class PaperTrader:
         return price, cost
 
     def buy(self, ticker, quantity):
-        prices = PaperTrader.prices[ticker]
+        prices = self.get_price(ticker)
         price = float(prices[-1])
         print('Price', price)
         print('Quantity', quantity)
@@ -145,7 +150,7 @@ class PaperTrader:
             print("You don't own enough shares to make this sale.")
             raise ValueError("You don't own enough shares to make this sale.")
         else:
-            price = PaperTrader.prices[ticker][-1]
+            price = self.get_price(ticker)[-1]
             revenue = price * int(quantity)
             self.capital += revenue
             for trade in self.portfolio:
@@ -161,7 +166,7 @@ class PaperTrader:
             updatePortfolio(self.name, self)
 
     def short(self, ticker, quantity):
-        prices = PaperTrader.get_price(ticker)
+        prices = self.get_price(ticker)
         price = float(prices[-1])
         cost = price * int(quantity)
         if cost > self.capital and cost > self.get_buying_power():
@@ -186,7 +191,7 @@ class PaperTrader:
             print("You have not shorted enough shares to make this sale.")
             raise ValueError("You have not shorted enough shares to make this sale.")
         else:
-            price = PaperTrader.prices[ticker][-1]
+            price = self.get_price(ticker)[-1]
             cost = price * int(quantity)
             self.capital -= cost
             for trade in self.portfolio:
@@ -225,7 +230,7 @@ class PaperTrader:
         }
     
     def growth(self):
-        return (self.get_portfolio_value() - self.initial) / self.initial
+        return 100 * (self.get_portfolio_value() - self.initial) / self.initial
 
 if __name__ == '__main__':
     # msft = yf.Ticker("MSFT")

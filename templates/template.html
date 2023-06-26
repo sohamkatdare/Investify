@@ -34,7 +34,8 @@
   <nav class="navbar bg-[#1b1726]/[0.35] backdrop-blur-sm z-[1000] fixed top-0 px-5">
     <div class="flex-1">
       <a class="flex items-center text-indigo-400 no-underline hover:no-underline font-bold text-2xl transition-all duration-700 lg:text-4xl" href="/">
-        <span class="bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-purple-500">investify.</span>
+          <img src="{{ url_for('static', filename='assets/images/favicon.png') }}" alt="Investify Logo" class="md:hidden w-[9%] mr-3">
+          <span class="bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-purple-500 max-md:hidden">investify.</span>
       </a>
       <ul class="max-lg:hidden menu menu-horizontal px-1">
         <li><a id="market" href="/market">Market</a></li>
@@ -90,6 +91,18 @@
             </ul>
           </li>
           <li class="py-7 border-y-2 my-[-2px] border-[#e5e7eb]/[0.1] peer-hover:border-transparent hover:border-pink-500 transition-all duration-700"><a class="md:text-5xl text-4xl transition-all duration-700" href="/simplify">Simplify</a></li>
+          <li class="py-7 border-y-2 my-[-2px] border-[#e5e7eb]/[0.1] peer-hover:border-transparent hover:border-pink-500 transition-all duration-700 parent"><a class="md:text-5xl text-4xl transition-all duration-700"></a>
+            <ul class="p-2 w-full mx-auto flex flex-row justify-around">
+              {% if current_identity == '' %}
+                <li class="my-3"><a class="md:text-5xl text-4xl transition-all duration-700" href="{{ url_for('register') }}">Sign Up</a></li>
+                <li class="my-3"><a class="md:text-5xl text-4xl transition-all duration-700" href="{{ url_for('login') }}">Login</a></li>
+              {% else %}
+                <li class="my-3"><a class="md:text-5xl text-4xl transition-all duration-700" href="{{ url_for('logout') }}">Logout</a></li>
+                <li class="my-3"><a class="md:text-5xl text-4xl transition-all duration-700" href="{{ url_for('profile') }}"">Profile</a></li>
+              {% endif %}
+            </ul>
+          </li>
+          
         </div>
       </ul>
     </div>
@@ -144,14 +157,14 @@
     </div>
   </nav>
   <div class="flex flex-col min-h-screen ">
-    <div class="flex-1" id="flex-1">
+    <div class="flex-1 {% block flex_1 %}none{% endblock flex_1 %}" id="flex-1">
       <br><br><br>
       <div class="container mx-auto my-3">
         {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
           {% for category, message in messages %}
             {% if category == 'success' %}
-            <div class="alert mt-20 bg-success/[0.625] shadow-lg">
+            <div class="alert mt-3 bg-success/[0.625] shadow-lg">
               <div>
                 <svg xmlns="http://www.w3.org/2000/svg" class="stroke-success-content flex-shrink-0 h-6 w-6" fill="none"
                   viewBox="0 0 24 24">
@@ -162,7 +175,7 @@
               </div>
             </div>
             {% elif category == 'error' %}
-            <div class="alert mt-20 bg-error/[0.625] shadow-lg">
+            <div class="alert mt-3 bg-error/[0.625] shadow-lg">
               <div>
                 <svg xmlns="http://www.w3.org/2000/svg" class="stroke-error-content flex-shrink-0 h-6 w-6" fill="none"
                   viewBox="0 0 24 24">
@@ -173,7 +186,7 @@
               </div>
             </div>
             {% elif category == 'warning' %}
-            <div class="alert mt-20 bg-warning/[0.625] shadow-lg">
+            <div class="alert mt-3 bg-warning/[0.625] shadow-lg">
               <div>
                 <svg xmlns="http://www.w3.org/2000/svg" class="stroke-warning-content flex-shrink-0 h-6 w-6" fill="none"
                   viewBox="0 0 24 24">
@@ -267,31 +280,34 @@
   <script type="text/javascript" src="{{ url_for('static',filename='js/search_submit.js') }}"></script>
   <script>
     // Get the alert element
-    const alertElement = document.getElementById('myAlert');
+    const alertElements = document.querySelectorAll('.alert');
 
     // Function to remove the alert after a delay
-    const removeAlert = () => {
-      // Add the transition classes
-      alertElement.classList.add('transition-all', 'duration-500');
-      
-      // Translate the alert upwards
-      alertElement.classList.add('-translate-y-48');
-      
-      // Fade out the alert
-      alertElement.style.opacity = '0';
-      
-      // Wait for the animation to complete
+    const removeAlert = (alertElement) => {
+      // Remove the alert after a delay.
+      // Wait for 5000 ms
       setTimeout(() => {
-        // Hide the alert by adding the hidden class
-        alertElement.classList.add('hidden');
-      }, 500);
+        // Add the transition classes
+        alertElement.classList.add('transition-all', 'duration-1000');
+
+        // Translate the alert upwards
+        alertElement.classList.add('-translate-y-48');
+
+        // Opacity to 0
+        alertElement.classList.add('opacity-0');
+
+        // Wait for the animation to complete
+        setTimeout(() => {
+          // Hide the alert by adding the hidden class
+          alertElement.classList.add('hidden');
+        }, 1000);
+      }, 5000);
     };
 
-    // Delay in milliseconds before removing the alert
-    const delay = 3000;
-
     // Remove the alert after the specified delay
-    setTimeout(removeAlert, delay);
+    alertElements.forEach((alertElement) => {
+      removeAlert(alertElement);
+    })
 
     function copyToClipboard(copyText) {
       rawString = String.raw`${copyText}`;

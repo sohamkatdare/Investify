@@ -269,7 +269,10 @@ def search():
   current_identity = get_jwt_identity()
   searchForm = TickerForm()
   if request.args.get('error'):
+    print('Flash Error for stock missing.')
+    resp = redirect(url_for('search'))
     flash(f'No data could be found on the ticker {request.args.get("error")}.', 'error')
+    return resp
   return render_template('search.html', searchForm=searchForm, current_identity=current_identity if current_identity else '')
 
 @app.route('/education')

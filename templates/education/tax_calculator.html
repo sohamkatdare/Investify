@@ -31,14 +31,14 @@
     </div>
   <br>
   
-  <button onclick="calculateTax()">Calculate</button>
+  <button id="calculate-tax">Calculate</button>
   
-  <div id="result" class="mt-12">
+  <div id="result" class="mt-12 hidden">
       <div class="divider my-12">
         <h1 class="text-4xl font-bold">Results:</h1>
       </div>
       <div class="divider my-12">
-        <h1 class="text-2xl font-semibold">Caital Gains Tax</h1>
+        <h1 class="text-2xl font-semibold">Capital Gains Tax</h1>
       </div>
       <h1 class="text-xl t font-medium">$32.55</h1>
 
@@ -46,4 +46,3 @@
 </div>
 
 {% endblock body %}
-{% block results %}{% endblock results %}

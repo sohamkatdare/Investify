@@ -1,7 +1,6 @@
 // Submit Event Listener for Search Form on Navbar
 let navSearchForm = document.getElementById("nav-search-form");
 navSearchForm.addEventListener("submit", function(event) {
-    console.log("nav-search form submitted");
     event.preventDefault();
     let ticker = document.getElementById("nav-search-input").value;
     document.getElementById("nav-search-input").value = "";
@@ -13,7 +12,6 @@ navSearchForm.addEventListener("submit", function(event) {
 
 let navSearchFormDropdown = document.getElementById("nav-search-form-dropdown");
 navSearchFormDropdown.addEventListener("submit", function(event) {
-    console.log("nav-search-dropdown form submitted");
     event.preventDefault();
     let ticker = document.getElementById("nav-search-input-dropdown").value;
     document.getElementById("nav-search-input-dropdown").value = "";

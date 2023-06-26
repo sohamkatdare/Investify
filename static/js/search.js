@@ -4,12 +4,6 @@
 
 // TODO: Style search.html page
 // ticker = document.getElementById("ticker");
-document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById("flex-1").style.display = "none";
-})
-
-
-
 async function search(event) {
     // Prevent the form from submitting
     event.preventDefault();
@@ -316,29 +310,44 @@ async function getNews(ticker) {
     // and populate the news in the search.html page.
     const response = await fetch('/search/news?ticker=' + ticker).catch(onFail);
     const data = await response.json();
+    console.log(data)
 
     returnHTML = ""
     
-    // counter = 0
+    counter = 0
 
 
-    data.forEach((element) => {
-        // counter += 1
-        // if (counter <= 6){
-        returnHTML += 
-        `<a class="card card-compact w-96 bg-[#1b1726] shadow-xl" data-link href="${element.link}">
-            <figure>
-                <img class="h-30 skeleton" data-img src="${element.thumbnail.resolutions[0].url}"/>
-            </figure>
-            <div class="card-body">
-                <h2 class="card-title hover:underline text-xl font-semibold inline" data-title>${element.title}</h2> 
-                <span class="text-slate-500" data-publisher>— ${element.publisher}</span>
-            </div>
-        </a>`
-        // }
+    data.forEach((element) => {        
+        counter += 1
+        if (counter <= 6) {
+            tickerList = ""
+            for (i = 0; i <= 2; i++) {
+                if(element.relatedTickers[i]){
+                    tickerList += `<a class="flex justify-center items-center text-white text-base font-medium hover:bg-white/[0.075] bg-transparent border-2 border-white/25 hover:border-transparent rounded-full min-w-64 h-8 p-4 px-2 mb-2 text-center" href="/search?ticker=${ticker}">
+                        <span class="text-center">${element.relatedTickers[i]}</span>
+                    </a>`
+                }
+            };
+            console.log(tickerList)
+
+            returnHTML += 
+            `<div class="h-full shadow-[-1rem_0_3rem_#000]  transition-all duration-700 rounded-lg overflow-hidden relative text-white flex flex-col w-96 group left-0 [&:not(:first-child)]:ml-[-100px] stack-card shrink-0 grow">
+                <figure class="grow overflow-hidden"><a href="finance.yahoo.com" target="_blank" class="grow"><img src="${element.thumbnail.resolutions[0].url}" class="grow w-full h-full object-cover group-hover:scale-110 transition-all brightness-[0.6] group-hover:brightness-100 duration-700 rounded-t-lg skeleton"></a></figure>
+                <a href="${element.link}" target="_blank">
+                    <div class="py-4 h-max overflow-visible bg-[#1b1726] grow-0">
+                        <h2 class=" text-2xl font-semibold hover:underline mb-2">${element.title}</h2>
+                        <h3 class="px-6 text-slate-500 text-sm mb-4">${element.publisher}</h3>
+                        <div class="bar w-full relative h-1.5  overflow-hidden bg-white/25 mb-4">
+                        <div class="w-0 h-full absolute top-0 left-0 bg-gradient-to-r from-pink-500 via-purple-500 to-pink-500 transition-all duration-700 hover:w-full group-hover:w-full"></div>
+                        </div>
+                        <div class="px-2 flex flex-wrap flex-row justify-center items-center gap-x-4 gap-y-2">${tickerList}</div>
+                    </div>
+                </a>
+            </div>`
+        }
     })
-    // TODO: Formatting for News. Probably will use cards, but not sure yet.
-    // document.getElementById("news").innerHTML = returnHTML;
+
+    document.getElementById("news").innerHTML = returnHTML
 }
 
 async function getInsiderTrading(ticker) {
@@ -356,8 +365,7 @@ async function getInsiderTrading(ticker) {
                 <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
                 </svg></span> <span>${element.name}</span>
-                <h2 class="card-title hover:underline text-xl font-semibold inline" data-title>${element.action} ${element.quantity} ${element.stock_type}</h2> 
-                <span class="text-slate-500" data-publisher>— ${element.publisher}</span>
+                <h2 class="card-title hover:underline text-xl font-semibold inline" data-title>${element.action} ${element.quantity} ${element.stock_type}</h2>
             </div>
         </div>`
         // }
@@ -371,13 +379,16 @@ async function getInsiderTrading(ticker) {
 
 function onFail(ticker) {
     // If stock ticker not found or data not available, then reload the page with flash message.
-    // window.location.href = "/search?" + "&error="+ticker;
+    window.location.href = "/search?" + "error="+ticker;
 }
 
 form = document.getElementById("search-form");
 form.addEventListener("submit", search);
 
-document.getElementById("favorite-button").addEventListener("click", toggleFavorite);
+favButton = document.getElementById("favorite-button")
+if (favButton) {
+    favButton.addEventListener("click", toggleFavorite);
+}
 
 // If url has query params, then populate the search bar with the ticker and submit the form.
 const urlParams = new URLSearchParams(window.location.search);
@@ -386,6 +397,3 @@ if (ticker) {
     document.getElementById("ticker").value = ticker;
     document.getElementById("search-form-submit").click();
 }
-
-// Remove all the query params from the url.
-window.history.replaceState({}, document.title, "/" + "search");

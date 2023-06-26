@@ -1,4 +1,13 @@
 def calculate_capital_gains_tax(selling_price, cost_basis, holding_period, taxable_income):
+    """
+    Args:
+        selling_price (float): The price at which the asset was sold.
+        cost_basis (float): The price at which the asset was purchased.
+        holding_period (int): The number of years the asset was held.
+        taxable_income (float): The investor's taxable income.
+    Returns:
+        tax_owed (float): The amount of tax owed on the capital gains.
+    """
     capital_gain = selling_price - cost_basis
     
     if holding_period < 1:  # Short-term capital gains
@@ -12,6 +21,12 @@ def calculate_capital_gains_tax(selling_price, cost_basis, holding_period, taxab
 
 
 def get_short_term_tax_rate(taxable_income):
+    """
+    Args:
+        taxable_income (float): The investor's taxable income.
+    Returns:
+        tax_rate (float): The short-term capital gains tax rate.
+    """
     # Define your short-term tax rate brackets and rates here
     # Example: (taxable_income, tax_rate)
     brackets = [
@@ -28,6 +43,12 @@ def get_short_term_tax_rate(taxable_income):
 
 
 def get_long_term_tax_rate(taxable_income):
+    """
+    Args:
+        taxable_income (float): The investor's taxable income.
+    Returns:
+        tax_rate (float): The long-term capital gains tax rate.
+    """
     # Define your long-term tax rate brackets and rates here
     # Example: (taxable_income, tax_rate)
     brackets = [
@@ -41,15 +62,24 @@ def get_long_term_tax_rate(taxable_income):
 
 
 def get_tax_rate(taxable_income, brackets):
+    """
+    Args:
+        taxable_income (float): The investor's taxable income.
+        brackets (list): A list of tuples containing the taxable income limit and the tax rate for that limit.
+    Returns:
+        tax_rate (float): The tax rate for the given taxable income.
+    """
     for limit, rate in brackets:
         if taxable_income <= limit:
             return rate
     
     return 0  # Default rate if taxable_income exceeds the highest limit
-selling_price = 5000  # Example selling price
-cost_basis = 3000  # Example cost basis
-holding_period = 2  # Example holding period in years
-taxable_income = 50000  # Example taxable income
 
-tax_paid = calculate_capital_gains_tax(selling_price, cost_basis, holding_period, taxable_income)
-print("Tax paid on capital gains:", tax_paid)
+if __name__ == '__main__':
+    selling_price = 5000  # Example selling price
+    cost_basis = 3000  # Example cost basis
+    holding_period = 2  # Example holding period in years
+    taxable_income = 50000  # Example taxable income
+
+    tax_paid = calculate_capital_gains_tax(selling_price, cost_basis, holding_period, taxable_income)
+    print("Tax paid on capital gains:", tax_paid)

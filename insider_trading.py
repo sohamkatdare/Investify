@@ -22,7 +22,7 @@ def scrape_insider_data(stock_symbol):
         
 
         insider_data = []
-        for row in table.find_all('tr')[1:]:
+        for row in table.find_all('tr')[1:]: # type: ignore
             cells = row.find_all('td')
             file_date = parse_date(cells[0].text.strip())
             trade_date = parse_date(cells[1].text.strip())
@@ -38,13 +38,13 @@ def scrape_insider_data(stock_symbol):
             print('Transaction Type', transaction_type)
             code = "Bought" if transaction_type == "Purchase" else "Sold"
             print('Code', code)
-            shares = cells[8].text.strip()
+            shares = cells[8].text.strip('- ')
             print('Shares', shares)
-            share_price = cells[9].text.strip()
+            share_price = cells[9].text.strip('- ')
             print('Share Price', share_price)
-            value = cells[10].text.strip()
+            value = cells[10].text.strip('- ')
             print('Value', value)
-            remaining_shares = cells[11].text.strip()
+            remaining_shares = cells[11].text.strip('- ')
             print('Remaining Shares', remaining_shares)
             current_value = float(share_price) * int(remaining_shares.replace(',', ''))
             print('Current Value', current_value)

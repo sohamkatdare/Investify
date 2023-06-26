@@ -219,6 +219,6 @@ section.grid>* {
 }
 
 .bar {
-  width: calc(100% + 1.5rem);
+  width: calc(100% + 4rem);
   transform: translate(-1.5rem, 0);
 }

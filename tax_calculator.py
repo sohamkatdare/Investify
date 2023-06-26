@@ -1,14 +1,14 @@
-def calculate_capital_gains_tax(selling_price, cost_basis, holding_period, taxable_income):
+def calculate_capital_gains_tax(selling_price, purchase_price, holding_period, taxable_income):
     """
     Args:
         selling_price (float): The price at which the asset was sold.
-        cost_basis (float): The price at which the asset was purchased.
+        purchase_price (float): The price at which the asset was purchased.
         holding_period (float): The number of years the asset was held.
         taxable_income (float): The investor's taxable income.
     Returns:
         tax_owed (float): The amount of tax owed on the capital gains.
     """
-    capital_gain = selling_price - cost_basis
+    capital_gain = selling_price - purchase_price
     
     if holding_period < 1:  # Short-term capital gains
         tax_rate = get_short_term_tax_rate(taxable_income)
@@ -77,9 +77,9 @@ def get_tax_rate(taxable_income, brackets):
 
 if __name__ == '__main__':
     selling_price = 5000  # Example selling price
-    cost_basis = 3000  # Example cost basis
+    purchase_price = 3000  # Example cost basis
     holding_period = 2  # Example holding period in years
     taxable_income = 50000  # Example taxable income
 
-    tax_paid = calculate_capital_gains_tax(selling_price, cost_basis, holding_period, taxable_income)
+    tax_paid = calculate_capital_gains_tax(selling_price, purchase_price, holding_period, taxable_income)
     print("Tax paid on capital gains:", tax_paid)

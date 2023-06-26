@@ -16,13 +16,13 @@ def investopedia_search(searchquery):
     soup = bs(requests.get(url).content, 'html.parser')
 
     anchor = soup.find(id='search-results__link_1-0')
-    return anchor['href']
+    return anchor['href'] # type: ignore
 
 def investopedia_web_scrape(link):
     article = ''
 
     soup = bs(requests.get(link).content, 'html.parser')
-    for o in soup.find(id='mntl-sc-page_1-0').find_all('p', recursive=False):
+    for o in soup.find(id='mntl-sc-page_1-0').find_all('p', recursive=False): # type: ignore
         if len(o.text) > 20:
             article += o.text + ' '
     

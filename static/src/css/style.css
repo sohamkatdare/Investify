@@ -213,7 +213,7 @@ section.grid>* {
   
   .stack-card:hover ~ .stack-card {
     position: relative;
-    left: 60px;
+    left: 90px;
     transition: 0.4s ease-out;
   }
 }

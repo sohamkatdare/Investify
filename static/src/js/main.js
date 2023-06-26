@@ -1,4 +1,9 @@
 // APPLIED TO ALL PAGES
+function scrollToTop() {
+  window.scrollTo(0, 0);
+}
+
+window.addEventListener('load', scrollToTop);
 
 // Function to show spinner and hide data
 function loading() {

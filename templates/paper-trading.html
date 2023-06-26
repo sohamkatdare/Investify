@@ -59,9 +59,10 @@
               {% set stock = trade['ticker'] %}
               {% set quantity = trade['quantity'] %}
               {% set purchase_price = trade['price'] %}
-              {% set current_price = userDetail.get_price(stock)[-1] %}
+              {% set prices = userDetail.get_price(stock) %}
+              {% set current_price = prices[-1] %}
               {% set change = current_price - purchase_price %}
-              {% set daily_change = current_price - userDetail.get_price(stock)[-2] %}
+              {% set daily_change = current_price - prices[-2] %}
               {% set portfolio_value = userDetail.get_portfolio_value() %}
               <th class="font-light">{{ trade['type'].capitalize() }}</th>
               <th class="font-light">{{ trade['datetime'] }}</th>

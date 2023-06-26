@@ -412,7 +412,7 @@ def papertrading_buy():
   user = User.get_user_by_email(user_id)
   game = request.args.get('gid')
   buyPreviewPassed = request.args.get('p')
-  ticker = request.args.get('t').upper() # type: ignore
+  ticker = request.args.get('t').upper() if request.args.get('t') else None # type: ignore
   quantity = int(request.args.get('q')) if request.args.get('q') else None # type: ignore
   price = float(request.args.get('pr')) if request.args.get('pr') else None # type: ignore
   if buyStock.ticker.data and buyStock.quantity.data:
@@ -445,7 +445,7 @@ def papertrading_sell():
   game = request.args.get('gid')
   sellPreviewPassed = request.args.get('p')
   uid = request.args.get('uid')
-  ticker = request.args.get('t').upper() # type: ignore
+  ticker = request.args.get('t').upper() if request.args.get('t') else None # type: ignore
   quantity = int(request.args.get('q')) if request.args.get('q') else None # type: ignore
   price = float(request.args.get('pr')) if request.args.get('pr') else None # type: ignore
   if not uid:
@@ -482,7 +482,7 @@ def papertrading_short():
   user = User.get_user_by_email(user_id)
   game = request.args.get('gid')
   shortPreviewPassed = request.args.get('p')
-  ticker = request.args.get('t').upper() # type: ignore
+  ticker = request.args.get('t').upper() if request.args.get('t') else None # type: ignore
   quantity = int(request.args.get('q')) if request.args.get('q') else None # type: ignore
   price = float(request.args.get('pr')) if request.args.get('pr') else None # type: ignore
   if shortStock.ticker.data and shortStock.quantity.data:
@@ -516,7 +516,7 @@ def papertrading_cover():
   game = request.args.get('gid')
   coverPreviewPassed = request.args.get('p')
   uid = request.args.get('uid')
-  ticker = request.args.get('t').upper() # type: ignore
+  ticker = request.args.get('t').upper() if request.args.get('t') else None # type: ignore
   quantity = int(request.args.get('q')) if request.args.get('q') else None # type: ignore
   price = float(request.args.get('pr')) if request.args.get('pr') else None # type: ignore
   if not uid:

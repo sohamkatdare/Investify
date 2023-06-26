@@ -36,7 +36,7 @@ def scrape_insider_data(stock_symbol):
             print('Insider Role', insider_role)
             transaction_type = cells[6].text.strip().split("-", 1)[1].strip()
             print('Transaction Type', transaction_type)
-            code = "bought" if transaction_type == "Purchase" else "sold"
+            code = "Bought" if transaction_type == "Purchase" else "Sold"
             print('Code', code)
             shares = cells[8].text.strip()
             print('Shares', shares)
@@ -53,17 +53,17 @@ def scrape_insider_data(stock_symbol):
             print('Sentence', sentence)
 
             raw_data = {
-                trade_date: trade_date,
-                file_date: file_date,
-                name: insider_name,
-                role: insider_role,
-                action: code,
-                quantity: shares,
-                stock_type: security_title,
-                price: share_price,
-                total: value,
-                remaining: remaining_shares,
-                current_value: current_value
+                "trade_date": trade_date,
+                "file_date": file_date,
+                "name": insider_name,
+                "role": insider_role,
+                "action": code,
+                "quantity": shares,
+                "stock_type": security_title,
+                "price": share_price,
+                "total": value,
+                "remaining": remaining_shares,
+                "current_value": current_value
             }
 
             insider_data.append(raw_data)

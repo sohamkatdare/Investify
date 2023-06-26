@@ -56,7 +56,7 @@ async function toggleFavorite(e) {
     }
 }
 
-async function getHighcharts(ticker) {
+async function getHighcharts(ticker, id="candle_div") {
     // Get the highcharts data from the backend asychronously
     // and populate the highcharts in the search.html page.
     // document.getElementById("candle_div").style.display = "block";
@@ -98,7 +98,7 @@ async function getHighcharts(ticker) {
     }
 
     // create the chart      
-    await Highcharts.stockChart("candle_div", {
+    await Highcharts.stockChart(id, {
         chart: {
             backgroundColor: "#1b1726",
             style: {
@@ -262,50 +262,81 @@ async function getHighcharts(ticker) {
 }
 
 async function getPeAndEPS(ticker) {
+    const peRatio = document.getElementById("pe-ratio");
+    const epsRatio = document.getElementById("eps-ratio");
+    peRatio.innerHTML = `<div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div>`;
+    epsRatio.innerHTML = `<div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div>`;
     // Get the PE and EPS data from the backend asychronously
     // and populate the PE and EPS in the search.html page.
     const response = await fetch('/search/pe-and-eps?ticker=' + ticker).catch(onFail);
     const data = await response.json();
 
     // TODO: Formatting for PE and EPS.
-    document.getElementById("pe-ratio").textContent = data["pe_ratio"];
-    document.getElementById("eps-ratio").textContent = data["eps"];    
+    peRatio.innerHTML = data["pe_ratio"];
+    epsRatio.innerHTML = data["eps"];    
 }
 
 async function getCompositeScore(ticker) {
+    const compositeScore = document.getElementById("composite-score");
+    compositeScore.innerHTML = `<div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div>`;
     // Get the composite score data from the backend asychronously
     // and populate the composite score in the search.html page.
     const response = await fetch('/search/composite-score?ticker=' + ticker).catch(onFail);
     const data = await response.json();
 
     // TODO: Formatting for Composite Score.
-    document.getElementById("composite-score").textContent = data["composite_score"];
+    compositeScore.textContent = data["composite_score"];
 }
 
 async function getNews(ticker) {
     // Create skeleton cards
 
     const skeletonHTML = `
-        <a class="card card-compact w-96 bg-[#1b1726] shadow-xl" data-link href="">
-            <figure class="h-20 aspect-square skeleton">
-                <img class="h-30 aspect-square skeleton" data-img src=""/>
-            </figure>
-            <div class="card-body">
-                <h2 class="card-title hover:underline text-xl font-semibold inline" data-title>
-                    <div class="skeleton w-full h-7 mb-2 rounded-sm last:w-4/5"></div>
-                    <div class="skeleton w-full h-7 mb-2 rounded-sm last:w-4/5"></div>
-                </h2> 
-                <span class="text-slate-500" data-publisher>
-                    <div class="skeleton w-2/5 h-2 mb-1 rounded-sm"></div>
-                    <div class="skeleton w-2/5 h-2 mb-1 rounded-sm"></div>
-                    <div class="skeleton w-2/5 h-2 mb-1 rounded-sm"></div>
-                </span>
-            </div>
-        </a>
+    <div class="h-full max-sm:hover:shadow-xl max-sm:hover:drop-shadow-xl max-sm:hover:-translate-y-[10%] sm:shadow-[-1rem_0_3rem_#000]  transition-all duration-700 rounded-lg overflow-hidden relative text-white flex flex-col w-96 group left-0 sm:[&:not(:first-child)]:ml-[-100px] stack-card shrink-0 grow">
+    <figure class="grow overflow-hidden"><a href="" target="_blank" class="grow"><img src="" class="grow w-full h-full object-cover group-hover:scale-110 transition-all brightness-[0.6] group-hover:brightness-100 duration-700 rounded-t-lg skeleton"></a></figure>
+    <a href="" target="_blank">
+      <div class="py-4 h-max overflow-visible bg-[#1b1726] grow-0">
+        <h2 class="px-6 text-2xl font-semibold hover:underline mb-2">
+          <div class="skeleton w-4/5 h-6 mb-2 rounded-sm"></div>
+          <div class="skeleton w-full h-4 mb-2 rounded-sm"></div>
+          <div class="skeleton w-2/3 h-4 mb-2 rounded-sm"></div>
+        </h2>
+        <h3 class="px-6 text-slate-500 text-sm mb-4">
+          <div class="skeleton w-full h-4 mb-2 rounded-sm"></div>
+        </h3>
+        <div class="bar w-full relative h-1.5  overflow-hidden bg-white/25 mb-4">
+          <div class="w-0 h-full absolute top-0 left-0 bg-gradient-to-r from-pink-500 via-purple-500 to-pink-500 transition-all duration-700 hover:w-full group-hover:w-full"></div>
+        </div>
+        <div class="px-2 flex flex-wrap flex-row justify-center items-center gap-x-4 gap-y-2">
+          <a class="flex justify-center items-center text-white text-base font-medium hover:bg-white/[0.075] bg-transparent border-2 border-white/25 hover:border-transparent rounded-full min-w-64 h-8 p-4 px-2 mb-2 text-center" href="https://www.apple.com/">
+            <span class="text-center">
+              <div class="skeleton w-1/2 h-4 mb-2 rounded-sm"></div>
+            </span>
+          </a>
+          <a class="flex justify-center items-center text-white text-base font-medium hover:bg-white/[0.075] bg-transparent border-2 border-white/25 hover:border-transparent rounded-full min-w-64 h-8 p-4 px-2 mb-2 text-center" href="https://www.microsoft.com/">
+            <span class="text-center">
+              <div class="skeleton w-1/2 h-4 mb-2 rounded-sm"></div>
+            </span>
+          </a>
+          <a class="flex justify-center items-center text-white text-base font-medium hover:bg-white/[0.075] bg-transparent border-2 border-white/25 hover:border-transparent rounded-full min-w-64 h-8 p-4 px-2 mb-2 text-center" href="https://www.tesla.com/">
+            <span class="text-center">
+              <div class="skeleton w-1/2 h-4 mb-2 rounded-sm"></div>
+            </span>
+          </a>
+          <a class="flex justify-center items-center text-white text-base font-medium hover:bg-white/[0.075] bg-transparent border-2 border-white/25 hover:border-transparent rounded-full min-w-64 h-8 p-4 px-2 mb-2 text-center" href="https://www.apple.com/">
+            <span class="text-center">
+              <div class="skeleton w-1/2 h-4 mb-2 rounded-sm"></div>
+            </span>
+          </a>
+        </div>
+      </div>
+    </a>
+  </div>
+  
     `
     const skeletonCount = 6;
 
-    // document.getElementById("news").innerHTML = skeletonHTML.repeat(skeletonCount);
+    document.getElementById("news").innerHTML = skeletonHTML.repeat(skeletonCount);
     // Get the news data from the backend asychronously
     // and populate the news in the search.html page.
     const response = await fetch('/search/news?ticker=' + ticker).catch(onFail);
@@ -373,24 +404,48 @@ async function getInsiderTrading(ticker) {
     // and populate the news in the search.html page.
     const response = await fetch('/search/insider-trading?ticker=' + ticker).catch(onFail);
     const data = await response.json();
+    console.log(data)
+
+    insiderHTML = ""
 
     data.forEach((element) => {
         // counter += 1
         // if (counter <= 6){
-        returnHTML += 
+
+        color = ""
+
+        if (element.action == "Sold") {
+            color = "red";
+        } else {
+            color = "green"
+        }
+
+        insiderHTML += 
         `<div class="card card-compact w-96 bg-[#1b1726] shadow-xl" data-link>
             <div class="card-body">
-                <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
-                </svg></span> <span>${element.name}</span>
-                <h2 class="card-title hover:underline text-xl font-semibold inline" data-title>${element.action} ${element.quantity} ${element.stock_type}</h2>
+                <div class="flex flex-row gap-2">
+                    <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="inline w-4 h-4">
+                        <path class="inline" stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                    </svg></span> <span class="inline">${element.name}</span>
+                </div>
+                <div class="flex flex-row gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008zM12 15h.008v.008H12V15zm0 2.25h.008v.008H12v-.008zM9.75 15h.008v.008H9.75V15zm0 2.25h.008v.008H9.75v-.008zM7.5 15h.008v.008H7.5V15zm0 2.25h.008v.008H7.5v-.008zm6.75-4.5h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V15zm0 2.25h.008v.008h-.008v-.008zm2.25-4.5h.008v.008H16.5v-.008zm0 2.25h.008v.008H16.5V15z" />
+                    </svg>
+                    <span class="inline">${element.trade_date}</span>
+                </div>
+                <div class="flex flex-row gap-2">
+                <h2 class="card-title hover:underline text-xl font-bold inline text-${color}-500" data-title>${element.action}</h2>
+                <h2 class="card-title hover:underline text-xl font-bold inline">${element.quantity}</h2>
+                </div>
+                <p>${element.stock_type}</p>
             </div>
         </div>`
         // }
     })
     
     // TODO: Formatting for News. Probably will use cards, but not sure yet.
-    document.getElementById("insider-trading").textContent = returnHTML;
+    document.getElementById("insider-trading").innerHTML = insiderHTML;
 }
 
 // TODO: Add other functions to get the other data from the backend.

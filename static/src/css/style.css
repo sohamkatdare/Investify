@@ -204,15 +204,16 @@ section.grid>* {
 /* Card Carousel */
 
 
-
-.stack-card:hover {
-  transform: translate(0, -10%) ;
-  transition: 0.4s ease-out;
-}
-
-
-.stack-card:hover ~ .stack-card {
-  position: relative;
-  left: 120px;
-  transition: 0.4s ease-out;
+@media (min-width: 640px) {
+  .stack-card:hover {
+    transform: translate(0, -10%) ;
+    transition: 0.4s ease-out;
+  }
+  
+  
+  .stack-card:hover ~ .stack-card {
+    position: relative;
+    left: 60px;
+    transition: 0.4s ease-out;
+  }
 }

@@ -200,7 +200,7 @@
                 {% endif %}
                 <th class="font-light">
                   {% if trade['type'] == 'call'  %}
-                    <a href="{{ userDetail.get_option_buy_url(trade['uid'], stock, quantity) }}" class="text-xl btn btn-primary w-full border-indigo-400 bg-transparent gradient-border hover:border-transparent transition-all">Buy</a>
+                    <a href="{{ userDetail.get_option_buy_url(trade['uid']) }}" class="text-xl btn btn-primary w-full border-indigo-400 bg-transparent gradient-border hover:border-transparent transition-all">Buy</a>
                   {% else %}
                     <a href="{{ userDetail.get_cover_url(trade['uid'], stock, quantity) }}" class="text-xl btn btn-primary w-full border-indigo-400 bg-transparent gradient-border hover:border-transparent transition-all">Sell</a>
                   {% endif %}

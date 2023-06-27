@@ -83,6 +83,8 @@ class PaperTrader:
     def get_portfolio_value(self):
         portfolio_value = 0
         for trade in self.portfolio:
+            if trade['type'] == 'call' or trade['type'] == 'put':
+                continue
             ticker = trade['ticker']
             quantity = trade['quantity']
             price = PaperTrader.prices[ticker][-1]

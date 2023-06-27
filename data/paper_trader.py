@@ -5,6 +5,7 @@ import uuid
 
 class PaperTrader:
     prices = pd.DataFrame()
+    option_chains = {}
 
     def __init__(self, name, portfolio, initial, capital, id):
         self.name = name
@@ -12,6 +13,19 @@ class PaperTrader:
         self.initial = initial
         self.capital = capital
         self.id = id
+        # Check for any expired options.
+        removed = False
+        for trade in self.portfolio:
+            if trade['type'] == 'call' or trade['type'] == 'put':
+                if datetime.datetime.strptime(trade['expiry'], '%Y-%m-%d') < datetime.datetime.now():
+                    self.portfolio.remove(trade)
+                    removed = True
+        if removed:
+            # Update the portfolio in the database.
+            from data.firebase_controller import updatePortfolio
+            updatePortfolio(self.name, self)
+
+        # Get the prices for all the tickers in the portfolio.
         self.get_prices()
 
     def get_url_from_name(self):
@@ -33,6 +47,17 @@ class PaperTrader:
         if data.empty:
             raise ValueError(f"No data found on ticker {ticker}.")
         return data
+    
+    @staticmethod
+    def get_options(ticker):
+        options =  yf.Ticker(ticker).options
+        if not options:
+            raise ValueError(f"No options found on ticker {ticker}.")
+        return options
+    
+    @staticmethod
+    def get_option_chains(ticker, expiry):
+        return yf.Ticker(ticker).option_chain(expiry)
 
     def get_prices(self): # Use this to get the prices for all the tickers in the portfolio. Initial Load
         tickers = list(set([trade['ticker'] for trade in self.portfolio]))
@@ -45,6 +70,12 @@ class PaperTrader:
         if ticker not in PaperTrader.prices.columns:
             PaperTrader.prices[ticker] = PaperTrader.get_prices_for_tickers(ticker)
         return PaperTrader.prices[ticker]
+    
+    def get_option_chain(self, ticker, expiry):
+        if ticker not in PaperTrader.option_chains.keys():
+            data = PaperTrader.get_option_chains(ticker, expiry)
+            PaperTrader.option_chains[ticker] = {'calls': data[0], 'puts': data[1]}
+        return PaperTrader.option_chains[ticker]
     
     def get_transaction_by_uuid(self, uuid):
         return [trade for trade in self.portfolio if trade['uid'] == uuid]
@@ -65,6 +96,9 @@ class PaperTrader:
         long_stocks = sum([trade['price'] * trade['quantity'] for trade in self.portfolio if trade['type'] == 'buy'])
         short_stocks = sum([trade['price'] * trade['quantity'] for trade in self.portfolio if trade['type'] == 'short'])
         return self.capital + (0.5 * long_stocks) - (1.5 * short_stocks)
+    
+    def growth(self):
+        return 100 * (self.get_portfolio_value() - self.initial) / self.initial
 
     def preview_buy(self, ticker, quantity):
         prices = self.get_price(ticker)
@@ -121,6 +155,27 @@ class PaperTrader:
         else:
             print(f"Covering {quantity} shares of {ticker} at ${price} would cost ${cost:.2f}.")
         return price, cost
+    
+    def preview_options(self, ticker, expiry, key):
+        data = self.get_option_chain(ticker, expiry)[key]
+        # Remove all options that have 0 premium.
+        data = data[(data['bid'] + data['ask'])/2 != 0]
+        return data.to_dict(), data.to_json()
+    
+    def preview_call(self, ticker, expiry, contractSymbol, contracts):
+        call_data = self.get_option_chain(ticker, expiry)['calls']
+        call_data = call_data[call_data['contractSymbol'] == contractSymbol]
+        strikePrice = call_data['strike'].values[0]
+        premium = (call_data['bid'].values[0] + call_data['ask'].values[0]) / 2
+        contractSize = call_data['contractSize'].values[0]
+        inTheMoney = bool(call_data['inTheMoney'].values[0])
+        cost = premium * contracts * 100 # Assuming 100 shares per contract.
+        if cost > self.capital and cost > self.get_buying_power():
+            print("Insufficient funds to make this purchase.")
+            raise ValueError("Insufficient funds to make this purchase.")
+        else:
+            print(f"Calling {contracts} contracts of {ticker} at ${strikePrice} strike price and ${premium} premium would cost ${cost:.2f}")
+        return strikePrice, premium, contractSize, inTheMoney, cost
 
     def buy(self, ticker, quantity):
         prices = self.get_price(ticker)
@@ -206,6 +261,23 @@ class PaperTrader:
             from data.firebase_controller import updatePortfolio
             updatePortfolio(self.name, self)
 
+    def call(self, ticker, expiry, contractSymbol, contracts):
+        call_data = self.get_option_chain(ticker, expiry)['calls']
+        call_data = call_data[call_data['contractSymbol'] == contractSymbol]
+        strikePrice = call_data['strike'].values[0]
+        premium = (call_data['bid'].values[0] + call_data['ask'].values[0]) / 2
+        cost = premium * contracts * 100 # Assuming 100 shares per contract.
+        if cost > self.capital and cost > self.get_buying_power():
+            print("Insufficient funds to make this purchase.")
+            raise ValueError("Insufficient funds to make this purchase.")
+        else:
+            self.portfolio.append({'ticker': ticker, 'symbol': contractSymbol, 'quantity': contracts * 100, 'strike': strikePrice, 'premium': premium, 'expiry': expiry, 'datetime': datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'), 'type': 'call', 'uid': str(uuid.uuid4())})
+            PaperTrader.prices[ticker] = self.get_price(ticker)
+            self.capital -= cost
+            print(f"Called {contracts} contracts of {ticker} at ${strikePrice} strike price and ${premium} premium.")
+            from data.firebase_controller import updatePortfolio
+            updatePortfolio(self.name, self)
+
     def print_portfolio(self):
         if not self.portfolio:
             print("You don't own any shares yet")
@@ -228,9 +300,6 @@ class PaperTrader:
             'capital': self.capital,
             'id': self.id
         }
-    
-    def growth(self):
-        return 100 * (self.get_portfolio_value() - self.initial) / self.initial
 
 if __name__ == '__main__':
     # msft = yf.Ticker("MSFT")

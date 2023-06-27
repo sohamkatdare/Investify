@@ -55,13 +55,18 @@
       </thead>
       <tbody>
           {% for trade in userDetail.portfolio %}
+            {% if trade['type'] != 'call' and trade['type'] != 'put' %}
             <tr class="hover mt-5">
               {% set stock = trade['ticker'] %}
               {% set quantity = trade['quantity'] %}
               {% set purchase_price = trade['price'] %}
               {% set prices = userDetail.get_price(stock) %}
               {% set current_price = prices[-1] %}
-              {% set change = current_price - purchase_price %}
+              {% if trade['type'] == 'buy' %}
+                {% set change = current_price - purchase_price %}
+              {% else %}
+                {% set change = purchase_price - current_price %}
+              {% endif %}
               {% set daily_change = current_price - prices[-2] %}
               {% set portfolio_value = userDetail.get_portfolio_value() %}
               <th class="font-light">{{ trade['type'].capitalize() }}</th>
@@ -100,6 +105,7 @@
                 {% endif %}
                 </th>
             </tr>
+            {% endif %}
           {% endfor %}
           <tr class="col-span-5 hover">
             <div class="card w-full border-2 my-6 border-dashed border-white/[0.1]">
@@ -111,13 +117,97 @@
                     You have bought -${{ -(userDetail.get_portfolio_value() - userDetail.capital).__round__(2) }} worth of stocks.
                   {% endif %}
                 </div>
-                <div class="grid grid-cols-2">
+                <div class="grid grid-cols-4">
                   <a href="paper-trading/buy?{{userDetail.get_url_from_name()}}" class="text-xl btn btn-primary border-indigo-400 bg-transparent gradient-border hover:border-transparent mx-6  transition-all">Buy Stock</a>
                   <a href="paper-trading/short?{{userDetail.get_url_from_name()}}" class="text-xl btn btn-primary border-indigo-400 bg-transparent gradient-border hover:border-transparent mx-6  transition-all">Short Stock</a>
+                  <a href="paper-trading/call?{{userDetail.get_url_from_name()}}" class="text-xl btn btn-primary border-indigo-400 bg-transparent gradient-border hover:border-transparent mx-6  transition-all">Call Stock</a>
+                  <a href="paper-trading/put?{{userDetail.get_url_from_name()}}" class="text-xl btn btn-primary border-indigo-400 bg-transparent gradient-border hover:border-transparent mx-6  transition-all">Put Stock</a>
                 </div>    
               </div>
             </div>
           </tr>
+        </tbody>
+      </table>
+
+      <table class="table table-zebra w-full text-white mt-10">
+        <thead>
+          <tr class="text-2xl">
+            <th class="text-xl">Action</th>
+            <th class="text-xl">Date</th>
+            <th class="text-xl">Ticker</th>
+            <th class="text-xl">Contract Symbol</th>
+            <th class="text-xl">Quantity</th>
+            <th class="text-xl">Premium</th>
+            <th class="text-xl">Strike Price</th>
+            <th class="text-xl">Current Price</th>
+            <th class="text-xl">Status</th>
+            <th class="text-xl">Daily Change</th>
+            <th class="text-xl">Gain/Loss</th>
+            <th class="text-xl"></th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for trade in userDetail.portfolio %}
+              {% if trade['type'] == 'call' or trade['type'] == 'put' %}
+              <tr class="hover mt-5">
+                {% set stock = trade['ticker'] %}
+                {% set quantity = trade['quantity'] %}
+                {% set purchase_price = trade['premium'] %}
+                {% set strike_price = trade['strike'] %}
+                {% set prices = userDetail.get_price(stock) %}
+                {% set current_price = prices[-1] %}
+                {% if trade['type'] == 'call' %}
+                  {% set change = current_price - strike_price %}
+                {% else %}
+                  {% set change = strike_price - current_price  %}
+                {% endif %}
+                {% set daily_change = current_price - prices[-2] %}
+                {% set portfolio_value = userDetail.get_portfolio_value() %}
+                <th class="font-light">{{ trade['type'].capitalize() }}</th>
+                <th class="font-light">{{ trade['datetime'] }}</th>
+                <th class="font-light">{{ stock.upper() }}</th>
+                <th class="font-light">{{ trade['symbol'] }}</th>
+                <th class="font-light">{{ quantity }}</th>
+                <th class="font-light">${{ '%0.2f' % purchase_price.__round__(2) }}</th>
+                <th class="font-light">${{ '%0.2f' % strike_price.__round__(2) }}</th>
+                {% if change < 0 %}
+                  <th class="font-light text-red-500">${{ '%0.2f' % current_price.__round__(2) }}</th>
+                {% elif change > 0 %}
+                  <th class="font-light text-success">${{ '%0.2f' % current_price.__round__(2) }}</th>
+                {% else %}
+                  <th class="font-light">${{ '%0.2f' % current_price.__round__(2) }}</th>
+                {% endif %}
+                {% if change > 0.50 %}
+                  <th class="font-light text-success">ITM</th>
+                {% elif change < -0.50 %}
+                  <th class="font-light text-red-500">OTM</th>
+                {% else %}
+                  <th class="font-light">ATM</th>
+                {% endif %}
+                {% if daily_change < 0 %}
+                  <th class="font-light text-red-500">-${{ '%0.2f' % -daily_change.__round__(2) }}</th>
+                {% elif daily_change > 0 %}
+                  <th class="font-light text-success">+${{ '%0.2f' % daily_change.__round__(2) }}</th>
+                {% else %}
+                  <th class="font-light">${{ '%0.2f' % daily_change.__round__(2) }}</th>
+                {% endif %}
+                {% if change - purchase_price < 0 %}
+                  <th class="font-light text-red-500">-${{ '%0.2f' % -((change - purchase_price) * quantity).__round__(2) }}</th>
+                {% elif change > 0 %}
+                  <th class="font-light text-success">+${{ '%0.2f' % ((change - purchase_price) * quantity).__round__(2) }}</th>
+                {% else %}
+                  <th class="font-light">${{ '%0.2f' % ((change - purchase_price) * quantity).__round__(2) }}</th>
+                {% endif %}
+                <th class="font-light">
+                  {% if trade['type'] == 'call'  %}
+                    <a href="{{ userDetail.get_sell_url(trade['uid'], stock, quantity) }}" class="text-xl btn btn-primary w-full border-indigo-400 bg-transparent gradient-border hover:border-transparent transition-all">Buy</a>
+                  {% else %}
+                    <a href="{{ userDetail.get_cover_url(trade['uid'], stock, quantity) }}" class="text-xl btn btn-primary w-full border-indigo-400 bg-transparent gradient-border hover:border-transparent transition-all">Sell</a>
+                  {% endif %}
+                  </th>
+              </tr>
+              {% endif %}
+            {% endfor %}
         </tbody>
       </table>
   

@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, IntegerField, PasswordField, SubmitField
+from wtforms import StringField, IntegerField, DecimalField, SelectField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Length
 
 class LoginForm(FlaskForm):
@@ -16,8 +16,6 @@ class PlayersForm(FlaskForm):
   email_5 = StringField('Player 5: Email')
   email_6 = StringField('Player 6: Email')
   submit = SubmitField('Create Game')
-
-
 
 class BuyStockForm(FlaskForm):
   ticker = StringField('Ticker: ', validators=[DataRequired()], render_kw={"placeholder": "Ticker"})
@@ -38,6 +36,22 @@ class CoverStockForm(FlaskForm):
   ticker = StringField('Ticker: ', validators=[DataRequired()], render_kw={"placeholder": "Ticker"})
   quantity = IntegerField('Quantity: ', validators=[DataRequired()], render_kw={"placeholder": "Quantity"})
   submit = SubmitField('Cover')
+
+class OptionsForm(FlaskForm):
+  optionTicker = StringField('Ticker: ', validators=[DataRequired()], render_kw={"placeholder": "Ticker"})
+  submit = SubmitField('Get Options')
+
+class OptionChainForm(FlaskForm):
+  optionTicker = StringField('Ticker: ', validators=[DataRequired()], render_kw={"placeholder": "Ticker"})
+  expiry = SelectField('Expiration Date: ', validators=[DataRequired()], choices=[('1', '1'), ('2', '2'), ('3', '3'), ('4', '4'), ('5', '5')])
+  submit = SubmitField('Get Option Chain')
+
+class CallStockForm(FlaskForm):
+  optionTicker = StringField('Ticker: ', validators=[DataRequired()], render_kw={"placeholder": "Ticker"})
+  expiry = StringField('Expiration Date: ', validators=[DataRequired()], render_kw={"placeholder": "Expiration Date"})
+  contractSymbol = SelectField('Contract Symbol: ', validators=[DataRequired()], choices=[('1', '1'), ('2', '2'), ('3', '3'), ('4', '4'), ('5', '5')])
+  contracts = IntegerField('Contracts: ', validators=[DataRequired()], render_kw={"placeholder": "Contracts"})
+  submit = SubmitField('Call')
 
 class ConfirmForm(FlaskForm):
   confirm = SubmitField('Confirm')

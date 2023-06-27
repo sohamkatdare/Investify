@@ -36,6 +36,9 @@ class PaperTrader:
     
     def get_cover_url(self, uid, ticker, quantity):
         return f'paper-trading/cover?{self.get_url_from_name()}&uid={uid}&t={ticker.upper()}&q={quantity}'
+    
+    def get_option_buy_url(self, uid):
+        return f'paper-trading/buy?{self.get_url_from_name()}&uid={uid}'
 
     @staticmethod
     def get_prices_for_tickers(ticker):

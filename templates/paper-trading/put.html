@@ -1,11 +1,11 @@
 {% extends "template.html" %}
-{% block title %}Paper Trading - Call{% endblock title %}
-{% block pageTitle %}Paper Trading - Call{% endblock pageTitle %}
+{% block title %}Paper Trading - Put{% endblock title %}
+{% block pageTitle %}Paper Trading - Put{% endblock pageTitle %}
 {% block body %}
 {{ super() }}
 <form class="form-control min-w-full ml-2" role="search" method="POST" action="" autocapitalize="characters" autocomplete="off">
   <div class="gradient-text text-2xl mb-2">
-    <h1>"{{ game }}" Call Stocks:</h1>
+    <h1>"{{ game }}" Put Stocks:</h1>
   </div>
     <div class="flex flex-col gap-y-6">
       {% if pageNumber == 0 %}
@@ -50,39 +50,39 @@
           <p id="inTheMoney">In The Money: </p>
         </div>
         {% if pageNumber == 2 %}
-          {% if callStock.optionTicker.errors %}
-            {{ callStock.optionTicker(class="input input-bordered w-full", readonly=True) }}
-                {% for error in callStock.optionTicker.errors %}
+          {% if putStock.optionTicker.errors %}
+            {{ putStock.optionTicker(class="input input-bordered w-full", readonly=True) }}
+                {% for error in putStock.optionTicker.errors %}
                 <span class="invalid-feedback">{{ error }}</span>
                 {% endfor %}
             {% else %}
-                {{ callStock.optionTicker(class="input input-bordered w-full", readonly=True) }}
+                {{ putStock.optionTicker(class="input input-bordered w-full", readonly=True) }}
             {% endif %}
-            {% if callStock.expiry.errors %}
-            {{ callStock.expiry(class="input input-bordered w-full", readonly=True) }}
-                {% for error in callStock.expiry.errors %}
+            {% if putStock.expiry.errors %}
+            {{ putStock.expiry(class="input input-bordered w-full", readonly=True) }}
+                {% for error in putStock.expiry.errors %}
                 <span class="invalid-feedback">{{ error }}</span>
                 {% endfor %}
             {% else %}
-                {{ callStock.expiry(class="input input-bordered w-full", readonly=True) }}
+                {{ putStock.expiry(class="input input-bordered w-full", readonly=True) }}
             {% endif %}
-          {% if callStock.contractSymbol.errors %}
-          {{ callStock.contractSymbol(class="select select-bordered w-full", id="contractSymbol") }}
-              {% for error in callStock.contractSymbol.errors %}
+          {% if putStock.contractSymbol.errors %}
+          {{ putStock.contractSymbol(class="select select-bordered w-full", id="contractSymbol") }}
+              {% for error in putStock.contractSymbol.errors %}
               <span class="invalid-feedback">{{ error }}</span>
               {% endfor %}
           {% else %}
-              {{ callStock.contractSymbol(class="select select-bordered w-full", id="contractSymbol") }}
+              {{ putStock.contractSymbol(class="select select-bordered w-full", id="contractSymbol") }}
           {% endif %}
-          {% if callStock.contracts.errors %}
-          {{ callStock.contracts(class="input input-bordered w-full") }}
-              {% for error in callStock.contracts.errors %}
+          {% if putStock.contracts.errors %}
+          {{ putStock.contracts(class="input input-bordered w-full") }}
+              {% for error in putStock.contracts.errors %}
               <span class="invalid-feedback">{{ error }}</span>
               {% endfor %}
           {% else %}
-              {{ callStock.contracts(class="input input-bordered w-full") }}
+              {{ putStock.contracts(class="input input-bordered w-full") }}
           {% endif %}
-          {{callStock.submit(class="btn btn-primary border-indigo-400 bg-transparent gradient-border hover:border-transparent  transition-all ")}}
+          {{putStock.submit(class="btn btn-primary border-indigo-400 bg-transparent gradient-border hover:border-transparent  transition-all ")}}
           <script>
             optionData = JSON.parse({{ optionData|tojson }});
             function onContractChange(e){

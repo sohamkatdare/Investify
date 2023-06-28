@@ -9,7 +9,7 @@ import pandas as pd
 from dotenv import load_dotenv
 load_dotenv()
 
-from forms import LoginForm, RegisterForm, ResetPasswordForm, TickerForm, PlayersForm, BuyStockForm, SellStockForm, ShortStockForm, CoverStockForm, OptionsForm, OptionChainForm, CallStockForm, ConfirmForm
+from forms import LoginForm, RegisterForm, ResetPasswordForm, TickerForm, PlayersForm, BuyStockForm, SellStockForm, ShortStockForm, CoverStockForm, OptionsForm, OptionChainForm, CallStockForm, PutStockForm, ConfirmForm
 from socialstats import getSocialStats
 from polygon_io import getStockData
 from finance_analysis import get_pe_and_eps, get_composite_score, get_news
@@ -588,6 +588,7 @@ def papertrading_call():
   if optionChainForm.optionTicker.data and optionChainForm.expiry.data:
     try:
       optionData, optionDataJSON = paperTrader.preview_options(optionChainForm.optionTicker.data, optionChainForm.expiry.data, 'calls') # type: ignore
+      print('Option Data', optionData)
       callStock.optionTicker.data = optionChainForm.optionTicker.data
       callStock.expiry.data = optionChainForm.expiry.data
       callStock.contractSymbol.choices = [(i, optionData['contractSymbol'][i]) for i in sorted(optionData['contractSymbol'].keys())]
@@ -610,6 +611,83 @@ def papertrading_call():
     except ValueError as e:
       flash(str(e), 'error')
   return render_template('paper-trading/call.html', data=None, searchForm=searchForm, is_search=True, user_id=user_id, current_identity=user_id, user=user, optionForm=optionForm, optionChainForm=optionChainForm, callStock=callStock, confirm=confirm, game=game, pageNumber=pageNumber, optionData=optionDataJSON, optionDetails=optionDetails)
+
+@app.route('/paper-trading/put', methods=['GET', 'POST'])
+@jwt_required()
+def papertrading_put():
+  searchForm = TickerForm()
+  optionForm = OptionsForm()
+  optionChainForm = OptionChainForm()
+  putStock = PutStockForm()
+  confirm = ConfirmForm()
+  user_id = get_jwt_identity()
+  user = User.get_user_by_email(user_id)
+  game = request.args.get('gid')
+  ticker = request.args.get('t').upper() if request.args.get('t') else None # type: ignore
+  expiry = request.args.get('e') if request.args.get('e') else None # type: ignore
+  contractSymbol = request.args.get('s') if request.args.get('s') else None # type: ignore
+  contracts = int(request.args.get('c')) if request.args.get('c') else None # type: ignore
+  optionDataJSON = None
+  optionDetails = None
+  pageNumber = 0
+  paperTrader = PaperTraderGame.get_paper_trader(game, user_id)
+  if optionForm.optionTicker.data:
+    try:
+      options = PaperTrader.get_options(optionForm.optionTicker.data)
+      optionChainForm.optionTicker.data = optionForm.optionTicker.data
+      optionChainForm.expiry.choices = [(option, option) for option in options]
+      pageNumber = 1
+    except ValueError as e:
+      flash(str(e), 'error')
+  if optionChainForm.optionTicker.data and optionChainForm.expiry.data:
+    try:
+      optionData, optionDataJSON = paperTrader.preview_options(optionChainForm.optionTicker.data, optionChainForm.expiry.data, 'puts') # type: ignore
+      print('Option Data', optionData)
+      putStock.optionTicker.data = optionChainForm.optionTicker.data
+      putStock.expiry.data = optionChainForm.expiry.data
+      putStock.contractSymbol.choices = [(i, optionData['contractSymbol'][i]) for i in sorted(optionData['contractSymbol'].keys())]
+      pageNumber = 2
+    except ValueError as e:
+      flash(str(e), 'error')
+  if putStock.optionTicker.data and putStock.expiry.data and putStock.contractSymbol.data and putStock.contracts.data:
+    try:
+      contractSymbol = [j for i, j in putStock.contractSymbol.choices if i == int(putStock.contractSymbol.data)][0]
+      strikePrice, premium, contractSize, inTheMoney, cost = paperTrader.preview_put(putStock.optionTicker.data, putStock.expiry.data, contractSymbol, putStock.contracts.data)
+      optionDetails = json.dumps({'strikePrice': strikePrice, 'premium': premium, 'contractSize': contractSize, 'inTheMoney': inTheMoney, 'cost': cost, 'ticker': putStock.optionTicker.data, 'expiry': putStock.expiry.data, 'contractSymbol': contractSymbol, 'contracts': putStock.contracts.data})
+      pageNumber = 3
+    except ValueError as e:
+      flash(str(e), 'error')
+  if ticker and expiry and contractSymbol and contracts:
+    try:
+      paperTrader.put(ticker, expiry, contractSymbol, contracts)
+      flash(f'Put order for {contracts} contracts of {contractSymbol} placed successfully!', 'success')
+      return redirect(url_for('papertrading', gid=game))
+    except ValueError as e:
+      flash(str(e), 'error')
+  return render_template('paper-trading/put.html', data=None, searchForm=searchForm, is_search=True, user_id=user_id, current_identity=user_id, user=user, optionForm=optionForm, optionChainForm=optionChainForm, putStock=putStock, confirm=confirm, game=game, pageNumber=pageNumber, optionData=optionDataJSON, optionDetails=optionDetails)
+
+
+@app.route('/paper-trading/exercise', methods=['GET', 'POST'])
+@jwt_required()
+def exercise_option():
+  searchForm = TickerForm()
+  confirm = ConfirmForm()
+  user_id = get_jwt_identity()
+  user = User.get_user_by_email(user_id)
+  game = request.args.get('gid')
+  uid = request.args.get('uid')
+  paperTrader = PaperTraderGame.get_paper_trader(game, user_id)
+  try:
+    option = paperTrader.get_option(uid)
+    price, gain = paperTrader.preview_exercise(uid)
+    if confirm.confirm.data:
+      paperTrader.exercise(uid)
+      flash(f"Exercised {option['type'].capitalize()} Option {option['symbol']} for {option['quantity']} shares of {option['ticker']} at ${option['strike']}.")
+      return redirect(url_for('papertrading', gid=game))
+  except ValueError as e:
+    flash(str(e), 'error')
+    return redirect(url_for('papertrading', gid=game))
+  return render_template('paper-trading/exercise.html', data=None, searchForm=searchForm, is_search=True, user_id=user_id, current_identity=user_id, user=user, confirm=confirm, option=option, price=price, gain=gain)
 
 @app.route('/logout')
 @jwt_required()

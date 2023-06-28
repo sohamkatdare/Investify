@@ -53,6 +53,13 @@ class CallStockForm(FlaskForm):
   contracts = IntegerField('Contracts: ', validators=[DataRequired()], render_kw={"placeholder": "Contracts"})
   submit = SubmitField('Call')
 
+class PutStockForm(FlaskForm):
+  optionTicker = StringField('Ticker: ', validators=[DataRequired()], render_kw={"placeholder": "Ticker"})
+  expiry = StringField('Expiration Date: ', validators=[DataRequired()], render_kw={"placeholder": "Expiration Date"})
+  contractSymbol = SelectField('Contract Symbol: ', validators=[DataRequired()], choices=[('1', '1'), ('2', '2'), ('3', '3'), ('4', '4'), ('5', '5')])
+  contracts = IntegerField('Contracts: ', validators=[DataRequired()], render_kw={"placeholder": "Contracts"})
+  submit = SubmitField('Put')
+
 class ConfirmForm(FlaskForm):
   confirm = SubmitField('Confirm')
 

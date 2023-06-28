@@ -3,6 +3,8 @@ import pandas as pd
 import matplotlib
 import matplotlib.pyplot as plt
 from textblob import TextBlob
+from bs4 import BeautifulSoup
+import os
 # from wordcloud import WordCloud, STOPWORDS
 
 matplotlib.use('Agg')
@@ -38,7 +40,7 @@ def getSocialStats(ticker):
 
     df = pd.DataFrame(data=[[tweet.created_at, tweet.text, len(tweet.text), tweet.id, tweet.favorite_count, tweet.retweet_count] for tweet in own_tweets], columns=['Date', 'Tweet', 'Length', 'ID', 'Likes', 'Retweets'])
 
-    f = lambda tweet: TextBlob(tweet).sentiment.polarity
+    f = lambda tweet: TextBlob(tweet).sentiment.polarity # type: ignore
     df['Sentiment'] = df['Tweet'].apply(f)
     df['Date'] = pd.to_datetime(df['Date']).dt.date
 
@@ -78,5 +80,57 @@ def getSocialStats(ticker):
 
     return [i for i in own_tweets if len(i.text.split(' ')) > 15][:6], df, df.loc[:, 'Sentiment'].mean()
 
+# Reimplementing Twitter architecture
+def getTweetsFromHTML(html, ticker):
+    # We want to retrieve the tweets from the HTML, and get the following information:
+    # - Tweet text
+    # - Tweet date
+    # - Tweet author
+    # - Tweet author profile pic
+    # - Tweet author verification status
+    # - Tweet url
+    # - IF image, THEN image_url (could be removed if having some image and some not is bad UI)
+    # - Maybe Tweet likes and retweets
+    html_test = getHTMLFromFile('example')
+    soup = BeautifulSoup(html_test, 'html.parser')
+    tweets = soup.find_all('article', attrs={'role': 'article'})
+    profile_pic_src = ''
+    image_src = ''
+    for tweet in tweets:
+        images = tweet.find_all('img', attrs={'alt': 'Image', 'class': 'css-9pa8cd'})
+        if len(images) > 0:
+            profile_pic_src = images[0]['src']
+            if len(images) > 1:
+                image_src = images[1]['src']
+        tweet_link = tweet.find('a', attrs={'role': 'link', 'class': 'css-4rbku5 css-18t94o4 css-1dbjc4n r-1loqt21 r-1pi2tsx r-1ny4l3l'})
+        tweet_text_div = tweet.find('div', attrs={'dir': 'auto', 'lang': 'en', 'data-testid': 'tweetText'})
+        tweet_text = reconstruct_tweet(tweet_text_div)
+        print(tweet_text)
+        tweet_author = tweet.find('div', attrs={'data-testid': 'User-Name'}).find('span', attrs={'class': 'css-901oao css-16my406 r-1awozwy r-xoduu5 r-poiln3 r-bcqeeo r-qvutc0'})
+
+    pass
+
+def reconstruct_tweet(tweet_div):
+    tweet_text = ''
+    for span in tweet_div.find_all('span'):
+        if 'css-901oao' in span.get('class', []):
+                tweet_text += span.text
+        elif 'r-18u37iz' in span.get('class', []):
+                a = span.find('a')
+                if a and not a['href'].startswith(('http', 'https')):
+                    tweet_text += a.text
+    if tweet_text.endswith("Show more"):
+        tweet_text = tweet_text[:-9].rstrip()
+    return tweet_text
+
+def getHTMLFromFile(filename):
+    # We want to retrieve the HTML from the file
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    html_file_path = os.path.join(script_dir, f'static/test/html/{filename}.html')
+    with open(html_file_path, 'r', encoding='utf-8') as file:
+        html = file.read()
+        # print(html)
+        return html
 if __name__ == '__main__':
-    print(getSocialStats('MSFT'))
+    # print(getSocialStats('MSFT'))
+    getTweetsFromHTML('example', 'MSFT')

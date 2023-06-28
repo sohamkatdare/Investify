@@ -1,0 +1,64 @@
+{% extends "template.html" %}
+{% block title %}Paper Trading - Exercise{% endblock title %}
+{% block pageTitle %}Paper Trading - Exercise{% endblock pageTitle %}
+{% block body %}
+{{ super() }}
+<form class="form-control min-w-full ml-2" role="search" method="POST" action="" autocapitalize="characters" autocomplete="off">
+  <div class="gradient-text text-2xl mb-2">
+    <h1>"{{ game }}" Exercise Stocks:</h1>
+  </div>
+    <div class="flex flex-col gap-y-6">
+        <div class="flex justify-center items-center text-green-400 text-xl font-bold hover:bg-white/[0.075] bg-transparent border-2 border-white/25 hover:border-transparent rounded-full min-w-64 h-8 p-4 mb-2 text-center">
+            <p>Ticker: {{option['ticker'].upper()}}</p>
+        </div>
+        <div class="flex justify-center items-center text-green-400 text-xl font-bold hover:bg-white/[0.075] bg-transparent border-2 border-white/25 hover:border-transparent rounded-full min-w-64 h-8 p-4 mb-2 text-center">
+            <p>Quantity: {{option['quantity']}}</p>
+        </div>
+        <div class="flex justify-center items-center text-red-400 text-xl font-bold hover:bg-white/[0.075] bg-transparent border-2 border-white/25 hover:border-transparent rounded-full min-w-64 h-8 p-4 mb-2 text-center">
+            <p>Option Type: {{option['type'].capitalize()}}</p>
+        </div>
+        <div class="flex justify-center items-center text-red-400 text-xl font-bold hover:bg-white/[0.075] bg-transparent border-2 border-white/25 hover:border-transparent rounded-full min-w-64 h-8 p-4 mb-2 text-center">
+            <p>Premium: ${{'%0.2f' % option['premium'].__round__(2)}}</p>
+        </div>
+        <div class="flex justify-center items-center text-red-400 text-xl font-bold hover:bg-white/[0.075] bg-transparent border-2 border-white/25 hover:border-transparent rounded-full min-w-64 h-8 p-4 mb-2 text-center">
+            <p>Strike Price: ${{'%0.2f' % option['strike'].__round__(2)}}</p>
+        </div>
+        <div class="flex justify-center items-center text-red-400 text-xl font-bold hover:bg-white/[0.075] bg-transparent border-2 border-white/25 hover:border-transparent rounded-full min-w-64 h-8 p-4 mb-2 text-center">
+            <p>Market Price: ${{'%0.2f' % price.__round__(2)}}</p>
+        </div>
+        {% if gain >= 0 %}
+            <div class="flex justify-center items-center text-green-400 text-xl font-bold hover:bg-white/[0.075] bg-transparent border-2 border-white/25 hover:border-transparent rounded-full min-w-64 h-8 p-4 mb-2 text-center">
+                <p>Gain/Loss (w/o Premium): ${{ '%0.2f' % gain.__round__(2) }}</p>
+            </div>
+        {% else %}
+        <div class="flex justify-center items-center text-red-400 text-xl font-bold hover:bg-white/[0.075] bg-transparent border-2 border-white/25 hover:border-transparent rounded-full min-w-64 h-8 p-4 mb-2 text-center">
+            <p>Gain/Loss (w/o Premium): -${{ '%0.2f' % -gain.__round__(2) }}</p>
+        </div>
+        {% endif %}
+        {% set gain_premium = gain - (option['quantity'] * option['premium']) %}
+        {% if gain_premium >= 0 %}
+            <div class="flex justify-center items-center text-green-400 text-xl font-bold hover:bg-white/[0.075] bg-transparent border-2 border-white/25 hover:border-transparent rounded-full min-w-64 h-8 p-4 mb-2 text-center">
+                <p>Gain/Loss (w/ Premium): ${{ '%0.2f' % gain_premium.__round__(2) }}</p>
+            </div>
+        {% else %}
+        <div class="flex justify-center items-center text-red-400 text-xl font-bold hover:bg-white/[0.075] bg-transparent border-2 border-white/25 hover:border-transparent rounded-full min-w-64 h-8 p-4 mb-2 text-center">
+            <p>Gain/Loss (w/ Premium): -${{ '%0.2f' % -gain_premium.__round__(2) }}</p>
+        </div>
+        {% endif %}
+        {{confirm.confirm(class="btn btn-primary border-indigo-400 bg-transparent gradient-border hover:border-transparent transition-all")}}
+    </div>
+  </form>
+{% endblock body %}
+{{ super()}}
+{% block search_results %}
+
+{% if data != None %}
+<div id="data">
+  <h1 class="text-5xl text-primary mt-10 mb-10">Article Summary</h1>
+  <h3 class="text-xl mt-10 mb-10">{{data}}</h3>
+  <button class="btn btn-primary border-indigo-400 bg-transparent gradient-border hover:border-transparent  transition-all inline-block"><a href="{{link}}" target="_blank">Go to Original Article</a></button>
+</div>
+{% endif %}
+{% endblock search_results %}
+
+{% block footerClass %}fixed-bottom{% endblock footerClass %}

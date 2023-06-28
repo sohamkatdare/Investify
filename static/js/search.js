@@ -268,7 +268,7 @@ async function getPeAndEPS(ticker) {
     epsRatio.innerHTML = `<div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div>`;
     // Get the PE and EPS data from the backend asychronously
     // and populate the PE and EPS in the search.html page.
-    const response = await fetch('/search/pe-and-eps?ticker=' + ticker).catch(onFail);
+    const response = await fetch('/search/pe-and-eps?ticker=' + ticker);
     const data = await response.json();
 
     // TODO: Formatting for PE and EPS.
@@ -281,7 +281,7 @@ async function getCompositeScore(ticker) {
     compositeScore.innerHTML = `<div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div>`;
     // Get the composite score data from the backend asychronously
     // and populate the composite score in the search.html page.
-    const response = await fetch('/search/composite-score?ticker=' + ticker).catch(onFail);
+    const response = await fetch('/search/composite-score?ticker=' + ticker);
     const data = await response.json();
 
     // TODO: Formatting for Composite Score.
@@ -431,6 +431,34 @@ async function getNews(ticker) {
 }
 
 async function getInsiderTrading(ticker) {
+    // Create skeleton cards
+    const skeletonHTML = `<div class="card card-compact w-96 bg-[#1b1726] shadow-xl" data-link>
+            <div class="card-body">
+                <div class="flex flex-row justify-between">
+                    <div class="flex flex-row gap-x-2">
+                        <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="inline w-4 h-4">
+                            <path class="inline" stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                        </svg></span> <span class="inline skeleton w-4/5 h-4 mb-2 rounded-sm"></span>
+                    </div>
+                    <div class="flex flex-row gap-x-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008zM12 15h.008v.008H12V15zm0 2.25h.008v.008H12v-.008zM9.75 15h.008v.008H9.75V15zm0 2.25h.008v.008H9.75v-.008zM7.5 15h.008v.008H7.5V15zm0 2.25h.008v.008H7.5v-.008zm6.75-4.5h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V15zm0 2.25h.008v.008h-.008v-.008zm2.25-4.5h.008v.008H16.5v-.008zm0 2.25h.008v.008H16.5V15z" />
+                        </svg>
+                        <span class="inline skeleton w-4/5 h-4 mb-2 rounded-sm"></span>
+                    </div>
+                </div>
+                <div class="flex justify-between w-full">
+                    <h2 class="card-title text-4xl mr-6 font-bold skeleton w-4/5 h-4 mb-2 rounded-sm data-title></h2>
+                    <h2 class="card-title text-4xl ml-6 font-bold skeleton w-4/5 h-4 mb-2 rounded-sm"></h2>
+                </div>
+                <div class="flex justify-between">
+                    <p class="skeleton w-4/5 h-4 mb-2 rounded-sm"></p>
+                    <p class="text-end skeleton w-4/5 h-4 mb-2 rounded-sm"></p>
+                </div>
+            </div>
+        </div>`
+
+    document.getElementById("insider-trading").innerHTML = skeletonHTML.repeat(2);
     // Get the news data from the backend asychronously
     // and populate the news in the search.html page.
     const response = await fetch('/search/insider-trading?ticker=' + ticker).catch(onFail);
@@ -446,7 +474,7 @@ async function getInsiderTrading(ticker) {
 
         if (element.action == "Sold") {
             color = "red";
-        } else {
+        } else if (element.action == "Bought") {
             color = "green"
         }
 
@@ -472,21 +500,26 @@ async function getInsiderTrading(ticker) {
                 </div>
                 <div class="flex justify-between">
                     <p>${element.stock_type}</p>
-                    <p>Qty: ${element.quantity}</p>
+                    <p class="text-end">Qty: ${element.quantity}</p>
                 </div>
             </div>
         </div>`
         // }
     })
 
+
     if (count == 0) {
-        insiderHTML = `<div class="rounded-xl bg-[#1b1726] grid">
-        
-        </div>`
+        document.getElementById("insider-heading").classList.add("hidden")
+        document.getElementById("insider-trading").classList.add("hidden")
     }
-    
-    // TODO: Formatting for News. Probably will use cards, but not sure yet.
+
+    if (count != 0) {
+        document.getElementById("insider-heading").classList.remove("hidden")
+        document.getElementById("insider-trading").classList.remove("hidden")
+    }
+
     document.getElementById("insider-trading").innerHTML = insiderHTML;
+    
 }
 
 // TODO: Add other functions to get the other data from the backend.

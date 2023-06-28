@@ -111,10 +111,10 @@
             <div class="card w-full border-2 my-6 border-dashed border-white/[0.1]">
               <div class="card-body m-auto">
                 <div class="card-title m-auto">
-                  {% if userDetail.get_portfolio_value() - userDetail.capital > 0 %}
-                    You have bought ${{ (userDetail.get_portfolio_value() - userDetail.capital).__round__(2) }} worth of stocks.
+                  {% if userDetail.get_portfolio_value() - userDetail.capital >= 0 %}
+                    You have bought ${{ '%0.2f' % (userDetail.get_portfolio_value() - userDetail.capital).__round__(2) }} worth of stocks.
                   {% else %}
-                    You have bought -${{ -(userDetail.get_portfolio_value() - userDetail.capital).__round__(2) }} worth of stocks.
+                    You have bought -${{ '%0.2f' % -(userDetail.get_portfolio_value() - userDetail.capital).__round__(2) }} worth of stocks.
                   {% endif %}
                 </div>
                 <div class="grid grid-cols-4">
@@ -199,11 +199,7 @@
                   <th class="font-light">${{ '%0.2f' % ((change - purchase_price) * quantity).__round__(2) }}</th>
                 {% endif %}
                 <th class="font-light">
-                  {% if trade['type'] == 'call'  %}
-                    <a href="{{ userDetail.get_option_buy_url(trade['uid']) }}" class="text-xl btn btn-primary w-full border-indigo-400 bg-transparent gradient-border hover:border-transparent transition-all">Buy</a>
-                  {% else %}
-                    <a href="{{ userDetail.get_cover_url(trade['uid'], stock, quantity) }}" class="text-xl btn btn-primary w-full border-indigo-400 bg-transparent gradient-border hover:border-transparent transition-all">Sell</a>
-                  {% endif %}
+                  <a href="{{ userDetail.get_option_exercise_url(trade['uid']) }}" class="text-xl btn btn-primary w-full border-indigo-400 bg-transparent gradient-border hover:border-transparent transition-all">Exercise</a>
                   </th>
               </tr>
               {% endif %}

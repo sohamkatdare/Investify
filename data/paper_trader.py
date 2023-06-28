@@ -37,8 +37,8 @@ class PaperTrader:
     def get_cover_url(self, uid, ticker, quantity):
         return f'paper-trading/cover?{self.get_url_from_name()}&uid={uid}&t={ticker.upper()}&q={quantity}'
     
-    def get_option_buy_url(self, uid):
-        return f'paper-trading/buy?{self.get_url_from_name()}&uid={uid}'
+    def get_option_exercise_url(self, uid):
+        return f'paper-trading/exercise?{self.get_url_from_name()}&uid={uid}'
 
     @staticmethod
     def get_prices_for_tickers(ticker):
@@ -109,7 +109,7 @@ class PaperTrader:
         prices = self.get_price(ticker)
         price = prices[-1]
         cost = price * quantity
-        if cost > self.capital and cost > self.get_buying_power():
+        if cost > self.capital or cost > self.get_buying_power():
             print("Insufficient funds to make this purchase.")
             raise ValueError("Insufficient funds to make this purchase.")
         else:
@@ -137,7 +137,7 @@ class PaperTrader:
         prices = self.get_price(ticker)
         price = prices[-1]
         cost = price * quantity
-        if cost > self.capital and cost > self.get_buying_power():
+        if cost > self.capital or cost > self.get_buying_power():
             print("Insufficient funds to make this purchase.")
             raise ValueError("Insufficient funds to make this purchase.")
         else:
@@ -163,8 +163,11 @@ class PaperTrader:
     
     def preview_options(self, ticker, expiry, key):
         data = self.get_option_chain(ticker, expiry)[key]
+        print(data)
         # Remove all options that have 0 premium.
-        data = data[(data['bid'] + data['ask'])/2 != 0]
+        bid_ask = data[(data['bid'] + data['ask'])/2 > 0]
+        if len(bid_ask) > 5: # If no results, default to using lastPrice.
+            data = bid_ask
         return data.to_dict(), data.to_json()
     
     def preview_call(self, ticker, expiry, contractSymbol, contracts):
@@ -172,15 +175,49 @@ class PaperTrader:
         call_data = call_data[call_data['contractSymbol'] == contractSymbol]
         strikePrice = call_data['strike'].values[0]
         premium = (call_data['bid'].values[0] + call_data['ask'].values[0]) / 2
+        if not premium:
+            premium = call_data['lastPrice'].values[0]
         contractSize = call_data['contractSize'].values[0]
         inTheMoney = bool(call_data['inTheMoney'].values[0])
         cost = premium * contracts * 100 # Assuming 100 shares per contract.
-        if cost > self.capital and cost > self.get_buying_power():
+        if cost > self.capital or cost > self.get_buying_power():
             print("Insufficient funds to make this purchase.")
             raise ValueError("Insufficient funds to make this purchase.")
         else:
             print(f"Calling {contracts} contracts of {ticker} at ${strikePrice} strike price and ${premium} premium would cost ${cost:.2f}")
         return strikePrice, premium, contractSize, inTheMoney, cost
+    
+    def preview_put(self, ticker, expiry, contractSymbol, contracts):
+        put_data = self.get_option_chain(ticker, expiry)['puts']
+        put_data = put_data[put_data['contractSymbol'] == contractSymbol]
+        strikePrice = put_data['strike'].values[0]
+        premium = (put_data['bid'].values[0] + put_data['ask'].values[0]) / 2
+        if not premium:
+            premium = put_data['lastPrice'].values[0]
+        contractSize = put_data['contractSize'].values[0]
+        inTheMoney = bool(put_data['inTheMoney'].values[0])
+        cost = premium * contracts * 100 # Assuming 100 shares per contract.
+        if cost > self.capital or cost > self.get_buying_power():
+            print("Insufficient funds to make this purchase.")
+            raise ValueError("Insufficient funds to make this purchase.")
+        else:
+            print(f"Putting {contracts} contracts of {ticker} at ${strikePrice} strike price and ${premium} premium would cost ${cost:.2f}")
+        return strikePrice, premium, contractSize, inTheMoney, cost
+    
+    def preview_exercise(self, uid):
+        option = self.get_option(uid)
+        ticker = option['ticker']
+        strike = option['strike']
+        quantity = option['quantity']
+        prices = self.get_price(ticker)
+        price = float(prices[-1])
+        gain = (price - strike) * quantity
+        if option['type'] == 'put':
+            gain = (strike - price) * quantity
+        if self.capital + gain < 0 or self.get_buying_power() + gain < 0: # Check if the purchase can be made (enough free capital (not invested in stocks)).
+            print("Insufficient funds to make this purchase.")
+            raise ValueError("Insufficient funds to make this purchase.")
+        return price, gain
 
     def buy(self, ticker, quantity):
         prices = self.get_price(ticker)
@@ -188,7 +225,7 @@ class PaperTrader:
         print('Price', price)
         print('Quantity', quantity)
         cost = price * int(quantity)
-        if cost > self.capital and cost > self.get_buying_power(): # Check if the purchase can be made (enough free capital (not invested in stocks)).
+        if cost > self.capital or cost > self.get_buying_power(): # Check if the purchase can be made (enough free capital (not invested in stocks)).
             print("Insufficient funds to make this purchase.")
             raise ValueError("Insufficient funds to make this purchase.")
         else:
@@ -229,7 +266,7 @@ class PaperTrader:
         prices = self.get_price(ticker)
         price = float(prices[-1])
         cost = price * int(quantity)
-        if cost > self.capital and cost > self.get_buying_power():
+        if cost > self.capital or cost > self.get_buying_power():
             print("Insufficient funds to make this purchase.")
             raise ValueError("Insufficient funds to make this purchase.")
         else:
@@ -270,9 +307,11 @@ class PaperTrader:
         call_data = self.get_option_chain(ticker, expiry)['calls']
         call_data = call_data[call_data['contractSymbol'] == contractSymbol]
         strikePrice = call_data['strike'].values[0]
-        premium = (call_data['bid'].values[0] + call_data['ask'].values[0]) / 2
+        premium = float((call_data['bid'].values[0] + call_data['ask'].values[0]) / 2)
+        if not premium:
+            premium = call_data['lastPrice'].values[0]
         cost = premium * contracts * 100 # Assuming 100 shares per contract.
-        if cost > self.capital and cost > self.get_buying_power():
+        if cost > self.capital or cost > self.get_buying_power():
             print("Insufficient funds to make this purchase.")
             raise ValueError("Insufficient funds to make this purchase.")
         else:
@@ -282,6 +321,57 @@ class PaperTrader:
             print(f"Called {contracts} contracts of {ticker} at ${strikePrice} strike price and ${premium} premium.")
             from data.firebase_controller import updatePortfolio
             updatePortfolio(self.name, self)
+
+    def put(self, ticker, expiry, contractSymbol, contracts):
+        put_data = self.get_option_chain(ticker, expiry)['puts']
+        put_data = put_data[put_data['contractSymbol'] == contractSymbol]
+        strikePrice = put_data['strike'].values[0]
+        premium = float((put_data['bid'].values[0] + put_data['ask'].values[0]) / 2)
+        if not premium:
+            premium = put_data['lastPrice'].values[0]
+        cost = premium * contracts * 100 # Assuming 100 shares per contract.
+        if cost > self.capital or cost > self.get_buying_power():
+            print("Insufficient funds to make this purchase.")
+            raise ValueError("Insufficient funds to make this purchase.")
+        else:
+            self.portfolio.append({'ticker': ticker, 'symbol': contractSymbol, 'quantity': contracts * 100, 'strike': strikePrice, 'premium': premium, 'expiry': expiry, 'datetime': datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'), 'type': 'put', 'uid': str(uuid.uuid4())})
+            PaperTrader.prices[ticker] = self.get_price(ticker)
+            self.capital -= cost
+            print(f"Put {contracts} contracts of {ticker} at ${strikePrice} strike price and ${premium} premium.")
+            from data.firebase_controller import updatePortfolio
+            updatePortfolio(self.name, self)
+
+    def get_option(self, uid):
+        option = [i for i in self.portfolio if i['uid'] == uid]
+        if uid:
+            if not option:
+                raise ValueError(f"Call or Put Option UID {uid} does not exist.")
+            else:
+                return option[0]
+        else:
+            raise ValueError("Call or Put Option UID must be provided.")
+
+    def exercise(self, uid):
+        option = self.get_option(uid)
+        ticker = option['ticker']
+        strike = option['strike']
+        quantity = option['quantity']
+        prices = self.get_price(ticker)
+        price = float(prices[-1])
+        gain = (price - strike) * quantity
+        if option['type'] == 'put':
+            gain = (strike - price) * quantity
+        if self.capital + gain < 0 or self.get_buying_power() + gain < 0: # Check if the purchase can be made (enough free capital (not invested in stocks)).
+            print("Insufficient funds to make this purchase.")
+            raise ValueError("Insufficient funds to make this purchase.")
+        else:
+            PaperTrader.prices[ticker] = prices
+            self.capital += gain
+            self.portfolio.remove(option)
+            print(f"Exercised {option['type'].capitalize()} Option {option['symbol']} for {quantity} shares of {ticker} at ${strike}")
+            from data.firebase_controller import updatePortfolio
+            updatePortfolio(self.name, self)
+        
 
     def print_portfolio(self):
         if not self.portfolio:

@@ -97,7 +97,33 @@
   {% endif %}
 </div>
 <div style="display: none;" id="search-results" class="">
-  <div class="grid mt-20 grid-cols-12 px-4 sm:px-16">
+  <div class="mt-10 w-screen bg-gradient-to-r text-white from-purple-500 to-purple-800 grid grid-rows-5 grid-cols-12">
+    <h1 class="text-5xl font-semibold row-start-3 col-start-3" id="ticker-heading">AAPL</h1>
+    <div class="col-start-6 col-end-11 row-span-5 grid content-center justify-end">
+      <div class="grid grid-cols-4 grid-rows-4 gap-x-10 gap-y-2">
+      <span class="col-start-1 font-semibold">Open</span>
+      <span class="col-start-2 text-end" id="open-val">1323213</span>
+      <span class="col-start-3 font-semibold">Prev Close</span>
+      <span class="col-start-4 text-end" id="close-val">219434</span>
+
+      <span class="col-start-1 font-semibold">High</span>
+      <span class="col-start-2 text-end" id="high-val">1323213</span>
+      <span class="col-start-3 font-semibold">Low</span>
+      <span class="col-start-4 text-end" id="low-val">219434</span>
+
+      <span class="col-start-1 font-semibold">Volume</span> 
+      <span class="col-start-2 text-end" id="volume-val">1323213</span>
+      <span class="col-start-3 font-semibold" >Turnover</span>
+      <span class="col-start-4 text-end" id="turnover-val">219434</span>
+      
+      <span class="col-start-1 font-semibold" >52-Week High</span>
+      <span class="col-start-2 text-end" id="long-high">1323213</span>
+      <span class="col-start-3 font-semibold" >52-Week Low</span>
+      <span class="col-start-4 text-end" id="long-low">219434</span>
+      </div>
+    </div>
+  </div>
+  <div class="grid mt-10 grid-cols-12 px-4 sm:px-16">
     <div class="col-span-12 lg:col-span-7 md:mx-5">
       <div class="min-h-[50vh] rounded-lg drop-shadow-lg skeleton" id="candle_div"></div>
       <div class="skeleton lg:outline lg:outline-offset-2 lg:outline-2 lg:outline-pink-600/50 hidden"></div> <!-- this element is for styles that js dynamically adds which main.css won't load otherwise -->

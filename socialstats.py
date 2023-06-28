@@ -4,7 +4,11 @@ import matplotlib
 import matplotlib.pyplot as plt
 from textblob import TextBlob
 from bs4 import BeautifulSoup
-import os
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.options import Options
+import time
+from threading import Thread
 # from wordcloud import WordCloud, STOPWORDS
 
 matplotlib.use('Agg')
@@ -81,36 +85,62 @@ def getSocialStats(ticker):
     return [i for i in own_tweets if len(i.text.split(' ')) > 15][:6], df, df.loc[:, 'Sentiment'].mean()
 
 # Reimplementing Twitter architecture
-def getTweetsFromHTML(html, ticker):
+def getTweetsFromHTML(ticker):
     # We want to retrieve the tweets from the HTML, and get the following information:
-    # - Tweet text
-    # - Tweet date
-    # - Tweet author
-    # - Tweet author profile pic
-    # - Tweet author verification status
-    # - Tweet url
-    # - IF image, THEN image_url (could be removed if having some image and some not is bad UI)
-    # - Maybe Tweet likes and retweets
-    html_test = getHTMLFromFile('example')
+    # - Tweet text - done
+    # - Tweet date - done
+    # - Tweet author - done
+    # - Tweet author profile pic - done
+    # - Tweet author verification status - done
+    # - Tweet url - done
+    # - IF image, THEN image_url (could be removed if having some image and some not is bad UI) - done
+    # - Maybe Tweet likes and retweets - TBD
+    html_test = getHTML(ticker)
     soup = BeautifulSoup(html_test, 'html.parser')
-    tweets = soup.find_all('article', attrs={'role': 'article'})
-    profile_pic_src = ''
-    image_src = ''
-    for tweet in tweets:
+    tweet_divs = soup.find_all('article', attrs={'role': 'article'})
+    tweets = []
+    for tweet in tweet_divs:
+        if not tweet:
+            print('Invalid Tweet')
+            continue
         images = tweet.find_all('img', attrs={'alt': 'Image', 'class': 'css-9pa8cd'})
+        profile_pic_src = ''
+        image_src = ''
         if len(images) > 0:
             profile_pic_src = images[0]['src']
             if len(images) > 1:
                 image_src = images[1]['src']
-        tweet_link = tweet.find('a', attrs={'role': 'link', 'class': 'css-4rbku5 css-18t94o4 css-1dbjc4n r-1loqt21 r-1pi2tsx r-1ny4l3l'})
         tweet_text_div = tweet.find('div', attrs={'dir': 'auto', 'lang': 'en', 'data-testid': 'tweetText'})
         tweet_text = reconstruct_tweet(tweet_text_div)
-        print(tweet_text)
-        tweet_author = tweet.find('div', attrs={'data-testid': 'User-Name'}).find('span', attrs={'class': 'css-901oao css-16my406 r-1awozwy r-xoduu5 r-poiln3 r-bcqeeo r-qvutc0'})
-
-    pass
+        if not tweet_text:
+            print('Invalid Tweet')
+            continue
+        tweet_username = tweet.find('div', attrs={'data-testid': 'User-Name'})
+        tweet_author_divs = tweet_username.find_all('span', attrs={'class': 'css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0'})# 
+        if 'css-1hf3ou5' in tweet_author_divs[0]['class']:
+            tweet_author_divs.pop()
+        tweet_author = tweet_author_divs[0].text
+        tweet_author_verified = len(tweet_author_divs) > 1
+        tweet_date_div = tweet.find('time')
+        tweet_date = tweet_date_div['datetime'] if tweet_date_div else None
+        tweet_link = 'https://twitter.com' + (tweet_date_div.parent["href"] if tweet_date_div else '')
+        
+        tweet_dict = {
+            'text': tweet_text,
+            'author': tweet_author,
+            'author_verified': tweet_author_verified,
+            'date': tweet_date,
+            'link': tweet_link,
+            'author_profile_pic': profile_pic_src,
+            'image': image_src
+        }
+        tweets.append(tweet_dict)
+    print(tweets[:5])
+    return tweets
 
 def reconstruct_tweet(tweet_div):
+    if not tweet_div:
+        return ''
     tweet_text = ''
     for span in tweet_div.find_all('span'):
         if 'css-901oao' in span.get('class', []):
@@ -123,14 +153,79 @@ def reconstruct_tweet(tweet_div):
         tweet_text = tweet_text[:-9].rstrip()
     return tweet_text
 
-def getHTMLFromFile(filename):
-    # We want to retrieve the HTML from the file
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    html_file_path = os.path.join(script_dir, f'static/test/html/{filename}.html')
-    with open(html_file_path, 'r', encoding='utf-8') as file:
-        html = file.read()
-        # print(html)
-        return html
+def getHTML(ticker):
+    # Use selenium to get the HTML of the page. Use headless chrome to avoid opening a browser.
+    chrome_options = Options()
+    chrome_options.add_argument("--headless")
+    driver = webdriver.Chrome(options=chrome_options)
+    driver.get('https://twitter.com/search?q=%24' + ticker + '&src=typed_query')
+    # Wait for the page to load
+    time.sleep(2)
+    # Keep the page open and let the user login into twitter.
+    # Select the input with name="text"
+    for i in range(5):
+        try:
+            driver.find_element(By.NAME, "text").send_keys("2676521755")
+            spans = driver.find_elements(By.TAG_NAME, "span")
+            for span in spans:
+                if span.text == 'Next':
+                    span.click()
+                    break
+        except Exception as e:
+            pass
+    # input('Press enter to continue after logging in')
+    for i in range(5):
+        try:
+            time.sleep(2)
+            driver.find_element(By.NAME, "password").send_keys("webscraper")
+            spans = driver.find_elements(By.TAG_NAME, "span")
+            for span in spans:
+                if span.text == 'Log in':
+                    span.click()
+                    break
+        except Exception as e:
+            pass
+    # input('Press enter to continue after logging in')
+    # Navigate back to link
+    time.sleep(1)
+    driver.get('https://twitter.com/search?q=%24' + ticker + '&src=typed_query')
+    # Wait for the page to load
+    time.sleep(3)
+
+    # Scroll down for a bit
+    for i in range(5):
+        driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+        time.sleep(3)
+
+    # Get the HTML
+    html = driver.page_source
+    return html
+    
 if __name__ == '__main__':
     # print(getSocialStats('MSFT'))
-    getTweetsFromHTML('example', 'MSFT')
+    # print(getHTML('AAPL'))
+    def get_json(*args):
+        tickers = args
+        print(tickers)
+        for i, ticker in enumerate(tickers):
+            start = time.time()
+            print(f'{i+1} out of {len(tickers)}')
+            print(ticker)
+            print('---------------------------------------------------------------')
+            tweets = getTweetsFromHTML(ticker)
+            if tweets:
+                with open('tweets/' + ticker + '.json', 'w') as f:
+                    json.dump(tweets, f, indent=4)
+            print()
+            print('Time on last cycle:', time.time() - start)
+    import pandas as pd
+    import json
+    df = pd.read_html('https://en.wikipedia.org/wiki/List_of_S%26P_500_companies')[0]['Symbol'].tolist()
+    # Make k threads to get the tweets.
+    k = 20
+    for i in range(k):
+        subset = df[i::k]
+        # print(subset)
+        thread = Thread(target = get_json, args = subset)
+        thread.start()
+    # getTweetsFromHTML('MSFT')

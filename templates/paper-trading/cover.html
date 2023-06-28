@@ -4,43 +4,43 @@
 {% block body %}
 {{ super() }}
 <form class="form-control min-w-full ml-2" role="search" method="POST" action="" autocapitalize="characters" autocomplete="off">
-  <div class="gradient-text text-2xl mb-2">
-    <h1>"{{ game }}" Short Cover Stocks:</h1>
+  <div class="text-white font-bold text-4xl mb-6">
+    <h1> Short Cover Stocks:</h1>
   </div>
-    <div class="flex flex-col gap-y-6">
+    <div class="grid grid-cols-2 gap-6 gap-x-12 px-[5vw]">
       {% if not coverPreviewPassed %}
         {% if coverStock.ticker.errors %}
-        {{ coverStock.ticker(class="input input-bordered w-full") }}
+        {{ coverStock.ticker(class="input col-span-2 sm:col-span-1 input-bordered w-full") }}
             {% for error in coverStock.ticker.errors %}
             <span class="invalid-feedback">{{ error }}</span>
             {% endfor %}
         {% else %}
-            {{ coverStock.ticker(class="input input-bordered w-full") }}
+            {{ coverStock.ticker(class="input col-span-2 sm:col-span-1 input-bordered w-full") }}
         {% endif %}
         {% if coverStock.quantity.errors %}
-        {{ coverStock.quantity(class="input input-bordered w-full") }}
+        {{ coverStock.quantity(class="input col-span-2 sm:col-span-1 input-bordered w-full") }}
             {% for error in coverStock.quantity.errors %}
             <span class="invalid-feedback">{{ error }}</span>
             {% endfor %}
         {% else %}
-            {{ coverStock.quantity(class="input input-bordered w-full") }}
+            {{ coverStock.quantity(class="input col-span-2 sm:col-span-1 input-bordered w-full") }}
         {% endif %}
-        {{coverStock.submit(class="btn btn-primary border-indigo-400 bg-transparent gradient-border hover:border-transparent  transition-all ")}}
+        {{coverStock.submit(class="btn btn-primary col-span-2 border-indigo-400 bg-transparent gradient-border hover:border-transparent transition-all ")}}
       {% else %}
         {% if ticker != None %}
-          <div class="flex justify-center items-center text-green-400 text-xl font-bold hover:bg-white/[0.075] bg-transparent border-2 border-white/25 hover:border-transparent rounded-full min-w-64 h-8 p-4 mb-2 text-center">
+          <div class="col-span-2 sm:col-span-1 flex justify-center items-center text-white text-xl font-semibold hover:bg-white/[0.075] bg-transparent border-2 border-white/25 hover:border-transparent rounded-full w-full h-full py-2 mb-2 text-center">
             <p>Ticker: {{ticker.upper()}}</p>
           </div>
-          <div class="flex justify-center items-center text-green-400 text-xl font-bold hover:bg-white/[0.075] bg-transparent border-2 border-white/25 hover:border-transparent rounded-full min-w-64 h-8 p-4 mb-2 text-center">
+          <div class="col-span-2 sm:col-span-1 flex justify-center items-center text-white text-xl font-semibold hover:bg-white/[0.075] bg-transparent border-2 border-white/25 hover:border-transparent rounded-full w-full h-full py-2 mb-2 text-center">
             <p>Quantity: {{quantity}}</p>
           </div>
-          <div class="flex justify-center items-center text-red-400 text-xl font-bold hover:bg-white/[0.075] bg-transparent border-2 border-white/25 hover:border-transparent rounded-full min-w-64 h-8 p-4 mb-2 text-center">
+          <div class="col-span-2 sm:col-span-1 flex justify-center items-center text-white text-xl font-semibold hover:bg-white/[0.075] bg-transparent border-2 border-white/25 hover:border-transparent rounded-full w-full h-full py-2 mb-2 text-center">
             <p>Price Per Share: ${{'%0.2f' % price.__round__(2)}}</p>
           </div>
-          <div class="flex justify-center items-center text-red-400 text-xl font-bold hover:bg-white/[0.075] bg-transparent border-2 border-white/25 hover:border-transparent rounded-full min-w-64 h-8 p-4 mb-2 text-center">
+          <div class="col-span-2 sm:col-span-1 flex justify-center items-center text-white text-xl font-semibold hover:bg-white/[0.075] bg-transparent border-2 border-white/25 hover:border-transparent rounded-full w-full h-full py-2 mb-2 text-center">
             <p>Total Sold: ${{'%0.2f' % (price * quantity).__round__(2)}}</p>
           </div>
-          {{confirm.confirm(class="btn btn-primary border-indigo-400 bg-transparent gradient-border hover:border-transparent transition-all ")}}
+          {{confirm.confirm(class="btn btn-primary col-span-2 border-indigo-400 bg-transparent gradient-border hover:border-transparent transition-all ")}}
         {% endif %}
       {% endif %}
     </div>
@@ -53,7 +53,7 @@
 <div id="data">
   <h1 class="text-5xl text-primary mt-10 mb-10">Article Summary</h1>
   <h3 class="text-xl mt-10 mb-10">{{data}}</h3>
-  <button class="btn btn-primary border-indigo-400 bg-transparent gradient-border hover:border-transparent  transition-all inline-block"><a href="{{link}}" target="_blank">Go to Original Article</a></button>
+  <button class="btn btn-primary col-span-2 border-indigo-400 bg-transparent gradient-border hover:border-transparent transition-all inline-block"><a href="{{link}}" target="_blank">Go to Original Article</a></button>
 </div>
 {% endif %}
 {% endblock search_results %}

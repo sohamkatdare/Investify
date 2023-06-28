@@ -4,28 +4,28 @@
 {% block body %}
 {{ super() }}
 <form class="form-control min-w-full ml-2" role="search" method="POST" action="" autocapitalize="characters" autocomplete="off">
-  <div class="gradient-text text-2xl mb-2">
-    <h1>"{{ game }}" Call Stocks:</h1>
+  <div class="text-white font-bold text-4xl mb-6">
+    <h1> Call Stocks:</h1>
   </div>
-    <div class="flex flex-col gap-y-6">
+    <div class="grid grid-cols-2 gap-6 gap-x-12 px-[5vw]">
       {% if pageNumber == 0 %}
         {% if optionForm.optionTicker.errors %}
-        {{ optionForm.optionTicker(class="input input-bordered w-full") }}
+        {{ optionForm.optionTicker(class="input col-span-2 input-bordered w-full") }}
             {% for error in optionForm.optionTicker.errors %}
             <span class="invalid-feedback">{{ error }}</span>
             {% endfor %}
         {% else %}
-            {{ optionForm.optionTicker(class="input input-bordered w-full") }}
+            {{ optionForm.optionTicker(class="input col-span-2 input-bordered w-full") }}
         {% endif %}
-        {{optionForm.submit(class="btn btn-primary border-indigo-400 bg-transparent gradient-border hover:border-transparent  transition-all ")}}
+        {{optionForm.submit(class="btn btn-primary col-span-2 border-indigo-400 bg-transparent gradient-border hover:border-transparent transition-all ")}}
       {% elif pageNumber == 1 %}
         {% if optionChainForm.optionTicker.errors %}
-        {{ optionChainForm.optionTicker(class="input input-bordered w-full", readonly=True) }}
+        {{ optionChainForm.optionTicker(class="input col-span-2 sm:col-span-1 input-bordered w-full", readonly=True) }}
             {% for error in optionChainForm.optionTicker.errors %}
             <span class="invalid-feedback">{{ error }}</span>
             {% endfor %}
         {% else %}
-            {{ optionChainForm.optionTicker(class="input input-bordered w-full", readonly=True) }}
+            {{ optionChainForm.optionTicker(class="input col-span-2 sm:col-span-1 input-bordered w-full", readonly=True) }}
         {% endif %}
         {% if optionChainForm.expiry.errors %}
         {{ optionChainForm.expiry(class="select select-bordered w-full") }}
@@ -35,36 +35,36 @@
         {% else %}
             {{ optionChainForm.expiry(class="select select-bordered w-full") }}
         {% endif %}
-        {{optionChainForm.submit(class="btn btn-primary border-indigo-400 bg-transparent gradient-border hover:border-transparent  transition-all ")}}
+        {{optionChainForm.submit(class="btn btn-primary col-span-2 border-indigo-400 bg-transparent gradient-border hover:border-transparent transition-all ")}}
       {% else %}
-        <div class="flex justify-center items-center text-green-400 text-xl font-bold hover:bg-white/[0.075] bg-transparent border-2 border-white/25 hover:border-transparent rounded-full min-w-64 h-8 p-4 mb-2 text-center">
+        <div class="col-span-2 sm:col-span-1 flex justify-center items-center text-white text-xl font-semibold hover:bg-white/[0.075] bg-transparent border-2 border-white/25 hover:border-transparent rounded-full w-full h-full py-2 mb-2 text-center">
           <p id="strikePrice">Strike Price: </p>
         </div>
-        <div class="flex justify-center items-center text-green-400 text-xl font-bold hover:bg-white/[0.075] bg-transparent border-2 border-white/25 hover:border-transparent rounded-full min-w-64 h-8 p-4 mb-2 text-center">
+        <div class="col-span-2 sm:col-span-1 flex justify-center items-center text-white text-xl font-semibold hover:bg-white/[0.075] bg-transparent border-2 border-white/25 hover:border-transparent rounded-full w-full h-full py-2 mb-2 text-center">
           <p id="premium">Premium: </p>
         </div>
-        <div class="flex justify-center items-center text-red-400 text-xl font-bold hover:bg-white/[0.075] bg-transparent border-2 border-white/25 hover:border-transparent rounded-full min-w-64 h-8 p-4 mb-2 text-center">
+        <div class="col-span-2 sm:col-span-1 flex justify-center items-center text-white text-xl font-semibold hover:bg-white/[0.075] bg-transparent border-2 border-white/25 hover:border-transparent rounded-full w-full h-full py-2 mb-2 text-center">
           <p id="contractSize">Contract Size: </p>
         </div>
-        <div class="flex justify-center items-center text-red-400 text-xl font-bold hover:bg-white/[0.075] bg-transparent border-2 border-white/25 hover:border-transparent rounded-full min-w-64 h-8 p-4 mb-2 text-center">
+        <div class="col-span-2 sm:col-span-1 flex justify-center items-center text-white text-xl font-semibold hover:bg-white/[0.075] bg-transparent border-2 border-white/25 hover:border-transparent rounded-full w-full h-full py-2 mb-2 text-center">
           <p id="inTheMoney">In The Money: </p>
         </div>
         {% if pageNumber == 2 %}
           {% if callStock.optionTicker.errors %}
-            {{ callStock.optionTicker(class="input input-bordered w-full", readonly=True) }}
+            {{ callStock.optionTicker(class="input col-span-2 sm:col-span-1 input-bordered w-full", readonly=True) }}
                 {% for error in callStock.optionTicker.errors %}
                 <span class="invalid-feedback">{{ error }}</span>
                 {% endfor %}
             {% else %}
-                {{ callStock.optionTicker(class="input input-bordered w-full", readonly=True) }}
+                {{ callStock.optionTicker(class="input col-span-2 sm:col-span-1 input-bordered w-full", readonly=True) }}
             {% endif %}
             {% if callStock.expiry.errors %}
-            {{ callStock.expiry(class="input input-bordered w-full", readonly=True) }}
+            {{ callStock.expiry(class="input col-span-2 sm:col-span-1 input-bordered w-full", readonly=True) }}
                 {% for error in callStock.expiry.errors %}
                 <span class="invalid-feedback">{{ error }}</span>
                 {% endfor %}
             {% else %}
-                {{ callStock.expiry(class="input input-bordered w-full", readonly=True) }}
+                {{ callStock.expiry(class="input col-span-2 sm:col-span-1 input-bordered w-full", readonly=True) }}
             {% endif %}
           {% if callStock.contractSymbol.errors %}
           {{ callStock.contractSymbol(class="select select-bordered w-full", id="contractSymbol") }}
@@ -75,14 +75,14 @@
               {{ callStock.contractSymbol(class="select select-bordered w-full", id="contractSymbol") }}
           {% endif %}
           {% if callStock.contracts.errors %}
-          {{ callStock.contracts(class="input input-bordered w-full") }}
+          {{ callStock.contracts(class="input col-span-2 sm:col-span-1 input-bordered w-full") }}
               {% for error in callStock.contracts.errors %}
               <span class="invalid-feedback">{{ error }}</span>
               {% endfor %}
           {% else %}
-              {{ callStock.contracts(class="input input-bordered w-full") }}
+              {{ callStock.contracts(class="input col-span-2 sm:col-span-1 input-bordered w-full") }}
           {% endif %}
-          {{callStock.submit(class="btn btn-primary border-indigo-400 bg-transparent gradient-border hover:border-transparent  transition-all ")}}
+          {{callStock.submit(class="btn btn-primary col-span-2 border-indigo-400 bg-transparent gradient-border hover:border-transparent transition-all ")}}
           <script>
             optionData = JSON.parse({{ optionData|tojson }});
             function onContractChange(e){
@@ -100,22 +100,22 @@
             onContractChange(null);
           </script>
         {% else %}
-          <div class="flex justify-center items-center text-red-400 text-xl font-bold hover:bg-white/[0.075] bg-transparent border-2 border-white/25 hover:border-transparent rounded-full min-w-64 h-8 p-4 mb-2 text-center">
+          <div class="col-span-2 sm:col-span-1 flex justify-center items-center text-white text-xl font-semibold hover:bg-white/[0.075] bg-transparent border-2 border-white/25 hover:border-transparent rounded-full w-full h-full py-2 mb-2 text-center">
             <p id="contractSymbol">Contract Symbol: </p>
           </div>
-          <div class="flex justify-center items-center text-red-400 text-xl font-bold hover:bg-white/[0.075] bg-transparent border-2 border-white/25 hover:border-transparent rounded-full min-w-64 h-8 p-4 mb-2 text-center">
+          <div class="col-span-2 sm:col-span-1 flex justify-center items-center text-white text-xl font-semibold hover:bg-white/[0.075] bg-transparent border-2 border-white/25 hover:border-transparent rounded-full w-full h-full py-2 mb-2 text-center">
             <p id="ticker">Ticker: </p>
           </div>
-          <div class="flex justify-center items-center text-red-400 text-xl font-bold hover:bg-white/[0.075] bg-transparent border-2 border-white/25 hover:border-transparent rounded-full min-w-64 h-8 p-4 mb-2 text-center">
+          <div class="col-span-2 sm:col-span-1 flex justify-center items-center text-white text-xl font-semibold hover:bg-white/[0.075] bg-transparent border-2 border-white/25 hover:border-transparent rounded-full w-full h-full py-2 mb-2 text-center">
             <p id="expiry">Expiry Date: </p>
           </div>
-          <div class="flex justify-center items-center text-red-400 text-xl font-bold hover:bg-white/[0.075] bg-transparent border-2 border-white/25 hover:border-transparent rounded-full min-w-64 h-8 p-4 mb-2 text-center">
+          <div class="col-span-2 sm:col-span-1 flex justify-center items-center text-white text-xl font-semibold hover:bg-white/[0.075] bg-transparent border-2 border-white/25 hover:border-transparent rounded-full w-full h-full py-2 mb-2 text-center">
             <p id="contracts">Contracts: </p>
           </div>
-          <div class="flex justify-center items-center text-red-400 text-xl font-bold hover:bg-white/[0.075] bg-transparent border-2 border-white/25 hover:border-transparent rounded-full min-w-64 h-8 p-4 mb-2 text-center">
+          <div class="col-span-2 flex justify-center items-center text-white text-xl font-semibold hover:bg-white/[0.075] bg-transparent border-2 border-white/25 hover:border-transparent rounded-full w-full h-full py-2 mb-2 text-center">
             <p id="cost">Cost: </p>
           </div>
-          {{confirm.confirm(class="btn btn-primary border-indigo-400 bg-transparent gradient-border hover:border-transparent transition-all", id="confirm")}}
+          {{confirm.confirm(class="btn btn-primary col-span-2 border-indigo-400 bg-transparent gradient-border hover:border-transparent transition-all", id="confirm")}}
           <script>
             let optionData = JSON.parse({{ optionDetails|tojson }});
             document.getElementById("strikePrice").innerHTML = "Strike Price: $" + (Math.round(optionData["strikePrice"] * 100) / 100).toFixed(2);
@@ -151,7 +151,7 @@
 <div id="data">
   <h1 class="text-5xl text-primary mt-10 mb-10">Article Summary</h1>
   <h3 class="text-xl mt-10 mb-10">{{data}}</h3>
-  <button class="btn btn-primary border-indigo-400 bg-transparent gradient-border hover:border-transparent  transition-all inline-block"><a href="{{link}}" target="_blank">Go to Original Article</a></button>
+  <button class="btn btn-primary col-span-2 border-indigo-400 bg-transparent gradient-border hover:border-transparent transition-all inline-block"><a href="{{link}}" target="_blank">Go to Original Article</a></button>
 </div>
 {% endif %}
 {% endblock search_results %}

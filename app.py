@@ -293,7 +293,7 @@ def educatePath(path):
     try:
       return render_template(f'education/{path}.html', data=None, searchForm=searchForm, current_identity=current_identity if current_identity else '')
     except Exception as e:
-      print(e)
+      flash(str(e), 'error')
       abort(404)
   else:
     return render_template('education.html', data=None, searchForm=searchForm, current_identity=current_identity if current_identity else '', is_search=False)

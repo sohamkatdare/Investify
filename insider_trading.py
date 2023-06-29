@@ -34,6 +34,8 @@ def scrape_insider_data(stock_symbol):
         # html = requests.get(url).content
         with open('insider_data.html', 'w') as f:
             f.write(html)
+
+        print('HTML', html)
         soup = BeautifulSoup(html, 'html.parser')
         # response = requests.get(url)
 
@@ -41,7 +43,7 @@ def scrape_insider_data(stock_symbol):
 
         # soup = BeautifulSoup(response.content, 'html.parser')
         table = soup.find('table', {'class': 'table'})
-        
+        print('Table', table)
 
         insider_data = []
         if table:
@@ -90,7 +92,9 @@ def scrape_insider_data(stock_symbol):
                 }
 
                 insider_data.append(raw_data)
-            insider_data = insider_data if insider_data else html
+        else:
+            print('Issue with HTML. No table found.')
+            insider_data = html
         return insider_data
     except Exception as e:
         print(e)

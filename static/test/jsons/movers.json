@@ -1,430 +1,114 @@
 {
-    "metadata": "Top gainers, losers, and most actively traded US tickers",
-    "last_updated": "2023-06-28 16:15:59 US/Eastern",
-    "top_gainers": [
+    "bestMatches": [
         {
-            "ticker": "XPDBW",
-            "price": "0.0692",
-            "change_amount": "0.0526",
-            "change_percentage": "316.8675%",
-            "volume": "77067"
+            "1. symbol": "A",
+            "2. name": "Agilent Technologies Inc",
+            "3. type": "Equity",
+            "4. region": "United States",
+            "5. marketOpen": "09:30",
+            "6. marketClose": "16:00",
+            "7. timezone": "UTC-04",
+            "8. currency": "USD",
+            "9. matchScore": "1.0000"
         },
         {
-            "ticker": "BFRIW",
-            "price": "0.26",
-            "change_amount": "0.18",
-            "change_percentage": "225.0%",
-            "volume": "20455"
+            "1. symbol": "A02.FRK",
+            "2. name": "Adways Inc",
+            "3. type": "Equity",
+            "4. region": "Frankfurt",
+            "5. marketOpen": "08:00",
+            "6. marketClose": "20:00",
+            "7. timezone": "UTC+02",
+            "8. currency": "EUR",
+            "9. matchScore": "0.3333"
         },
         {
-            "ticker": "BRSHW",
-            "price": "0.1177",
-            "change_amount": "0.0647",
-            "change_percentage": "122.0755%",
-            "volume": "5"
+            "1. symbol": "A04.FRK",
+            "2. name": "Ascential plc",
+            "3. type": "Equity",
+            "4. region": "Frankfurt",
+            "5. marketOpen": "08:00",
+            "6. marketClose": "20:00",
+            "7. timezone": "UTC+02",
+            "8. currency": "EUR",
+            "9. matchScore": "0.3333"
         },
         {
-            "ticker": "KERNW",
-            "price": "0.0169",
-            "change_amount": "0.0091",
-            "change_percentage": "116.6667%",
-            "volume": "140463"
+            "1. symbol": "A07.FRK",
+            "2. name": "AVANCE GAS HLDG DL 2",
+            "3. type": "Equity",
+            "4. region": "Frankfurt",
+            "5. marketOpen": "08:00",
+            "6. marketClose": "20:00",
+            "7. timezone": "UTC+02",
+            "8. currency": "EUR",
+            "9. matchScore": "0.3333"
         },
         {
-            "ticker": "CCAIW",
-            "price": "0.1",
-            "change_amount": "0.0524",
-            "change_percentage": "110.084%",
-            "volume": "34672"
+            "1. symbol": "A0H.FRK",
+            "2. name": "AUXICO RESOURCES CANADA",
+            "3. type": "Equity",
+            "4. region": "Frankfurt",
+            "5. marketOpen": "08:00",
+            "6. marketClose": "20:00",
+            "7. timezone": "UTC+02",
+            "8. currency": "EUR",
+            "9. matchScore": "0.3333"
         },
         {
-            "ticker": "BOCNW",
-            "price": "0.07",
-            "change_amount": "0.035",
-            "change_percentage": "100.0%",
-            "volume": "515"
+            "1. symbol": "A0P.FRK",
+            "2. name": "ARCTIC PAPER SA ZY 1",
+            "3. type": "Equity",
+            "4. region": "Frankfurt",
+            "5. marketOpen": "08:00",
+            "6. marketClose": "20:00",
+            "7. timezone": "UTC+02",
+            "8. currency": "EUR",
+            "9. matchScore": "0.3333"
         },
         {
-            "ticker": "BNIXW",
-            "price": "0.0575",
-            "change_amount": "0.0264",
-            "change_percentage": "84.8875%",
-            "volume": "97533"
+            "1. symbol": "A0T.FRK",
+            "2. name": "American Tower Corp",
+            "3. type": "Equity",
+            "4. region": "Frankfurt",
+            "5. marketOpen": "08:00",
+            "6. marketClose": "20:00",
+            "7. timezone": "UTC+02",
+            "8. currency": "EUR",
+            "9. matchScore": "0.3333"
         },
         {
-            "ticker": "LIXTW",
-            "price": "0.0925",
-            "change_amount": "0.0415",
-            "change_percentage": "81.3725%",
-            "volume": "22"
+            "1. symbol": "A16.FRK",
+            "2. name": "ASR Nederland N.V",
+            "3. type": "Equity",
+            "4. region": "Frankfurt",
+            "5. marketOpen": "08:00",
+            "6. marketClose": "20:00",
+            "7. timezone": "UTC+02",
+            "8. currency": "EUR",
+            "9. matchScore": "0.3333"
         },
         {
-            "ticker": "WE+",
-            "price": "0.02",
-            "change_amount": "0.0089",
-            "change_percentage": "80.1802%",
-            "volume": "12004"
+            "1. symbol": "A0B0.FRK",
+            "2. name": "AMALGAMATED FIN. DL-01",
+            "3. type": "Equity",
+            "4. region": "Frankfurt",
+            "5. marketOpen": "08:00",
+            "6. marketClose": "20:00",
+            "7. timezone": "UTC+02",
+            "8. currency": "EUR",
+            "9. matchScore": "0.2857"
         },
         {
-            "ticker": "KLR+",
-            "price": "0.13",
-            "change_amount": "0.056",
-            "change_percentage": "75.6757%",
-            "volume": "1300368"
-        },
-        {
-            "ticker": "JFBRW",
-            "price": "0.1159",
-            "change_amount": "0.0476",
-            "change_percentage": "69.6925%",
-            "volume": "300"
-        },
-        {
-            "ticker": "NERV",
-            "price": "10.19",
-            "change_amount": "4.17",
-            "change_percentage": "69.2691%",
-            "volume": "52866967"
-        },
-        {
-            "ticker": "JOBY+",
-            "price": "2.03",
-            "change_amount": "0.83",
-            "change_percentage": "69.1667%",
-            "volume": "518254"
-        },
-        {
-            "ticker": "MCACR",
-            "price": "0.2021",
-            "change_amount": "0.0721",
-            "change_percentage": "55.4615%",
-            "volume": "13442"
-        },
-        {
-            "ticker": "VSSYW",
-            "price": "0.0267",
-            "change_amount": "0.0092",
-            "change_percentage": "52.5714%",
-            "volume": "31742"
-        },
-        {
-            "ticker": "KSCP",
-            "price": "0.6999",
-            "change_amount": "0.2399",
-            "change_percentage": "52.1522%",
-            "volume": "24632153"
-        },
-        {
-            "ticker": "CMRAW",
-            "price": "0.025",
-            "change_amount": "0.0084",
-            "change_percentage": "50.6024%",
-            "volume": "247200"
-        },
-        {
-            "ticker": "IVCAW",
-            "price": "0.0616",
-            "change_amount": "0.0206",
-            "change_percentage": "50.2439%",
-            "volume": "16216"
-        },
-        {
-            "ticker": "ZINGW",
-            "price": "0.02",
-            "change_amount": "0.0066",
-            "change_percentage": "49.2537%",
-            "volume": "5100"
-        },
-        {
-            "ticker": "NCACW",
-            "price": "0.0179",
-            "change_amount": "0.0059",
-            "change_percentage": "49.1667%",
-            "volume": "10500"
-        }
-    ],
-    "top_losers": [
-        {
-            "ticker": "MMVWW",
-            "price": "0.0475",
-            "change_amount": "-0.0515",
-            "change_percentage": "-52.0202%",
-            "volume": "3892"
-        },
-        {
-            "ticker": "MTEKW",
-            "price": "0.0451",
-            "change_amount": "-0.0462",
-            "change_percentage": "-50.6024%",
-            "volume": "18199"
-        },
-        {
-            "ticker": "EDBLW",
-            "price": "0.01",
-            "change_amount": "-0.01",
-            "change_percentage": "-50.0%",
-            "volume": "3777"
-        },
-        {
-            "ticker": "TRTL+",
-            "price": "0.051",
-            "change_amount": "-0.049",
-            "change_percentage": "-49.0%",
-            "volume": "3758"
-        },
-        {
-            "ticker": "FMIVW",
-            "price": "0.001",
-            "change_amount": "-0.0009",
-            "change_percentage": "-47.3684%",
-            "volume": "5073"
-        },
-        {
-            "ticker": "CITEW",
-            "price": "0.0307",
-            "change_amount": "-0.0255",
-            "change_percentage": "-45.3737%",
-            "volume": "5300"
-        },
-        {
-            "ticker": "DRMAW",
-            "price": "0.017",
-            "change_amount": "-0.013",
-            "change_percentage": "-43.3333%",
-            "volume": "66542"
-        },
-        {
-            "ticker": "DISTR",
-            "price": "0.1762",
-            "change_amount": "-0.1166",
-            "change_percentage": "-39.8224%",
-            "volume": "15609"
-        },
-        {
-            "ticker": "CLVRW",
-            "price": "0.0153",
-            "change_amount": "-0.0097",
-            "change_percentage": "-38.8%",
-            "volume": "57734"
-        },
-        {
-            "ticker": "CINGW",
-            "price": "0.1293",
-            "change_amount": "-0.0807",
-            "change_percentage": "-38.4286%",
-            "volume": "505"
-        },
-        {
-            "ticker": "TOIIW",
-            "price": "0.036",
-            "change_amount": "-0.0215",
-            "change_percentage": "-37.3913%",
-            "volume": "6015"
-        },
-        {
-            "ticker": "CLINW",
-            "price": "0.0498",
-            "change_amount": "-0.0286",
-            "change_percentage": "-36.4796%",
-            "volume": "47906"
-        },
-        {
-            "ticker": "AREB",
-            "price": "3.55",
-            "change_amount": "-1.95",
-            "change_percentage": "-35.4545%",
-            "volume": "860774"
-        },
-        {
-            "ticker": "PBTS",
-            "price": "1.0",
-            "change_amount": "-0.51",
-            "change_percentage": "-33.7748%",
-            "volume": "2036055"
-        },
-        {
-            "ticker": "HSPOR",
-            "price": "0.1548",
-            "change_amount": "-0.0751",
-            "change_percentage": "-32.6664%",
-            "volume": "1416"
-        },
-        {
-            "ticker": "EDTXW",
-            "price": "0.03",
-            "change_amount": "-0.014",
-            "change_percentage": "-31.8182%",
-            "volume": "134214"
-        },
-        {
-            "ticker": "CLINR",
-            "price": "0.1099",
-            "change_amount": "-0.0501",
-            "change_percentage": "-31.3125%",
-            "volume": "139736"
-        },
-        {
-            "ticker": "QDROW",
-            "price": "0.0452",
-            "change_amount": "-0.0204",
-            "change_percentage": "-31.0976%",
-            "volume": "30588"
-        },
-        {
-            "ticker": "HCVIW",
-            "price": "0.0854",
-            "change_amount": "-0.0369",
-            "change_percentage": "-30.1717%",
-            "volume": "600"
-        },
-        {
-            "ticker": "HMACW",
-            "price": "0.035",
-            "change_amount": "-0.015",
-            "change_percentage": "-30.0%",
-            "volume": "4916"
-        }
-    ],
-    "most_actively_traded": [
-        {
-            "ticker": "MULN",
-            "price": "0.1101",
-            "change_amount": "-0.0267",
-            "change_percentage": "-19.5175%",
-            "volume": "396949152"
-        },
-        {
-            "ticker": "TSLA",
-            "price": "256.24",
-            "change_amount": "6.03",
-            "change_percentage": "2.41%",
-            "volume": "158749790"
-        },
-        {
-            "ticker": "SQQQ",
-            "price": "19.65",
-            "change_amount": "-0.13",
-            "change_percentage": "-0.6572%",
-            "volume": "130699732"
-        },
-        {
-            "ticker": "TQQQ",
-            "price": "39.5",
-            "change_amount": "0.24",
-            "change_percentage": "0.6113%",
-            "volume": "107752741"
-        },
-        {
-            "ticker": "CCL",
-            "price": "17.295",
-            "change_amount": "1.405",
-            "change_percentage": "8.842%",
-            "volume": "95090400"
-        },
-        {
-            "ticker": "SPY",
-            "price": "436.38",
-            "change_amount": "0.21",
-            "change_percentage": "0.0481%",
-            "volume": "74747387"
-        },
-        {
-            "ticker": "FFIE",
-            "price": "0.2197",
-            "change_amount": "-0.0174",
-            "change_percentage": "-7.3387%",
-            "volume": "68603977"
-        },
-        {
-            "ticker": "LCID",
-            "price": "6.42",
-            "change_amount": "0.32",
-            "change_percentage": "5.2459%",
-            "volume": "67410439"
-        },
-        {
-            "ticker": "AMD",
-            "price": "110.17",
-            "change_amount": "-0.22",
-            "change_percentage": "-0.1993%",
-            "volume": "67140869"
-        },
-        {
-            "ticker": "PLTR",
-            "price": "15.275",
-            "change_amount": "0.665",
-            "change_percentage": "4.5517%",
-            "volume": "65461265"
-        },
-        {
-            "ticker": "NVDA",
-            "price": "411.17",
-            "change_amount": "-7.59",
-            "change_percentage": "-1.8125%",
-            "volume": "57956545"
-        },
-        {
-            "ticker": "F",
-            "price": "14.78",
-            "change_amount": "0.37",
-            "change_percentage": "2.5677%",
-            "volume": "57909071"
-        },
-        {
-            "ticker": "SOXS",
-            "price": "10.37",
-            "change_amount": "0.26",
-            "change_percentage": "2.5717%",
-            "volume": "56775156"
-        },
-        {
-            "ticker": "SOXL",
-            "price": "23.77",
-            "change_amount": "-0.6",
-            "change_percentage": "-2.462%",
-            "volume": "54915309"
-        },
-        {
-            "ticker": "NERV",
-            "price": "10.19",
-            "change_amount": "4.17",
-            "change_percentage": "69.2691%",
-            "volume": "52866967"
-        },
-        {
-            "ticker": "MARA",
-            "price": "13.16",
-            "change_amount": "-0.22",
-            "change_percentage": "-1.6442%",
-            "volume": "52461871"
-        },
-        {
-            "ticker": "AMZN",
-            "price": "129.04",
-            "change_amount": "-0.14",
-            "change_percentage": "-0.1084%",
-            "volume": "50927481"
-        },
-        {
-            "ticker": "AAPL",
-            "price": "189.25",
-            "change_amount": "1.19",
-            "change_percentage": "0.6328%",
-            "volume": "50861024"
-        },
-        {
-            "ticker": "OPEN",
-            "price": "3.98",
-            "change_amount": "0.58",
-            "change_percentage": "17.0588%",
-            "volume": "48750230"
-        },
-        {
-            "ticker": "JOBY",
-            "price": "8.965",
-            "change_amount": "2.575",
-            "change_percentage": "40.2973%",
-            "volume": "48002706"
+            "1. symbol": "A0I0.FRK",
+            "2. name": "APPIA RARE EARTH+U O.N.",
+            "3. type": "Equity",
+            "4. region": "Frankfurt",
+            "5. marketOpen": "08:00",
+            "6. marketClose": "20:00",
+            "7. timezone": "UTC+02",
+            "8. currency": "EUR",
+            "9. matchScore": "0.2857"
         }
     ]
 }

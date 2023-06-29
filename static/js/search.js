@@ -2,28 +2,64 @@
 // All requests are asynchronous.
 // The results are populated in the search.html page.
 
-async function autocomplete() {
-    console.log("executing")
-    if (document.getElementById("ticker").value) {
-        document.getElementById("autocomplete-results").classList.remove("hidden")
-        keyword = document.getElementById("ticker").value
-        const response = await fetch(`https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${keyword}&apikey=9J4GJJ2IXM4PJX5M`).then((response) => {
-            if (response.status !== 200) {
-                onFail(ticker);
-            }
-            return response;
-        });
-        const data = await response.json();
+// function autocomplete() {
+//     console.log("executing")
+//     if (document.getElementById("ticker").value) {
+//         document.getElementById("autocomplete-results").classList.remove("hidden")
+//         keyword = document.getElementById("ticker").value
+//         const response = fetch(`https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${keyword}&apikey=9J4GJJ2IXM4PJX5M`).then((response) => {
+//             if (response.status !== 200) {
+//                 onFail(ticker);
+//             }
+//             return response.json();
+//         });
         
-        returnHTML = `<div class="join-item"><span>${data["bestMatches"][0]["1. symbol"]}</span> - <span>${data["bestMatches"][0]["2. name"]}</span></button>
-            <div class="join-item"><span>${data["bestMatches"][1]["1. symbol"]}</span> - <span>${data["bestMatches"][1]["2. name"]}</span></button>
-            <div class="join-item"><span>${data["bestMatches"][2]["1. symbol"]}</span> - <span>${data["bestMatches"][2]["2. name"]}</span></button>`
-    } else {
-        document.getElementById("autocomplete-results").classList.add("hidden")
-    }
-}
+//         returnHTML = `<div class="join-item"><span>${data["bestMatches"][0]["1. symbol"]}</span> - <span>${data["bestMatches"][0]["2. name"]}</span></button>
+//             <div class="join-item"><span>${data["bestMatches"][1]["1. symbol"]}</span> - <span>${data["bestMatches"][1]["2. name"]}</span></button>
+//             <div class="join-item"><span>${data["bestMatches"][2]["1. symbol"]}</span> - <span>${data["bestMatches"][2]["2. name"]}</span></button>`
+//     } else {
+//         document.getElementById("autocomplete-results").classList.add("hidden")
+//     }
+// }
 
-document.getElementById("ticker").addEventListener("input", autocomplete())
+document.addEventListener('keydown', async (event) => {
+    const input = document.getElementById('ticker')
+    if(input != document.activeElement) return;
+
+    var name = event.key;
+    console.log(`Key pressed ${name}`);
+
+    const results = document.getElementById('autocomplete-results')
+    if (!input.value) {
+        if(!results.classList.contains('hidden')) results.classList.add('hidden')
+        return;
+    }
+
+    results.classList.remove('hidden')
+
+    keyword = document.getElementById("ticker").value
+    const data = await fetch(`https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${keyword}&apikey=9J4GJJ2IXM4PJX5M`).then((response) => {
+        if (response.status !== 200) {
+            onFail(ticker);
+        }
+        return response.json();
+    });
+
+    console.log(data)
+    let count = 0
+    let returnHTML = ''
+    data['bestMatches'].forEach((match) => {
+        count++;
+        if(count > 5) return
+        returnHTML += `
+            <div class="join-item"><span>${match["1. symbol"]}</span> - <span>${match["2. name"]}</span></button>
+        `
+    })
+
+
+    results.innerHTML = returnHTML
+
+  }, false);
 
 
 // TODO: Style search.html page

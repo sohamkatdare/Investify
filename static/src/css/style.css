@@ -222,3 +222,8 @@ section.grid>* {
   width: calc(100% + 4rem);
   transform: translate(-1.5rem, 0);
 }
+
+/* neon */
+.neon {
+  box-shadow: 0 0 2px var(--tw-shadow-color), 0 0 10px var(--tw-shadow-color), 0 0 20px var(--tw-shadow-color), 0 0 30px var(--tw-shadow-color)
+}

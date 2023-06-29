@@ -34,7 +34,7 @@
         
       </div>
     </div>
-    <div class="h-full max-md:col-span-8 md:col-span-5 xl:col-span-4 max-md:translate-y-[-18rem]">
+    <div class="h-full max-md:hidden md:col-span-5 xl:col-span-4 max-md:translate-y-[-18rem]">
       <div class="relative bg-primary w-full grid justify-center mt-[4rem]">
         <img  class="absolute w-full top-0 z-[2]" src="{{url_for('static', filename='assets/images/header-image.svg')}}" alt="Header Image"/>
           </div>
@@ -46,10 +46,10 @@
     <div class="about_content pt-11 pr-24 mt-[9rem] lg:pt-15 lg:pb-15 max-md:self-center max-md:justify-self-center col-span-8 md:col-span-3 xl:col-span-4 w-full h-min max-h-max translate-y-[-8rem] order-0 text-white">
         <h2 class="gradient-text-alt text-5xl md:text-3xl lg:text-4xl xl:text-5xl font-semibold mb-4 pb-9">Why Use Investify</h2>
         <p>
-          Investify is a comprehensive financial tool designed to empower you with the knowledge and tools to make informed investment decisions. <p class="sm:inline hidden">Our software is packed with features that provide you with valuable insights and education to navigate the complex world of investing. You can easily research stocks and access crucial investment data <p class="md:inline hidden">such as candle graphs, open, close, low, high, and volume information </p>Our algorithmic stock rating score provides users with a quantitative assessment of a stock's potential, while relevant tweet and news articles, sentiment analysis, and insider trading data offer valuable market intelligence. <p class="md:inline hidden"> Our education section consists of over 20 articles on stock indicators to help users deepen their understanding of investment concepts. Users can also query using the GPT-3.5 model for information on any topic not covered in our articles. </p>Additionally, our paper trading functionality enables users to create an account and engage in simulated trading games with friends or other users worldwide, providing a fun and educational way to practice investing strategies without risking real money.
+          Investify is your ultimate financial companion, empowering you with knowledge and tools to make smart investment decisions. Our algorithmic stock rating score provides a quantitative assessment of a stock's potential, while real-time tweets, news articles, sentiment analysis, and insider trading data offer valuable market insights. Take charge of your financial future with Investify, your trusted partner in the world of investments.
         </p>
     </div> 
-    <div class="h-full pr-20 flex justify-center items-center mx-auto max-md:col-span-8 md:col-span-5 xl:col-span-4">
+    <div class="h-full pr-20 flex justify-center items-center mx-auto max-md:hidden md:col-span-5 xl:col-span-4">
       <img loading="lazy" class="w-full z-[2] order-1" src="{{url_for('static', filename='assets/images/about.svg')}}" alt="Why Use Investify"/>
     </div>
     
@@ -371,9 +371,15 @@
               </div>
           </div>
     </div>
-
+    .
       <div class="grid items-center w-screen px-16 grid-cols-8 container-fluid bg-slate-100/[0.02]  text-black rounded-lg h-[100vh] gap-y-4">
-        <div class="h-full max-md:col-span-8 md:col-span-5 xl:col-span-4 content-center items-center order-1">
+        <div class="max-md:self-center max-md:justify-self-center col-span-8 md:col-span-3 xl:col-span-4 w-full text-center   mb-40 md:mb-0 mr-10">
+          <h1 class="text-5xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-white leading-tight mx-10">Upgrade your  <br> financial literacy <span class="gradient-text">NOW.</span> </strong></h1> <br>
+          <a class="btn btn-round-lg text-white gradient-bg" href="education/statistics">
+            Get Started
+          </a>
+      </div>
+        <div class="h-full max-md:hidden md:col-span-5 xl:col-span-4 content-center items-center my-60">
           <div class="relative flex bg-primary w-full items-center">
             <div class="absolute inset-y-0 left-0   flex items-center justify-center w-full ">
                 <img loading="lazy" class="w-full md:translate-y-[50%] z-2 rounded-lg" src="{{url_for('static', filename='assets/images/work-2.jpg')}}" alt="Get Started" />
@@ -381,12 +387,7 @@
         </div>
         
         </div>
-        <div class="max-md:self-center max-md:justify-self-center col-span-8 md:col-span-3 xl:col-span-4 w-full text-center order-0 -translate-y-20 mr-10">
-            <h1 class="text-5xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-white leading-tight mx-10">Upgrade your  <br> financial literacy <span class="gradient-text">NOW.</span> </strong></h1> <br>
-            <a class="btn btn-round-lg text-white gradient-bg" href="education/statistics">
-              Get Started
-            </a>
-        </div>
+
     </div>
 
     <div class=" bg-gradient-to-r from-pink-500 to-purple-500 w-screen" style="overflow-anchor: none;">
@@ -402,35 +403,35 @@
             <img loading="lazy" src = "{{url_for('static', filename='assets/images/candlestick-chart.png')}}" class="w-14 aspect-square" alt="Stocks"/>
             <div class="grid grid-rows-2">
                 <h1 class="text-5xl font-bold text-white leading-tight px-8 row-span-1">Stocks</h1>
-                <p class="row-span-1 px-8 inline translate-x-56 ">Invest in thousands of companies and fractional shares using our analytics to create your own financial portfolio.</p>
+                <p class="max-md:hidden row-span-1 px-8 inline translate-x-56 ">Invest in thousands of companies and fractional shares using our analytics to create your own financial portfolio.</p>
             </div>
           </div> 
           <div id="item2" class="carousel-item w-full bg-black/25 rounded-lg p-2">
             <img loading="lazy" src = "{{url_for('static', filename='assets/images/chart.png')}}" class="w-14 aspect-square" alt="Options"/>
             <div class="grid grid-rows-2">
                 <h1 class="text-5xl font-bold text-white leading-tight px-8 row-span-1">Options</h1>
-                <p class="row-span-1 px-8 inline translate-x-60">Options provide a strategic alternative to just investing in equity.</p>
+                <p class="max-md:hidden row-span-1 px-8 inline translate-x-60">Options provide a strategic alternative to just investing in equity.</p>
             </div>
           </div> 
           <div id="item3" class="carousel-item w-full bg-black/25 rounded-lg p-2">
             <img loading="lazy" src = "{{url_for('static', filename='assets/images/etf.png')}}" class="w-14 aspect-square" alt="ETFs"/>
             <div class="grid grid-rows-2">
                 <h1 class="text-5xl font-bold text-white leading-tight px-8 row-span-1">ETFs</h1>
-                <p class="row-span-1 px-8 inline translate-x-40">Diversify your holdings by investing into a group of stocks with the same convenience as trading a single stock.</p>
+                <p class="max-md:hidden row-span-1 px-8 inline translate-x-40">Diversify your holdings by investing into a group of stocks with the same convenience as trading a single stock.</p>
             </div>
           </div>  
           <div id="item4" class="carousel-item w-full bg-black/25 rounded-lg p-2">
             <img loading="lazy" src = "{{url_for('static', filename='assets/images/cycle.png')}}" class="w-14 aspect-square" alt="OTC"/>
             <div class="grid grid-rows-2">
                 <h1 class="text-5xl font-bold text-white leading-tight px-8 row-span-1">OTC</h1>
-                <p class="row-span-1 px-8 inline translate-x-40">Get a better understanding of what OTCs are and how you can invest in OTCs with Webull.</p>
+                <p class="max-md:hidden row-span-1 px-8 inline translate-x-40">Get a better understanding of what OTCs are and how you can invest in OTCs with Webull.</p>
             </div>
           </div> 
           <div id="item5" class="carousel-item w-full bg-black/25 rounded-lg p-2">
             <img loading="lazy" src = "{{url_for('static', filename='assets/images/bitcoin.png')}}" class="w-14 aspect-square" alt="Crypto"/>
             <div class="grid grid-rows-2">
                 <h1 class="text-5xl font-bold text-white leading-tight px-8 row-span-1">Crypto</h1>
-                <p class="row-span-1 px-8 inline translate-x-56">Diversify your holdings by investing in digital currencies including Bitcoin, Ethereum, Bitcoin Cash and Litecoin.</p>
+                <p class="max-md:hidden row-span-1 px-8 inline translate-x-56">Diversify your holdings by investing in digital currencies including Bitcoin, Ethereum, Bitcoin Cash and Litecoin.</p>
             </div>
           </div> 
         </div>
@@ -448,7 +449,7 @@
         </script>
 
 <div class="grid items-center w-[94%] p-[3%] grid-cols-8 container-fluid mx-6 text-black rounded-lg h-[80vh]">
-    <div class="h-full max-md:col-span-8 md:col-span-5 xl:col-span-4 content-center items-center">
+    <div class="h-full max-md:hidden md:col-span-5 xl:col-span-4 content-center items-center">
         <div class="relative bg-transparent w-full grid items-center">
             <img loading="lazy" class="w-full z-[2] rounded-lg  bg-transparent" src="{{url_for('static', filename='assets/images/work-4.png')}}" alt="Call To Action"/>
         </div>

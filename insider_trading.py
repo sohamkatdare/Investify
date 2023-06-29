@@ -2,12 +2,15 @@
 # from selenium import webdriver
 import requests
 from bs4 import BeautifulSoup
-from datetime import datetime
+import datetime
 import traceback
 import os
+from dotenv import load_dotenv
+import finnhub
 
 def parse_date(date_str):
-    return datetime.strptime(date_str, "%Y-%m-%d").strftime("%B %dth, %Y")
+    # return datetime.strptime(date_str, "%Y-%m-%d").strftime("%B %dth, %Y")
+    pass
 
 def scrape_insider_data(stock_symbol):
     try:
@@ -118,7 +121,24 @@ def scrape_insider_data(stock_symbol):
     except Exception as e:
         print(e)
         raise Exception('Data could not be found')
+load_dotenv()
+FINNHUB_KEY = os.getenv('FINNHUB_KEY')
+FINNHUB_KEY_TWO = os.getenv('FINNHUB_KEY_TWO')
 
+finnhub_client = finnhub.Client(api_key=FINNHUB_KEY)
+finnhub_client_two = finnhub.Client(api_key=FINNHUB_KEY_TWO)
+
+start_date = '2023-01-01'
+end_date = datetime.date.today().strftime('%Y-%m-%d')
+
+def get_insider_data(stock_symbol):
+    data = finnhub_client.stock_insider_transactions(stock_symbol, start_date, end_date)
+    print('Data', data)
+    for transaction in data['data']:
+        pass
+
+    pass
+    
 
 if __name__ == '__main__':
-    print(scrape_insider_data('OESX'))
+    get_insider_data('OESX')

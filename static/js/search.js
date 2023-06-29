@@ -3,7 +3,9 @@
 // The results are populated in the search.html page.
 
 async function autocomplete() {
+    console.log("executing")
     if (document.getElementById("ticker").value) {
+        document.getElementById("autocomplete-results").classList.remove("hidden")
         keyword = document.getElementById("ticker").value
         const response = await fetch(`https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${keyword}&apikey=9J4GJJ2IXM4PJX5M`).then((response) => {
             if (response.status !== 200) {
@@ -16,9 +18,13 @@ async function autocomplete() {
         returnHTML = `<div class="join-item"><span>${data["bestMatches"][0]["1. symbol"]}</span> - <span>${data["bestMatches"][0]["2. name"]}</span></button>
             <div class="join-item"><span>${data["bestMatches"][1]["1. symbol"]}</span> - <span>${data["bestMatches"][1]["2. name"]}</span></button>
             <div class="join-item"><span>${data["bestMatches"][2]["1. symbol"]}</span> - <span>${data["bestMatches"][2]["2. name"]}</span></button>`
+    } else {
+        document.getElementById("autocomplete-results").classList.add("hidden")
     }
-    
 }
+
+document.getElementById("ticker").addEventListener("input", autocomplete())
+
 
 // TODO: Style search.html page
 // ticker = document.getElementById("ticker");

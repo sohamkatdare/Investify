@@ -76,7 +76,6 @@
       {% endfor %}
       {% else %}
       {{ searchForm.ticker(class="input input-bordered w-full bg-[#100e17]", id="ticker") }}
-      <div class="join join-vertical rounded-xl w-full bg-[#100e17]"></div>
       {% endif %}
       <button class="btn btn-square" id="search-form-submit" name="submit" type="submit">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -85,6 +84,7 @@
         </svg>
       </button>
     </div>
+    <div class="join join-vertical rounded-xl w-full bg-[#1e1a2b] hidden" id="autocomplete-results"></div>
   </form>
   {% if current_identity != '' %}
     <div class="grow-0 min-w-[125px] sm:-translate-y-2 max-sm:-translate-y-1 search-appear " style="display: none">

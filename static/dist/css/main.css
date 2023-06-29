@@ -4266,6 +4266,14 @@ html {
   padding: 2.5rem;
 }
 
+.p-\[5\%\] {
+  padding: 5%;
+}
+
+.p-\[10\%\] {
+  padding: 10%;
+}
+
 .px-16 {
   padding-left: 4rem;
   padding-right: 4rem;
@@ -5184,6 +5192,11 @@ section.grid>* {
   .max-lg\:my-6 {
     margin-top: 1.5rem;
     margin-bottom: 1.5rem;
+  }
+
+  .max-lg\:my-8 {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
   }
 
   .max-lg\:hidden {

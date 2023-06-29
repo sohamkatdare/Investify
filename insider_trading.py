@@ -19,15 +19,11 @@ def scrape_insider_data(stock_symbol):
         # options.add_argument("--disable-gpu")
         # options.add_argument("--enable-cookies") # Enable cookies
         # options.add_argument("--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36") # Set user agent string
+        userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36"
         options = webdriver.ChromeOptions()
-        # options.binary_location = os.environ.get("GOOGLE_CHROME_BIN") # type: ignore
-        # options.add_argument("--headless")
-        # options.add_argument("--disable-gpu")
-        # options.add_argument("--enable-cookies") # Enable cookies
-        # options.add_argument("--enable-javascript") # Enable JavaScript
-        # options.add_argument("--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36") # Set user agent string
         options.add_argument('--headless')
         options.add_argument("--incognito")
+        options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36")
         options.add_argument("--nogpu")
         options.add_argument("--disable-gpu")
         options.add_argument("--window-size=1280,1280")
@@ -42,7 +38,7 @@ def scrape_insider_data(stock_symbol):
         # driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=options) # type: ignore
         driver = webdriver.Chrome(options=options)
         driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
-        driver.execute_cdp_cmd('Network.setUserAgentOverride', {"userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36"})
+        driver.execute_cdp_cmd('Network.setUserAgentOverride', {"userAgent": userAgent})
         driver.get(url)
         time.sleep(1.5)
         html = driver.page_source

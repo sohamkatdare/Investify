@@ -20,9 +20,7 @@ async function getStocks() {
             <tr class="hover text-green-400">
                 <td>${index}</td>
                 <td><a href="/search?ticker=${stock['ticker']}" class="hover:underline">${stock['ticker']}</a></td>
-                <td>${stock['change_amount']}</td>
                 <td>${stock['change_percentage']}</td>
-                <td>${stock['volume']}</td>
                 <td>${stock['price']}</td>
             </tr>
         `
@@ -35,10 +33,8 @@ async function getStocks() {
             <tr class="hover text-red-400">
                 <td>${index}</td>
                 <td><a href="/search?ticker=${stock['ticker']}" class="hover:underline">${stock['ticker']}</a></td>
-                <td>${stock['change_amount']}</td>
                 <td>${stock['change_percentage']}</td>
-                <td>${stock['volume']}</td>
-                <td>${stock['price']}</td>
+                <td>$${stock['price']}</td>
             </tr>
         `
     })
@@ -51,9 +47,7 @@ async function getStocks() {
             <tr class="hover ${color}">
                 <td>${index}</td>
                 <td><a href="/search?ticker=${stock['ticker']}" class="hover:underline">${stock['ticker']}</a></td>
-                <td>${stock['change_amount']}</td>
                 <td>${stock['change_percentage']}</td>
-                <td>${stock['volume']}</td>
                 <td>${stock['price']}</td>
             </tr>
         `
@@ -66,12 +60,10 @@ async function getStocks() {
     top_gainers_tables.innerHTML = `
         <thead>
             <tr class="hover font-medium">
-                <th class="w-2"></th>
-                <th class="w-8">Ticker</th>
-                <th class="w-16">% Chg</th>
-                <th class="w-16">Chg Amount</th>
-                <th class="w-16">Volume</th>
-                <th class="w-8">Last Price</th>
+                <th></th>
+                <th>Ticker</th>
+                <th>% Chg</th>
+                <th>Last Price</th>
             </tr>
         </thead>
         <tbody class="text-green-400">
@@ -84,12 +76,10 @@ async function getStocks() {
     top_losers_tables.innerHTML = `
         <thead>
             <tr class="hover font-medium">
-                <th class="w-2"></th>
-                <th class="w-8">Ticker</th>
-                <th class="w-16">% Chg</th>
-                <th class="w-16">Chg Amount</th>
-                <th class="w-16">Volume</th>
-                <th class="w-8">Last Price</th>
+                <th></th>
+                <th>Ticker</th>
+                <th>% Chg</th>
+                <th>Last Price</th>
             </tr>
         </thead>
         <tbody class="text-red-400">
@@ -101,12 +91,10 @@ async function getStocks() {
     top_movers_tables.innerHTML = `
         <thead>
             <tr class="hover font-medium">
-                <th class="w-2"></th>
-                <th class="w-8">Ticker</th>
-                <th class="w-16">% Chg</th>
-                <th class="w-16">Chg Amount</th>
-                <th class="w-16">Volume</th>
-                <th class="w-8">Last Price</th>
+                <th></th>
+                <th>Ticker</th>
+                <th>% Chg</th>
+                <th>Last Price</th>
             </tr>
         </thead>
         <tbody class="">

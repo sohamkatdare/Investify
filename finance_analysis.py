@@ -21,6 +21,10 @@ ALPHA_VANTAGE_KEY_TWO = os.getenv('ALPHA_VANTAGE_KEY_TWO')
 ALPHA_VANTAGE_KEY_THREE = os.getenv('ALPHA_VANTAGE_KEY_THREE')
 
 def get_pe_and_eps(ticker_symbol):
+    """
+    PE: 20-25
+    EPS: 1-99
+    """
     ticker = si.get_quote_table(ticker_symbol)
     return ticker['PE Ratio (TTM)'], ticker['EPS (TTM)']
 
@@ -53,29 +57,40 @@ def get_composite_score(ticker_name):
 # Volatility we calculate from our prices. standard deviation multiplied by the square root of the number of periods of time, 
     
 def calculate_growth_potential(current_earnings, previous_earnings, current_revenue, previous_revenue):
+    """
+    Transform the growth potential into a score from 0 to 1.
+    Original Range is -100 to infinity.
+    The new range is 0 to 1.
+    """
     earnings_growth = (current_earnings - previous_earnings) / previous_earnings
     revenue_growth = (current_revenue - previous_revenue) / previous_revenue
     growth_potential = (earnings_growth + revenue_growth)/2
-    return growth_potential
+    return 1 - (-100 * (1 / growth_potential))
 
 def calculate_value_potential(earnings_yield, dividend_yield):
+    """
+    Transform the value potential into a score from 0 to 1.
+    Original Range is 0 to 100.
+    The new range is 0 to 1.
+    """
     value_potential = (earnings_yield + dividend_yield) / 2
-    return value_potential
+    return value_potential / 100
 
 def calculate_long_stock_score(growth_potential, value_potential, sentiment_score):
     stock_score = (growth_potential + value_potential + sentiment_score) / 3
     return stock_score
 
 def calculate_earnings_surprise(actual_earnings, estimated_earnings):
+    """
+    Transform the earnings surprise into a score from 0 to 1.
+    Original Range is -infinity to infinity.
+    The practical range is -0.02 to 0.02.
+    """
     earnings_surprise = (actual_earnings - estimated_earnings) / estimated_earnings
     return earnings_surprise
 
 def calculate_short_stock_score(earnings_surprise, price_momentum, volume_trend):
     stock_score = (earnings_surprise + price_momentum + volume_trend) / 3
-    return stock_score
-
-def calculate_day_stock_score(price_action, volume, volatility):
-    stock_score = (price_action + volume + volatility) / 3
     return stock_score
 
 def calculate_obv(previous_obv, current_volume, price_change):
@@ -84,6 +99,12 @@ def calculate_obv(previous_obv, current_volume, price_change):
     return obv
 
 def stock_potential_general(income, balance_sheet):
+    """
+    Calculates the stock potential of a stock based on the general formula.
+    Bad: <0.01
+    Ok: 0.01 - 0.05
+    Great: >0.05
+    """
     ebit = float(income['ebit'])
     net_fixed_assets = float(balance_sheet['totalNonCurrentAssets'])
     working_capital = float(balance_sheet['totalAssets'])

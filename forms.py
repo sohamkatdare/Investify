@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, IntegerField, DecimalField, SelectField, PasswordField, SubmitField
+from wtforms import StringField, IntegerField, DecimalField, BooleanField, SelectField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Length
 
 class LoginForm(FlaskForm):
@@ -15,7 +15,19 @@ class PlayersForm(FlaskForm):
   email_4 = StringField('Player 4: Email')
   email_5 = StringField('Player 5: Email')
   email_6 = StringField('Player 6: Email')
+  has_options = BooleanField('Has Options', default=True)
+  has_fee = BooleanField('Has Transaction Fee', default=False)
   submit = SubmitField('Create Game')
+
+class UpdatePlayersForm(FlaskForm):
+  email_2 = StringField('New Player 1: Email')
+  email_3 = StringField('New Player 2: Email')
+  email_4 = StringField('New Player 3: Email')
+  email_5 = StringField('New Player 4: Email')
+  email_6 = StringField('New Player 5: Email')
+  has_options = BooleanField('Has Options', default=True)
+  has_fee = BooleanField('Has Transaction Fee', default=False)
+  submit = SubmitField('Update Game')
 
 class BuyStockForm(FlaskForm):
   ticker = StringField('Ticker: ', validators=[DataRequired()], render_kw={"placeholder": "Ticker"})

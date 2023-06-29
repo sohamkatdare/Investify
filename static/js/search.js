@@ -2,6 +2,26 @@
 // All requests are asynchronous.
 // The results are populated in the search.html page.
 
+async function autocomplete() {
+    if (document.getElementById("ticker").value) {
+        keyword = document.getElementById("ticker").value
+        const response = await fetch(`https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${keyword}&apikey=9J4GJJ2IXM4PJX5M`).then((response) => {
+            if (response.status !== 200) {
+                onFail(ticker);
+            }
+            return response;
+        });
+        const data = await response.json();
+        
+        returnHTML = `<div class="join join-vertical">
+            <div class="join-item"><span>${data["bestMatches"][0]["1. symbol"]}</span> - <span>${data["bestMatches"][0]["2. name"]}</span></button>
+            <div class="join-item"><span>${data["bestMatches"][1]["1. symbol"]}</span> - <span>${data["bestMatches"][1]["2. name"]}</span></button>
+            <div class="join-item"><span>${data["bestMatches"][2]["1. symbol"]}</span> - <span>${data["bestMatches"][2]["2. name"]}</span></button>
+        </div>`
+    }
+    
+}
+
 // TODO: Style search.html page
 // ticker = document.getElementById("ticker");
 async function search(event) {
@@ -10,6 +30,7 @@ async function search(event) {
 
     // Get the ticker from the form
     const ticker = document.getElementById("ticker").value;
+    document.getElementById("ticker-heading").textContent = ticker.toUpperCase()
 
     // Hide flex-1 div. REMOVE THIS LATER IF NOT NEEDED.
     document.getElementById("flex-1").style.display = "none";
@@ -21,7 +42,7 @@ async function search(event) {
     // Async API Calls
     favoriteButtonState(ticker);
     getHighcharts(ticker);
-    getPeAndEPS(ticker);
+    alphaVantageOverview(ticker);
     getCompositeScore(ticker);
     getNews(ticker);
     getInsiderTrading(ticker);
@@ -60,6 +81,23 @@ async function getHighcharts(ticker, id="candle_div") {
     // Get the highcharts data from the backend asychronously
     // and populate the highcharts in the search.html page.
     // document.getElementById("candle_div").style.display = "block";
+    let openVal = document.getElementById("open-val")
+    let closeVal = document.getElementById("close-val")
+    let highVal = document.getElementById("high-val")
+    let lowVal = document.getElementById("low-val")
+    let longHigh = document.getElementById("long-high")
+    let longLow = document.getElementById("long-low")
+    let volumeVal = document.getElementById("volume-val")
+
+    openVal.innerHTML = `<div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div>`;
+    closeVal.innerHTML = `<div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div>`;
+    highVal.innerHTML = `<div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div>`;
+    lowVal.innerHTML = `<div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div>`;
+    longHigh.innerHTML = `<div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div>`;
+    longLow.innerHTML = `<div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div>`;
+    volumeVal.innerHTML = `<div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div>`;
+
+
     const response = await fetch('/search/highcharts?ticker=' + ticker).then((response) => {
         if (response.status !== 200) {
             onFail(ticker);
@@ -70,11 +108,11 @@ async function getHighcharts(ticker, id="candle_div") {
 
     console.log(data)
 
-    document.getElementById("open-val").textContent = data[data.length-1][1]
-    document.getElementById("close-val").textContent = data[data.length-1-1][4]
-    document.getElementById("high-val").textContent = data[data.length-1-1][2]
-    document.getElementById("low-val").textContent = data[data.length-1-1][3]
-    document.getElementById("volume-val").textContent = data[data.length-1-1][5]
+    openVal.textContent = data[data.length-1][1]
+    closeVal.textContent = data[data.length-1-1][4]
+    highVal.textContent = data[data.length-1-1][2]
+    lowVal.textContent = data[data.length-1-1][3]
+    volumeVal.textContent = data[data.length-1-1][5]
 
 
     // split the data set into ohlc and volume
@@ -270,19 +308,38 @@ async function getHighcharts(ticker, id="candle_div") {
     document.getElementById("candle_div").classList.add("lg:outline-pink-600/50");
 }
 
-async function getPeAndEPS(ticker) {
+async function getPeAndEPS(pe_ratio, eps_ratio) {
     const peRatio = document.getElementById("pe-ratio");
     const epsRatio = document.getElementById("eps-ratio");
     peRatio.innerHTML = `<div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div>`;
     epsRatio.innerHTML = `<div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div>`;
-    // Get the PE and EPS data from the backend asychronously
-    // and populate the PE and EPS in the search.html page.
-    const response = await fetch('/search/pe-and-eps?ticker=' + ticker);
-    const data = await response.json();
 
     // TODO: Formatting for PE and EPS.
-    peRatio.innerHTML = data["pe_ratio"];
-    epsRatio.innerHTML = data["eps"];    
+    peRatio.innerHTML = pe_ratio;
+    epsRatio.innerHTML = eps_ratio;    
+}
+
+async function alphaVantageOverview(ticker) {
+    const response = await fetch(`https://www.alphavantage.co/query?function=OVERVIEW&symbol=${ticker}&apikey=9J4GJJ2IXM4PJX5M`).then((response) => {
+        if (response.status !== 200) {
+            onFail(ticker);
+        }
+        return response;
+    });
+    const data = await response.json();
+    
+    const pe_ratio = parseFloat(data["PERatio"]);
+    const eps_ratio = parseFloat(data["EPS"]);
+
+    getPeAndEPS(pe_ratio, eps_ratio);
+    
+    const long_high = data["52WeekHigh"];
+    const long_low = data["52WeekLow"];
+    console.log(long_high, long_low)
+    
+    document.getElementById("long-high").innerHTML = long_high;
+    document.getElementById("long-low").innerHTML = long_low;
+    
 }
 
 async function getCompositeScore(ticker) {
@@ -302,7 +359,7 @@ async function getNews(ticker) {
 
     const skeletonHTML = `
     <div class="h-full sm:shadow-[-1rem_0_3rem_#000]  transition-all duration-700 rounded-lg overflow-hidden relative text-white flex flex-col w-96 group left-0 sm:[&:not(:first-child)]:ml-[-100px] stack-card shrink-0 grow">
-    <figure class="grow overflow-hidden"><div class="grow w-full h-full object-cover group-hover:scale-110 transition-all brightness-[0.6] group-hover:brightness-100 duration-700 rounded-t-lg skeleton"></div></figure>
+    <figure class="grow overflow-hidden"><div class="grow w-full h-full object-cover transition-all  duration-700 rounded-t-lg skeleton"></div></figure>
     <div class="py-4 h-max overflow-visible bg-[#1b1726] grow-0">
         <h2 class="px-6 text-2xl font-semibold hover:underline mb-2">
             <div class="skeleton w-4/5 h-4 mb-2 rounded-sm"></div>
@@ -395,7 +452,8 @@ async function getNews(ticker) {
         for (i = 1; i < element.relatedTickers.length; i++) {
             // Make sure ticker is only letters.
             if(element.relatedTickers[i] != ticker){
-                const href = element.relatedTickers[i].match(/^[a-zA-Z]+$/) ? "" : `/search?ticker=${element.relatedTickers[i]}` //if ticker has special characters, then don't add href
+                const href = element.relatedTickers[i].includes("^") ? "" : `/search?ticker=${element.relatedTickers[i]}` //if ticker has special characters, then don't add href
+                console.log(href)
                 tickerList += `
                 <a class="flex justify-center items-center text-white text-base font-medium hover:bg-white/[0.075] bg-transparent border-2 border-white/25 hover:border-transparent rounded-full min-w-64 h-8 p-4 px-2 mb-2 text-center" href=${href}>
                     <span class="text-center">${element.relatedTickers[i]}</span>
@@ -414,7 +472,7 @@ async function getNews(ticker) {
         }
 
         tickerList += `</div>`
-        console.log(tickerList)
+        // console.log(tickerList)
 
         returnHTML += 
         `<div class="h-full max-sm:hover:shadow-xl max-sm:hover:drop-shadow-xl max-sm:hover:-translate-y-[10%] sm:shadow-[-1rem_0_3rem_#000]  transition-all duration-700 rounded-lg overflow-hidden relative text-white flex flex-col w-96 group left-0 sm:[&:not(:first-child)]:ml-[-100px] stack-card shrink-0 grow">
@@ -449,29 +507,29 @@ async function getInsiderTrading(ticker) {
                             <path class="inline" stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
                         </svg></span>
                         <span class="inline">
-                            <div class="skeleton w-16 h-3 rounded-lg"></div>
+                            <div class="skeleton w-16 h-2 rounded-lg"></div>
                         </span>
                     </div>
                     <div class="flex flex-row gap-x-2">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008zM12 15h.008v.008H12V15zm0 2.25h.008v.008H12v-.008zM9.75 15h.008v.008H9.75V15zm0 2.25h.008v.008H9.75v-.008zM7.5 15h.008v.008H7.5V15zm0 2.25h.008v.008H7.5v-.008zm6.75-4.5h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V15zm0 2.25h.008v.008h-.008v-.008zm2.25-4.5h.008v.008H16.5v-.008zm0 2.25h.008v.008H16.5V15z" />
                         </svg>
-                        <span class="inline skeleton">
-                            <div class="skeleton w-16 h-3 rounded-lg"></div>
+                        <span class="inline">
+                            <div class="skeleton w-16 h-2 rounded-lg"></div>
                         </span>
                     </div>
                 </div>
                 <div class="flex justify-between w-full">
                     <h2 class="card-title text-4xl mr-6 font-bold  data-title>
-                        <div class="skeleton w-4/5 h-4 mb-2 rounded-sm"></div>
+                        <div class="skeleton w-64 h-4 mb-2 rounded-sm"></div>
                     </h2>
                     <h2 class="card-title text-4xl ml-6 font-bold ">
-                        <div class="skeleton w-4/5 h-4 mb-2 rounded-sm"></div>
+                        <div class="skeleton w-64 h-4 mb-2 rounded-sm"></div>
                     </h2>
                 </div>
                 <div class="flex justify-between">
-                    <p class="skeleton w-4/5 h-4 mb-2 rounded-sm"></p>
-                    <p class="text-end skeleton w-4/5 h-4 mb-2 rounded-sm"></p>
+                    <p class="skeleton w-24 h-2 mb-2 rounded-sm translate-x-10"></p>
+                    <p class="text-end skeleton w-24 h-2 mb-2 rounded-sm -translate-x-4"></p>
                 </div>
             </div>
         </div>`
@@ -525,6 +583,7 @@ async function getInsiderTrading(ticker) {
         // }
     })
 
+    // console.log(count)
 
     if (count == 0 || data[0] == "Data could not be found") {
         document.getElementById("insider-heading").classList.add("hidden")
@@ -536,7 +595,7 @@ async function getInsiderTrading(ticker) {
         document.getElementById("insider-trading").classList.remove("hidden")
     }
 
-    document.getElementById("insider-trading").innerHTML = insiderHTML;
+    document.getElementById("insider-trading").innerHTML += insiderHTML;
     
 }
 
@@ -555,10 +614,11 @@ if (favButton) {
     favButton.addEventListener("click", toggleFavorite);
 }
 
-// If url has query params, then populate the search bar with the ticker and submit the form.
+// If url has query params, then populate the search bar with the ticker and submit the form. Remove the query params from the url.
 const urlParams = new URLSearchParams(window.location.search);
 const ticker = urlParams.get('ticker');
 if (ticker) {
     document.getElementById("ticker").value = ticker;
     document.getElementById("search-form-submit").click();
+    window.history.replaceState({}, document.title, "/" + "search");
 }

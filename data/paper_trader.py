@@ -7,12 +7,14 @@ class PaperTrader:
     prices = pd.DataFrame()
     option_chains = {}
 
-    def __init__(self, name, portfolio, initial, capital, id):
+    def __init__(self, name, portfolio, initial, capital, id, has_options, has_fee):
         self.name = name
         self.portfolio = portfolio
         self.initial = initial
         self.capital = capital
         self.id = id
+        self.has_options = has_options
+        self.has_fee = has_fee
         # Check for any expired options.
         removed = False
         for trade in self.portfolio:
@@ -39,6 +41,12 @@ class PaperTrader:
     
     def get_option_exercise_url(self, uid):
         return f'paper-trading/exercise?{self.get_url_from_name()}&uid={uid}'
+
+    def regular_bought(self):
+        return any([trade['type'] == 'buy' or trade['type'] == 'short' for trade in self.portfolio])
+    
+    def option_bought(self):
+        return any([trade['type'] == 'call' or trade['type'] == 'put' for trade in self.portfolio])
 
     @staticmethod
     def get_prices_for_tickers(ticker):
@@ -393,7 +401,9 @@ class PaperTrader:
             'portfolio': self.portfolio,
             'initial': self.initial,
             'capital': self.capital,
-            'id': self.id
+            'id': self.id,
+            'has_options': self.has_options,
+            'has_fee': self.has_fee
         }
 
 if __name__ == '__main__':
@@ -405,7 +415,7 @@ if __name__ == '__main__':
     portfolio = {'AAPL': 10, 'AMZN': 5, 'TSLA': 3}
     initial = 5000
     capital = 10000
-    trader = PaperTrader('hello', portfolio, initial, capital, 'saptak.das625@gmail.com')
+    trader = PaperTrader('hello', portfolio, initial, capital, 'saptak.das625@gmail.com', True, False)
 
     # Buy some shares of a stock
     trader.buy('MSFT', 2)

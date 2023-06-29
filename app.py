@@ -5,11 +5,10 @@ import requests
 import datetime
 import json
 import os
-import pandas as pd
 from dotenv import load_dotenv
 load_dotenv()
 
-from forms import LoginForm, RegisterForm, ResetPasswordForm, TickerForm, PlayersForm, BuyStockForm, SellStockForm, ShortStockForm, CoverStockForm, OptionsForm, OptionChainForm, CallStockForm, PutStockForm, ConfirmForm
+from forms import LoginForm, RegisterForm, ResetPasswordForm, TickerForm, PlayersForm, UpdatePlayersForm, BuyStockForm, SellStockForm, ShortStockForm, CoverStockForm, OptionsForm, OptionChainForm, CallStockForm, PutStockForm, ConfirmForm
 from socialstats import getSocialStats
 from polygon_io import getStockData
 from finance_analysis import get_pe_and_eps, get_composite_score, get_news
@@ -220,17 +219,6 @@ def searchTicker():
     print(e)
     return Response(response='Service Unavailable', status=503, mimetype='text/plain')
 
-@app.route('/search/pe-and-eps', methods=['GET'])
-@jwt_required(optional=True)
-def searchPeAndEps():
-  try:
-    ticker = request.args.get('ticker')
-    pe_ratio, eps = get_pe_and_eps(ticker)
-    return Response(response=json.dumps({'pe_ratio': pe_ratio, 'eps': eps}), status=200, mimetype='application/json')
-  except Exception as e:
-    print(e)
-    return Response(response='Service Unavailable', status=503, mimetype='text/plain')
-
 @app.route('/search/composite-score', methods=['GET'])
 @jwt_required(optional=True)
 def searchCompositeScore():
@@ -344,6 +332,13 @@ def simplify():
     else:
       return Response(response='Bad Request', status=400)
 
+@app.route('/get-games', methods=['GET'])
+@jwt_required()
+def getGames():
+  user_id = get_jwt_identity()
+  games = PaperTraderGame.get_games(user_id)
+  return Response(response=json.dumps([g.name for g in games]), status=200, mimetype='application/json')
+
 # Login Required Routes
 @app.route('/profile', methods=['GET', 'POST'])
 @jwt_required()
@@ -359,7 +354,7 @@ def profile():
   if playersForm.name.data and playersForm.starting_amount.data:
     try:
       players = [user_id, playersForm.email_2.data, playersForm.email_3.data, playersForm.email_4.data, playersForm.email_5.data]
-      game = PaperTraderGame(playersForm.name.data, playersForm.starting_amount.data, user_id, players=[p for p in players if p])
+      game = PaperTraderGame(playersForm.name.data, playersForm.starting_amount.data, user_id, players=[p for p in players if p], has_options=playersForm.has_options.data, has_fee=playersForm.has_fee.data)
       game.create_game()
       flash(f'Game "{playersForm.name.data}" created successfully!', 'success')
       return redirect(url_for('profile'))
@@ -409,7 +404,7 @@ def conversations():
     print(e)
     return Response(response='Service Unavailable', status=503, mimetype='text/plain')
 
-@app.route('/paper-trading')
+@app.route('/paper-trading', methods=['GET', 'POST'])
 @jwt_required()
 def papertrading():
   searchForm = TickerForm()
@@ -419,7 +414,19 @@ def papertrading():
   userDetail, otherDetail = PaperTraderGame.get_game_detail(game, user_id)
   leaderboard = sorted([userDetail, *otherDetail], key=lambda x: x.get_portfolio_value(), reverse=True) # type: ignore
   print(leaderboard)
-  return render_template('paper-trading.html', data=None, searchForm=searchForm, is_search=True, user_id=user_id, current_identity=user_id, user=user, userDetail=userDetail, otherDetail=otherDetail, leaderboard=leaderboard)
+  updatePlayersForm = UpdatePlayersForm()
+  # If POST request, validate form.
+  if request.method == 'POST':
+    try:
+      players = [user_id, updatePlayersForm.email_2.data, updatePlayersForm.email_3.data, updatePlayersForm.email_4.data, updatePlayersForm.email_5.data]
+      print('Has Options and Fee', updatePlayersForm.has_options.data, updatePlayersForm.has_fee.data)
+      game = PaperTraderGame(userDetail.name, userDetail.initial, user_id, players=[p for p in players if p], has_options=updatePlayersForm.has_options.data, has_fee=updatePlayersForm.has_fee.data) # type: ignore
+      game.update_game()
+      flash(f'Game "{userDetail.name}" updated successfully!', 'success') # type: ignore
+      return redirect(url_for('papertrading', gid=userDetail.name)) # type: ignore
+    except Exception as e:
+      flash(str(e), 'error')
+  return render_template('paper-trading.html', data=None, searchForm=searchForm, updatePlayersForm=updatePlayersForm, is_search=True, user_id=user_id, current_identity=user_id, user=user, userDetail=userDetail, otherDetail=otherDetail, leaderboard=leaderboard)
 
 @app.route('/paper-trading/buy', methods=['GET', 'POST'])
 @jwt_required()

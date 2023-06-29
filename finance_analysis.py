@@ -2,6 +2,7 @@ import yfinance as yf
 import yahoo_fin.stock_info as si
 from yahoofinancials import YahooFinancials
 import os
+import requests
 
 POLYGON_API_KEY_TWO = os.getenv('POLYGON_KEY_TWO')
 POLYGON_API_KEY_THREE = os.getenv('POLYGON_KEY_THREE')
@@ -15,22 +16,25 @@ POLYGON_API_KEY_TEN = os.getenv('POLYGON_KEY_TEN')
 
 POLYGON_KEYS = [POLYGON_API_KEY_TWO, POLYGON_API_KEY_THREE, POLYGON_API_KEY_FOUR, POLYGON_API_KEY_FIVE, POLYGON_API_KEY_SIX, POLYGON_API_KEY_SEVEN, POLYGON_API_KEY_EIGHT, POLYGON_API_KEY_NINE, POLYGON_API_KEY_TEN]
 
+ALPHA_VANTAGE_KEY = os.getenv('ALPHA_VANTAGE_KEY')
+ALPHA_VANTAGE_KEY_TWO = os.getenv('ALPHA_VANTAGE_KEY_TWO')
+ALPHA_VANTAGE_KEY_THREE = os.getenv('ALPHA_VANTAGE_KEY_THREE')
 
 def get_pe_and_eps(ticker_symbol):
     ticker = si.get_quote_table(ticker_symbol)
     return ticker['PE Ratio (TTM)'], ticker['EPS (TTM)']
 
 def get_composite_score(ticker_name):
-    ticker = YahooFinancials(ticker_name)
-
     # Get the financials of the stock
-    latest_income_statement = ticker.get_financial_stmts(frequency='quarterly', statement_type='income')['incomeStatementHistoryQuarterly'][ticker_name][-1]
-    latest_balance_sheet = ticker.get_financial_stmts(frequency='quarterly', statement_type='balance')['balanceSheetHistoryQuarterly'][ticker_name][-1]
+    url = f'https://www.alphavantage.co/query?function=INCOME_STATEMENT&symbol={ticker_name}&apikey={ALPHA_VANTAGE_KEY}'
+    latest_income_statement = requests.get(url).json()['quarterlyReports'][0]
+    url = f'https://www.alphavantage.co/query?function=BALANCE_SHEET&symbol={ticker_name}&apikey={ALPHA_VANTAGE_KEY}'
+    latest_balance_sheet = requests.get(url).json()['quarterlyReports'][0]
 
-    income_statement_dict = latest_income_statement[list(latest_income_statement.keys())[0]]
-    balance_sheet_dict = latest_balance_sheet[list(latest_balance_sheet.keys())[0]]
+    # income_statement_dict = latest_income_statement[list(latest_income_statement.keys())[0]]
+    # balance_sheet_dict = latest_balance_sheet[list(latest_balance_sheet.keys())[0]]
 
-    stock_potential = stock_potential_general(income_statement_dict, balance_sheet_dict)
+    stock_potential = stock_potential_general(latest_income_statement, latest_balance_sheet)
 
     return stock_potential
 
@@ -80,9 +84,9 @@ def calculate_obv(previous_obv, current_volume, price_change):
     return obv
 
 def stock_potential_general(income, balance_sheet):
-    ebit = income['ebit']
-    net_fixed_assets = balance_sheet['totalNonCurrentAssets']
-    working_capital = balance_sheet['totalCapitalization']
+    ebit = float(income['ebit'])
+    net_fixed_assets = float(balance_sheet['totalNonCurrentAssets'])
+    working_capital = float(balance_sheet['totalAssets'])
     return round(ebit / (net_fixed_assets + working_capital), 4)
 
 def stock_potential_precise(income, balance_sheet):

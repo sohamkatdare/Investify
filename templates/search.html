@@ -97,36 +97,36 @@
   {% endif %}
 </div>
 <div style="display: none;" id="search-results" class="">
-  <div class="mt-10 w-screen bg-gradient-to-r text-white from-purple-500 to-purple-800 grid grid-rows-5 grid-cols-12">
-    <h1 class="text-5xl font-semibold row-start-3 col-start-3" id="ticker-heading">AAPL</h1>
-    <div class="col-start-6 col-end-11 row-span-5 grid content-center justify-end">
-      <div class="grid grid-cols-4 grid-rows-4 gap-x-10 gap-y-2">
-      <span class="col-start-1 font-semibold">Open</span>
-      <span class="col-start-2 text-end" id="open-val">1323213</span>
-      <span class="col-start-3 font-semibold">Prev Close</span>
-      <span class="col-start-4 text-end" id="close-val">219434</span>
+  <div class="grid place-content-center">
+    <div class="mt-10 bg-gradient-to-r rounded-xl text-white justify-self-center from-purple-500 w-3/4 to-purple-800 grid grid-rows-5 grid-cols-12">
+      <h1 class="text-5xl font-semibold row-start-3 col-start-3" id="ticker-heading"></h1>
+      <div class="col-start-6 col-end-11 row-span-5 grid content-center justify-end">
+        <div class="grid grid-cols-4 grid-rows-4 gap-x-10 gap-y-2">
+        <span class="col-start-1 font-semibold">Open</span>
+        <span class="col-start-2 text-end" id="open-val"></span>
+        <span class="col-start-3 font-semibold">Close</span>
+        <span class="col-start-4 text-end" id="close-val"></span>
 
-      <span class="col-start-1 font-semibold">High</span>
-      <span class="col-start-2 text-end" id="high-val">1323213</span>
-      <span class="col-start-3 font-semibold">Low</span>
-      <span class="col-start-4 text-end" id="low-val">219434</span>
+        <span class="col-start-1 font-semibold">High</span>
+        <span class="col-start-2 text-end" id="high-val"></span>
+        <span class="col-start-3 font-semibold">Low</span>
+        <span class="col-start-4 text-end" id="low-val"></span>
 
-      <span class="col-start-1 font-semibold">Volume</span> 
-      <span class="col-start-2 text-end" id="volume-val">1323213</span>
-      <span class="col-start-3 font-semibold" >Turnover</span>
-      <span class="col-start-4 text-end" id="turnover-val">219434</span>
-      
-      <span class="col-start-1 font-semibold" >52-Week High</span>
-      <span class="col-start-2 text-end" id="long-high">1323213</span>
-      <span class="col-start-3 font-semibold" >52-Week Low</span>
-      <span class="col-start-4 text-end" id="long-low">219434</span>
+        <span class="col-start-1 font-semibold">52-Week High</span>
+        <span class="col-start-2 text-end" id="long-high"></span>
+        <span class="col-start-3 font-semibold">52-Week Low</span>
+        <span class="col-start-4 text-end" id="long-low"></span>
+
+        <span class="col-start-1 font-semibold">Volume</span>
+        <span class="col-start-2 text-end" id="volume-val"></span>        
+        </div>
       </div>
     </div>
   </div>
   <div class="grid mt-10 grid-cols-12 px-4 sm:px-16">
     <div class="col-span-12 lg:col-span-7 md:mx-5">
       <div class="min-h-[50vh] rounded-lg drop-shadow-lg skeleton" id="candle_div"></div>
-      <div class="skeleton lg:outline lg:outline-offset-2 lg:outline-2 lg:outline-pink-600/50 hidden"></div> <!-- this element is for styles that js dynamically adds which main.css won't load otherwise -->
+      <div class="skeleton lg:outline lg:outline-offset-2 lg:outline-2 w-16 w-24 w-32 lg:outline-pink-600/50 hidden"></div> <!-- this element is for styles that js dynamically adds which main.css won't load otherwise -->
     </div>
     <div class="col-span-12 lg:col-span-3 lg:col-start-9 lg:grid lg:place-content-center">
       <div>
@@ -159,7 +159,7 @@
     <h1 class="text-5xl font-bold text-white text-center">News</h1>
   </div>  
 
-  <div class="hidden pt-4 invisible text-red-500 text-green-500 text-end h-full px-6 max-sm:hover:shadow-xl justify-between max-sm:hover:drop-shadow-xl gap-x-24 max-sm:hover:-translate-y-[10%] sm:shadow-[-1rem_0_3rem_#000]  transition-all duration-700 rounded-lg overflow-hidden relative text-white flex flex-col w-96 group left-0 sm:[&:not(:first-child)]:ml-[-100px] stack-card shrink-0 grow mr-6 ml-6"></div> <!-- for main.css -->
+  <div class="hidden pt-4 -translate-x-4 translate-x-10 h-2 h-4 w-64 invisible text-red-500 text-green-500 text-end h-full px-6 max-sm:hover:shadow-xl justify-between max-sm:hover:drop-shadow-xl gap-x-24 max-sm:hover:-translate-y-[10%] sm:shadow-[-1rem_0_3rem_#000]  transition-all duration-700 rounded-lg overflow-hidden relative text-white flex flex-col w-96 group left-0 sm:[&:not(:first-child)]:ml-[-100px] stack-card shrink-0 grow mr-6 ml-6"></div> <!-- for main.css -->
 
   <div class="h-max w-screen grid grid-flow-col auto-rows-min overflow-x-scroll px-12 pt-24 pb-12 -mt-24 overflow-y-visible mb-12 scrollbar minimalist taller items-stretch content-stretch max-sm:gap-6" id="news">
     <div class="hidden h-full max-sm:hover:shadow-xl max-sm:hover:drop-shadow-xl max-sm:hover:-translate-y-[10%] sm:shadow-[-1rem_0_3rem_#000]  transition-all duration-700 rounded-lg overflow-hidden relative text-white flex flex-col w-96 group left-0 sm:[&:not(:first-child)]:ml-[-100px] stack-card shrink-0 grow">

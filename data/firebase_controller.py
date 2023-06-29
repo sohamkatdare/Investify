@@ -46,6 +46,8 @@ def reset_password(email):
 def create_game(game):
     print(game)
     # Check that all players exist
+    game['players'] = list(set(game['players']))
+    print()
     for player in game['players']:
         if not db.collection(u'users').document(player).get().exists:
             raise Exception(f'Player {player} does not exist.')
@@ -59,7 +61,7 @@ def create_game(game):
 
     # Make portfolio for each player
     for player in game['players']:
-        new_trader = PaperTrader(game['name'], [], game['starting_amount'], game['starting_amount'], player)
+        new_trader = PaperTrader(game['name'], [], game['starting_amount'], game['starting_amount'], player, game['has_options'], game['has_fee'])
         db.collection(u'games').document(game['name']).collection(u'portfolios').document(player).set(new_trader.to_dict())
         print(f'Successfully created new portfolio for {player}')
 
@@ -68,18 +70,49 @@ def create_game(game):
         user_data['games'].append(game['name'])
         db.collection(u'users').document(player).set(user_data)
 
+def update_game(game):
+    print(game)
+    # Check that all players exist
+    for player in game['players']:
+        if not db.collection(u'users').document(player).get().exists:
+            raise Exception(f'Player {player} does not exist.')
+    
+    # Get old players and new players.
+    all_players = db.collection(u'games').document(game['name']).get().to_dict()['players'] + game['players']
+    all_players = list(set(all_players))
+    game['players'] = all_players    
+    db.collection(u'games').document(game['name']).set(game)
+    print(f'Successfully updated game: {game}')
+
+    # Make portfolio for each player.
+    # If player already has portfolio, update it.
+    for player in game['players']:
+        if db.collection(u'games').document(game['name']).collection(u'portfolios').document(player).get().exists:
+            print(f'Updating portfolio for {player}')
+            updatePortfolio(game['name'], PaperTrader(game['name'], [], game['starting_amount'], game['starting_amount'], player, game['has_options'], game['has_fee']))
+        else:
+            print(f'Creating portfolio for {player}')
+            new_trader = PaperTrader(game['name'], [], game['starting_amount'], game['starting_amount'], player, game['has_options'], game['has_fee'])
+            db.collection(u'games').document(game['name']).collection(u'portfolios').document(player).set(new_trader.to_dict())
+            print(f'Successfully created new portfolio for {player}')
+
+            # Add game to user's list of games
+            user_data = db.collection(u'users').document(player).get().to_dict()
+            user_data['games'].append(game['name'])
+            db.collection(u'users').document(player).set(user_data)
+
 def get_all_games(user):
     all_games = []
     user_data = db.collection(u'users').document(user).get().to_dict()
     for game in user_data['games']:
         # Get games from database
         game_data = db.collection(u'games').document(game).collection(u'portfolios').document(user).get().to_dict()
-        all_games.append(PaperTrader(game_data['name'], game_data['portfolio'], game_data['initial'], game_data['capital'], game_data['id']))
+        all_games.append(PaperTrader(game_data['name'], game_data['portfolio'], game_data['initial'], game_data['capital'], game_data['id'], game_data['has_options'], game_data['has_fee']))
     return all_games
 
 def get_paper_trader(game, user):
     data = db.collection(u'games').document(game).collection(u'portfolios').document(user).get().to_dict()
-    return PaperTrader(data['name'], data['portfolio'], data['initial'], data['capital'], data['id'])
+    return PaperTrader(data['name'], data['portfolio'], data['initial'], data['capital'], data['id'], data['has_options'], data['has_fee'])
 
 def get_game_detail(game, user):
     # Note: Use of CollectionRef stream() is prefered to get()
@@ -90,10 +123,10 @@ def get_game_detail(game, user):
         d = doc.to_dict()
         print('Check', d['id'], user)
         if d['id'] == user:
-            main_user = PaperTrader(d['name'], d['portfolio'], d['initial'], d['capital'], d['id'])
+            main_user = PaperTrader(d['name'], d['portfolio'], d['initial'], d['capital'], d['id'], d['has_options'], d['has_fee'])
         else:
             print(d)
-            other_users.append(PaperTrader(d['name'], d['portfolio'], d['initial'], d['capital'], d['id']))
+            other_users.append(PaperTrader(d['name'], d['portfolio'], d['initial'], d['capital'], d['id'], d['has_options'], d['has_fee']))
     return main_user, other_users
 
 def updatePortfolio(game, paper_trader):

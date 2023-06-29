@@ -54,39 +54,15 @@
         )
       }}
     {% endfor %}
-    <!-- <div class="card w-96 border-4 border-dashed border-white/[0.1]">
-      <div class="card-body m-auto">
-        <div class="card-title m-auto">
-          <div class="rounded-full text-7xl w-24 aspect-square text-white/75   bg-white/[0.1] text-center my-auto font-[10] py-4">+</div>
-        </div>
-        <a href="#create-game" class="text-xl btn btn-primary border-indigo-400 bg-transparent gradient-border hover:border-transparent  transition-all">Create a Conversation</a>
-      </div>
-    </div>
-  </div> -->
 
-  <!-- Chatbot conversations -->
-  <!-- <h1 class="text-3xl text-white mt-12 font-bold underline decoration-purple-400"">Chatbot Conversations</h1> 
-  <div class="my-6 flex lg:flex-row flex-col  lg:gap-x-8 gap-y-8">
-    <div class="card card-primary"> 
-      <div class="card-body"> 
-        <h2 class="card-title">Chatbot Conversations</h2>
-        <div id="conversations-list">
-          <div class="card card-primary">
-            <h2 class="card-title">Example Convo Title</h2>
-            <p class="overflow-none w-full h-full">kasdfjfehu sdfhjksdhui sdfhuisdhui sdfuh sdfhui sdfhui sdf sdfhuio ehuiop wehuiop aehuipf fu8pasdh  ihua sdfihu isdf hupa sduipah sdfhuipa sdfhuipa asdfhuip uipasdf h sdhf ihug</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div> -->
 </div>
-<div class="modal" id="create-game">
-  <div class="modal-box">
+<div class="modal fixed" id="create-game">
+  <div class="modal-box scrollbar">
     <div class="modal-action">
       <h1 class="text-2xl text-white font-bold underline decoration-purple-400 text-left mr-40 leading-5">Create Game</h1>
       <a href="#" class="btn btn-primary col-span-2 border-indigo-400 bg-transparent gradient-border hover:border-transparent transition-all ">Exit</a>
      </div>
-    <form class="grid grid-cols-2 gap-6 gap-x-12 px-[5vw]" method="POST" action="">
+    <form class="flex flex-col gap-6" method="POST" action="">
       {{ playersForm.name(class="input input-bordered w-full max-w-xs", placeholder="Game Name") }}
       {{ playersForm.starting_amount(class="input input-bordered w-full max-w-xs", placeholder="10000") }}
       <input type="text"  class="input input-bordered border-purple-400 w-full max-w-xs" placeholder="Owner: {{ current_identity }}" readonly></input>
@@ -95,9 +71,18 @@
       {{ playersForm.email_4(class="input input-bordered w-full max-w-xs", placeholder="Player 4: Email(optional)") }}
       {{ playersForm.email_5(class="input input-bordered w-full max-w-xs", placeholder="Player 5: Email(optional)") }}
       {{ playersForm.email_6(class="input input-bordered w-full max-w-xs", placeholder="Player 6: Email(optional)") }}
-      {{playersForm.submit(class="btn btn-primary border-indigo-400 bg-transparent gradient-border hover:border-transparent  transition-all ")}}
+      <div class="flex flex-row">
+        <h1 class="text-xl text-white font-semibold">Has Options: </h1>
+        {{ playersForm.has_options(class="checkbox checkbox-bordered checkbox-md ml-6") }}
+      </div>
+      <div class="flex flex-row">
+        <h1 class="text-xl text-white font-semibold">Has Transfer Fees: </h1>
+        {{ playersForm.has_fee(class="checkbox checkbox-bordered checkbox-md ml-6") }}
+      </div>
+      {{ playersForm.submit(class="btn btn-primary border-indigo-400 bg-transparent gradient-border hover:border-transparent transition-all")}}
     </form>
 </div>
+
 {% endblock body %}
 
 {% block results %}{% endblock results %}

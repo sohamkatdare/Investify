@@ -2,6 +2,8 @@
 {% block title %}Home{% endblock title %}
 {% block pageTitle %}Investify{% endblock pageTitle %}
 {% block wholebody %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/skeleton.css') }}">
+
 <div class="grid items-center w-[94%] p-[3%] grid-cols-8 container-fluid mx-10 text-black rounded-pill h-[100vh] transition-all ">
     <div class="search-container max-md:self-center max-md:justify-self-center col-span-8 md:col-span-3 xl:col-span-4 w-max translate-y-[-4rem]">
       <h1 class="text-6xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white leading-tight transition-all">Stay in the know <br> Watch your<br/> <span class="gradient-text">money grow.</span> </strong></h1> <br> <br>
@@ -59,80 +61,101 @@
             <div class="overflow-x-auto">
                 <div class="pb-9">
                     <h3 class="sub_title font-bold text-2xl text-magenta-500">Daily Most Active</h3>
-                </div> <!-- section title -->
-                <table class="table  w-full">
-                  <!-- head -->
+                </div> 
+                <table class="table movers index w-full">
                   <thead>
-                    <tr>
+                    <tr class="hover font-medium">
                       <th></th>
                       <th>Ticker</th>
+                      <th>% Chg</th>
+                      <th>Chg Amount</th>
                       <th>Volume</th>
-                      <th>% Range</th>
+                      <th>Last Price</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <!-- row 1 -->
-                    <tr class="hover text-red-400"  onclick="fillTicker('BBBY')">
+                    
+                    <tr class="hover text-red-400">
                       <th>1</th>
-                      <td>BBBY</td>
-                      <td>340.93M</td>
-                      <td>-35.34%</td>
+                      <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                      <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                      <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                      <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                      <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
                     </tr>
-                    <!-- row 2 -->
-                    <tr class="hover text-red-400"  onclick="fillTicker('MULN')">
+                    
+                    <tr class="hover text-red-400">
                       <th>2</th>
-                      <td>MULN</td>
-                      <td>215.39M</td>
-                      <td>-5.78%</td>
+                      <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                      <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                      <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                      <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                      <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
                     </tr>
-                    <!-- row 3 -->
-                    <tr class="hover text-red-400"  onclick="fillTicker('TSLA')">
+                    
+                    <tr class="hover text-red-400">
                       <th>3</th>
-                      <td>TSLA</td>
-                      <td>210.77M</td>
-                      <td>-9.75%</td>
+                      <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                      <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                      <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                      <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                      <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
                     </tr>
-                    <tr class="hover text-red-400"  onclick="fillTicker('T')">
+                    <tr class="hover text-red-400">
                         <th>4</th>
-                        <td>T</td>
-                        <td>129.87M</td>
-                        <td>-10.41%</td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
                       </tr>
-                      <tr class="hover text-red-400"  onclick="fillTicker('IDEX')">
+                      <tr class="hover text-red-400">
                         <th>5</th>
-                        <td>IDEX</td>
-                        <td>114.24M</td>
-                        <td>-20.34%</td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
                       </tr>
-                      <tr class="hover text-red-400"  onclick="fillTicker('F')">
+                      <tr class="hover text-red-400">
                         <th>6</th>
-                        <td>F</td>
-                        <td>79.55M</td>
-                        <td>-2.86%</td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
                       </tr>
-                      <tr class="hover text-green-400"  onclick="fillTicker('CNSP')">
+                      <tr class="hover text-green-400">
                         <th>7</th>
-                        <td>CNSP</td>
-                        <td>71.35M</td>
-                        <td>+48.02%</td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
                       </tr>
-                      <tr class="hover text-red-400"  onclick="fillTicker('NIO')">
+                      <tr class="hover text-red-400">
                         <th>8</th>
-                        <td>NIO</td>
-                        <td>59.54M</td>
-                        <td>-5.80%</td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
                       </tr>
-                      <tr class="hover text-red-400"  onclick="fillTicker('NOK')">
+                      <tr class="hover text-red-400">
                         <th>9</th>
-                        <td>NOK</td>
-                        <td>58.37M</td>
-                        <td>-9.09%</td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
                       </tr>
-                      <tr class="hover text-red-400"  onclick="fillTicker('AMZN')">
+                      <tr class="hover text-red-400">
                         <th>10</th>
-                        <td>AMZN</td>
-                        <td>57.66M</td>
-                        <td>-0.47%</td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
                       </tr>
                   </tbody>
                 </table>
@@ -142,81 +165,102 @@
             <div class="overflow-x-auto">
                 <div class="pb-9">
                     <h3 class="sub_title font-bold text-2xl text-magenta-500">Daily Top Gainers</h3>
-                </div> <!-- section title -->
-                <table class="table  w-full">
-                  <!-- head -->
+                </div> 
+                <table class="table gainers  w-full">
                   <thead>
-                    <tr class="hover">
+                    <tr class="hover font-medium">
                       <th></th>
                       <th>Ticker</th>
                       <th>% Chg</th>
+                      <th>Chg Amount</th>
+                      <th>Volume</th>
                       <th>Last Price</th>
                     </tr>
                   </thead>
                   <tbody class ="text-green-400">
-                    <!-- row 1 -->
+                    
                     <!--TODO: Replace fillTicker with search route with query params.-->
                     <tr class="hover" onclick="fillTicker('WLGS')">
                       <th>1</th>
-                      <td>WLGS</td>
-                      <td>77.10%</td>
-                      <td>$5.49</td>
+                      <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                      <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                      <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                      <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                      <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
                     </tr>
-                    <!-- row 2 -->
+                    
                     <tr class="hover" onclick="fillTicker('AZYO')">
                       <th>2</th>
-                      <td>AZYO</td>
-                      <td>35.54%</td>
-                      <td>$2.25</td>
+                      <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                      <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                      <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                      <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                      <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
                     </tr>
-                    <!-- row 3 -->
+                    
                     <tr class="hover" onclick="fillTicker('HSTO')">
                       <th>3</th>
-                      <td>HSTO</td>
-                      <td>22.77%</td>
-                      <td>$1.24</td>
+                      <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                      <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                      <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                      <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                      <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
                     </tr>
                     <tr class="hover" onclick="fillTicker('WISH')">
                         <th>4</th>
-                        <td>WISH</td>
-                        <td>22.56%</td>
-                        <td>$8.80</td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
                       </tr>
                       <tr class="hover" onclick="fillTicker('AEMD')">
                         <th>5</th>
-                        <td>AEMD</td>
-                        <td>18.63%</td>
-                        <td>$0.6999</td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
                       </tr>
                       <tr class="hover" onclick="fillTicker('MULN')">
                         <th>6</th>
-                        <td>MULN</td>
-                        <td>16.65%</td>
-                        <td>$0.0988</td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
                       </tr>
                       <tr class="hover" onclick="fillTicker('PRFX')">
                         <th>7</th>
-                        <td>PRFX</td>
-                        <td>14.04%</td>
-                        <td>$0.65</td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
                       </tr>
                       <tr class="hover" onclick="fillTicker('BWEN')">
                         <th>8</th>
-                        <td>BWEN</td>
-                        <td>12.99%</td>
-                        <td>$5.22</td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
                       </tr>
                       <tr class="hover" onclick="fillTicker('THMO')">
                         <th>9</th>
-                        <td>THMO</td>
-                        <td>11.17%</td>
-                        <td>$2.29</td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
                       </tr>
                       <tr class="hover" onclick="fillTicker('MAPS')">
                         <th>10</th>
-                        <td>MAPS</td>
-                        <td>10.04%</td>
-                        <td>$0.7597</td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
                       </tr>
                   </tbody>
                 </table>
@@ -226,80 +270,101 @@
             <div class="overflow-x-auto">
                 <div class="pb-9">
                     <h3 class="sub_title font-bold text-2xl text-magenta-500">Daily Top Losers</h3>
-                </div> <!-- section title -->
-                <table class="table  w-full">
-                  <!-- head -->
+                </div> 
+                <table class="table losers  w-full">
                   <thead>
-                    <tr class="hover">
+                    <tr class="hover font-medium">
                       <th></th>
                       <th>Ticker</th>
                       <th>% Chg</th>
+                      <th>Chg Amount</th>
+                      <th>Volume</th>
                       <th>Last Price</th>
                     </tr>
                   </thead>
                   <tbody class="text-red-400">
-                    <!-- row 1 -->
+                    
                     <tr class="hover" onclick="fillTicker('SIDU')">
                       <th>1</th>
-                      <td>SIDU</td>
-                      <td>-22.69%</td>
-                      <td>$0.29</td>
+                      <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                      <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                      <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                      <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                      <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
                     </tr>
-                    <!-- row 2 -->
+                    
                     <tr onclick="fillTicker('PEV')"  class="hover">
                       <th>2</th>
-                      <td>PEV</td>
-                      <td>-18.09%</td>
-                      <td>$0.77</td>
+                      <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                      <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                      <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                      <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                      <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
                     </tr>
-                    <!-- row 3 -->
+                    
                     <tr class="hover" onclick="fillTicker('UCAR')">
                       <th>3</th>
-                      <td>UCAR</td>
-                      <td>-14.31%</td>
-                      <td>$37.00</td>
+                      <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                      <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                      <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                      <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                      <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
                     </tr>
                     <tr class="hover" onclick="fillTicker('SATX')">
                         <th>4</th>
-                        <td>SATX</td>
-                        <td>-13.57%</td>
-                        <td>$1.21</td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
                       </tr>
                       <tr class="hover" onclick="fillTicker('SNAX')">
                         <th>5</th>
-                        <td>SNAX</td>
-                        <td>-12.48%</td>
-                        <td>$0.4201</td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
                       </tr>
                       <tr class="hover" onclick="fillTicker('PSTV')">
                         <th>6</th>
-                        <td>PSTV</td>
-                        <td>-12.35%</td>
-                        <td>$0.269</td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
                       </tr>
                       <tr class="hover" onclick="fillTicker('POAI')">
                         <th>7</th>
-                        <td>POAI</td>
-                        <td>-10.80%</td>
-                        <td>$0.247</td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
                       </tr>
                       <tr class="hover" onclick="fillTicker('RCRT')">
                         <th>8</th>
-                        <td>RCRT</td>
-                        <td>-10.36%</td>
-                        <td>$0.2958</td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
                       </tr>
                       <tr class="hover" onclick="fillTicker('KPLT')">
                         <th>9</th>
-                        <td>KPLT</td>
-                        <td>-9.79%</td>
-                        <td>$0.46</td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
                       </tr>
                       <tr class="hover" onclick="fillTicker('VLON')">
                         <th>10</th>
-                        <td>VLON</td>
-                        <td>-8.91%</td>
-                        <td>$0.419</td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
+                        <td><div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div></td>
                       </tr>
                   </tbody>
                 </table>
@@ -398,6 +463,7 @@
 {% endblock wholebody %}
 
 {% block script %}
+<script src="{{ url_for('static', filename='js/top_movers.js') }}"></script>
 <script>
   let searchFormIndex = document.getElementById("index-search-form");
   searchFormIndex.addEventListener("submit", function(event) {

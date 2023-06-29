@@ -248,7 +248,10 @@ def searchInsiderTrading():
     ticker = request.args.get('ticker')
     insider_trading = scrape_insider_data(ticker)
     print('Insider Trading', insider_trading)
-    return Response(response=json.dumps(insider_trading), status=200, mimetype='application/json')
+    if isinstance(insider_trading, list):
+      return Response(response=json.dumps(insider_trading), status=200, mimetype='application/json')
+    else:
+      return Response(response=insider_trading, status=200, mimetype='text/html')
   except Exception as e:
     print(e)
     return Response(response='Service Unavailable', status=503, mimetype='text/plain')

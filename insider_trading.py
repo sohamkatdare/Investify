@@ -1,18 +1,15 @@
 import time
-# from selenium import webdriver
-# from selenium.webdriver.chrome.options import Options
-import requests
+from selenium import webdriver
+# import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
-
-# Print stack trace
 import traceback
+import os
 
 def parse_date(date_str):
     return datetime.strptime(date_str, "%Y-%m-%d").strftime("%B %dth, %Y")
 
 def scrape_insider_data(stock_symbol):
-  
     try:
         # Access the URL using Chrome selenium driver.
         url = f'https://fintel.io/insiders?sticker={stock_symbol.lower()}&sinsider=&smin=&smax=&scode=P&scode=S&sfiledate=7&stradedate=7&Search=Search'
@@ -22,12 +19,20 @@ def scrape_insider_data(stock_symbol):
         # options.add_argument("--disable-gpu")
         # options.add_argument("--enable-cookies") # Enable cookies
         # options.add_argument("--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36") # Set user agent string
-        # driver = webdriver.Chrome(options=options)
-        # driver.get(url)
-        # time.sleep(2)
-        # html = driver.page_source
-        html = requests.get(url).content
-        with open('insider_data.html', 'wb') as f:
+        options = webdriver.ChromeOptions()
+        # options.binary_location = os.environ.get("GOOGLE_CHROME_BIN") # type: ignore
+        options.add_argument("--headless")
+        options.add_argument("--disable-gpu")
+        options.add_argument("--enable-cookies") # Enable cookies
+        options.add_argument("--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36") # Set user agent string
+        
+        # driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=options) # type: ignore
+        driver = webdriver.Chrome(options=options)
+        driver.get(url)
+        time.sleep(1.5)
+        html = driver.page_source
+        # html = requests.get(url).content
+        with open('insider_data.html', 'w') as f:
             f.write(html)
         soup = BeautifulSoup(html, 'html.parser')
         # response = requests.get(url)
@@ -85,7 +90,7 @@ def scrape_insider_data(stock_symbol):
                 }
 
                 insider_data.append(raw_data)
-
+            insider_data = insider_data if insider_data else html
         return insider_data
     except Exception as e:
         print(e)

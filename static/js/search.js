@@ -13,11 +13,9 @@ async function autocomplete() {
         });
         const data = await response.json();
         
-        returnHTML = `<div class="join join-vertical">
-            <div class="join-item"><span>${data["bestMatches"][0]["1. symbol"]}</span> - <span>${data["bestMatches"][0]["2. name"]}</span></button>
+        returnHTML = `<div class="join-item"><span>${data["bestMatches"][0]["1. symbol"]}</span> - <span>${data["bestMatches"][0]["2. name"]}</span></button>
             <div class="join-item"><span>${data["bestMatches"][1]["1. symbol"]}</span> - <span>${data["bestMatches"][1]["2. name"]}</span></button>
-            <div class="join-item"><span>${data["bestMatches"][2]["1. symbol"]}</span> - <span>${data["bestMatches"][2]["2. name"]}</span></button>
-        </div>`
+            <div class="join-item"><span>${data["bestMatches"][2]["1. symbol"]}</span> - <span>${data["bestMatches"][2]["2. name"]}</span></button>`
     }
     
 }

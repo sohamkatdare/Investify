@@ -1,6 +1,6 @@
-import time
-from selenium import webdriver
-# import requests
+# import time
+# from selenium import webdriver
+import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
 import traceback
@@ -19,31 +19,39 @@ def scrape_insider_data(stock_symbol):
         # options.add_argument("--disable-gpu")
         # options.add_argument("--enable-cookies") # Enable cookies
         # options.add_argument("--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36") # Set user agent string
-        userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36"
-        options = webdriver.ChromeOptions()
-        options.add_argument('--headless')
-        options.add_argument("--incognito")
-        options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36")
-        options.add_argument("--nogpu")
-        options.add_argument("--disable-gpu")
-        options.add_argument("--window-size=1280,1280")
-        options.add_argument("--no-sandbox")
-        options.add_argument("--enable-javascript")
-        options.add_argument("--enable-cookies")
-        options.add_experimental_option("excludeSwitches", ["enable-automation"])
-        options.add_experimental_option('useAutomationExtension', False)
-        options.add_argument('--disable-blink-features=AutomationControlled')
+        # userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36"
+        # options = webdriver.ChromeOptions()
+        # options.add_argument('--headless')
+        # options.add_argument("--incognito")
+        # options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36")
+        # options.add_argument("--nogpu")
+        # options.add_argument("--disable-gpu")
+        # options.add_argument("--window-size=1280,1280")
+        # options.add_argument("--no-sandbox")
+        # options.add_argument("--enable-javascript")
+        # options.add_argument("--enable-cookies")
+        # options.add_experimental_option("excludeSwitches", ["enable-automation"])
+        # options.add_experimental_option('useAutomationExtension', False)
+        # options.add_argument('--disable-blink-features=AutomationControlled')
 
 
         # driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=options) # type: ignore
-        driver = webdriver.Chrome(options=options)
-        driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
-        driver.execute_cdp_cmd('Network.setUserAgentOverride', {"userAgent": userAgent})
-        driver.get(url)
-        time.sleep(1.5)
-        html = driver.page_source
-        # html = requests.get(url).content
-        with open('insider_data.html', 'w') as f:
+        # driver = webdriver.Chrome(options=options)
+        # driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
+        # driver.execute_cdp_cmd('Network.setUserAgentOverride', {"userAgent": userAgent})
+        # driver.get(url)
+        # time.sleep(1.5)
+        # html = driver.page_source
+
+        # Make a genuine-looking request to the URL.
+        headers = {
+            'User-Agent': "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36",
+            'Accept': 'text/html,application/json,application/xml;q=0.9,image/webp,*/*;q=0.8',
+            'Accept-Language': 'en-US,en;q=0.5',
+            'Connection': 'keep-alive',
+        }
+        html = requests.get(url, headers=headers).content
+        with open('insider_data.html', 'wb') as f:
             f.write(html)
 
         print('HTML', html)

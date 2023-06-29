@@ -17,7 +17,9 @@ async function getStocks() {
     top_gainers.forEach((stock, index) => {
         if(isIndexPage && index > 10) return;
         gainer_rows += `
-            <td>${index}</td>td><a href="/search?ticker=${stock['ticker']}" class="hover:underline">${stock['ticker']}</a></td>
+            <tr class="hover text-green-400">
+                <td>${index}</td>
+                <td><a href="/search?ticker=${stock['ticker']}" class="hover:underline">${stock['ticker']}</a></td>
                 <td>${stock['change_amount']}</td>
                 <td>${stock['change_percentage']}</td>
                 <td>${stock['volume']}</td>
@@ -30,7 +32,9 @@ async function getStocks() {
     top_losers.forEach((stock, index) => {
         if(isIndexPage && index > 10) return;
         loser_rows += `
-            <td>${index}</td>td><a href="/search?ticker=${stock['ticker']}" class="hover:underline">${stock['ticker']}</a></td>
+            <tr class="hover text-red-400">
+                <td>${index}</td>
+                <td><a href="/search?ticker=${stock['ticker']}" class="hover:underline">${stock['ticker']}</a></td>
                 <td>${stock['change_amount']}</td>
                 <td>${stock['change_percentage']}</td>
                 <td>${stock['volume']}</td>

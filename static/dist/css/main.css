@@ -3238,6 +3238,16 @@ html {
   margin-bottom: 1.25rem;
 }
 
+.mx-\[16\] {
+  margin-left: 16;
+  margin-right: 16;
+}
+
+.mx-\[5vw\] {
+  margin-left: 5vw;
+  margin-right: 5vw;
+}
+
 .mt-\[9rem\] {
   margin-top: 9rem;
 }

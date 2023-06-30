@@ -722,18 +722,19 @@ async function getNews(ticker) {
 async function getTweets(ticker) {
     console.log("hello")
     const response = await fetch('/search/tweets?ticker=' + ticker);
-    const data = await response.json();
-
-    console.log(data)
-
-    tweets = data['tweets']
-
-    if(tweets.length === 0) {
+    let data;
+    try {
+        data = await response.json();
+    } catch (error) {
         console.log('no tweets');
         
         document.getElementById('tweets-container').classList = "hidden";
         return;
-    };
+    }
+
+    console.log(data)
+
+    tweets = data['tweets']
 
     console.log(tweets)
 

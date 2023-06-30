@@ -115,6 +115,11 @@
           <div class="col-span-2 flex justify-center items-center text-white text-xl font-semibold hover:bg-white/[0.075] bg-transparent border-2 border-white/25 hover:border-transparent rounded-full w-full h-full py-2 mb-2 text-center">
             <p id="cost">Cost: </p>
           </div>
+          {% if paperTrader.has_fee %}
+          <div class="col-span-2 flex justify-center items-center text-white text-xl font-semibold hover:bg-white/[0.075] bg-transparent border-2 border-white/25 hover:border-transparent rounded-full w-full h-full py-2 mb-2 text-center">
+            <p id="fee">Transaction Fee: </p>
+          </div>
+          {% endif %}
           {{confirm.confirm(class="btn btn-primary col-span-2 border-indigo-400 bg-transparent gradient-border hover:border-transparent transition-all", id="confirm")}}
           <script>
             let optionData = JSON.parse({{ optionDetails|tojson }});
@@ -127,6 +132,10 @@
             document.getElementById("expiry").innerHTML = "Expiry Date: " + optionData["expiry"];
             document.getElementById("contracts").innerHTML = "Contracts: " + optionData["contracts"];
             document.getElementById("cost").innerHTML = "Cost: $" + (Math.round(optionData["cost"] * 100) / 100).toFixed(2);
+            fee = document.getElementById("fee");
+            if (fee != null) {
+              fee.innerHTML = "Transaction Fee: $" + (Math.round(optionData["fee"] * 100) / 100).toFixed(2);
+            }
 
             document.getElementById("confirm").addEventListener("click", function(e){
               e.preventDefault();

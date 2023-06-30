@@ -22,44 +22,9 @@
 //     }
 // }
 
-document.addEventListener('keydown', async (event) => {
-    const input = document.getElementById('ticker')
-    if(input != document.activeElement) return;
-
-    var name = event.key;
-    console.log(`Key pressed ${name}`);
-
-    const results = document.getElementById('autocomplete-results')
-    if (!input.value) {
-        if(!results.classList.contains('hidden')) results.classList.add('hidden')
-        return;
-    }
-
-    results.classList.remove('hidden')
-
-    keyword = document.getElementById("ticker").value
-    const data = await fetch(`https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${keyword}&apikey=9J4GJJ2IXM4PJX5M`).then((response) => {
-        if (response.status !== 200) {
-            onFail(ticker);
-        }
-        return response.json();
-    });
-
-    console.log(data)
-    let count = 0
-    let returnHTML = ''
-    data['bestMatches'].forEach((match) => {
-        count++;
-        if(count > 5) return
-        returnHTML += `
-            <div class="join-item"><span>${match["1. symbol"]}</span> - <span>${match["2. name"]}</span></button>
-        `
-    })
 
 
-    results.innerHTML = returnHTML
 
-  }, false);
 
 
 // TODO: Style search.html page
@@ -67,6 +32,7 @@ document.addEventListener('keydown', async (event) => {
 async function search(event) {
     // Prevent the form from submitting
     event.preventDefault();
+
 
     // Get the ticker from the form
     const ticker = document.getElementById("ticker").value;
@@ -80,6 +46,7 @@ async function search(event) {
     });
 
     // Async API Calls
+    document.getElementById('autocomplete-results').remove('hidden')
     favoriteButtonState(ticker);
     getHighcharts(ticker);
     alphaVantageOverview(ticker);
@@ -357,6 +324,16 @@ async function getPeAndEPS(pe_ratio, eps_ratio) {
     // TODO: Formatting for PE and EPS.
     peRatio.innerHTML = pe_ratio;
     epsRatio.innerHTML = eps_ratio;    
+
+    translatePct = (pe_ratio / 50) * 10
+    
+    if (data["composite_score"] > 50) {
+        translatePct = 100
+    } else if (data["composite_score"] < 0) {
+        translatePct = 0
+    }
+    
+    document.getElementById("scoreSlider").setAttribute("value", translatePct)
 }
 
 async function alphaVantageOverview(ticker) {
@@ -392,6 +369,9 @@ async function getCompositeScore(ticker) {
 
     // TODO: Formatting for Composite Score.
     compositeScore.textContent = data["composite_score"];
+
+    
+
 }
 
 async function getNews(ticker) {

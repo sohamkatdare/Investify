@@ -447,7 +447,7 @@ def papertrading_buy():
   paperTrader = PaperTraderGame.get_paper_trader(game, user_id)
   if buyStock.ticker.data and buyStock.quantity.data:
     try:
-      price, cost = paperTrader.preview_buy(buyStock.ticker.data, buyStock.quantity.data)
+      price, cost, fee = paperTrader.preview_buy(buyStock.ticker.data, buyStock.quantity.data)
       buyPreviewPassed = True
       price = round(price, 2)
       return redirect(url_for('papertrading_buy', gid=game, p=1, t=buyStock.ticker.data, q=buyStock.quantity.data, pr=price))
@@ -460,7 +460,7 @@ def papertrading_buy():
       return redirect(url_for('papertrading', gid=game))
     except ValueError as e:
       flash(str(e), 'error')
-  return render_template('paper-trading/buy.html', data=None, searchForm=searchForm, is_search=True, user_id=user_id, current_identity=user_id, user=user, buyStock=buyStock, confirm=confirm, game=game, buyPreviewPassed=buyPreviewPassed, ticker=ticker, quantity=quantity, price=price)
+  return render_template('paper-trading/buy.html', data=None, searchForm=searchForm, is_search=True, user_id=user_id, current_identity=user_id, user=user, paperTrader=paperTrader, buyStock=buyStock, confirm=confirm, game=game, buyPreviewPassed=buyPreviewPassed, ticker=ticker, quantity=quantity, price=price)
 
 @app.route('/paper-trading/sell', methods=['GET', 'POST'])
 @jwt_required()
@@ -482,7 +482,7 @@ def papertrading_sell():
   paperTrader = PaperTraderGame.get_paper_trader(game, user_id)
   if sellStock.ticker.data and sellStock.quantity.data:
     try:
-      price, cost = paperTrader.preview_sell(uid, sellStock.quantity.data)
+      price, cost, fee = paperTrader.preview_sell(uid, sellStock.quantity.data)
       sellPreviewPassed = True
       return redirect(url_for('papertrading_sell', gid=game, p=1, uid=uid, t=sellStock.ticker.data, q=sellStock.quantity.data, pr=price))
     except ValueError as e:
@@ -497,7 +497,7 @@ def papertrading_sell():
   if ticker and quantity:
     sellStock.ticker.data = ticker
     sellStock.quantity.data = quantity
-  return render_template('paper-trading/sell.html', data=None, searchForm=searchForm, is_search=True, user_id=user_id, current_identity=user_id, user=user, sellStock=sellStock, confirm=confirm, game=game, sellPreviewPassed=sellPreviewPassed, ticker=ticker, quantity=quantity, price=price)
+  return render_template('paper-trading/sell.html', data=None, searchForm=searchForm, is_search=True, user_id=user_id, current_identity=user_id, user=user, paperTrader=paperTrader, sellStock=sellStock, confirm=confirm, game=game, sellPreviewPassed=sellPreviewPassed, ticker=ticker, quantity=quantity, price=price)
 
 @app.route('/paper-trading/short', methods=['GET', 'POST'])
 @jwt_required()
@@ -515,7 +515,7 @@ def papertrading_short():
   paperTrader = PaperTraderGame.get_paper_trader(game, user_id)
   if shortStock.ticker.data and shortStock.quantity.data:
     try:
-      price, cost = paperTrader.preview_short(shortStock.ticker.data, shortStock.quantity.data)
+      price, cost, fee = paperTrader.preview_short(shortStock.ticker.data, shortStock.quantity.data)
       shortPreviewPassed = True
       price = round(price, 2)
       return redirect(url_for('papertrading_short', gid=game, p=1, t=shortStock.ticker.data, q=shortStock.quantity.data, pr=price))
@@ -528,7 +528,7 @@ def papertrading_short():
       return redirect(url_for('papertrading', gid=game))
     except ValueError as e:
       flash(str(e), 'error')
-  return render_template('paper-trading/short.html', data=None, searchForm=searchForm, is_search=True, user_id=user_id, current_identity=user_id, user=user, shortStock=shortStock, confirm=confirm, game=game, shortPreviewPassed=shortPreviewPassed, ticker=ticker, quantity=quantity, price=price)
+  return render_template('paper-trading/short.html', data=None, searchForm=searchForm, is_search=True, user_id=user_id, current_identity=user_id, user=user, paperTrader=paperTrader, shortStock=shortStock, confirm=confirm, game=game, shortPreviewPassed=shortPreviewPassed, ticker=ticker, quantity=quantity, price=price)
 
 
 @app.route('/paper-trading/cover', methods=['GET', 'POST'])
@@ -546,27 +546,27 @@ def papertrading_cover():
   quantity = int(request.args.get('q')) if request.args.get('q') else None # type: ignore
   price = float(request.args.get('pr')) if request.args.get('pr') else None # type: ignore
   if not uid:
-    flash('You cannot sell stocks that you do not own!', 'error')
+    flash('You cannot cover stocks that you do not own!', 'error')
     redirect(url_for('papertrading', gid=game))
   paperTrader = PaperTraderGame.get_paper_trader(game, user_id)
   if coverStock.ticker.data and coverStock.quantity.data:
     try:
-      price, cost = paperTrader.preview_sell(uid, coverStock.quantity.data)
+      price, cost, fee = paperTrader.preview_cover(uid, coverStock.quantity.data)
       coverPreviewPassed = True
       return redirect(url_for('papertrading_cover', gid=game, p=1, uid=uid, t=coverStock.ticker.data, q=coverStock.quantity.data, pr=price))
     except ValueError as e:
       flash(str(e), 'error')
   elif confirm.confirm.data:
     try:
-      paperTrader.sell(uid, quantity)
-      flash(f'Sell order for {quantity} shares of {ticker} placed successfully!', 'success')
+      paperTrader.cover(uid, quantity)
+      flash(f'Cover order for {quantity} shares of {ticker} placed successfully!', 'success')
       return redirect(url_for('papertrading', gid=game))
     except ValueError as e:
       flash(str(e), 'error')
   if ticker and quantity:
     coverStock.ticker.data = ticker
     coverStock.quantity.data = quantity
-  return render_template('paper-trading/cover.html', data=None, searchForm=searchForm, is_search=True, user_id=user_id, current_identity=user_id, user=user, coverStock=coverStock, confirm=confirm, game=game, coverPreviewPassed=coverPreviewPassed, ticker=ticker, quantity=quantity, price=price)
+  return render_template('paper-trading/cover.html', data=None, searchForm=searchForm, is_search=True, user_id=user_id, current_identity=user_id, user=user, paperTrader=paperTrader, coverStock=coverStock, confirm=confirm, game=game, coverPreviewPassed=coverPreviewPassed, ticker=ticker, quantity=quantity, price=price)
 
 @app.route('/paper-trading/call', methods=['GET', 'POST'])
 @jwt_required()
@@ -608,8 +608,8 @@ def papertrading_call():
   if callStock.optionTicker.data and callStock.expiry.data and callStock.contractSymbol.data and callStock.contracts.data:
     try:
       contractSymbol = [j for i, j in callStock.contractSymbol.choices if i == int(callStock.contractSymbol.data)][0]
-      strikePrice, premium, contractSize, inTheMoney, cost = paperTrader.preview_call(callStock.optionTicker.data, callStock.expiry.data, contractSymbol, callStock.contracts.data)
-      optionDetails = json.dumps({'strikePrice': strikePrice, 'premium': premium, 'contractSize': contractSize, 'inTheMoney': inTheMoney, 'cost': cost, 'ticker': callStock.optionTicker.data, 'expiry': callStock.expiry.data, 'contractSymbol': contractSymbol, 'contracts': callStock.contracts.data})
+      strikePrice, premium, contractSize, inTheMoney, cost, fee = paperTrader.preview_call(callStock.optionTicker.data, callStock.expiry.data, contractSymbol, callStock.contracts.data)
+      optionDetails = json.dumps({'strikePrice': strikePrice, 'premium': premium, 'contractSize': contractSize, 'inTheMoney': inTheMoney, 'cost': cost, 'fee': fee, 'ticker': callStock.optionTicker.data, 'expiry': callStock.expiry.data, 'contractSymbol': contractSymbol, 'contracts': callStock.contracts.data})
       pageNumber = 3
     except ValueError as e:
       flash(str(e), 'error')
@@ -620,7 +620,7 @@ def papertrading_call():
       return redirect(url_for('papertrading', gid=game))
     except ValueError as e:
       flash(str(e), 'error')
-  return render_template('paper-trading/call.html', data=None, searchForm=searchForm, is_search=True, user_id=user_id, current_identity=user_id, user=user, optionForm=optionForm, optionChainForm=optionChainForm, callStock=callStock, confirm=confirm, game=game, pageNumber=pageNumber, optionData=optionDataJSON, optionDetails=optionDetails)
+  return render_template('paper-trading/call.html', data=None, searchForm=searchForm, is_search=True, user_id=user_id, current_identity=user_id, user=user, paperTrader=paperTrader, optionForm=optionForm, optionChainForm=optionChainForm, callStock=callStock, confirm=confirm, game=game, pageNumber=pageNumber, optionData=optionDataJSON, optionDetails=optionDetails)
 
 @app.route('/paper-trading/put', methods=['GET', 'POST'])
 @jwt_required()
@@ -662,8 +662,8 @@ def papertrading_put():
   if putStock.optionTicker.data and putStock.expiry.data and putStock.contractSymbol.data and putStock.contracts.data:
     try:
       contractSymbol = [j for i, j in putStock.contractSymbol.choices if i == int(putStock.contractSymbol.data)][0]
-      strikePrice, premium, contractSize, inTheMoney, cost = paperTrader.preview_put(putStock.optionTicker.data, putStock.expiry.data, contractSymbol, putStock.contracts.data)
-      optionDetails = json.dumps({'strikePrice': strikePrice, 'premium': premium, 'contractSize': contractSize, 'inTheMoney': inTheMoney, 'cost': cost, 'ticker': putStock.optionTicker.data, 'expiry': putStock.expiry.data, 'contractSymbol': contractSymbol, 'contracts': putStock.contracts.data})
+      strikePrice, premium, contractSize, inTheMoney, cost, fee = paperTrader.preview_put(putStock.optionTicker.data, putStock.expiry.data, contractSymbol, putStock.contracts.data)
+      optionDetails = json.dumps({'strikePrice': strikePrice, 'premium': premium, 'contractSize': contractSize, 'inTheMoney': inTheMoney, 'cost': cost, 'fee': fee, 'ticker': putStock.optionTicker.data, 'expiry': putStock.expiry.data, 'contractSymbol': contractSymbol, 'contracts': putStock.contracts.data})
       pageNumber = 3
     except ValueError as e:
       flash(str(e), 'error')
@@ -674,7 +674,7 @@ def papertrading_put():
       return redirect(url_for('papertrading', gid=game))
     except ValueError as e:
       flash(str(e), 'error')
-  return render_template('paper-trading/put.html', data=None, searchForm=searchForm, is_search=True, user_id=user_id, current_identity=user_id, user=user, optionForm=optionForm, optionChainForm=optionChainForm, putStock=putStock, confirm=confirm, game=game, pageNumber=pageNumber, optionData=optionDataJSON, optionDetails=optionDetails)
+  return render_template('paper-trading/put.html', data=None, searchForm=searchForm, is_search=True, user_id=user_id, current_identity=user_id, user=user, paperTrader=paperTrader, optionForm=optionForm, optionChainForm=optionChainForm, putStock=putStock, confirm=confirm, game=game, pageNumber=pageNumber, optionData=optionDataJSON, optionDetails=optionDetails)
 
 
 @app.route('/paper-trading/exercise', methods=['GET', 'POST'])
@@ -689,7 +689,7 @@ def exercise_option():
   paperTrader = PaperTraderGame.get_paper_trader(game, user_id)
   try:
     option = paperTrader.get_option(uid)
-    price, gain = paperTrader.preview_exercise(uid)
+    price, gain, fee = paperTrader.preview_exercise(uid)
     if confirm.confirm.data:
       paperTrader.exercise(uid)
       flash(f"Exercised {option['type'].capitalize()} Option {option['symbol']} for {option['quantity']} shares of {option['ticker']} at ${option['strike']}.")
@@ -697,7 +697,7 @@ def exercise_option():
   except ValueError as e:
     flash(str(e), 'error')
     return redirect(url_for('papertrading', gid=game))
-  return render_template('paper-trading/exercise.html', data=None, searchForm=searchForm, is_search=True, user_id=user_id, current_identity=user_id, user=user, confirm=confirm, option=option, price=price, gain=gain)
+  return render_template('paper-trading/exercise.html', data=None, searchForm=searchForm, is_search=True, user_id=user_id, current_identity=user_id, user=user, paperTrader=paperTrader, confirm=confirm, option=option, price=price, gain=gain)
 
 @app.route('/logout')
 @jwt_required()

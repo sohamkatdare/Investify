@@ -4087,6 +4087,11 @@ html {
   background-color: rgb(30 26 43 / var(--tw-bg-opacity));
 }
 
+.bg-white {
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+}
+
 .bg-white\/25 {
   background-color: rgb(255 255 255 / 0.25);
 }
@@ -4145,14 +4150,14 @@ html {
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
 }
 
-.via-purple-500 {
-  --tw-gradient-to: rgb(168 85 247 / 0);
-  --tw-gradient-stops: var(--tw-gradient-from), #a855f7, var(--tw-gradient-to);
-}
-
 .via-yellow-500 {
   --tw-gradient-to: rgb(234 179 8 / 0);
   --tw-gradient-stops: var(--tw-gradient-from), #eab308, var(--tw-gradient-to);
+}
+
+.via-purple-500 {
+  --tw-gradient-to: rgb(168 85 247 / 0);
+  --tw-gradient-stops: var(--tw-gradient-from), #a855f7, var(--tw-gradient-to);
 }
 
 .to-pink-500 {
@@ -4165,10 +4170,6 @@ html {
 
 .to-purple-800 {
   --tw-gradient-to: #6b21a8;
-}
-
-.to-red-500 {
-  --tw-gradient-to: #ef4444;
 }
 
 .to-green-500 {
@@ -4690,7 +4691,7 @@ html {
   transition-duration: 1000ms;
 }
 
-body {
+body, html {
   background-color: #100e17 !important;
 }
 

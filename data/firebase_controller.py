@@ -89,7 +89,7 @@ def update_game(game):
     for player in game['players']:
         if db.collection(u'games').document(game['name']).collection(u'portfolios').document(player).get().exists:
             print(f'Updating portfolio for {player}')
-            updatePortfolio(game['name'], PaperTrader(game['name'], [], game['starting_amount'], game['starting_amount'], player, game['has_options'], game['has_fee']))
+            updatePortfolio(game['name'], PaperTrader(game['name'], [], game['starting_amount'], game['starting_amount'], player, game['has_options'], game['has_fee']), update_game=True)
         else:
             print(f'Creating portfolio for {player}')
             new_trader = PaperTrader(game['name'], [], game['starting_amount'], game['starting_amount'], player, game['has_options'], game['has_fee'])
@@ -129,9 +129,16 @@ def get_game_detail(game, user):
             other_users.append(PaperTrader(d['name'], d['portfolio'], d['initial'], d['capital'], d['id'], d['has_options'], d['has_fee']))
     return main_user, other_users
 
-def updatePortfolio(game, paper_trader):
+def updatePortfolio(game, paper_trader, update_game=False):
     # Update game
-    db.collection(u'games').document(game).collection(u'portfolios').document(paper_trader.id).set(paper_trader.to_dict())
+    if update_game:
+        # Update only the has_options and has_fee fields
+        current = db.collection(u'games').document(game).collection(u'portfolios').document(paper_trader.id).get().to_dict()
+        current['has_options'] = paper_trader.has_options
+        current['has_fee'] = paper_trader.has_fee
+        db.collection(u'games').document(game).collection(u'portfolios').document(paper_trader.id).set(current)
+    else:
+        db.collection(u'games').document(game).collection(u'portfolios').document(paper_trader.id).set(paper_trader.to_dict())
 
 if __name__ == '__main__':
     # add_data()

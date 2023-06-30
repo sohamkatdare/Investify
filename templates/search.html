@@ -84,7 +84,7 @@
         </svg>
       </button>
     </div>
-    <div class="join join-vertical rounded-xl w-full bg-[#1e1a2b] hidden" id="autocomplete-results"></div>
+    <div class="join join-vertical rounded-xl w-max bg-[#1e1a2b] hidden" id="autocomplete-results"></div>
   </form>
   {% if current_identity != '' %}
     <div class="grow-0 min-w-[125px] sm:-translate-y-2 max-sm:-translate-y-1 search-appear " style="display: none">
@@ -140,6 +140,9 @@
             <div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div>
           </span>
         </div>
+        <div class="flex flex-row relative items-center self-stretch h-4 whitespace-nowrap mt-12 text-center justify-center text-xl">
+          <input disabled class="bg-gradient-to-r w-full from-red-500 via-yellow-500 to-green-500" type="range" min="1" max="100" id="scoreSlider"></input>
+        </div>
         <div class="flex flex-row items-center self-stretch h-4 whitespace-nowrap my-12 text-center justify-center text-xl">
           <h3 class="text-sm text-center">\[EPS=\frac{\text{Net income}-\text{Dividends on preferred stock}}{\text{Average outstanding common shares}}={  }</span>\]</h3>
           <span id="eps-ratio" class="w-12">
@@ -152,9 +155,11 @@
             <div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div>
           </span>
         </div>
-        <div class="flex flex-row items-center self-stretch h-4 whitespace-nowrap my-12 text-center justify-center text-xl">
-          <div class="bg-gradient-to-r from-red-500 via-yellow-500 to-green-500 h-2 "></div>
-        </div>
+        <!-- <div class="flex flex-row items-center self-stretch h-4 whitespace-nowrap text-xl">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
+          </svg>
+        </div> -->
       </div>
     </div>
   </div>
@@ -163,7 +168,7 @@
     <h1 class="text-5xl font-bold text-white text-center">News</h1>
   </div>  
 
-  <div class="hidden pt-4 -translate-x-4 translate-x-10 h-2 h-4 w-64 invisible text-red-500 text-green-500 text-end h-full px-6 max-sm:hover:shadow-xl justify-between max-sm:hover:drop-shadow-xl gap-x-24 max-sm:hover:-translate-y-[10%] sm:shadow-[-1rem_0_3rem_#000]  transition-all duration-700 rounded-lg overflow-hidden relative text-white flex flex-col w-96 group left-0 sm:[&:not(:first-child)]:ml-[-100px] stack-card shrink-0 grow mr-6 ml-6"></div> <!-- for main.css -->
+  <div class="hidden px-6 py-3 pt-4 -translate-x-4 translate-x-10 h-2 h-4 w-64 invisible text-red-500 text-green-500 text-end h-full px-6 max-sm:hover:shadow-xl justify-between max-sm:hover:drop-shadow-xl gap-x-24 max-sm:hover:-translate-y-[10%] sm:shadow-[-1rem_0_3rem_#000]  transition-all duration-700 rounded-lg overflow-hidden relative text-white flex flex-col w-96 group left-0 sm:[&:not(:first-child)]:ml-[-100px] stack-card shrink-0 grow mr-6 ml-6"></div> <!-- for main.css -->
 
   <div class="h-max w-screen grid grid-flow-col auto-rows-min overflow-x-scroll px-12 pt-24 pb-12 -mt-24 overflow-y-visible mb-12 scrollbar minimalist taller items-stretch content-stretch max-sm:gap-6" id="news">
     <div class="hidden h-full max-sm:hover:shadow-xl max-sm:hover:drop-shadow-xl max-sm:hover:-translate-y-[10%] sm:shadow-[-1rem_0_3rem_#000]  transition-all duration-700 rounded-lg overflow-hidden relative text-white flex flex-col w-96 group left-0 sm:[&:not(:first-child)]:ml-[-100px] stack-card shrink-0 grow">

@@ -154,7 +154,7 @@ async function search(event) {
     getHighcharts(ticker);
     if(isCrypto || isIndices) {
         chart.parentElement.classList.remove('lg:col-span-7')
-        const idsToRemove = ['finance-analysis', 'news' , 'news-header', 'overview', 'insider-heading', 'insider-trading', 'tweets-container']
+        const idsToRemove = ['finance-analysis', 'news' , 'news-header', 'overview', 'insider-heading', 'insider-trading']
         idsToRemove.forEach((id) => {
             document.getElementById(id).classList.add('hidden')
         })
@@ -163,7 +163,7 @@ async function search(event) {
     } else {
         //reverse the above
         chart.parentElement.classList.add('lg:col-span-7')
-        const idsToRemove = ['finance-analysis', 'news' , 'news-header', 'overview', 'insider-heading', 'insider-trading', 'tweets-container']
+        const idsToRemove = ['finance-analysis', 'news' , 'news-header', 'overview', 'insider-heading', 'insider-trading']
         idsToRemove.forEach((id) => {
 
         })
@@ -748,11 +748,11 @@ async function getTweets(ticker) {
         returnHTML += 
         `<div class="card w-96 bg-base-300 shadow-xl">
             <div class="text-lg font-medium card-body">
-            <p class="card-title">${element['text']}</p>
-            <p class="text-slate-300">- ${element['author']} via Twitter</p>
+            <p class="card-title">${element['author']} via Twitter</p>
+            <p class="text-slate-300">- ${element['text']}</p>
             </div>
             <div class="card-action">
-                <a class="btn btn-sky-500 text-white" href="${element['link']}">View on Twitter</a>
+                <a class="btn btn-sky-500 text-white"> <a href="${element['link']}">View on Twitter</a></button>
             </div>
         </div>`
         

@@ -154,7 +154,7 @@ async function search(event) {
     getHighcharts(ticker);
     if(isCrypto || isIndices) {
         chart.parentElement.classList.remove('lg:col-span-7')
-        const idsToRemove = ['finance-analysis', 'news' , 'news-header', 'overview', 'insider-heading', 'insider-trading']
+        const idsToRemove = ['finance-analysis', 'news' , 'news-header', 'overview', 'insider-heading', 'insider-trading', 'tweets-container']
         idsToRemove.forEach((id) => {
             document.getElementById(id).classList.add('hidden')
         })
@@ -163,7 +163,7 @@ async function search(event) {
     } else {
         //reverse the above
         chart.parentElement.classList.add('lg:col-span-7')
-        const idsToRemove = ['finance-analysis', 'news' , 'news-header', 'overview', 'insider-heading', 'insider-trading']
+        const idsToRemove = ['finance-analysis', 'news' , 'news-header', 'overview', 'insider-heading', 'insider-trading', 'tweets-container']
         idsToRemove.forEach((id) => {
 
         })

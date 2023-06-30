@@ -3159,6 +3159,11 @@ html {
   margin-right: auto;
 }
 
+.my-60 {
+  margin-top: 15rem;
+  margin-bottom: 15rem;
+}
+
 .mx-6 {
   margin-left: 1.5rem;
   margin-right: 1.5rem;
@@ -3214,21 +3219,6 @@ html {
   margin-bottom: 1.25rem;
 }
 
-.my-4 {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-}
-
-.my-40 {
-  margin-top: 10rem;
-  margin-bottom: 10rem;
-}
-
-.my-60 {
-  margin-top: 15rem;
-  margin-bottom: 15rem;
-}
-
 .mt-\[9rem\] {
   margin-top: 9rem;
 }
@@ -3253,8 +3243,8 @@ html {
   margin-bottom: 0.25rem;
 }
 
-.mb-96 {
-  margin-bottom: 24rem;
+.mb-40 {
+  margin-bottom: 10rem;
 }
 
 .mr-10 {
@@ -3355,10 +3345,6 @@ html {
 
 .mr-5 {
   margin-right: 1.25rem;
-}
-
-.mb-40 {
-  margin-bottom: 10rem;
 }
 
 .block {
@@ -4096,6 +4082,11 @@ html {
   background-color: rgb(16 14 23 / var(--tw-bg-opacity));
 }
 
+.bg-\[\#1e1a2b\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(30 26 43 / var(--tw-bg-opacity));
+}
+
 .bg-white\/25 {
   background-color: rgb(255 255 255 / 0.25);
 }
@@ -4120,15 +4111,6 @@ html {
 
 .bg-\[\#1b1726\]\/\[0\.35\] {
   background-color: rgb(27 23 38 / 0.35);
-}
-
-.bg-\[\#\] {
-  background-color: #;
-}
-
-.bg-\[\#1e1a2b\] {
-  --tw-bg-opacity: 1;
-  background-color: rgb(30 26 43 / var(--tw-bg-opacity));
 }
 
 .bg-gradient-to-bl {
@@ -4157,9 +4139,20 @@ html {
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
 }
 
+.from-red-500 {
+  --tw-gradient-from: #ef4444;
+  --tw-gradient-to: rgb(239 68 68 / 0);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+
 .via-purple-500 {
   --tw-gradient-to: rgb(168 85 247 / 0);
   --tw-gradient-stops: var(--tw-gradient-from), #a855f7, var(--tw-gradient-to);
+}
+
+.via-yellow-500 {
+  --tw-gradient-to: rgb(234 179 8 / 0);
+  --tw-gradient-stops: var(--tw-gradient-from), #eab308, var(--tw-gradient-to);
 }
 
 .to-pink-500 {
@@ -4172,6 +4165,14 @@ html {
 
 .to-purple-800 {
   --tw-gradient-to: #6b21a8;
+}
+
+.to-red-500 {
+  --tw-gradient-to: #ef4444;
+}
+
+.to-green-500 {
+  --tw-gradient-to: #22c55e;
 }
 
 .bg-cover {
@@ -5174,10 +5175,6 @@ section.grid>* {
 }
 
 @media not all and (min-width: 768px) {
-  .max-md\:col-span-8 {
-    grid-column: span 8 / span 8;
-  }
-
   .max-md\:hidden {
     display: none;
   }
@@ -5230,10 +5227,6 @@ section.grid>* {
 @media (min-width: 640px) {
   .sm\:col-span-1 {
     grid-column: span 1 / span 1;
-  }
-
-  .sm\:inline {
-    display: inline;
   }
 
   .sm\:-translate-y-2 {
@@ -5290,10 +5283,6 @@ section.grid>* {
 
   .md\:ml-2 {
     margin-left: 0.5rem;
-  }
-
-  .md\:inline {
-    display: inline;
   }
 
   .md\:hidden {

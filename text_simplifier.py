@@ -12,7 +12,7 @@ def summarize(prompt):
     reduced_prompt = ' '.join(prompt.replace('\n', ' ').split(' ')[:1600])
     augmented_prompt = "summarize this text to 500 words: " + reduced_prompt
     messages=[
-                {"role": "system", "content": "You are a helpful assistant that summarizes and simplifies Investopedia articles through your complete knowledge of finance and investing. You will also assist the user by answering questions about the article."},
+                {"role": "system", "content": "You are a helpful assistant that summarizes and simplifies Investopedia articles through your complete knowledge of finance and investing. You will also assist the user by answering questions about the article. If the user asks a question that is not relevant to the article or finance in general, you are REJECT THE REQUEST and state `As a personal financial educator, I cannot answer that question.`."},
                 {"role": "user", "content": augmented_prompt}, 
     ]
     return ask(messages)

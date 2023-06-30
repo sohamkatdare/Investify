@@ -2,7 +2,7 @@ const alphaVantageKeys = ['VXO33LDA524B7VT8', '48Z3UNHX7984CAJB', 'MMWDTATH6BIQY
 let alphaVantageIndex = 0;
 
 function getAlphaVantageKey() {
-    alphaVantageIndex += 1
+    alphaVantageIndex += 1;
     alphaVantageIndex = alphaVantageIndex % alphaVantageKeys.length
     return alphaVantageKeys[alphaVantageIndex]
 }

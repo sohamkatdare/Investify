@@ -98,6 +98,7 @@ def stock_potential_general(income, balance_sheet):
     ebit = float(income['ebit'])
     net_fixed_assets = float(balance_sheet['totalNonCurrentAssets'])
     working_capital = float(balance_sheet['totalAssets'])
+    print(ebit, net_fixed_assets, working_capital)
     return round(ebit / (net_fixed_assets + working_capital), 4)
 
 def stock_potential_precise(income, balance_sheet):

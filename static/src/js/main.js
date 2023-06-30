@@ -81,13 +81,16 @@ document.addEventListener('keyup', async (event) => {
     // console.log(data)
     let count = 0
     let returnHTML = ''
-    data['bestMatches'].forEach((match) => {
-        count++;
-        if(count > 5) return
-        returnHTML += `
-            <div class="join-item px-6 py-3 hover:bg-"><a class="hover:underline" href="/search?ticker=${match["1. symbol"]}"><span>${match["1. symbol"]}</span> - <span>${match["2. name"]}</span></a></div>
-        `
-    })
+    let bestMatches = data['bestMatches']
+    if (bestMatches) {
+      bestMatches.forEach((match) => {
+          count++;
+          if(count > 5) return
+          returnHTML += `
+              <div class="join-item px-6 py-3 hover:bg-"><a class="hover:underline" href="/search?ticker=${match["1. symbol"]}"><span>${match["1. symbol"]}</span> - <span>${match["2. name"]}</span></a></div>
+          `
+      })
+    }
 
 
     if(result != null)  result.innerHTML = returnHTML

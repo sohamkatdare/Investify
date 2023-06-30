@@ -1,8 +1,8 @@
 {% extends "education/article-template.html" %}
-{% block educateTitle%}Volume{% endblock educateTitle %}
-{% block categoryTitle %}Statistics{% endblock categoryTitle %}
-{% block headerTitle %}Bollinger Bands{% endblock headerTitle %}
-{% block categoryLink %}statistics{% endblock categoryLink %}
+{% block educateTitle%}Consumer Credit{% endblock educateTitle %}
+{% block categoryTitle %}Investing{% endblock categoryTitle %}
+{% block headerTitle %}Consumer Credit{% endblock headerTitle %}
+{% block categoryLink %}investing{% endblock categoryLink %}
 {% block section %}
 
 {% endblock section %}
@@ -10,6 +10,7 @@
   
   {{ macros.section(
     header='Consumer Credit',
+    text=""
     ) }}
 
   {{ macros.section(
@@ -24,7 +25,7 @@
 
   {{ macros.section(
     header='Credit Score Lowers:', 
-    text="<ul><li>Missed payments: Failure to make credit card or loan payments reflects negatively on your credit report and score.</li><li>Excessive debt: A high debt-to-income ratio indicates greater risk to lenders, adversely impacting your credit score.</li><li>Frequent credit applications: Each new credit card or loan application triggers a "hard inquiry," causing a slight credit score decrease.</li><li>Loan default: Ceasing loan payments and resulting in a charge-off by the lender significantly damages your credit score.</li><li>Limited credit history: Insufficient credit history makes it difficult for lenders to assess your credit responsibility, leading to a lower score.</li><li>Bankruptcy: Filing for bankruptcy has a substantial negative impact on your credit score, with bankruptcy records remaining on your report for up to ten years.</li></ul>"
+    text="""<ul><li>Missed payments: Failure to make credit card or loan payments reflects negatively on your credit report and score.</li><li>Excessive debt: A high debt-to-income ratio indicates greater risk to lenders, adversely impacting your credit score.</li><li>Frequent credit applications: Each new credit card or loan application triggers a \"hard inquiry,\" causing a slight credit score decrease.</li><li>Loan default: Ceasing loan payments and resulting in a charge-off by the lender significantly damages your credit score.</li><li>Limited credit history: Insufficient credit history makes it difficult for lenders to assess your credit responsibility, leading to a lower score.</li><li>Bankruptcy: Filing for bankruptcy has a substantial negative impact on your credit score, with bankruptcy records remaining on your report for up to ten years.</li></ul>"""
     ) }}
   
 {% endblock content %}

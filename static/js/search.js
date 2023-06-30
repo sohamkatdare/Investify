@@ -1,7 +1,7 @@
 // Call the backend APIs for the search results.
 // All requests are asynchronous.
 // The results are populated in the search.html page.
-
+const news = document.getElementById("news");
 const crypto = [
     "BTC",
     "ETH",
@@ -94,7 +94,6 @@ const crypto = [
     "HT",
     "CSPR",
     "COMP",
-    "DASH",
     "GT",
     "FXS",
     "SUI",
@@ -103,7 +102,8 @@ const crypto = [
     "WOO",
     "NEXO"
 ]
-
+const chart = document.getElementById("candle_div");
+let isCrypto = false
 // TODO: Style search.html page
 // ticker = document.getElementById("ticker");
 async function search(event) {
@@ -114,10 +114,11 @@ async function search(event) {
 
 
     // Get the ticker from the form
-    const ticker = document.getElementById("ticker").value;
+    let ticker = document.getElementById("ticker").value;
     
     if(crypto.includes(ticker.toUpperCase())) {
         ticker = `X:${ticker.toUpperCase()}USD`
+        isCrypto = true
     }
 
     // document.getElementById("ticker-heading").textContent = ticker.toUpperCase()
@@ -136,6 +137,10 @@ async function search(event) {
     }
     favoriteButtonState(ticker);
     getHighcharts(ticker);
+    if(isCrypto) {
+
+        return
+    }
     alphaVantageOverview(ticker);
     getCompositeScore(ticker);
     getNews(ticker);
@@ -176,7 +181,7 @@ async function toggleFavorite(e) {
 async function getHighcharts(ticker, id="candle_div") {
     // Get the highcharts data from the backend asychronously
     // and populate the highcharts in the search.html page.
-    // document.getElementById("candle_div").style.display = "block";
+    // chart.style.display = "block";
     let openVal = document.getElementById("open-val")
     let closeVal = document.getElementById("close-val")
     let highVal = document.getElementById("high-val")
@@ -185,13 +190,13 @@ async function getHighcharts(ticker, id="candle_div") {
     let longLow = document.getElementById("long-low")
     let volumeVal = document.getElementById("volume-val")
 
-    openVal.innerHTML = `<div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div>`;
-    closeVal.innerHTML = `<div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div>`;
-    highVal.innerHTML = `<div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div>`;
-    lowVal.innerHTML = `<div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div>`;
-    longHigh.innerHTML = `<div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div>`;
-    longLow.innerHTML = `<div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div>`;
-    volumeVal.innerHTML = `<div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div>`;
+    openVal.innerHTML = `<div class="skeleton w-6 h-3 mb-1 rounded-sm last:mb-0"></div>`;
+    closeVal.innerHTML = `<div class="skeleton w-6 h-3 mb-1 rounded-sm last:mb-0"></div>`;
+    highVal.innerHTML = `<div class="skeleton w-6 h-3 mb-1 rounded-sm last:mb-0"></div>`;
+    lowVal.innerHTML = `<div class="skeleton w-6 h-3 mb-1 rounded-sm last:mb-0"></div>`;
+    longHigh.innerHTML = `<div class="skeleton w-6 h-3 mb-1 rounded-sm last:mb-0"></div>`;
+    longLow.innerHTML = `<div class="skeleton w-6 h-3 mb-1 rounded-sm last:mb-0"></div>`;
+    volumeVal.innerHTML = `<div class="skeleton w-6 h-3 mb-1 rounded-sm last:mb-0"></div>`;
 
 
     const response = await fetch('/search/highcharts?ticker=' + ticker).then((response) => {
@@ -395,11 +400,11 @@ async function getHighcharts(ticker, id="candle_div") {
         }
     });
 
-    document.getElementById("candle_div").classList.remove("skeleton");
-    document.getElementById("candle_div").classList.add("lg:outline");
-    document.getElementById("candle_div").classList.add("lg:outline-offset-2");
-    document.getElementById("candle_div").classList.add("lg:outline-2");
-    document.getElementById("candle_div").classList.add("lg:outline-pink-600/50");
+    chart.classList.remove("skeleton");
+    chart.classList.add("lg:outline");
+    chart.classList.add("lg:outline-offset-2");
+    chart.classList.add("lg:outline-2");
+    chart.classList.add("lg:outline-pink-600/50");
 }
 
 async function getPeAndEPS(pe_ratio, eps_ratio) {
@@ -424,6 +429,22 @@ async function getPeAndEPS(pe_ratio, eps_ratio) {
 }
 
 async function alphaVantageOverview(ticker) {
+
+    const longHigh = document.getElementById("long-high")
+    const longLow = document.getElementById("long-low")
+    const tickerDescription = document.getElementById("ticker-description")
+    const tickerHeading = document.getElementById("ticker-heading")
+
+    longHigh.innerHTML = `<div class="skeleton w-6 h-3 mb-1 rounded-sm last:mb-0"></div>`
+    longLow.innerHTML = `<div class="skeleton w-6 h-3 mb-1 rounded-sm last:mb-0"></div>`
+    tickerDescription.innerHTML = `<div class="skeleton w-[60vw] h-2 mb-1 rounded-sm last:mb-0"></div>
+    <div class="skeleton w-[60vw] h-2 mb-1 rounded-sm last:mb-0"></div>
+    <div class="skeleton w-[60vw] h-2 mb-1 rounded-sm last:mb-0"></div>
+    <div class="skeleton w-[50vw] h-2 mb-1 rounded-sm last:mb-0"></div>`
+    tickerHeading.innerHTML = `<div class="skeleton w-12 h-8 mb-1 rounded-sm last:mb-0"></div>`
+
+
+    
     const response = await fetch(`https://www.alphavantage.co/query?function=OVERVIEW&symbol=${ticker}&apikey=${getAlphaVantageKey()}`).then((response) => {
         if (response.status !== 200) {
             onFail(ticker);
@@ -439,13 +460,15 @@ async function alphaVantageOverview(ticker) {
     
     const long_high = data["52WeekHigh"];
     const long_low = data["52WeekLow"];
-    document.getElementById("long-high").innerHTML = long_high;
-    document.getElementById("long-low").innerHTML = long_low;
+    longHigh.innerHTML = long_high;
+    longLow.innerHTML = long_low;
 
+    console.log('Overview', data)
     const overview = data["Description"];
+    console.log('Company Name', data["Name"])
     const company_name = data["Name"];
-    document.getElementById("ticker-description").innerHTML = overview;
-    document.getElementById("ticker-heading").innerHTML = company_name;
+    tickerDescription.innerHTML = overview != "None" ? overview : "";
+    tickerHeading.innerHTML = company_name;
     
 }
 
@@ -458,7 +481,7 @@ async function getCompositeScore(ticker) {
     const data = await response.json();
 
     // TODO: Formatting for Composite Score.
-    compositeScore.textContent = data["composite_score"];
+    compositeScore.innerHTML = data["composite_score"];
 
     
 
@@ -543,7 +566,7 @@ async function getNews(ticker) {
     `
     const skeletonCount = 6;
 
-    document.getElementById("news").innerHTML = skeletonHTML.repeat(skeletonCount) + skeletonHTML2;
+    news.innerHTML = skeletonHTML.repeat(skeletonCount) + skeletonHTML2;
     // Get the news data from the backend asychronously
     // and populate the news in the search.html page.
     const response = await fetch('/search/news?ticker=' + ticker).catch(onFail);
@@ -600,39 +623,74 @@ async function getNews(ticker) {
     })
 
 
-
-    document.getElementById("news").innerHTML = returnHTML;
+    news.innerHTML = returnHTML;
 }
 
-async function getAlphaNews(ticker) {
-    const data = await fetch(`https://alphavantage.co/query?function=NEWS_SENTIMENT&tickers=${ticker}&apiKey=${getAlphaVantageKey()}`).then((response) => {
-        if (response.status !== 200) {
-            onFail(ticker);
-        }
-        return response.json();
-    })
-    let tickerCounter = 0;
-    data['feed'].forEach((article) => {
-        let tickerList = `<div class="px-2 flex flex-wrap flex-row justify-center items-center gap-x-4 gap-y-2">`
-        let tickerCount = 0
-        data['ticker_sentiment'].sort((a, b) => {
-            return parseFloat(b.relevance_score) - parseFloat(a.relevance_score)
-        }).forEach((ticker_data) => {
-            tickerCounter++
-            if(ticker_data.ticker != ticker){
-                const href = ticker_data.ticker.includes("^") ? "" : `/search?ticker=${ticker_data.ticker}` //if ticker has special characters, then don't add href
-                tickerList += `
-                <a class="flex justify-center items-center text-white text-base font-medium hover:bg-white/[0.075] bg-transparent border-2 border-white/25 hover:border-transparent rounded-full min-w-64 h-8 p-4 px-2 mb-2 text-center" href=${href}>
-                    <span class="text-center">${ticker_data.ticker}</span>
-                </a>`
-                tickerCount += 1
-            }
-            if (tickerCount == 3) {
-                break;
-            }
-        })
-    })
-}
+// async function getAlphaNews(ticker) {
+//     let apiKey = getAlphaVantageKey();
+//     const resp = await fetch(`https://www.alphavantage.co/query?function=NEWS_SENTIMENT&tickers=${ticker}&apikey=${apiKey}`, {
+//         method: 'GET',
+//         headers: {
+//             'User-Agent': 'request',
+//             'Content-Type': 'application/json',
+//             'Accept': 'application/json',
+//             'Allow-Access-Control-Origin': 'same-origin',
+//             'Access-Control-Allow-Methods': 'GET, HEAD, OPTIONS',
+//             'Cross-Origin-Resource-Policy': 'cross-origin'
+//         }
+//     }).then((response) => {
+//         return response;
+//     });
+//     let data = await resp.json();
+//     let tickerCounter = 0;
+//     let returnHTML = '';
+//     data['feed'].forEach((article) => {
+//         let tickerList = `<div class="px-2 flex flex-wrap flex-row justify-center items-center gap-x-4 gap-y-2">`
+//         let tickerCount = 0
+
+//         article['ticker_sentiment'].sort((ticker_1, ticker_2) => {
+//             return parseFloat(ticker_2['relevance_score']) - parseFloat(ticker_1['relevance_score'])
+//         }).forEach((ticker_data) => {
+//             tickerCounter++
+//             if (tickerCounter >= 3) return;
+//             if(ticker_data['ticker'] != ticker){
+//                 const href = ticker_data['ticker'].includes("^") ? "" : `/search?ticker=${ticker_data['ticker']}` //if ticker has special characters, then don't add href
+//                 tickerList += `
+//                 <a class="flex justify-center items-center text-white text-base font-medium hover:bg-white/[0.075] bg-transparent border-2 border-white/25 hover:border-transparent rounded-full min-w-64 h-8 p-4 px-2 mb-2 text-center" href=${href}>
+//                     <span class="text-center">${ticker_data['ticker']}</span>
+//                 </a>`
+//                 tickerCounter += 1
+//             }
+//         })
+
+//         if (tickerCount == 0) {
+//             tickerList += `<a class="invisible flex justify-center items-center text-white text-base font-medium hover:bg-white/[0.075] bg-transparent border-2 border-white/25 hover:border-transparent rounded-full min-w-64 h-8 p-4 px-2 mb-2 text-center">
+//                 <span class="text-center">NO TICKERS FOUND</span>
+//             </a>`
+//         }
+    
+//         tickerList += `</div>`
+
+//         returnHTML += 
+//         `<div class="h-full transition-all duration-700 rounded-lg overflow-hidden relative text-white flex flex-col w-96 group left-0 stack-card shrink-0 grow">
+//             <figure class="grow overflow-hidden">
+//                 <a href="${article['url']}" target="_blank" class="grow">
+//                     <img src=${article['banner_image']} class="grow w-full h-full object-cover group-hover:scale-110 transition-all brightness-[0.6] group-hover:brightness-100 duration-700 rounded-t-lg skeleton">
+//                 </a>
+//             </figure>
+//             <div class="py-4 px-6 h-max overflow-visible bg-[#1b1726] grow-0">
+//                 <a class="text-2xl font-semibold hover:underline mb-4" href="${article['url']}">${article['title']}</a>
+//                 <h3 class="text-slate-500 text-sm mb-4">${article['source']}</h3>
+//                 <div class="bar relative h-1.5  overflow-hidden bg-white/25 mb-4">
+//                     <div class="w-0 h-full absolute top-0 left-0 bg-gradient-to-r from-pink-500 via-purple-500 to-pink-500 transition-all duration-700 hover:w-full group-hover:w-full"></div>
+//                 </div>
+//                 ${tickerList}
+//             </div>
+//         </div>`
+//     })
+
+//     news.innerHTML += returnHTML;
+// }
 
 async function getTweets(ticker) {
     console.log("hello")
@@ -671,7 +729,14 @@ async function getTweets(ticker) {
 
     document.getElementById("tweets").innerHTML = returnHTML;
 
-    document.getElementById("sentiment-score").innerHTML = `Sentiment score: ${data['']}`
+    sentimentScore = data['sentiment']
+
+    document.getElementById("sentiment-score").innerHTML = `Sentiment score: ${sentimentScore}`
+
+    pct = ((sentimentScore + 1)/2)*100
+
+    document.getElementById("sentimentSlider").setAttribute("value", pct)
+    
 }
 
 async function getInsiderTrading(ticker) {

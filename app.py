@@ -225,6 +225,7 @@ def searchCompositeScore():
   try:
     ticker = request.args.get('ticker')
     composite_score = get_composite_score(ticker)
+    print(composite_score)
     return Response(response=json.dumps({'composite_score': composite_score}), status=200, mimetype='application/json')
   except Exception as e:
     print(e)

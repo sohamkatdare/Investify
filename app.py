@@ -11,7 +11,7 @@ load_dotenv()
 from forms import LoginForm, RegisterForm, ResetPasswordForm, TickerForm, PlayersForm, UpdatePlayersForm, BuyStockForm, SellStockForm, ShortStockForm, CoverStockForm, OptionsForm, OptionChainForm, CallStockForm, PutStockForm, ConfirmForm
 from socialstats import getSocialStats
 from polygon_io import getStockData
-from finance_analysis import get_pe_and_eps, get_composite_score, get_news
+from finance_analysis import get_composite_score, get_news
 from webscraper import investopedia_search, investopedia_web_scrape
 from text_simplifier import summarize, ask
 from insider_trading import scrape_insider_data
@@ -87,7 +87,7 @@ def login():
     print('Login Form Submitted')
     try:
       user = User.get_user(loginForm.email.data, loginForm.password.data)
-      access_token = create_access_token(identity=user.email, expires_delta=datetime.timedelta(days=1))
+      access_token = create_access_token(identity=user.email, expires_delta=datetime.timedelta(days=1)) # type: ignore
       response = redirect(url_for('profile'))
       set_access_cookies(response, access_token) # type: ignore
       flash('Login Successful!', 'success')
@@ -241,13 +241,24 @@ def searchNews():
     print(e)
     return Response(response='Service Unavailable', status=503, mimetype='text/plain')
   
+@app.route('/search/tweets', methods=['GET'])
+@jwt_required(optional=True)
+def searchTweets():
+  try:
+    ticker = request.args.get('ticker')
+    tweets, df, sentiment = getSocialStats(ticker)
+    return Response(response=json.dumps({'tweets': tweets, 'df': df, 'sentiment': sentiment}), status=200, mimetype='application/json')
+  except Exception as e:
+    print(e)
+    return Response(response='Service Unavailable', status=503, mimetype='text/plain')
+  
 @app.route('/search/insider-trading', methods=['GET'])
 @jwt_required(optional=True)
 def searchInsiderTrading():
   try:
     ticker = request.args.get('ticker')
     insider_trading = scrape_insider_data(ticker)
-    print('Insider Trading', insider_trading)
+    # print('Insider Trading', insider_trading)
     if isinstance(insider_trading, list):
       return Response(response=json.dumps(insider_trading), status=200, mimetype='application/json')
     else:

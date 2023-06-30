@@ -7,7 +7,6 @@
   <title>Investify - {% block title %}{% endblock title %}</title>
   <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename = 'favicon.ico') }}">
   <link rel="stylesheet" href="{{url_for('static',filename='dist/css/main.css')}}">
-  <link rel="stylesheet" href="{{url_for('static',filename='dist/css/home.css')}}">
   <meta charset="utf-8">
 
   <link rel="shortcut icon" href="{{ url_for('static', filename='assets/images/favicon.png') }}" type="image/png">
@@ -30,7 +29,7 @@
   
 </head>
 
-<body class="leading-normal tracking-normal bg-cover bg-fixed overflow-x-hidden no-scrollbar" data-theme="forest" >
+<body class="leading-normal tracking-normal bg-cover bg-fixed overflow-x-hidden no-scrollbar p-0" data-theme="forest" >
   <nav class="navbar bg-[#1b1726]/[0.35] backdrop-blur-sm z-[1000] fixed top-0 px-5">
     <div class="flex-1">
       <a class="flex items-center text-indigo-400 no-underline hover:no-underline font-bold text-2xl transition-all duration-700 lg:text-4xl" href="/">
@@ -48,7 +47,8 @@
             </svg>
           </a>
           <ul class="p-2 bg-[#1b1726]/[0.35] backdrop-blur-sm text-white">
-            <li class="rounded-b-none"><a class="" href="/education/statistics">Statistics</a></li>
+            <li class="rounded-b-none"><a class="" href="/education/investing">Basics to Investing</a></li>
+            <li class="rounded-b-none"><a class="" href="/education/statistics">Technical Indicators</a></li>
             <li class="rounded-t-none"><a class="" href="/education/tax_calculator">Tax Calculator</a></li>
           </ul>
         </li>
@@ -99,6 +99,7 @@
           <li class="py-7 border-y-2 my-[-2px] border-[#e5e7eb]/[0.1] peer-hover:border-transparent hover:border-pink-500 transition-all duration-700"><a class="md:text-5xl text-4xl transition-all duration-700" href="/search">Search</a></li>
           <li class="py-7 border-y-2 my-[-2px] border-[#e5e7eb]/[0.1] peer-hover:border-transparent hover:border-pink-500 transition-all duration-700 parent"><a class="md:text-5xl text-4xl transition-all duration-700">Education</a>
             <ul class="p-2">
+              <li class="my-3"><a class="md:text-5xl text-4xl transition-all duration-700" href="/education/investing">Basics to Investing</a></li>
               <li class="my-3"><a class="md:text-5xl text-4xl transition-all duration-700" href="/education/statistics">Technical Indicators</a></li>
               <li class="my-3"><a class="md:text-5xl text-4xl transition-all duration-700" href="/education/tax_calculator">Tax Calculator</a></li>
             </ul>
@@ -157,14 +158,14 @@
         
         <a href="{{ url_for('profile') }}" class="m-2 mr-5 pr-2">
           <div class="btn">
-            <span class="gradient-text m-2">
+            <span class="gradient-text text-lg m-2">
               Profile
             </span>
           </div>
         </a>
-        <a href="{{ url_for('logout') }}" class="mr-10">
+        <a href="{{ url_for('logout') }}" class="mr-14 group">
           Logout
-          <i class="fa-solid fa-right-to-bracket fa-xl text-indigo-400"></i>
+          <i class="ml-1 group-hover:ml-4 transition-all fa-solid fa-right-to-bracket fa-xl text-indigo-400"></i>
         </a>
         {% endif %}
       </button>
@@ -289,6 +290,7 @@
       </div>
     </footer>
   </div>
+  <script src="{{ url_for('static', filename='js/api_pool.js') }}"></script>
   <script type="text/javascript" src="{{ url_for('static',filename='src/js/main.js') }}"></script>
   <script type="text/javascript" src="{{ url_for('static',filename='js/search_submit.js') }}"></script>
   <script>

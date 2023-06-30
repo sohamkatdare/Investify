@@ -1,13 +1,13 @@
 
 async function getStocks() {
-    const data = await fetch(`https://www.alphavantage.co/query?function=TOP_GAINERS_LOSERS&apikey=9J4GJJ2IXM4PJX5M`).then((response) => {
+    const data = await fetch(`https://www.alphavantage.co/query?function=TOP_GAINERS_LOSERS&apikey=${getAlphaVantageKey()}`).then((response) => {
         if(response.status !== 200) {
             onFail(ticker);
         }
         return response.json();
     })
 
-    console.log(data)
+    // console.log(data)
     const top_gainers = data['top_gainers']
     const top_losers = data['top_losers']
     const top_movers = data['most_actively_traded']
@@ -70,7 +70,7 @@ async function getStocks() {
         ${gainer_rows}
         </tbody>
         `
-    console.log(top_gainers_tables.innerHTML)
+    // console.log(top_gainers_tables.innerHTML)
 
 
     top_losers_tables.innerHTML = `

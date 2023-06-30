@@ -1,6 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: 'Inter';
+  src: url('/static/assets/fonts/Inter-Medium.ttf') format('truetype');
+}
+
+* {
+  font-family: 'Inter', sans-serif;
+}
 body, html {
   background-color: #100e17 !important;
 }
@@ -204,17 +213,36 @@ section.grid>* {
 /* Card Carousel */
 
 
-@media (min-width: 640px) {
-  .stack-card:hover {
-    transform: translate(0, -10%) ;
-    transition: 0.4s ease-out;
+.stack-card:hover {
+  transform: translate(0, -10%);
+}
+
+.stack-card:hover ~ .stack-card {
+  position: relative;
+  left: 90px;
+}
+.stack-card {
+  box-shadow: 0 -1rem 3rem #000;
+}
+
+.stack-card:not(:first-child) {
+    margin-left: -100px;
+}
+
+
+@media (hover: none) {
+  .stack-card:not(:first-child) {
+    margin-left: 0px;
   }
-  
-  
+  #news {
+    gap: 1.5rem;
+  }
+  .stack-card {
+    box-shadow: none;
+  }
   .stack-card:hover ~ .stack-card {
     position: relative;
-    left: 90px;
-    transition: 0.4s ease-out;
+    left: 0px; 
   }
 }
 
@@ -240,69 +268,4 @@ body {
   body {
     padding: 60px;
   }
-}
-
-.range-slider {
-  margin: 60px 0 0 0;
-}
-
-.range-slider {
-  width: 100%;
-}
-
-.range-sliderrange {
-  -webkit-appearance: none;
-  width: calc(100% - (73px));
-  height: 10px;
-  border-radius: 5px;
-  background: #d7dcdf;
-  outline: none;
-  padding: 0;
-  margin: 0;
-}
-.range-sliderrange::-webkit-slider-thumb {
-  -webkit-appearance: none;
-          appearance: none;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: #2c3e50;
-  cursor: pointer;
-  -webkit-transition: background 0.15s ease-in-out;
-  transition: background 0.15s ease-in-out;
-}
-.range-sliderrange::-webkit-slider-thumb:hover {
-  background: #1abc9c;
-}
-.range-sliderrange:active::-webkit-slider-thumb {
-  background: #1abc9c;
-}
-.range-sliderrange::-moz-range-thumb {
-  width: 20px;
-  height: 20px;
-  border: 0;
-  border-radius: 50%;
-  background: #2c3e50;
-  cursor: pointer;
-  -moz-transition: background 0.15s ease-in-out;
-  transition: background 0.15s ease-in-out;
-}
-.range-sliderrange::-moz-range-thumb:hover {
-  background: #1abc9c;
-}
-.range-sliderrange:active::-moz-range-thumb {
-  background: #1abc9c;
-}
-.range-sliderrange:focus::-webkit-slider-thumb {
-  box-shadow: 0 0 0 3px #fff, 0 0 0 6px #1abc9c;
-}
-
-::-moz-range-track {
-  background: #d7dcdf;
-  border: 0;
-}
-
-input::-moz-focus-inner,
-input::-moz-focus-outer {
-  border: 0;
 }

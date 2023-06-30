@@ -20,19 +20,11 @@ ALPHA_VANTAGE_KEY = os.getenv('ALPHA_VANTAGE_KEY')
 ALPHA_VANTAGE_KEY_TWO = os.getenv('ALPHA_VANTAGE_KEY_TWO')
 ALPHA_VANTAGE_KEY_THREE = os.getenv('ALPHA_VANTAGE_KEY_THREE')
 
-def get_pe_and_eps(ticker_symbol):
-    """
-    PE: 20-25
-    EPS: 1-99
-    """
-    ticker = si.get_quote_table(ticker_symbol)
-    return ticker['PE Ratio (TTM)'], ticker['EPS (TTM)']
-
 def get_composite_score(ticker_name):
     # Get the financials of the stock
     url = f'https://www.alphavantage.co/query?function=INCOME_STATEMENT&symbol={ticker_name}&apikey={ALPHA_VANTAGE_KEY}'
     latest_income_statement = requests.get(url).json()['quarterlyReports'][0]
-    url = f'https://www.alphavantage.co/query?function=BALANCE_SHEET&symbol={ticker_name}&apikey={ALPHA_VANTAGE_KEY}'
+    url = f'https://www.alphavantage.co/query?function=BALANCE_SHEET&symbol={ticker_name}&apikey={ALPHA_VANTAGE_KEY_TWO}'
     latest_balance_sheet = requests.get(url).json()['quarterlyReports'][0]
 
     # income_statement_dict = latest_income_statement[list(latest_income_statement.keys())[0]]

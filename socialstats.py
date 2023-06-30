@@ -1,4 +1,4 @@
-import tweepy
+import requests
 import pandas as pd
 import matplotlib
 import matplotlib.pyplot as plt
@@ -9,65 +9,35 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 import time
 from threading import Thread
+import json
 # from wordcloud import WordCloud, STOPWORDS
 
 matplotlib.use('Agg')
 
 def getSocialStats(ticker):
-    plt.style.use('dark_background')
+    resp = requests.get(f'https://investify-external.vercel.app/tweets?ticker={ticker}')
+    tweets = resp.text
+    print('Tweets', tweets)
+    try:
+        tweets = json.loads(tweets)
+    except:
+        tweets = []
 
-    consumer_key = "EPYMAG7GmiaSi44IleswgtFYP"
-    consumer_secret = "DzUoLxV3aVkC9nQcsqzL5Vv9G90yyNqVyKT09U656pWrwRKSkk"
-    access_token = "1667261040294350864-IdZXuqSepncmdaCnmuCsEUCfQwmgKK"
-    access_token_secret = "Zut62J8rMLZovoMi8hRVkKJeh5VDhgkIxURKd8gYDYl1N"
-
-    auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
-    auth.set_access_token(access_token, access_token_secret)
-    api = tweepy.API(auth)
-
-    user = api.verify_credentials()
-    print(user.name)
-    
-    tweets = api.search_tweets(q=f'${ticker} filter:verified', lang='en', count=200)
-
-    print("Number of tweets extracted: {}. \n".format(len(tweets)))
-
-    # for tweet in tweets[:5]:
-    #     print(tweet.text)
-
-    own_tweets = [tweet for tweet in tweets if tweet.retweeted == False and "RT @" not in tweet.text and tweet.author.name != "Nour Trades 🧘‍♂️"]
-    # print('\n\n\nOwn Tweets')
-    # for tweet in own_tweets[:6]:
-    #     if tweet.author == "Nour Trades":
-            
-
-
-    df = pd.DataFrame(data=[[tweet.created_at, tweet.text, len(tweet.text), tweet.id, tweet.favorite_count, tweet.retweet_count] for tweet in own_tweets], columns=['Date', 'Tweet', 'Length', 'ID', 'Likes', 'Retweets'])
+    df = pd.DataFrame(data=[[tweet['date'], tweet['text'], len(tweet['text']), tweet['author'], tweet['author_verified']] for tweet in tweets if 'text' in tweet], columns=['Date', 'Tweet', 'Length', 'Author', 'Verified'])
 
     f = lambda tweet: TextBlob(tweet).sentiment.polarity # type: ignore
     df['Sentiment'] = df['Tweet'].apply(f)
     df['Date'] = pd.to_datetime(df['Date']).dt.date
 
     # # print(df.head())
-    fig = plt.figure()
-    ax = df['Sentiment'].plot(kind='hist', bins=20, figsize=(5,5), ec='black', color=(30/255, 184/255, 84/255, 0.6))
-    ax.set_facecolor('#171212')
-    ax.set_xlabel('Sentiment')
-    ax.set_ylabel('Frequency')
-    ax.set_title('Sentiment of Tweets (Histogram)')
-    fig.tight_layout()
-    fig.savefig('static/SentimentOfTweets.png', facecolor=plt.gca().get_facecolor())
-    # # plt.show()
-
-    # # date_df = df.groupby(['Date']).mean().reset_index()
-    # # print(date_df.head())
-    # # date_df.plot(kind='line', x='Date', y='Sentiment', ylim=[-1,1])
-    # # plt.axhline(y=0, color='black')
-    # # plt.ylabel('Average Sentiment')
-    # # plt.title('Daily Average Sentiment of Tweets')
-    # # plt.tight_layout()
-    # # plt.savefig('static/AverageSentiment.png')
-    # # plt.show()
+    # fig = plt.figure()
+    # ax = df['Sentiment'].plot(kind='hist', bins=20, figsize=(5,5), ec='black', color=(30/255, 184/255, 84/255, 0.6))
+    # ax.set_facecolor('#171212')
+    # ax.set_xlabel('Sentiment')
+    # ax.set_ylabel('Frequency')
+    # ax.set_title('Sentiment of Tweets (Histogram)')
+    # fig.tight_layout()
+    # fig.savefig('static/SentimentOfTweets.png', facecolor=plt.gca().get_facecolor())
 
     text = " ".join(text for text in df.Tweet)
 
@@ -82,7 +52,7 @@ def getSocialStats(ticker):
     # plt.savefig('static/wordcloud.png', facecolor=plt.gca().get_facecolor())
     # # plt.show()
 
-    return [i for i in own_tweets if len(i.text.split(' ')) > 15][:6], df, df.loc[:, 'Sentiment'].mean()
+    return [i for i in tweets if len(i['text'].split(' ')) > 15][:6], df.to_json(), df.loc[:, 'Sentiment'].mean()
 
 # Reimplementing Twitter architecture
 def getTweetsFromHTML(ticker):

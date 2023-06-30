@@ -55,7 +55,7 @@ def scrape_insider_data(stock_symbol):
         }
         html = requests.get(url, headers=headers).content
 
-        print('HTML', html)
+        # print('HTML', html)
         soup = BeautifulSoup(html, 'html.parser')
         # response = requests.get(url)
 
@@ -63,7 +63,7 @@ def scrape_insider_data(stock_symbol):
 
         # soup = BeautifulSoup(response.content, 'html.parser')
         table = soup.find('table', {'class': 'table'})
-        print('Table', table)
+        # print('Table', table)
 
         insider_data = []
         if table:

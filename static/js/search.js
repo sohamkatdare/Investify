@@ -2,30 +2,107 @@
 // All requests are asynchronous.
 // The results are populated in the search.html page.
 
-// function autocomplete() {
-//     console.log("executing")
-//     if (document.getElementById("ticker").value) {
-//         document.getElementById("autocomplete-results").classList.remove("hidden")
-//         keyword = document.getElementById("ticker").value
-//         const response = fetch(`https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${keyword}&apikey=9J4GJJ2IXM4PJX5M`).then((response) => {
-//             if (response.status !== 200) {
-//                 onFail(ticker);
-//             }
-//             return response.json();
-//         });
-        
-//         returnHTML = `<div class="join-item"><span>${data["bestMatches"][0]["1. symbol"]}</span> - <span>${data["bestMatches"][0]["2. name"]}</span></button>
-//             <div class="join-item"><span>${data["bestMatches"][1]["1. symbol"]}</span> - <span>${data["bestMatches"][1]["2. name"]}</span></button>
-//             <div class="join-item"><span>${data["bestMatches"][2]["1. symbol"]}</span> - <span>${data["bestMatches"][2]["2. name"]}</span></button>`
-//     } else {
-//         document.getElementById("autocomplete-results").classList.add("hidden")
-//     }
-// }
-
-
-
-
-
+const crypto = [
+    "BTC",
+    "ETH",
+    "USDT",
+    "BNB",
+    "USDC",
+    "XRP",
+    "ADA",
+    "DOGE",
+    "SOL",
+    "LTC",
+    "TRX",
+    "DOT",
+    "MATIC",
+    "BCH",
+    "WBTC",
+    "DAI",
+    "TON",
+    "AVAX",
+    "SHIB",
+    "BUSD",
+    "LEO",
+    "LINK",
+    "ATOM",
+    "XMR",
+    "TUSD",
+    "UNI",
+    "XLM",
+    "ETC",
+    "OKB",
+    "ICP",
+    "LDO",
+    "FGC",
+    "FIL",
+    "BTCB",
+    "HBAR",
+    "APT",
+    "ARB",
+    "VET",
+    "CRO",
+    "QNT",
+    "NEAR",
+    "STX",
+    "USDP",
+    "GRT",
+    "AAVE",
+    "ALGO",
+    "EGLD",
+    "FTM",
+    "APE",
+    "OP",
+    "BSV",
+    "EOS",
+    "SAND",
+    "RNDR",
+    "IMX",
+    "XTZ",
+    "USDD",
+    "RPL",
+    "THETA",
+    "MANA",
+    "BIT",
+    "MKR",
+    "AXS",
+    "FTT",
+    "INJ",
+    "NEO",
+    "PEPE",
+    "CFX",
+    "KCS",
+    "CRV",
+    "SNX",
+    "TNC",
+    "KAVA",
+    "GUSD",
+    "FLOW",
+    "GALA",
+    "XEC",
+    "CHZ",
+    "ZEC",
+    "LUNC",
+    "KLAY",
+    "MIOTA",
+    "BTTOLD",
+    "KAS",
+    "PAXG",
+    "GMX",
+    "BTT",
+    "MINA",
+    "HT",
+    "CSPR",
+    "COMP",
+    "DASH",
+    "GT",
+    "FXS",
+    "SUI",
+    "FLEX",
+    "TWT",
+    "WOO",
+    "NEXO"
+]
 
 // TODO: Style search.html page
 // ticker = document.getElementById("ticker");
@@ -33,10 +110,17 @@ async function search(event) {
     // Prevent the form from submitting
     event.preventDefault();
 
+    console.log("searching")
+
 
     // Get the ticker from the form
     const ticker = document.getElementById("ticker").value;
-    document.getElementById("ticker-heading").textContent = ticker.toUpperCase()
+    
+    if(crypto.includes(ticker.toUpperCase())) {
+        ticker = `X:${ticker.toUpperCase()}USD`
+    }
+
+    // document.getElementById("ticker-heading").textContent = ticker.toUpperCase()
 
     // Hide flex-1 div. REMOVE THIS LATER IF NOT NEEDED.
     document.getElementById("flex-1").style.display = "none";
@@ -46,14 +130,19 @@ async function search(event) {
     });
 
     // Async API Calls
-    document.getElementById('autocomplete-results').remove('hidden')
+    let autocompleteResults = document.getElementById('autocomplete-results');
+    if (autocompleteResults) {
+        autocompleteResults.remove('hidden');
+    }
     favoriteButtonState(ticker);
     getHighcharts(ticker);
     alphaVantageOverview(ticker);
     getCompositeScore(ticker);
     getNews(ticker);
+    getTweets(ticker);
     getInsiderTrading(ticker);
 }
+
 
 let maximize;
 
@@ -112,8 +201,6 @@ async function getHighcharts(ticker, id="candle_div") {
         return response;
     });
     const data = await response.json();
-
-    console.log(data)
 
     openVal.textContent = data[data.length-1][1]
     closeVal.textContent = data[data.length-1-1][4]
@@ -325,11 +412,11 @@ async function getPeAndEPS(pe_ratio, eps_ratio) {
     peRatio.innerHTML = pe_ratio;
     epsRatio.innerHTML = eps_ratio;    
 
-    translatePct = (pe_ratio / 50) * 10
+    translatePct = (pe_ratio / 50) * 100
     
-    if (data["composite_score"] > 50) {
+    if (pe_ratio > 50) {
         translatePct = 100
-    } else if (data["composite_score"] < 0) {
+    } else if (pe_ratio < 0) {
         translatePct = 0
     }
     
@@ -337,25 +424,28 @@ async function getPeAndEPS(pe_ratio, eps_ratio) {
 }
 
 async function alphaVantageOverview(ticker) {
-    const response = await fetch(`https://www.alphavantage.co/query?function=OVERVIEW&symbol=${ticker}&apikey=9J4GJJ2IXM4PJX5M`).then((response) => {
+    const response = await fetch(`https://www.alphavantage.co/query?function=OVERVIEW&symbol=${ticker}&apikey=${getAlphaVantageKey()}`).then((response) => {
         if (response.status !== 200) {
             onFail(ticker);
         }
         return response;
     });
     const data = await response.json();
+    apiKey = getAlphaVantageKey();
     
-    const pe_ratio = parseFloat(data["PERatio"]);
-    const eps_ratio = parseFloat(data["EPS"]);
-
+    const pe_ratio = data["PERatio"];
+    const eps_ratio = data["EPS"];
     getPeAndEPS(pe_ratio, eps_ratio);
     
     const long_high = data["52WeekHigh"];
     const long_low = data["52WeekLow"];
-    console.log(long_high, long_low)
-    
     document.getElementById("long-high").innerHTML = long_high;
     document.getElementById("long-low").innerHTML = long_low;
+
+    const overview = data["Description"];
+    const company_name = data["Name"];
+    document.getElementById("ticker-description").innerHTML = overview;
+    document.getElementById("ticker-heading").innerHTML = company_name;
     
 }
 
@@ -378,78 +468,78 @@ async function getNews(ticker) {
     // Create skeleton cards
 
     const skeletonHTML = `
-    <div class="h-full sm:shadow-[-1rem_0_3rem_#000]  transition-all duration-700 rounded-lg overflow-hidden relative text-white flex flex-col w-96 group left-0 sm:[&:not(:first-child)]:ml-[-100px] stack-card shrink-0 grow">
-    <figure class="grow overflow-hidden"><div class="grow w-full h-full object-cover transition-all  duration-700 rounded-t-lg skeleton"></div></figure>
-    <div class="py-4 h-max overflow-visible bg-[#1b1726] grow-0">
-        <h2 class="px-6 text-2xl font-semibold hover:underline mb-2">
-            <div class="skeleton w-4/5 h-4 mb-2 rounded-sm"></div>
-            <div class="skeleton w-1/2 h-4 mb-2 rounded-sm"></div>
-        </h2>
-        <h3 class="px-6 text-slate-500 text-sm mb-4">
-            <div class="skeleton w-full h-4 mb-2 rounded-sm"></div>
-        </h3>
-        <div class="bar w-full relative h-1.5  overflow-hidden bg-white/25 mb-4"></div>
-        <div class="px-2 flex flex-wrap flex-row justify-center items-center gap-x-4 gap-y-2">
-            <span class="text-center">
-                <div class="skeleton w-8 h-3 rounded-lg"></div>
-            </span>
-            <span class="text-center">
-                <div class="skeleton w-8 h-3 rounded-lg"></div>
-            </span>
-            <span class="text-center">
-                <div class="skeleton w-8 h-3 rounded-lg"></div>
-            </span>
-            <span class="text-center">
-                <div class="skeleton w-8 h-3 rounded-lg"></div>
-            </span>
+        <div class="h-full shadow-[-1rem_0_3rem_#000]  transition-all duration-700 rounded-lg overflow-hidden relative text-white flex flex-col w-96 group left-0 [&:not(:first-child)]:ml-[-100px] stack-card shrink-0 grow">
+        <figure class="grow overflow-hidden"><div class="grow w-full h-full object-cover transition-all  duration-700 rounded-t-lg skeleton"></div></figure>
+        <div class="py-4 h-max overflow-visible bg-[#1b1726] grow-0">
+            <h2 class="px-6 text-2xl font-semibold hover:underline mb-2">
+                <div class="skeleton w-4/5 h-4 mb-2 rounded-sm"></div>
+                <div class="skeleton w-1/2 h-4 mb-2 rounded-sm"></div>
+            </h2>
+            <h3 class="px-6 text-slate-500 text-sm mb-4">
+                <div class="skeleton w-full h-4 mb-2 rounded-sm"></div>
+            </h3>
+            <div class="bar w-full relative h-1.5  overflow-hidden bg-white/25 mb-4"></div>
+            <div class="px-2 flex flex-wrap flex-row justify-center items-center gap-x-4 gap-y-2">
+                <span class="text-center">
+                    <div class="skeleton w-8 h-3 rounded-lg"></div>
+                </span>
+                <span class="text-center">
+                    <div class="skeleton w-8 h-3 rounded-lg"></div>
+                </span>
+                <span class="text-center">
+                    <div class="skeleton w-8 h-3 rounded-lg"></div>
+                </span>
+                <span class="text-center">
+                    <div class="skeleton w-8 h-3 rounded-lg"></div>
+                </span>
+            </div>
+            </div>
         </div>
-        </div>
-    </div>
-  
+    
     `
     const skeletonHTML2 = `
-    <div class="h-full sm:shadow-[-1rem_0_3rem_#000]  transition-all duration-700 rounded-lg overflow-hidden relative text-white flex flex-col w-96 group left-0 sm:[&:not(:first-child)]:ml-[-100px] stack-card shrink-0 grow">
-    <figure class="grow overflow-hidden"><div class="grow w-full h-full object-cover group-hover:scale-110 transition-all brightness-[0.6] group-hover:brightness-100 duration-700 rounded-t-lg skeleton"></div></figure>
-    <div class="py-4 h-max overflow-visible bg-[#1b1726] grow-0">
-        <h2 class="px-6 text-2xl font-semibold hover:underline mb-2">
-            <div class="skeleton w-4/5 h-4 mb-2 rounded-sm"></div>
-            <div class="skeleton w-1/2 h-4 mb-2 rounded-sm"></div>
-            <div class="skeleton w-1/2 h-4 mb-2 rounded-sm"></div>
-            <div class="skeleton w-1/2 h-4 mb-2 rounded-sm"></div>
-            <div class="skeleton w-1/2 h-4 mb-2 rounded-sm"></div>
-            <div class="skeleton w-1/2 h-4 mb-2 rounded-sm"></div>
-            <div class="skeleton w-1/2 h-4 mb-2 rounded-sm"></div>
-            <div class="skeleton w-1/2 h-4 mb-2 rounded-sm"></div>
-            <div class="skeleton w-1/2 h-4 mb-2 rounded-sm"></div>
-            <div class="skeleton w-1/2 h-4 mb-2 rounded-sm"></div>
-            <div class="skeleton w-1/2 h-4 mb-2 rounded-sm"></div>
-            <div class="skeleton w-1/2 h-4 mb-2 rounded-sm"></div>
-            <div class="skeleton w-1/2 h-4 mb-2 rounded-sm"></div>
-            <div class="skeleton w-1/2 h-4 mb-2 rounded-sm"></div>
-            <div class="skeleton w-1/2 h-4 mb-2 rounded-sm"></div>
-            <div class="skeleton w-1/2 h-4 mb-2 rounded-sm"></div>
-        </h2>
-        <h3 class="px-6 text-slate-500 text-sm mb-4">
-            <div class="skeleton w-full h-4 mb-2 rounded-sm"></div>
-        </h3>
-        <div class="bar w-full relative h-1.5  overflow-hidden bg-white/25 mb-4"></div>
-        <div class="px-2 flex flex-wrap flex-row justify-center items-center gap-x-4 gap-y-2">
-            <span class="text-center">
-                <div class="skeleton w-16 h-3 rounded-lg"></div>
-            </span>
-            <span class="text-center">
-                <div class="skeleton w-8 h-3 rounded-lg"></div>
-            </span>
-            <span class="text-center">
-                <div class="skeleton w-8 h-3 rounded-lg"></div>
-            </span>
-            <span class="text-center">
-                <div class="skeleton w-8 h-3 rounded-lg"></div>
-            </span>
+        <div class="h-full shadow-[-1rem_0_3rem_#000]  transition-all duration-700 rounded-lg overflow-hidden relative text-white flex flex-col w-96 group left-0 [&:not(:first-child)]:ml-[-100px] stack-card shrink-0 grow">
+        <figure class="grow overflow-hidden"><div class="grow w-full h-full object-cover group-hover:scale-110 transition-all brightness-[0.6] group-hover:brightness-100 duration-700 rounded-t-lg skeleton"></div></figure>
+        <div class="py-4 h-max overflow-visible bg-[#1b1726] grow-0">
+            <h2 class="px-6 text-2xl font-semibold hover:underline mb-2">
+                <div class="skeleton w-4/5 h-4 mb-2 rounded-sm"></div>
+                <div class="skeleton w-1/2 h-4 mb-2 rounded-sm"></div>
+                <div class="skeleton w-1/2 h-4 mb-2 rounded-sm"></div>
+                <div class="skeleton w-1/2 h-4 mb-2 rounded-sm"></div>
+                <div class="skeleton w-1/2 h-4 mb-2 rounded-sm"></div>
+                <div class="skeleton w-1/2 h-4 mb-2 rounded-sm"></div>
+                <div class="skeleton w-1/2 h-4 mb-2 rounded-sm"></div>
+                <div class="skeleton w-1/2 h-4 mb-2 rounded-sm"></div>
+                <div class="skeleton w-1/2 h-4 mb-2 rounded-sm"></div>
+                <div class="skeleton w-1/2 h-4 mb-2 rounded-sm"></div>
+                <div class="skeleton w-1/2 h-4 mb-2 rounded-sm"></div>
+                <div class="skeleton w-1/2 h-4 mb-2 rounded-sm"></div>
+                <div class="skeleton w-1/2 h-4 mb-2 rounded-sm"></div>
+                <div class="skeleton w-1/2 h-4 mb-2 rounded-sm"></div>
+                <div class="skeleton w-1/2 h-4 mb-2 rounded-sm"></div>
+                <div class="skeleton w-1/2 h-4 mb-2 rounded-sm"></div>
+            </h2>
+            <h3 class="px-6 text-slate-500 text-sm mb-4">
+                <div class="skeleton w-full h-4 mb-2 rounded-sm"></div>
+            </h3>
+            <div class="bar w-full relative h-1.5  overflow-hidden bg-white/25 mb-4"></div>
+            <div class="px-2 flex flex-wrap flex-row justify-center items-center gap-x-4 gap-y-2">
+                <span class="text-center">
+                    <div class="skeleton w-16 h-3 rounded-lg"></div>
+                </span>
+                <span class="text-center">
+                    <div class="skeleton w-8 h-3 rounded-lg"></div>
+                </span>
+                <span class="text-center">
+                    <div class="skeleton w-8 h-3 rounded-lg"></div>
+                </span>
+                <span class="text-center">
+                    <div class="skeleton w-8 h-3 rounded-lg"></div>
+                </span>
+            </div>
+            </div>
         </div>
-        </div>
-    </div>
-  
+    
     `
     const skeletonCount = 6;
 
@@ -458,7 +548,6 @@ async function getNews(ticker) {
     // and populate the news in the search.html page.
     const response = await fetch('/search/news?ticker=' + ticker).catch(onFail);
     const data = await response.json();
-    console.log(data)
 
     returnHTML = ""
     
@@ -473,7 +562,6 @@ async function getNews(ticker) {
             // Make sure ticker is only letters.
             if(element.relatedTickers[i] != ticker){
                 const href = element.relatedTickers[i].includes("^") ? "" : `/search?ticker=${element.relatedTickers[i]}` //if ticker has special characters, then don't add href
-                console.log(href)
                 tickerList += `
                 <a class="flex justify-center items-center text-white text-base font-medium hover:bg-white/[0.075] bg-transparent border-2 border-white/25 hover:border-transparent rounded-full min-w-64 h-8 p-4 px-2 mb-2 text-center" href=${href}>
                     <span class="text-center">${element.relatedTickers[i]}</span>
@@ -492,10 +580,9 @@ async function getNews(ticker) {
         }
 
         tickerList += `</div>`
-        // console.log(tickerList)
 
         returnHTML += 
-        `<div class="h-full max-sm:hover:shadow-xl max-sm:hover:drop-shadow-xl max-sm:hover:-translate-y-[10%] sm:shadow-[-1rem_0_3rem_#000]  transition-all duration-700 rounded-lg overflow-hidden relative text-white flex flex-col w-96 group left-0 sm:[&:not(:first-child)]:ml-[-100px] stack-card shrink-0 grow">
+        `<div class="h-full transition-all duration-700 rounded-lg overflow-hidden relative text-white flex flex-col w-96 group left-0 stack-card shrink-0 grow">
             <figure class="grow overflow-hidden">
                 <a href="${element.link}" target="_blank" class="grow">
                     <img src=${element.thumbnail.resolutions[0].url} class="grow w-full h-full object-cover group-hover:scale-110 transition-all brightness-[0.6] group-hover:brightness-100 duration-700 rounded-t-lg skeleton">
@@ -515,6 +602,56 @@ async function getNews(ticker) {
 
 
     document.getElementById("news").innerHTML = returnHTML;
+}
+
+async function getAlphaNews(ticker) {
+    const data = await fetch(`https://alphavantage.co/query?function=NEWS_SENTIMENT&tickers=${ticker}&apiKey=${getAlphaVantageKey()}`).then((response) => {
+        if (response.status !== 200) {
+            onFail(ticker);
+        }
+        return response.json();
+    })
+    data['feed'].forEach((article) => {
+        let tickerList = `<div class="px-2 flex flex-wrap flex-row justify-center items-center gap-x-4 gap-y-2">`
+        let tickerCount = 0
+        
+    })
+}
+
+async function getTweets(ticker) {
+    console.log("hello")
+    const response = await fetch('/search/tweets?ticker=' + ticker);
+    const data = await response.json();
+
+    console.log(data)
+
+    tweets = data['tweets']
+
+    console.log(tweets)
+
+    returnHTML = ""
+    
+    counter = 0
+
+
+    tweets.forEach((element) => {
+
+        returnHTML += 
+        `<div class="card w-96 bg-base-300 shadow-xl">
+            <div class="text-lg font-medium card-body">
+            <p class="card-title">${element['text']}</p>
+            <p class="text-slate-300">- ${element['author']} via Twitter</p>
+            </div>
+            <div class="card-action">
+                <button class="btn btn-sky-500 text-white" href="${element['link']}">View on Twitter/button
+            </div>
+        </div>`
+        
+    })
+
+
+
+    document.getElementById("tweets").innerHTML = returnHTML;
 }
 
 async function getInsiderTrading(ticker) {
@@ -559,7 +696,6 @@ async function getInsiderTrading(ticker) {
     // and populate the news in the search.html page.
     const response = await fetch('/search/insider-trading?ticker=' + ticker).catch(onFail);
     const data = await response.json();
-    console.log(data)
 
     insiderHTML = ""
     count = 0
@@ -603,8 +739,6 @@ async function getInsiderTrading(ticker) {
         // }
     })
 
-    // console.log(count)
-
     if (count == 0 || data[0] == "Data could not be found") {
         document.getElementById("insider-heading").classList.add("hidden")
         document.getElementById("insider-trading").classList.add("hidden")
@@ -615,7 +749,7 @@ async function getInsiderTrading(ticker) {
         document.getElementById("insider-trading").classList.remove("hidden")
     }
 
-    document.getElementById("insider-trading").innerHTML += insiderHTML;
+    document.getElementById("insider-trading").innerHTML = insiderHTML;
     
 }
 

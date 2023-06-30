@@ -1,6 +1,4 @@
 import yfinance as yf
-import yahoo_fin.stock_info as si
-from yahoofinancials import YahooFinancials
 import os
 import requests
 

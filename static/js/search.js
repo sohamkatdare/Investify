@@ -611,10 +611,26 @@ async function getAlphaNews(ticker) {
         }
         return response.json();
     })
+    let tickerCounter = 0;
     data['feed'].forEach((article) => {
         let tickerList = `<div class="px-2 flex flex-wrap flex-row justify-center items-center gap-x-4 gap-y-2">`
         let tickerCount = 0
-        
+        data['ticker_sentiment'].sort((a, b) => {
+            return parseFloat(b.relevance_score) - parseFloat(a.relevance_score)
+        }).forEach((ticker_data) => {
+            tickerCounter++
+            if(ticker_data.ticker != ticker){
+                const href = ticker_data.ticker.includes("^") ? "" : `/search?ticker=${ticker_data.ticker}` //if ticker has special characters, then don't add href
+                tickerList += `
+                <a class="flex justify-center items-center text-white text-base font-medium hover:bg-white/[0.075] bg-transparent border-2 border-white/25 hover:border-transparent rounded-full min-w-64 h-8 p-4 px-2 mb-2 text-center" href=${href}>
+                    <span class="text-center">${ticker_data.ticker}</span>
+                </a>`
+                tickerCount += 1
+            }
+            if (tickerCount == 3) {
+                break;
+            }
+        })
     })
 }
 
@@ -649,9 +665,13 @@ async function getTweets(ticker) {
         
     })
 
+    
+
 
 
     document.getElementById("tweets").innerHTML = returnHTML;
+
+    document.getElementById("sentiment-score").innerHTML = `Sentiment score: ${data['']}`
 }
 
 async function getInsiderTrading(ticker) {

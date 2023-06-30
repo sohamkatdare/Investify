@@ -5,7 +5,7 @@
 {{ super() }}
 <div class=" carousel pt-12 w-full h-full">
     <div id="slide1" class="carousel-item relative w-full h-full items-center justify-center ">
-      <div class="grid max-md:grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-14 gap-y-24">
+      <div class="grid max-md:grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-14 gap-y-24 mb-10">
         <!-- 1 --> {{ macros.card( 
           title='Introduction to Financial Literacy',
           text='Many individuals face challenges in this area, often due to misconceptions or a lack of understanding.',
@@ -15,153 +15,55 @@
           verified_tweet=''
         ) }}
         <!-- 2 --> {{ macros.card( 
-          title='Bollinger Bands',
-          text='How can Bollinger Bands aid in maximizing the amount of information you have about a stock?',
+          title='Budgeting',
+          text='By adhering to a budget, you can make informed decisions regarding your money and steer clear of issues such as excessive spending, debt accumulation, or financial depletion.',
           button='Learn More',
-          buttonLink='statistics/bollinger-bands',
+          buttonLink='investing/budgeting',
           button_external='',
           verified_tweet=''
         ) }}
         <!-- 3 --> {{ macros.card( 
-          title='Chaikin Oscillator',
-          text='How can the Chaikin Oscillator help decide which stock to invest in?',
+          title='Consumer Credit',
+          text='A credit score is a numerical representation used by lenders, such as banks and credit card companies, to assess your creditworthiness and determine whether to grant you loans or credit.',
           button='Learn More',
-          buttonLink='statistics/chaikin-oscillator',
+          buttonLink='investing/consumer',
           button_external='',
           verified_tweet=''
         ) }}
         <!-- 4 --> {{ macros.card( 
-          title='MACD',
-          text='What is MACD, and what does it measure?',
+          title='Bonds',
+          text='Bonds are debt securities or IOUs issued by governments, municipalities, corporations, and other entities to raise capital.',
           button='Learn More',
-          buttonLink='statistics/macd',
+          buttonLink='investing/bonds',
           button_external='',
           verified_tweet=''
         ) }}
         <!-- 5 --> {{ macros.card( 
-          title='RSI',
-          text='What is RSI, and how does it indicate overbought or oversold stocks?',
+          title='Volume',
+          text='When it comes to navigating the exciting world of trading, understanding the various indicators and tools at your disposal is crucial.',
           button='Learn More',
-          buttonLink='statistics/rsi',
+          buttonLink='investing/volume',
           button_external='',
           verified_tweet=''
         ) }}
         <!-- 6 --> {{ macros.card( 
-          title='OBV',
-          text='How does OBV Ratio predict changes in the stock market?',
+          title='Options',
+          text='Options are financial contracts that give investors the right, but not the obligation, to buy or sell an underlying asset at a predetermined price within a specified time frame.',
           button='Learn More',
-          buttonLink='statistics/obv',
+          buttonLink='investing/options',
           button_external='',
           verified_tweet=''
         ) }}
         <!-- 7 --> {{ macros.card( 
-          title='Parabolic SAR',
-          text='What is the purpose of the Parabolic SAR?',
+          title='Mutual Funds',
+          text='As a new investor, the world of finance and investing can be both exciting and daunting.',
           button='Learn More',
-          buttonLink='statistics/parabolic-sar',
-          button_external='',
-          verified_tweet=''
-        ) }}
-        <!-- 8 --> {{ macros.card( 
-          title='CCI',
-          text='What is CCI, and what does it measure?',
-          button='Learn More',
-          buttonLink='statistics/cci',
-          button_external='',
-          verified_tweet=''
-        ) }}
-        <!-- 9 --> {{ macros.card( 
-          title='EBITDA',
-          text='What is EBITDA, and what does it measure?',
-          button='Learn More',
-          buttonLink='statistics/ebitda',
+          buttonLink='investing/mutual_funds',
           button_external='',
           verified_tweet=''
         ) }}
       </div>
     </div> 
-    <div id="slide2" class="carousel-item relative w-full h-full items-center justify-center">
-      <div class="grid max-md:grid-cols-1 md:grid-cols-2 xl:grid-cols-3  gap-x-14 gap-y-24">
-        <!-- 1 --> {{ macros.card(
-          title='Fibonacci retracement',
-          text='What is Fibonacci retracement, and what does it measure?',
-          button='Learn More',
-          buttonLink='statistics/fibonacci-retracement',
-          button_external='',
-          verified_tweet=''
-        ) }}
-        <!-- 2 --> {{ macros.card(
-          title='Ichimoku cloud',
-          text='How can Ichimoku cloud aid identifying support and resistance levels of a stock?',
-          button='Learn More',
-          buttonLink='statistics/ichimoku-cloud',
-          button_external='',
-          verified_tweet=''
-        ) }}
-        <!-- 3 --> {{ macros.card(
-          title='Average directional index (ADX)',
-          text='How can the ADX help decide whether there is a trend in a stock?',
-          button='Learn More',
-          buttonLink='statistics/adx',
-          button_external='',
-          verified_tweet=''
-        ) }}
-        <!-- 4 --> {{ macros.card(
-          title='Aroon',
-          text='What is Aroon, and what does it check?',
-          button='Learn More',
-          buttonLink='statistics/aroon',
-          button_external='',
-          verified_tweet=''
-        ) }}
-        <!-- 5 --> {{ macros.card(
-          title='Stochastic Oscillator',
-          text='What is Stochastic Oscillator, and how does it measure different trends?',
-          button='Learn More',
-          buttonLink='statistics/stochastic-oscillator',
-          button_external='',
-          verified_tweet=''
-        ) }}
-        <!-- 6 --> {{ macros.card(
-          title='Money Flow Index',
-          text='What is the Money Flow Index, and what does it calculate?',
-          button='Learn More',
-          buttonLink='statistics/money-flow-index',
-          button_external='',
-          verified_tweet=''
-        ) }}
-        <!-- 7 --> {{ macros.card(
-          title='Standard Deviation',
-          text='What is Standard Deviation, how is it used?',
-          button='Learn More',
-          buttonLink='statistics/std',
-          button_external='',
-          verified_tweet=''
-        ) }}
-        <!-- 8 --> {{ macros.card(
-          title='Volume rate of Change',
-          text='What is Volume Rate of Change, how does it detect changes in volume?',
-          button='Learn More',
-          buttonLink='statistics/volume-change',
-          button_external='',
-          verified_tweet=''
-        ) }}
-        <!-- 9 --> {{ macros.card(
-          title='Average True Range',
-          text='What is the Average True Range, and what does it measure?',
-          button='Learn More',
-          buttonLink='statistics/average-range',
-          button_external='',
-          verified_tweet=''
-        ) }}
-      </div>
-    </div> 
-    <div id="slide3" class="carousel-item relative w-full h-full">
-      <p class="w-full h-full text-white text-7xl text-center my-auto">Coming Soon!</p>
-    </div> 
-    <div id="slide4" class="carousel-item relative w-full h-full">
-      <p class="w-full h-full text-white text-7xl text-center my-auto">Coming Soon!</p>
-    </div>
-  </div>
+    
 
 {% endblock body %}

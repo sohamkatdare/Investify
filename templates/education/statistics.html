@@ -5,7 +5,7 @@
 {{ super() }}
 <div class=" carousel pt-12 w-full h-full">
   <div id="slide1" class="carousel-item relative w-full h-full items-center justify-center ">
-    <div class="grid max-md:grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-14 gap-y-24">
+    <div class="grid max-md:grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-14 gap-y-24 mb-10">
       <!-- 1 --> {{ macros.card( 
         title='P/E Ratio',
         text='What is P/E Ratio, and what do the different types mean?',
@@ -80,88 +80,6 @@
       ) }}
     </div>
   </div> 
-  <div id="slide2" class="carousel-item relative w-full h-full items-center justify-center">
-    <div class="grid max-md:grid-cols-1 md:grid-cols-2 xl:grid-cols-3  gap-x-14 gap-y-24">
-      <!-- 1 --> {{ macros.card(
-        title='Fibonacci retracement',
-        text='What is Fibonacci retracement, and what does it measure?',
-        button='Learn More',
-        buttonLink='statistics/fibonacci-retracement',
-        button_external='',
-        verified_tweet=''
-      ) }}
-      <!-- 2 --> {{ macros.card(
-        title='Ichimoku cloud',
-        text='How can Ichimoku cloud aid identifying support and resistance levels of a stock?',
-        button='Learn More',
-        buttonLink='statistics/ichimoku-cloud',
-        button_external='',
-        verified_tweet=''
-      ) }}
-      <!-- 3 --> {{ macros.card(
-        title='Average directional index (ADX)',
-        text='How can the ADX help decide whether there is a trend in a stock?',
-        button='Learn More',
-        buttonLink='statistics/adx',
-        button_external='',
-        verified_tweet=''
-      ) }}
-      <!-- 4 --> {{ macros.card(
-        title='Aroon',
-        text='What is Aroon, and what does it check?',
-        button='Learn More',
-        buttonLink='statistics/aroon',
-        button_external='',
-        verified_tweet=''
-      ) }}
-      <!-- 5 --> {{ macros.card(
-        title='Stochastic Oscillator',
-        text='What is Stochastic Oscillator, and how does it measure different trends?',
-        button='Learn More',
-        buttonLink='statistics/stochastic-oscillator',
-        button_external='',
-        verified_tweet=''
-      ) }}
-      <!-- 6 --> {{ macros.card(
-        title='Money Flow Index',
-        text='What is the Money Flow Index, and what does it calculate?',
-        button='Learn More',
-        buttonLink='statistics/money-flow-index',
-        button_external='',
-        verified_tweet=''
-      ) }}
-      <!-- 7 --> {{ macros.card(
-        title='Standard Deviation',
-        text='What is Standard Deviation, how is it used?',
-        button='Learn More',
-        buttonLink='statistics/std',
-        button_external='',
-        verified_tweet=''
-      ) }}
-      <!-- 8 --> {{ macros.card(
-        title='Volume rate of Change',
-        text='What is Volume Rate of Change, how does it detect changes in volume?',
-        button='Learn More',
-        buttonLink='statistics/volume-change',
-        button_external='',
-        verified_tweet=''
-      ) }}
-      <!-- 9 --> {{ macros.card(
-        title='Average True Range',
-        text='What is the Average True Range, and what does it measure?',
-        button='Learn More',
-        buttonLink='statistics/average-range',
-        button_external='',
-        verified_tweet=''
-      ) }}
-    </div>
-  </div> 
-  <div id="slide3" class="carousel-item relative w-full h-full">
-    <p class="w-full h-full text-white text-7xl text-center my-auto">Coming Soon!</p>
-  </div> 
-  <div id="slide4" class="carousel-item relative w-full h-full">
-    <p class="w-full h-full text-white text-7xl text-center my-auto">Coming Soon!</p>
-  </div>
 </div>
 
 {% endblock body %}

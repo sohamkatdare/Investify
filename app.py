@@ -14,7 +14,7 @@ from polygon_io import getStockData
 from finance_analysis import get_composite_score, get_news
 from webscraper import investopedia_search, investopedia_web_scrape
 from text_simplifier import summarize, ask
-from insider_trading import scrape_insider_data
+from insider_trading import get_insider_data
 from tax_calculator import calculate_capital_gains_tax
 
 from data.user import User
@@ -258,7 +258,7 @@ def searchTweets():
 def searchInsiderTrading():
   try:
     ticker = request.args.get('ticker')
-    insider_trading = scrape_insider_data(ticker)
+    insider_trading = get_insider_data(ticker)
     # print('Insider Trading', insider_trading)
     if isinstance(insider_trading, list):
       return Response(response=json.dumps(insider_trading), status=200, mimetype='application/json')

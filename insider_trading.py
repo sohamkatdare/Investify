@@ -48,7 +48,7 @@ def scrape_insider_data(stock_symbol):
 
         # Make a genuine-looking request to the URL.
         headers = {
-            'User-Agent': "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36",
+            'User-Agent': "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)",
             'Accept': 'text/html,application/json,application/xml;q=0.9,image/webp,*/*;q=0.8',
             'Accept-Language': 'en-US,en;q=0.5',
             'Connection': 'keep-alive',
@@ -120,8 +120,8 @@ def scrape_insider_data(stock_symbol):
         print(e)
         raise Exception('Data could not be found')
 load_dotenv()
-FINNHUB_KEY = os.getenv('FINNHUB_KEY')
-FINNHUB_KEY_TWO = os.getenv('FINNHUB_KEY_TWO')
+FINNHUB_KEY = 'cifijkhr01qhvakk47b0cifijkhr01qhvakk47bg'
+FINNHUB_KEY_TWO = 'cifijvhr01qhvakk47ggcifijvhr01qhvakk47h0'
 
 finnhub_client = finnhub.Client(api_key=FINNHUB_KEY)
 finnhub_client_two = finnhub.Client(api_key=FINNHUB_KEY_TWO)
@@ -131,12 +131,32 @@ end_date = datetime.date.today().strftime('%Y-%m-%d')
 
 def get_insider_data(stock_symbol):
     data = finnhub_client.stock_insider_transactions(stock_symbol, start_date, end_date)
-    print('Data', data)
-    for transaction in data['data']:
-        pass
-
-    pass
+    # raw_data = {
+    #                 "trade_date": trade_date,
+    #                 "file_date": file_date,
+    #                 "name": insider_name,
+    #                 "role": insider_role,
+    #                 "action": code,
+    #                 "quantity": shares,
+    #                 "stock_type": security_title,
+    #                 "price": share_price,
+    #                 "total": value,
+    #                 "remaining": remaining_shares,
+    #                 "current_value": current_value
+    #             }
+    all_data = []
+    dict_data = {}
+    for i in data:
+        dict_data['trade_date'] = i['transactionDate']
+        dict_data['file_date'] = i['filingDate']
+        dict_data['name'] = i['name']
+        dict_data['action'] = 'Bought' if i['change'] >= 0 else 'Sold'
+        dict_data['quantity'] = i['share']
+        dict_data['total'] = i['share'] * i['transactionPrice']
+        dict_data['price'] = i['transactionPrice']
+        all_data.append(dict_data)
+    return all_data
     
 
 if __name__ == '__main__':
-    get_insider_data('OESX')
+    print(get_insider_data('OESX'))

@@ -251,7 +251,7 @@ def searchTweets():
     return Response(response=json.dumps({'tweets': tweets, 'df': df, 'sentiment': sentiment}), status=200, mimetype='application/json')
   except Exception as e:
     print(e)
-    return Response(response='Service Unavailable', status=503, mimetype='text/plain')
+    return Response(response=json.dumps({'tweets': [], 'msg': 'Service Unavailable'}), status=503, mimetype='text/plain')
   
 @app.route('/search/insider-trading', methods=['GET'])
 @jwt_required(optional=True)

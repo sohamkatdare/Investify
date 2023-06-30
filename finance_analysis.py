@@ -2,21 +2,16 @@ import yfinance as yf
 import os
 import requests
 
-POLYGON_API_KEY_TWO = os.getenv('POLYGON_KEY_TWO')
-POLYGON_API_KEY_THREE = os.getenv('POLYGON_KEY_THREE')
-POLYGON_API_KEY_FOUR = os.getenv('POLYGON_KEY_FOUR')
-POLYGON_API_KEY_FIVE = os.getenv('POLYGON_KEY_FIVE')
-POLYGON_API_KEY_SIX = os.getenv('POLYGON_KEY_SIX')
-POLYGON_API_KEY_SEVEN = os.getenv('POLYGON_KEY_SEVEN')
-POLYGON_API_KEY_EIGHT = os.getenv('POLYGON_KEY_EIGHT')
-POLYGON_API_KEY_NINE = os.getenv('POLYGON_KEY_NINE')
-POLYGON_API_KEY_TEN = os.getenv('POLYGON_KEY_TEN')
-
-POLYGON_KEYS = [POLYGON_API_KEY_TWO, POLYGON_API_KEY_THREE, POLYGON_API_KEY_FOUR, POLYGON_API_KEY_FIVE, POLYGON_API_KEY_SIX, POLYGON_API_KEY_SEVEN, POLYGON_API_KEY_EIGHT, POLYGON_API_KEY_NINE, POLYGON_API_KEY_TEN]
-
-ALPHA_VANTAGE_KEY = os.getenv('ALPHA_VANTAGE_KEY')
-ALPHA_VANTAGE_KEY_TWO = os.getenv('ALPHA_VANTAGE_KEY_TWO')
+ALPHA_VANTAGE_KEY = 'GA184BTI42FFGURX'
+ALPHA_VANTAGE_KEY_TWO = 'EB0FOKLICYL3NJ7A'
 ALPHA_VANTAGE_KEY_THREE = os.getenv('ALPHA_VANTAGE_KEY_THREE')
+ALPHA_VANTAGE_KEY_FOUR = os.getenv('ALPHA_VANTAGE_KEY_FOUR')
+ALPHA_VANTAGE_KEY_FIVE = os.getenv('ALPHA_VANTAGE_KEY_FIVE')
+ALPHA_VANTAGE_KEY_SIX = os.getenv('ALPHA_VANTAGE_KEY_SIX')
+ALPHA_VANTAGE_KEY_SEVEN = os.getenv('ALPHA_VANTAGE_KEY_SEVEN')
+ALPHA_VANTAGE_KEY_EIGHT = os.getenv('ALPHA_VANTAGE_KEY_EIGHT')
+
+ALPHA_VANTAGE_KEYS = [ALPHA_VANTAGE_KEY, ALPHA_VANTAGE_KEY_TWO, ALPHA_VANTAGE_KEY_THREE, ALPHA_VANTAGE_KEY_FOUR, ALPHA_VANTAGE_KEY_FIVE, ALPHA_VANTAGE_KEY_SIX, ALPHA_VANTAGE_KEY_SEVEN, ALPHA_VANTAGE_KEY_EIGHT]
 
 def get_composite_score(ticker_name):
     # Get the financials of the stock
@@ -52,6 +47,7 @@ def calculate_growth_potential(current_earnings, previous_earnings, current_reve
     Original Range is -100 to infinity.
     The new range is 0 to 1.
     """
+
     earnings_growth = (current_earnings - previous_earnings) / previous_earnings
     revenue_growth = (current_revenue - previous_revenue) / previous_revenue
     growth_potential = (earnings_growth + revenue_growth)/2

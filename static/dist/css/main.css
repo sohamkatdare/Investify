@@ -2639,6 +2639,10 @@ html {
   bottom: auto;
 }
 
+.artboard.phone {
+  width: 320px;
+}
+
 .artboard.phone-1.horizontal,
       .artboard.phone-1.artboard-horizontal {
   width: 568px;
@@ -5137,7 +5141,7 @@ body {
   /* Apply a transparent background to remove the default styling */
   background: transparent;
   /* Add a custom gradient background */
-  background-image: linear-gradient(to right, #ef4444, #eab308, #22c55e);
+  background-image: linear-gradient(to left, #ef4444, #eab308, #22c55e);
   /* Apply any additional styles you want */
   border-radius: 50%;
   border: none;
@@ -5156,15 +5160,16 @@ body {
   /* Add a box shadow to give a raised effect */
   box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
   /* Remove the default styling */
-  border: none;
+  border: 15px;
+  border-color: white;
 }
 
 /* Optional: Style the track of the range input */
 
 .gradient-range::-webkit-slider-runnable-track {
-  overflow: hidden;
+  height: 10px;
   /* Apply a transparent background to remove the default track */
-  background: linear-gradient(to right, #ef4444, #eab308, #22c55e);
+  background: linear-gradient(to left, #ef4444, #eab308, #22c55e);
 }
 
 .last\:mb-0:last-child {

@@ -102,8 +102,23 @@ const crypto = [
     "WOO",
     "NEXO"
 ]
+const indices = [
+    "DJI",
+    "SPX",
+    "NDX",
+    "DJIA",
+    "DJT",
+    "DJU",
+    "NYA",  
+    "RUT",
+    "RUA",
+    "RUI",
+    "XAU",
+    "OEX"
+]
 const chart = document.getElementById("candle_div");
 let isCrypto = false
+let isIndices = false
 // TODO: Style search.html page
 // ticker = document.getElementById("ticker");
 async function search(event) {
@@ -131,15 +146,27 @@ async function search(event) {
     });
 
     // Async API Calls
-    let autocompleteResults = document.getElementById('autocomplete-results');
-    if (autocompleteResults) {
-        autocompleteResults.remove('hidden');
-    }
+    // let autocompleteResults = document.getElementById('autocomplete-results');
+    // if (autocompleteResults) {
+    //     autocompleteResults.remove('hidden');
+    // }
     favoriteButtonState(ticker);
     getHighcharts(ticker);
-    if(isCrypto) {
-
+    if(isCrypto || isIndices) {
+        chart.parentElement.classList.remove('lg:col-span-7')
+        const idsToRemove = ['finance-analysis', 'news' , 'news-header', 'overview', 'insider-heading', 'insider-trading', 'tweets-container']
+        idsToRemove.forEach((id) => {
+            document.getElementById(id).classList.add('hidden')
+        })
+        document.getElementById('finance-analysis').classList.remove('lg:grid')
         return
+    } else {
+        //reverse the above
+        chart.parentElement.classList.add('lg:col-span-7')
+        const idsToRemove = ['finance-analysis', 'news' , 'news-header', 'overview', 'insider-heading', 'insider-trading', 'tweets-container']
+        idsToRemove.forEach((id) => {
+
+        })
     }
     alphaVantageOverview(ticker);
     getCompositeScore(ticker);
@@ -701,6 +728,13 @@ async function getTweets(ticker) {
 
     tweets = data['tweets']
 
+    if(tweets.length === 0) {
+        console.log('no tweets');
+        
+        document.getElementById('tweets-container').classList = "hidden";
+        return;
+    };
+
     console.log(tweets)
 
     returnHTML = ""
@@ -717,7 +751,7 @@ async function getTweets(ticker) {
             <p class="text-slate-300">- ${element['author']} via Twitter</p>
             </div>
             <div class="card-action">
-                <button class="btn btn-sky-500 text-white" href="${element['link']}">View on Twitter/button
+                <a class="btn btn-sky-500 text-white" href="${element['link']}">View on Twitter</a>
             </div>
         </div>`
         
@@ -730,6 +764,8 @@ async function getTweets(ticker) {
     document.getElementById("tweets").innerHTML = returnHTML;
 
     sentimentScore = data['sentiment']
+    // Round to 2 decimal places
+    sentimentScore = Math.round(sentimentScore * 100) / 100
 
     document.getElementById("sentiment-score").innerHTML = `Sentiment score: ${sentimentScore}`
 
@@ -808,7 +844,7 @@ async function getInsiderTrading(ticker) {
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008zM12 15h.008v.008H12V15zm0 2.25h.008v.008H12v-.008zM9.75 15h.008v.008H9.75V15zm0 2.25h.008v.008H9.75v-.008zM7.5 15h.008v.008H7.5V15zm0 2.25h.008v.008H7.5v-.008zm6.75-4.5h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V15zm0 2.25h.008v.008h-.008v-.008zm2.25-4.5h.008v.008H16.5v-.008zm0 2.25h.008v.008H16.5V15z" />
                         </svg>
-                        <span class="inline">${element.trade_date}</span>
+                        <span class="inline">${element.trade_date ? element.trade_date : ''}</span>
                     </div>
                 </div>
                 <div class="flex justify-between w-full">

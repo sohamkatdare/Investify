@@ -25,3 +25,6 @@ htmlcov/
 .vercel
 
 /tweets/
+
+# Secret files
+.env

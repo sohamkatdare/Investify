@@ -228,6 +228,8 @@ async function getHighcharts(ticker, id="candle_div") {
 
     const response = await fetch('/search/highcharts?ticker=' + ticker).then((response) => {
         if (response.status !== 200) {
+            console.log("highcharts fetch failed");
+            console.log(response)
             onFail(ticker);
         }
         return response;
@@ -474,6 +476,7 @@ async function alphaVantageOverview(ticker) {
     
     const response = await fetch(`https://www.alphavantage.co/query?function=OVERVIEW&symbol=${ticker}&apikey=${getAlphaVantageKey()}`).then((response) => {
         if (response.status !== 200) {
+            console.log("alphavantage fetch failed")
             onFail(ticker);
         }
         return response;
@@ -596,7 +599,10 @@ async function getNews(ticker) {
     news.innerHTML = skeletonHTML.repeat(skeletonCount) + skeletonHTML2;
     // Get the news data from the backend asychronously
     // and populate the news in the search.html page.
+    console.log("news fetch attempt")
     const response = await fetch('/search/news?ticker=' + ticker).catch(onFail);
+    console.log("news was fetched")
+
     const data = await response.json();
 
     returnHTML = ""
@@ -816,7 +822,9 @@ async function getInsiderTrading(ticker) {
     document.getElementById("insider-trading").innerHTML = skeletonHTML.repeat(2);
     // Get the news data from the backend asychronously
     // and populate the news in the search.html page.
+    console.log("insider trading fetch attempt")
     const response = await fetch('/search/insider-trading?ticker=' + ticker).catch(onFail);
+    console.log("insider trading fetched")
     const data = await response.json();
 
     insiderHTML = ""
@@ -879,7 +887,8 @@ async function getInsiderTrading(ticker) {
 
 function onFail(ticker) {
     // If stock ticker not found or data not available, then reload the page with flash message.
-    window.location.href = "/search?" + "error="+ticker;
+    console.log("onFail occured");
+    // window.location.href = "/search?" + "error="+ticker;
 }
 
 form = document.getElementById("search-form");

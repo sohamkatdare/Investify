@@ -213,11 +213,12 @@ def searchTicker():
     ohlc = ohlc.reset_index()
     ohlc_formatted = []
     for i in ohlc.index:
-        ohlc_formatted.append([int(ohlc['date'][i].to_pydatetime().timestamp())*1000, ohlc['open'][i], ohlc['high'][i], ohlc['low'][i], ohlc['close'][i], ohlc['volume'][i]])
+      print(i)
+      ohlc_formatted.append([int(ohlc['date'][int(i)].to_pydatetime().timestamp())*1000, ohlc['open'][int(i)], ohlc['high'][int(i)], ohlc['low'][int(i)], ohlc['close'][int(i)], ohlc['volume'][int(i)]])
     return Response(response=json.dumps(ohlc_formatted), status=200, mimetype='application/json')
   except Exception as e:
     print(e)
-    return Response(response='Service Unavailable', status=503, mimetype='text/plain')
+    return Response(response=f'Service Unavailable: {e}', status=503, mimetype='text/plain')
 
 @app.route('/search/composite-score', methods=['GET'])
 @jwt_required(optional=True)
@@ -273,11 +274,11 @@ def searchInsiderTrading():
 def search():
   current_identity = get_jwt_identity()
   searchForm = TickerForm()
-  if request.args.get('error'):
-    print('Flash Error for stock missing.')
-    resp = redirect(url_for('search'))
-    flash(f'No data could be found on the ticker {request.args.get("error")}.', 'error')
-    return resp
+  # if request.args.get('error'):
+  #   print('Flash Error for stock missing.')
+  #   resp = redirect(url_for('search'))
+  #   flash(f'No data could be found on the ticker {request.args.get("error")}.', 'error')
+  #   return resp
   return render_template('search.html', searchForm=searchForm, current_identity=current_identity if current_identity else '')
 
 @app.route('/education')

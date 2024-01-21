@@ -18,7 +18,7 @@ async function getStocks() {
         if(isIndexPage && index > 10) return;
         gainer_rows += `
             <tr class="hover text-green-400">
-                <td>${index}</td>
+                <td>${index+1}</td>
                 <td><a href="/search?ticker=${stock['ticker']}" class="hover:underline">${stock['ticker']}</a></td>
                 <td>${stock['change_percentage']}</td>
                 <td>${stock['price']}</td>
@@ -31,7 +31,7 @@ async function getStocks() {
         if(isIndexPage && index > 10) return;
         loser_rows += `
             <tr class="hover text-red-400">
-                <td>${index}</td>
+                <td>${index+1}</td>
                 <td><a href="/search?ticker=${stock['ticker']}" class="hover:underline">${stock['ticker']}</a></td>
                 <td>${stock['change_percentage']}</td>
                 <td>$${stock['price']}</td>
@@ -45,7 +45,7 @@ async function getStocks() {
         let color = stock['change_amount'] > 0 ? 'text-green-400' : 'text-red-400'
         mover_rows += `
             <tr class="hover ${color}">
-                <td>${index}</td>
+                <td>${index+1}</td>
                 <td><a href="/search?ticker=${stock['ticker']}" class="hover:underline">${stock['ticker']}</a></td>
                 <td>${stock['change_percentage']}</td>
                 <td>${stock['price']}</td>

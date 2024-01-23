@@ -11,6 +11,25 @@ import os
 import datetime
 
 POLYGON_API_KEY = os.getenv('POLYGON_KEY')
+POLYGON_API_KEY_2 = os.getenv('POLYGON_KEY_TWO')
+POLYGON_API_KEY_3 = os.getenv('POLYGON_KEY_THREE')
+POLYGON_API_KEY_4 = os.getenv('POLYGON_KEY_FOUR')
+POLYGON_API_KEY_5 = os.getenv('POLYGON_KEY_FIVE')
+POLYGON_API_KEY_6 = os.getenv('POLYGON_KEY_SIX')
+POLYGON_API_KEY_7 = os.getenv('POLYGON_KEY_SEVEN')
+POLYGON_API_KEY_8 = os.getenv('POLYGON_KEY_EIGHT')
+POLYGON_API_KEY_9 = os.getenv('POLYGON_KEY_NINE')
+POLYGON_API_KEY_10 = os.getenv('POLYGON_KEY_TEN')
+polygon_keys = [POLYGON_API_KEY, POLYGON_API_KEY_2, POLYGON_API_KEY_3, POLYGON_API_KEY_4, POLYGON_API_KEY_5, POLYGON_API_KEY_6, POLYGON_API_KEY_7, POLYGON_API_KEY_8, POLYGON_API_KEY_9, POLYGON_API_KEY_10]
+
+polygon_index = 0
+def getPolygonKey():
+    global polygon_index
+    polygon_key = polygon_keys[polygon_index]
+    polygon_index += 1
+    if polygon_index == len(polygon_keys):
+        polygon_index = 0
+    return polygon_key
 
 matplotlib.use('Agg')
 
@@ -24,10 +43,13 @@ def getStockData(ticker):
     
     # Send GET request to https://api.polygon.io/v2/aggs/ticker/AAPL/range/30/minute/2021-01-09/2023-01-09?adjusted=true&sort=asc&limit=50000&apiKey=Eu58Vwvimp7zHkrIuypgLiLpwg5uGjN5
     url = f'https://api.polygon.io/v2/aggs/ticker/{ticker.upper()}/range/1/day/{start_date}/{end_date}?'
-
-    params = f'adjusted=true&sort=asc&limit=50000&apiKey={POLYGON_API_KEY}'
+    polygon_key = getPolygonKey()
+    params = f'adjusted=true&sort=asc&limit=50000&apiKey={polygon_key}'
+    print(polygon_key)
     resp = requests.get(url+params)
-    past = resp.json()['results']
+    past = resp.json()
+    print(past)
+    past = past['results']
 
     stock_prices = pd.DataFrame({'date': np.array([datetime.datetime.fromtimestamp(i['t']/1000).strftime('%Y-%m-%d') for i in past]), # type: ignore
                              'open': [i['o'] for i in past],  # type: ignore

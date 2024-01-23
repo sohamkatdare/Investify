@@ -888,7 +888,7 @@ async function getInsiderTrading(ticker) {
 function onFail(ticker) {
     // If stock ticker not found or data not available, then reload the page with flash message.
     console.log("onFail occured");
-    // window.location.href = "/search?" + "error="+ticker;
+    window.location.href = "/search?" + "error="+ticker;
 }
 
 form = document.getElementById("search-form");

@@ -3,6 +3,8 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 
+# TODO: THIS FILE IS UNUSED!!! CLEAN UP LATER.
+
 POLYGON_API_KEY = os.getenv('POLYGON_KEY')
 
 def quaterly_earnings(symbol):

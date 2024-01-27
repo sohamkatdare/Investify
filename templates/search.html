@@ -153,7 +153,11 @@
           </span>
         </div>
         <div class="flex flex-row relative items-center place-content-center self-stretch h-4 whitespace-nowrap mt-6 mb-12 text-center justify-center text-xl">
-          <input disabled class="bg-gradient-to-r w-1/2 from-green-500 via-yellow-500 to-red-500" type="range" min="1" max="100" id="scoreSlider"></input>
+          <div class="flex flex-row items-center my-8 ">
+            <span class="text-gray-200 opacity-50 text-sm font-light">Good</span>
+            <input disabled class="w-1/2 mx-2 bg-white " type="range" min="1" max="100" id="peScoreSlider">
+            <span class="text-gray-200 opacity-50 text-sm font-light">Bad</span>
+          </div>
         </div>
         <div class="flex flex-row items-center self-stretch h-4 whitespace-nowrap my-12 text-center justify-center text-xl">
           <h3 class="text-sm text-center">\[EPS=\frac{\text{Net income}-\text{Dividends on preferred stock}}{\text{Average outstanding common shares}}={  }</span>\]</h3>
@@ -161,11 +165,25 @@
             <div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div>
           </span>
         </div>
+        <div class="flex flex-row relative items-center place-content-center self-stretch h-4 whitespace-nowrap mt-6 mb-12 text-center justify-center text-xl">
+          <div class="flex flex-row items-center my-8 ">
+            <span class="text-gray-200 opacity-50 text-sm font-light">Bad</span>
+            <input disabled class="w-1/2 mx-2 bg-white" type="range" min="1" max="99" id="epsScoreSlider">
+            <span class="text-gray-200 opacity-50 text-sm font-light">Good</span>
+          </div>
+        </div>
         <div class="flex flex-row items-center self-stretch h-4 whitespace-nowrap my-12 text-center justify-center text-xl">
           <h3 class="text-sm text-center">\[\text{Composite Score}=\frac{\text{Earnings before Interest and Taxes}}{\text{Net Fixed Assets}-\text{Working Capital}}={  }\]</h3>
           <span id="composite-score" class="w-12">
             <div class="skeleton w-full h-4 mb-1 rounded-sm last:w-4/5 last:mb-0"></div>
           </span>
+        </div>
+        <div class="flex flex-row relative items-center place-content-center self-stretch h-4 whitespace-nowrap mt-6 mb-12 text-center justify-center text-xl">
+          <div class="flex flex-row items-center my-8 ">
+            <span class="text-gray-200 opacity-50 text-sm font-light">Bad</span>
+            <input disabled class="w-1/2 mx-2 bg-white" type="range" min="1" max="100" id="compositeScoreSlider">
+            <span class="text-gray-200 opacity-50 text-sm font-light">Good</span>
+          </div>
         </div>
         <!-- <div class="flex flex-row items-center self-stretch h-4 whitespace-nowrap text-xl">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" class="w-6 h-6">

@@ -454,7 +454,16 @@ async function getPeAndEPS(pe_ratio, eps_ratio) {
         translatePct = 0
     }
     
-    document.getElementById("scoreSlider").setAttribute("value", translatePct)
+    document.getElementById("peScoreSlider").setAttribute("value", translatePct)
+
+    translatePct = (eps_ratio / 50) * 100
+    if (eps_ratio > 50) {
+        translatePct = 100
+    } else if (eps_ratio < 0) {
+        translatePct = 0
+    }
+    
+    document.getElementById("epsScoreSlider").setAttribute("value", translatePct)
 }
 
 async function alphaVantageOverview(ticker) {
@@ -752,13 +761,13 @@ async function getTweets(ticker) {
     tweets.forEach((element) => {
 
         returnHTML += 
-        `<div class="card w-96 bg-base-300 shadow-xl">
+        `<div class="card w-96 bg-[#1b1726] hover:shadow-2xl hover:drop-shadow-2xl hover:translate-y-[-2rem] border-indigo-400/25 border-[1px] hover:border-transparent transition-all duration-500">
             <div class="text-lg font-medium card-body">
             <p class="card-title">${element['author']} via Twitter</p>
             <p class="text-slate-300">- ${element['text']}</p>
             </div>
-            <div class="card-action">
-                <a class="btn btn-sky-500 text-white"> <a href="${element['link']}">View on Twitter</a></button>
+            <div class="card-action justify-center text-center my-5">
+                <a class="btn btn-primary border-indigo-400 bg-transparent gradient-border hover:border-transparent  transition-all" href="${element['link']}">View on Twitter</a>
             </div>
         </div>`
         

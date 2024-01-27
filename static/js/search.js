@@ -726,7 +726,7 @@ async function getNews(ticker) {
 // }
 
 async function getTweets(ticker) {
-    console.log("hello")
+    console.log("hello twitter")
     const response = await fetch('/search/tweets?ticker=' + ticker);
     let data;
     try {

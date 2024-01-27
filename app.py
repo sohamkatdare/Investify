@@ -218,7 +218,7 @@ def searchTicker():
       ohlc_formatted.append([int(ohlc['date'][int(i)].to_pydatetime().timestamp())*1000, ohlc['open'][int(i)], ohlc['high'][int(i)], ohlc['low'][int(i)], ohlc['close'][int(i)], ohlc['volume'][int(i)]])
     return Response(response=json.dumps(ohlc_formatted), status=200, mimetype='application/json')
   except Exception as e:
-    print(e)
+    traceback.print_exc()
     return Response(response=f'Service Unavailable: {e}', status=503, mimetype='text/plain')
 
 @app.route('/search/composite-score', methods=['GET'])
@@ -227,10 +227,10 @@ def searchCompositeScore():
   try:
     ticker = request.args.get('ticker')
     composite_score = get_composite_score(ticker)
-    print(composite_score)
+    print('Composite Score', composite_score)
     return Response(response=json.dumps({'composite_score': composite_score}), status=200, mimetype='application/json')
   except Exception as e:
-    print(e)
+    traceback.print_exc()
     return Response(response='Service Unavailable', status=503, mimetype='text/plain')
 
 @app.route('/search/news', methods=['GET'])
@@ -241,7 +241,7 @@ def searchNews():
     news = get_news(ticker)
     return Response(response=json.dumps(news), status=200, mimetype='application/json')
   except Exception as e:
-    print(e)
+    traceback.print_exc()
     return Response(response='Service Unavailable', status=503, mimetype='text/plain')
   
 @app.route('/search/tweets', methods=['GET'])
@@ -249,10 +249,10 @@ def searchNews():
 def searchTweets():
   try:
     ticker = request.args.get('ticker')
-    tweets, df, sentiment = getSocialStats(ticker)
+    tweets, df, sentiment = getSocialStats(ticker.upper())
     return Response(response=json.dumps({'tweets': tweets, 'df': df, 'sentiment': sentiment}), status=200, mimetype='application/json')
   except Exception as e:
-    print(e)
+    traceback.print_exc()
     return Response(response=json.dumps({'tweets': [], 'msg': 'Service Unavailable'}), status=503, mimetype='text/plain')
   
 @app.route('/search/insider-trading', methods=['GET'])
@@ -267,7 +267,7 @@ def searchInsiderTrading():
     else:
       return Response(response=insider_trading, status=200, mimetype='text/html')
   except Exception as e:
-    print(e)
+    traceback.print_exc()
     return Response(response='Service Unavailable', status=503, mimetype='text/plain')
 
 @app.route('/search', methods=['GET'])
@@ -314,7 +314,7 @@ def calculateTax():
     capital_gains_tax = calculate_capital_gains_tax(selling_price, cost_basis, holding_period, taxable_income)
     return Response(response=json.dumps({'capital_gains_tax': capital_gains_tax}), status=200, mimetype='application/json')
   except Exception as e:
-    print(e)
+    traceback.print_exc()
     return Response(response='Service Unavailable', status=503, mimetype='text/plain')
 
 @app.route('/simplify', methods=['GET', 'POST'])
@@ -396,7 +396,7 @@ def favorite_stocks():
     else:
       return Response(response=json.dumps(user.favorite_stocks), status=200)
   except Exception as e:
-    print(e)
+    traceback.print_exc()
     return Response(response='Service Unavailable', status=503, mimetype='text/plain')
   
 @app.route('/conversations', methods=['GET', 'POST'])
@@ -418,7 +418,7 @@ def conversations():
     else:
       return Response(response=json.dumps(user.conversations), status=200)
   except Exception as e:
-    print(e)
+    traceback.print_exc()
     return Response(response='Service Unavailable', status=503, mimetype='text/plain')
 
 @app.route('/paper-trading', methods=['GET', 'POST'])

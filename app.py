@@ -5,6 +5,7 @@ import requests
 import datetime
 import json
 import os
+import traceback
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -334,7 +335,7 @@ def simplify():
         messages = summarize(article)
         return Response(messages, mimetype='text/plain', status=200)
       except Exception as e:
-        print(e)
+        traceback.print_exc()
         flash(f'Article "{topic}" not found.', 'error')
         return service_unavailable
     elif messages:
@@ -342,7 +343,7 @@ def simplify():
         new_messages = ask(messages)
         return Response(new_messages, mimetype='text/plain', status=200)
       except Exception as e:
-        print(e)
+        traceback.print_exc()
         flash(f'Conversation failed.', 'error')
         return service_unavailable
     else:

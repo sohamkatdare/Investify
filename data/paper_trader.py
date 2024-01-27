@@ -63,6 +63,7 @@ class PaperTrader:
     @staticmethod
     def get_options(ticker):
         options =  yf.Ticker(ticker).options
+        print('Options', options)
         if not options:
             raise ValueError(f"No options found on ticker {ticker}.")
         return options

@@ -27,7 +27,9 @@ htmlcov/
 /tweets/
 
 # Secret files
-# .env
+.env
+investify-d81b6-firebase-adminsdk-nwh3q-8ce381cf50.json
+data/firebase_config.py
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
